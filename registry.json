@@ -1,14 +1,14 @@
 ﻿{
-    "apps":  [
-                 {
-                     "latestVersionName":  "1.0.2",
-                     "latestVersionCode":  3,
-                     "name":  "INFORMANT",
-                     "isGame":  false,
-                     "apkUrl":  "https://github.com/rykergrey/INFORMANT/releases/download/v1.0.2/app-release.apk",
-                     "icon":  "android",
-                     "packageName":  "com.informant.app",
-                     "changelog":  "• Fix hang on install by shipping a proper release-signed APK (not debug)\n• Version 1.0.2 (versionCode 3)"
-                 }
-             ]
+  "apps": [
+    {
+      "packageName": "com.informant.app",
+      "name": "INFORMANT",
+      "latestVersionCode": 3,
+      "latestVersionName": "1.0.2",
+      "apkUrl": "https://github.com/rykergrey/INFORMANT/releases/download/v1.0.2/app-release.apk",
+      "icon": "android",
+      "changelog": "- Fix hang on install by shipping a proper release-signed APK (not debug)\n- Version 1.0.2 (versionCode 3)",
+      "isGame": false
+    }
+  ]
 }
