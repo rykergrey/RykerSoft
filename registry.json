@@ -1,4 +1,4 @@
-﻿{
+{
   "apps": [
     {
       "packageName": "com.informant.app",
@@ -21,6 +21,18 @@
       "apkUrl": "https://github.com/rykergrey/Rush/releases/download/v1.0.0/app-release.apk",
       "icon": "android",
       "changelog": "- Initial RykerSoft hub release\n- Discography, lyrics, band pages, timeline, search, random song/video\n- My Collection with favorites, ratings, excerpts, and library import/export",
+      "screenshots": [],
+      "isGame": false
+    },
+    {
+      "packageName": "com.example.synthing",
+      "name": "Synthing",
+      "description": "Android music sketchpad for chords, melody, clips, and dual synth voices. Play a chord grid with per-pad arpeggiators and performance toggles, sketch on a scale-aware keyboard, edit clips in a piano roll with automation lanes, and record overdubs with a native low-latency Oboe engine.",
+      "latestVersionCode": 2,
+      "latestVersionName": "1.0.1",
+      "apkUrl": "https://github.com/rykergrey/Synthing/releases/download/v1.0.1/app-release.apk",
+      "icon": "android",
+      "changelog": "- First RykerSoft hub release (signed APK)\n- Dual synth voices, chord grid, melody keyboard, piano roll\n- Clip recording, arpeggiators, and project management\n- Canonical repo: github.com/rykergrey/Synthing",
       "screenshots": [],
       "isGame": false
     }
