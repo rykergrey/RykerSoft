@@ -49,7 +49,19 @@
       "apkUrl": "https://github.com/rykergrey/SuperThinking/releases/download/v2.0.118/app-release.apk",
       "icon": "android",
       "changelog": "- First RykerSoft hub release of the current multimodal workspace\n- Cards/tabs for text, chat, image, audio, and video with reusable AI actions\n- Song sheets, Markmap/Mermaid, linked audio, HTML export, and transcription\n- Vault organization (categories, kanban, floating windows), ZIP import/export, guest local or Firebase sync\n- Signed Android APK package com.rykersoft.superthinking (versionCode 120 / 2.0.118)",
-      "screenshots": [],
+      "screenshots": [
+        "https://raw.githubusercontent.com/rykergrey/SuperThinking/main/screenshots/01-categories.jpg",
+        "https://raw.githubusercontent.com/rykergrey/SuperThinking/main/screenshots/02-category-cards.jpg",
+        "https://raw.githubusercontent.com/rykergrey/SuperThinking/main/screenshots/03-song-chords.jpg",
+        "https://raw.githubusercontent.com/rykergrey/SuperThinking/main/screenshots/04-audio-tab.jpg",
+        "https://raw.githubusercontent.com/rykergrey/SuperThinking/main/screenshots/05-vault-sidebar.jpg",
+        "https://raw.githubusercontent.com/rykergrey/SuperThinking/main/screenshots/06-custom-action.jpg",
+        "https://raw.githubusercontent.com/rykergrey/SuperThinking/main/screenshots/07-action-manager.jpg",
+        "https://raw.githubusercontent.com/rykergrey/SuperThinking/main/screenshots/08-text-preview.jpg",
+        "https://raw.githubusercontent.com/rykergrey/SuperThinking/main/screenshots/09-tab-manager.jpg",
+        "https://raw.githubusercontent.com/rykergrey/SuperThinking/main/screenshots/10-card-switcher.jpg",
+        "https://raw.githubusercontent.com/rykergrey/SuperThinking/main/screenshots/11-category-picker.jpg"
+      ],
       "isGame": false
     },
     {
