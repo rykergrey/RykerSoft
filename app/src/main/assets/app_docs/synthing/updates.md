@@ -1,23 +1,29 @@
-# Release Updates & History
+# Synthing Updates
 
-## v1.0.6 (Version Code 7) - July 2026
-- Content-fitted arrangement overview strip navigator
-- Tap/drag overview navigates the piano-roll viewport without moving the playhead
-- Viewport lens tracks zoom/scroll with correct 480 PPQ tick math
+## v1.0.8
 
-## v1.0.5 (Version Code 6) - July 2026
-- Fixed transport Play button for piano-roll workspace notes
-- Preserved workspace notes when materializing a clip from the piano roll
+- Hub user guide now includes a clickable Table of Contents so Application Manager jumps to each section
+- Documentation continues to live under `docs/` on the app repo (description, updates, specs, user guide)
 
-## v1.0.4 (Version Code 5) - July 2026
-- Fixed arrangement note playback when tapping Play across extended timelines
-- Preserved full sequence data without 4-bar truncation
-- Added auto-reset playhead logic when parked past end of song
-- Official package ID updated to `com.rykersoft.synthing`
+## v1.0.7
 
-## v1.0.3 (Version Code 4) - June 2026
-- Added piano roll 100% bird's eye view preview canvas
-- Improved Oboe C++ audio buffer synchronization to eliminate click artifacts on low-end devices
+- Fix overview strip drag alignment so the blue viewport lens follows tap/drag across the full arrangement
+- Gesture handlers use fresh scroll/zoom state (no stale maxScroll capture)
 
-## v1.0.0 (Version Code 1) - May 2026
-- Initial release of Synthing continuous arrangement synth workspace
+## v1.0.6
+
+- Content-fitted piano-roll overview strip navigator (full arrangement stretched across the strip)
+- Tap/drag navigates the editor viewport without moving the playhead
+- Viewport lens tracks piano-roll zoom and scroll with correct tick math
+
+## v1.0.5
+
+- Fix transport Play button so piano-roll workspace notes start playback even before a launcher clip exists
+- Preserve workspace notes when materializing a new clip from the piano roll
+
+## v1.0.4
+
+- Fix arrangement note playback when tapping Play
+- Preserve notes across the full continuous timeline (no 4-bar truncation on unset OUT)
+- Auto-reset playhead to IN when parked past the end of song notes
+- Official RykerSoft package ID: `com.rykersoft.synthing`

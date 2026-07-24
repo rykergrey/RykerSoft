@@ -63,11 +63,11 @@
     {
       "packageName": "com.rykersoft.synthing",
       "name": "Synthing",
-      "latestVersionCode": 8,
-      "latestVersionName": "1.0.7",
-      "apkUrl": "https://github.com/rykergrey/Synthing/releases/download/v1.0.7/app-release.apk",
+      "latestVersionCode": 9,
+      "latestVersionName": "1.0.8",
+      "apkUrl": "https://github.com/rykergrey/Synthing/releases/download/v1.0.8/app-release.apk",
       "icon": "android",
-      "changelog": "- Fix overview strip drag alignment\n- Hub docs now served from docs/ on the app repo",
+      "changelog": "- Hub user guide includes a clickable Table of Contents for section jumps\n- Docs continue to live under docs/ on the app repo",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/synthing/01-play-grids.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/synthing/02-play-keys.jpg",

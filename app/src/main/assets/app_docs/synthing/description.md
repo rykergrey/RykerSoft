@@ -1,10 +1,17 @@
-# Synthing
+Android music sketchpad with a continuous arrangement timeline, dual synth voices, chord grids, scale-aware keyboards, and a piano-roll editor backed by a native low-latency Oboe engine.
 
-Android continuous infinite arrangement synth music sketchpad featuring content-fitted overview navigation, 100% bird's eye overhead timeline views, scale-aware melody keyboard, chord grid, and dual subtractive synth engines backed by a native low-latency Oboe C++ audio engine.
+## Features
 
-## Key Features
-- **Continuous Infinite Arrangement**: Single uninterrupted arrangement timeline with loop markers and zero step limits.
-- **Content-Fitted Overview Strip**: Overview always maps the full arrangement across its width for DAW-style navigation.
-- **Dual Subtractive Synth Engines**: Independent Synth A & B voices with custom LFO, filter envelopes, and delay FX.
-- **Scale-Aware Keyboard & Chord Grid**: Isomorphic touch pads, glide, latch, and arpeggiator modes.
-- **Native Oboe C++ Engine**: High-performance low-latency audio processing supporting ARM64, x86_64, and x86 architectures.
+- Continuous infinite-arrangement timeline with arrangement-wide loop IN/OUT markers
+- Dual Synth A / Synth B subtractive engines with presets, modulators, LFO, and FX
+- Play tab chord pads, scale-aware keys, and isomorphic grids with performance toggles
+- Piano-roll editor with touchpads, snap/quantize, automation lanes, and note links
+- Content-fitted bird's-eye overview strip for fast timeline navigation (viewport lens; tap/drag moves the view, not the playhead)
+- Play-tab header mini-map for playhead scrubbing and punch-in recording
+- Overdub recording with pre-roll, live note display, and dynamic synth arming
+- Project manager with sections, clip launcher slots, templates, and JSON import/export
+
+## Platforms
+
+- Android API 24+ (arm64-v8a / armeabi-v7a / x86 / x86_64)
+- Projects and settings stored locally on device as JSON
