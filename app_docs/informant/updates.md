@@ -1,16 +1,18 @@
-# Release Updates & History
+# Release notes
 
-## v1.0.2 (Version Code 3) - July 2026
-- Fixed installation hang by shipping proper release-signed production APK binaries
-- Resolved IndexedDB offline storage sync issue on initial launch
-- Updated Android share intent target handler for faster URL batch importing
+## 1.0.4
+- Picture-in-Picture from an expanded video keeps the card open and fullscreenes the tabs, so you can watch in the mini-player while reading or running AI tools
+- Closing the expanded card leaves PiP playing on the project workspace
+- Chat and AI actions cite bare transcript timestamps that jump the player when tapped
+- Video chat prefers transcript context when available so citations can seek
+- Read-only chat/action text uses native selection on Android (long-press copy works more reliably)
 
-## v1.0.1 (Version Code 2) - July 2026
-- Initial RykerSoft hub registration for INFORMANT (`com.informant.app`)
-- Android package version 1.0.1 (versionCode 2) Capacitor Android build
-- Added floating PiP player position persistence across tab switches
+## 1.0.3
+- Package ID changed to `com.rykersoft.informant` (clean install may be required if you had `com.informant.app`)
+- Hub screenshots added for the RykerSoft listing
 
-## v1.0.0 (Version Code 1) - June 2026
-- Initial release of INFORMANT cross-platform research workspace
-- YouTube transcript search and timestamp bookmarking
-- Multi-lane project chat with Gemini API integration
+## 1.0.2
+- Installable release-signed APK for the RykerSoft hub
+
+## 1.0.1
+- Initial INFORMANT release for the RykerSoft hub

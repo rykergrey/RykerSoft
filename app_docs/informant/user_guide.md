@@ -1,29 +1,36 @@
-# INFORMANT User Guide
+# User guide
 
-## Table of Contents
-- [1. Getting Started](#1-getting-started)
-- [2. Managing Projects](#2-managing-projects)
-- [3. Importing Content](#3-importing-content)
-- [4. AI Chat & Actions](#4-ai-chat--actions)
-- [5. Bookmarks & Notes](#5-bookmarks--notes)
+## Getting started
+1. Open INFORMANT and create a project (or open an existing one).
+2. Paste one or more YouTube, article, or Reddit URLs.
+3. On Android, you can also share a link into INFORMANT from another app.
+4. Add API keys in **Settings → Keys** when you want metadata, transcripts, comments, or AI features.
 
-## 1. Getting Started
-Launch INFORMANT to start organizing your research. Provide your Gemini API key in Settings to unlock AI summaries, automated transcript analysis, and project chat.
+## Working with a video
+1. Tap a video card to open expanded view.
+2. Use the tabs (Info, Comments, Transcript, Notes, Bookmarks, Chat, AI actions).
+3. Tap a transcript line or a timestamp citation to seek the player.
+4. Add bookmarks while watching; jump back from the Bookmarks tab later.
 
-## 2. Managing Projects
-- Tap **+ New Project** to create a fresh workspace.
-- Projects contain saved links, transcript logs, notes, and custom AI chat histories.
-- Export project JSON files to share or back up your research.
+## Picture-in-Picture while working
+1. Open a video and start playback.
+2. Tap the **Picture-in-Picture** button in the expanded header.
+3. The video moves to the mini-player and the tab area goes fullscreen so you can keep reading or generating content.
+4. Close the expanded card when you want the workspace grid back — PiP keeps playing.
+5. Use the tab fullscreen control anytime to hide/show the main video area without entering PiP.
 
-## 3. Importing Content
-- Paste YouTube URLs, web article links, or Reddit posts into the import box.
-- Alternatively, use the Android **Share** menu from any browser or app and select INFORMANT to send links directly into your workspace.
+## Articles and Reddit
+- Articles open a reader tab; highlight text to bookmark quotes.
+- Reddit posts show the post body plus comments when available.
+- Notes, chat, and AI actions work the same way as on videos.
 
-## 4. AI Chat & Actions
-- Select any imported item to view its details.
-- Tap **AI Actions** to generate instant summaries, extract bulleted takeaways, or create mind maps.
-- Use **Project Chat** to ask questions across all items in your project simultaneously.
+## Project-wide tools
+- Use the project grid to browse everything in the project.
+- Open project chat / AI actions to work across selected items.
+- Use the Texts tab to pull transcripts or article bodies into context.
+- Export a project as JSON (choose which tabs/artifacts to include). Import that JSON on another device or install.
 
-## 5. Bookmarks & Notes
-- Highlight article passages or click transcript timestamps to create instant quote bookmarks.
-- Click any video timestamp bookmark to seek the YouTube player directly to that segment.
+## Settings
+- Dark mode, resume-at-furthest-bookmark, and default tabs
+- Custom AI actions and model list
+- External search engines for highlighted text

@@ -1,12 +1,28 @@
-# Technical Specifications
+# Technical specifications
 
-## Platform & Requirements
-- **Target OS**: Android 8.0+ (API Level 26+), Windows Desktop, Web PWA
-- **Framework**: Capacitor Android, React, Vite, IndexedDB, SQLite (`informant.db`)
-- **Package ID**: `com.informant.app`
-- **Optional API Keys**: Gemini API, YouTube Data API v3, Webshare Proxy
+## Package
+- **App name:** INFORMANT
+- **Android package ID:** `com.rykersoft.informant`
+- **Current version:** 1.0.4 (versionCode 5)
 
-## Content Support
-- **YouTube**: Transcripts, comments, jump-to timestamp bookmarks, custom AI summaries
-- **Articles**: Reader mode, text highlighting, quote extraction
-- **Reddit**: Post reader, top comment tree fetching, bookmarking
+## Platforms
+| Platform | Stack | Storage |
+|---|---|---|
+| Android | Capacitor 8 + WebView | IndexedDB (`clientDb`) |
+| Desktop | Electron / local Node server | Projects JSON + SQLite `informant.db` |
+| Web (dev) | Vite + React 19 | Same as platform above |
+
+## Requirements
+- **Android:** minSdk from Capacitor project defaults; release builds need `android/keystore.properties`
+- **Desktop:** Node.js for `npm run dev` / portable builds
+- **Optional APIs:** Gemini, YouTube Data API, YouTube Transcript API, Webshare proxy
+
+## Architecture notes
+- Project-centric navigation: `ProjectHome` → `Workspace` (no React Router)
+- Single global YouTube player (`PlayerManager`) repositions over the active card target
+- Player modes: `collapsed`, `expanded`, `pip`
+- Video artifacts (notes, bookmarks, transcripts, comments, chat, analyses) keyed by `videoId`
+
+## Distribution
+- RykerSoft hub installs the signed APK from this repo’s GitHub Releases
+- Hub gallery screenshots live in `rykergrey/RykerSoft` → `screenshots/informant/`
