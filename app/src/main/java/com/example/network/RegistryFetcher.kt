@@ -33,6 +33,30 @@ class RegistryFetcher(
         return trimmed
     }
 
+    /**
+     * Fetches plain text / Markdown from a raw URL over HTTP with optional GitHub authentication.
+     */
+    suspend fun fetchTextUrl(url: String, githubToken: String = ""): String? = withContext(Dispatchers.IO) {
+        if (url.isBlank()) return@withContext null
+        val targetUrl = sanitizeUrl(url)
+        val requestBuilder = Request.Builder()
+            .url(targetUrl)
+            .header("User-Agent", "Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36")
+            .header("Accept", "text/plain, text/markdown, text/html, */*")
+        if (githubToken.isNotBlank()) {
+            requestBuilder.header("Authorization", "Bearer ${githubToken.trim()}")
+        }
+        try {
+            client.newCall(requestBuilder.build()).execute().use { response ->
+                if (response.isSuccessful) {
+                    response.body?.string()?.takeIf { it.isNotBlank() }
+                } else null
+            }
+        } catch (e: Exception) {
+            null
+        }
+    }
+
     suspend fun fetchRegistry(url: String, githubToken: String = ""): List<ManagedApp> = withContext(Dispatchers.IO) {
         val targetUrl = sanitizeUrl(url)
         val timestamp = System.currentTimeMillis()
