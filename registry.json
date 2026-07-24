@@ -34,9 +34,10 @@
       "icon": "android",
       "changelog": "- Fixed arrangement note playback when tapping Play\n- Preserves notes across full continuous timeline without 4-bar truncation\n- Auto-resets playhead to IN point if parked past end of song\n- Official RykerSoft Application Package ID (com.rykersoft.synthing)",
       "screenshots": [
-        "https://raw.githubusercontent.com/rykergrey/Synthing/main/screenshots/01-piano-roll.png",
-        "https://raw.githubusercontent.com/rykergrey/Synthing/main/screenshots/02-play-header.png",
-        "https://raw.githubusercontent.com/rykergrey/Synthing/main/screenshots/03-arrangement.png"
+        "https://raw.githubusercontent.com/rykergrey/Synthing/main/screenshots/01-play-grids.jpg",
+        "https://raw.githubusercontent.com/rykergrey/Synthing/main/screenshots/02-play-keys.jpg",
+        "https://raw.githubusercontent.com/rykergrey/Synthing/main/screenshots/03-synth.jpg",
+        "https://raw.githubusercontent.com/rykergrey/Synthing/main/screenshots/04-piano-roll.jpg"
       ],
       "isGame": false
     },
