@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.data.AppDatabase
 import com.example.data.AppRepository
 import com.example.data.ManagedApp
+import com.example.entitlements.AiUnlockPackages
+import com.example.entitlements.EntitlementRepository
 import com.example.util.ApkManager
 import com.example.util.DownloadProgress
 import com.example.util.SchedulerHelper
@@ -15,7 +17,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -39,7 +40,10 @@ data class AppUiItem(
     val statusText: String,
     val userGuide: String = "",
     val updatesHistory: String = "",
-    val specs: String = ""
+    val specs: String = "",
+    /** True when this package supports AI unlock and the signed-in hub account has unlocked it. */
+    val supportsAiUnlock: Boolean = false,
+    val aiUnlocked: Boolean = false
 )
 
 data class MainUiState(
@@ -58,7 +62,12 @@ data class MainUiState(
     val sortOption: SortOption = SortOption.RECENTLY_UPDATED,
     /** When true, UI should background RykerSoft so Play Protect / installer stay on top. */
     val backgroundForInstall: Boolean = false,
-    val appManagerUpdateAvailable: AppUiItem? = null
+    val appManagerUpdateAvailable: AppUiItem? = null,
+    val hubFirebaseConfigured: Boolean = false,
+    val hubSignedIn: Boolean = false,
+    val hubAccountEmail: String? = null,
+    val hubEntitlements: Map<String, Boolean> = emptyMap(),
+    val hubBusy: Boolean = false
 )
 
 enum class FilterType {
@@ -77,10 +86,13 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
     private val context = application.applicationContext
     private val repository: AppRepository
+    private val entitlementRepository = EntitlementRepository(context)
     private val sharedPrefs = context.getSharedPreferences("app_manager_prefs", Context.MODE_PRIVATE)
 
     private val _uiState = MutableStateFlow(MainUiState())
     val uiState: StateFlow<MainUiState> = _uiState.asStateFlow()
+
+    private var cachedDbApps: List<ManagedApp> = emptyList()
 
     init {
         val database = AppDatabase.getDatabase(context)
@@ -104,12 +116,14 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                 githubToken = sanitizedToken,
                 notificationsEnabled = savedNotify, 
                 titleFontPreset = savedPreset,
-                sortOption = savedSortOption
+                sortOption = savedSortOption,
+                hubFirebaseConfigured = entitlementRepository.isConfigured()
             ) 
         }
 
         // Start observing database and scanning system package manager
         observeApps()
+        observeHubAccount()
         
         viewModelScope.launch {
             if (repository.getApp("com.rykersoft.appmanager") == null) {
@@ -150,7 +164,83 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     private fun observeApps() {
         viewModelScope.launch {
             repository.allAppsFlow.collect { dbApps ->
+                cachedDbApps = dbApps
                 mapAppsToUi(dbApps)
+            }
+        }
+    }
+
+    private fun observeHubAccount() {
+        viewModelScope.launch {
+            entitlementRepository.accountState().collect { account ->
+                _uiState.update {
+                    it.copy(
+                        hubFirebaseConfigured = account.configured,
+                        hubSignedIn = account.user != null,
+                        hubAccountEmail = account.email,
+                        hubEntitlements = account.entitlements
+                    )
+                }
+                if (cachedDbApps.isNotEmpty()) {
+                    mapAppsToUi(cachedDbApps)
+                } else {
+                    refreshLocalInstallations()
+                }
+            }
+        }
+    }
+
+    fun hubSignIn(email: String, password: String) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(hubBusy = true) }
+            try {
+                entitlementRepository.signIn(email, password)
+                _uiState.update { it.copy(infoMessage = "Signed in to RykerSoft account.") }
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(errorMessage = e.localizedMessage ?: "Sign-in failed.")
+                }
+            } finally {
+                _uiState.update { it.copy(hubBusy = false) }
+            }
+        }
+    }
+
+    fun hubSignUp(email: String, password: String) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(hubBusy = true) }
+            try {
+                entitlementRepository.signUp(email, password)
+                _uiState.update { it.copy(infoMessage = "RykerSoft account created.") }
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(errorMessage = e.localizedMessage ?: "Account creation failed.")
+                }
+            } finally {
+                _uiState.update { it.copy(hubBusy = false) }
+            }
+        }
+    }
+
+    fun hubSignOut() {
+        entitlementRepository.signOut()
+        _uiState.update { it.copy(infoMessage = "Signed out of RykerSoft account.") }
+    }
+
+    fun unlockAppWithCode(packageName: String, code: String) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(hubBusy = true) }
+            try {
+                val granted = entitlementRepository.unlockWithCode(code, packageName)
+                _uiState.update {
+                    it.copy(infoMessage = "Unlocked AI for: ${granted.joinToString()}")
+                }
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(errorMessage = e.localizedMessage ?: "Unlock failed.")
+                }
+            } finally {
+                _uiState.update { it.copy(hubBusy = false) }
             }
         }
     }
@@ -241,10 +331,13 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
      * Map database model to UI representation by combining it with current local system installations.
      */
     private fun mapAppsToUi(dbApps: List<ManagedApp>) {
+        val entitlements = _uiState.value.hubEntitlements
         val uiItems = dbApps.map { app ->
             val info = ApkManager.getInstalledAppInfo(context, app.packageName)
             val currentCode = info.versionCode ?: 0L
             val isOutdated = info.isInstalled && (app.latestVersionCode > currentCode)
+            val supportsAi = AiUnlockPackages.isUnlockable(app.packageName)
+            val aiUnlocked = supportsAi && entitlements[app.packageName] == true
             
             val statusText = when {
                 !info.isInstalled -> "Not Installed"
@@ -305,7 +398,9 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                 statusText = statusText,
                 userGuide = userGuideDoc,
                 updatesHistory = updatesHistoryDoc,
-                specs = specsDoc
+                specs = specsDoc,
+                supportsAiUnlock = supportsAi,
+                aiUnlocked = aiUnlocked
             )
         }
         val appManagerUpdate = uiItems.find { it.packageName == context.packageName && it.isOutdated }

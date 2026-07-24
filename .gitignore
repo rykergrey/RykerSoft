@@ -19,3 +19,7 @@ debug.keystore
 *.jks
 *.keystore
 keystore.properties
+
+firebase/FAMILY_UNLOCK_CODE.txt
+
+app/google-services.json

@@ -4,8 +4,9 @@
 - [1. Overview](#1-overview)
 - [2. App Tabbed Interface](#2-app-tabbed-interface)
 - [3. Checking & Installing Updates](#3-checking--installing-updates)
-- [4. Customizing Settings](#4-customizing-settings)
-- [5. Troubleshooting](#5-troubleshooting)
+- [4. RykerSoft Account & AI Unlock](#4-rykersoft-account--ai-unlock)
+- [5. Customizing Settings](#5-customizing-settings)
+- [6. Troubleshooting](#6-troubleshooting)
 
 ## 1. Overview
 RykerSoft serves as the unified dashboard for all applications developed under the RykerSoft software collection. It manages version tracking, downloads, documentation, and instant installations.
@@ -22,12 +23,26 @@ Tap any application card to open its detail view:
 2. Apps with updates available will show an **UPDATE AVAILABLE** status badge.
 3. Tap **INSTALL / UPDATE** to download the latest APK and launch the package installer.
 
-## 4. Customizing Settings
-Access Settings via the top gear icon to:
-- Change Title Font Presets (Arcade 3D, Cyber Neon, etc.)
-- Set custom GitHub Personal Access Tokens for private releases.
-- Configure periodic background update notification checks.
+## 4. RykerSoft Account & AI Unlock
+Some apps (SuperThink.ing, bettertracking, INFORMANT) can run without AI. AI features use keys delivered from your RykerSoft Firebase project after unlock.
 
-## 5. Troubleshooting
+1. Open **Settings** and create or sign in to a **RykerSoft account** (email/password). This is separate from each app’s own login.
+2. Open an AI-capable app’s detail page. If you see **AI LOCKED**, tap **UNLOCK AI FEATURES**.
+3. Enter the family unlock code provided by the admin.
+4. Install or open the app, then sign into the **same RykerSoft account** inside that app’s settings (RykerSoft AI unlock section) so keys can sync.
+5. Non-AI features work even when locked. AI stays off until unlock + hub sign-in succeed.
+
+Admin setup (one-time): see `firebase/SEED.md` for Firestore rules, unlock code hashes, and `config/providerKeys`.
+
+## 5. Customizing Settings
+Access Settings via the top gear / title controls to:
+- Sign in to your RykerSoft account for AI unlocks
+- Set a GitHub Personal Access Token for private APK/docs downloads
+- Configure periodic background update notification checks
+- Change title font presets (Arcade 3D, Cyber Neon, etc.)
+
+## 6. Troubleshooting
 - **Install Permission Denied**: Ensure Android allows RykerSoft to install unknown applications in system settings.
-- **Network Error**: Verify your internet connection or GitHub access token if accessing private repositories.
+- **Network Error / APK 404**: Private app repos need a valid GitHub PAT in Settings.
+- **AI unlock fails**: Confirm Firebase `.env` keys are set, Email/Password Auth is enabled, and the unlock code hash exists under `unlockCodes/{hash}`.
+- **App AI still locked after unlock**: Sign into the same RykerSoft account inside the app and tap Refresh keys.

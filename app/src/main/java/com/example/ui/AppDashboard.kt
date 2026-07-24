@@ -46,6 +46,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -313,6 +314,7 @@ fun AppDashboard(
     var showPlatformDropdown by remember { mutableStateOf(false) }
     var showSortDropdown by remember { mutableStateOf(false) }
     var selectedPlatform by remember { mutableStateOf("Android") }
+    var unlockTargetPackage by remember { mutableStateOf<String?>(null) }
 
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -922,7 +924,23 @@ fun AppDashboard(
                     selectedAppForDetail = null
                 },
                 downloadingPackage = uiState.downloadingPackage,
-                downloadProgress = uiState.downloadProgress
+                downloadProgress = uiState.downloadProgress,
+                hubSignedIn = uiState.hubSignedIn,
+                hubFirebaseConfigured = uiState.hubFirebaseConfigured,
+                onUnlockClick = { unlockTargetPackage = currentApp.packageName },
+                onOpenAccountSettings = { showSettingsDialog = true }
+            )
+        }
+
+        unlockTargetPackage?.let { pkg ->
+            UnlockAiDialog(
+                appName = uiState.apps.find { it.packageName == pkg }?.name ?: pkg,
+                busy = uiState.hubBusy,
+                onDismiss = { unlockTargetPackage = null },
+                onUnlock = { code ->
+                    viewModel.unlockAppWithCode(pkg, code)
+                    unlockTargetPackage = null
+                }
             )
         }
 
@@ -943,6 +961,10 @@ fun AppDashboard(
                 currentUrl = uiState.registryUrl,
                 currentGithubToken = uiState.githubToken,
                 notificationsEnabled = uiState.notificationsEnabled,
+                hubFirebaseConfigured = uiState.hubFirebaseConfigured,
+                hubSignedIn = uiState.hubSignedIn,
+                hubAccountEmail = uiState.hubAccountEmail,
+                hubBusy = uiState.hubBusy,
                 onDismiss = { showSettingsDialog = false },
                 onSave = { url, notify, token ->
                     viewModel.updateSettings(url, notify, token)
@@ -955,7 +977,10 @@ fun AppDashboard(
                 onAddAppClick = {
                     showSettingsDialog = false
                     showAddDialog = true
-                }
+                },
+                onHubSignIn = { email, password -> viewModel.hubSignIn(email, password) },
+                onHubSignUp = { email, password -> viewModel.hubSignUp(email, password) },
+                onHubSignOut = { viewModel.hubSignOut() }
             )
         }
     }
@@ -1078,6 +1103,13 @@ fun AppItemCard(
                             bgColor = if (app.isGame) Color(0xFF3B0764) else Color(0xFF0C4A6E),
                             textColor = if (app.isGame) Color(0xFFE9D5FF) else Color(0xFFBAE6FD)
                         )
+                        if (app.supportsAiUnlock) {
+                            TagChip(
+                                text = if (app.aiUnlocked) "AI ON" else "AI OFF",
+                                bgColor = if (app.aiUnlocked) Color(0xFF14532D) else Color(0xFF3F3F46),
+                                textColor = if (app.aiUnlocked) Color(0xFFBBF7D0) else Color(0xFFE4E4E7)
+                            )
+                        }
 
                         TagChip(
                             text = "ANDROID",
@@ -1291,7 +1323,6 @@ fun EmptyStateView(
 enum class AppDetailTab(val label: String, val icon: ImageVector) {
     UPDATES("UPDATES", Icons.Default.SystemUpdate),
     DESCRIPTION("DESCRIPTION", Icons.Default.Description),
-    SPECS("SPECS", Icons.Default.ListAlt),
     USER_GUIDE("USER GUIDE", Icons.Default.MenuBook)
 }
 
@@ -1304,7 +1335,11 @@ fun AppDetailDialog(
     onLaunchClick: () -> Unit,
     onDeleteClick: () -> Unit,
     downloadingPackage: String?,
-    downloadProgress: Int
+    downloadProgress: Int,
+    hubSignedIn: Boolean = false,
+    hubFirebaseConfigured: Boolean = false,
+    onUnlockClick: () -> Unit = {},
+    onOpenAccountSettings: () -> Unit = {}
 ) {
     val context = LocalContext.current
     val clipboardManager = LocalClipboardManager.current
@@ -1364,6 +1399,13 @@ fun AppDetailDialog(
                             color = NeoText
                         )
                         TagChip(text = if (app.isGame) "GAME" else "APP", bgColor = NeoMagenta, textColor = Color.White)
+                        if (app.supportsAiUnlock) {
+                            TagChip(
+                                text = if (app.aiUnlocked) "AI UNLOCKED" else "AI LOCKED",
+                                bgColor = if (app.aiUnlocked) Color(0xFF14532D) else Color(0xFF3F3F46),
+                                textColor = if (app.aiUnlocked) Color(0xFFBBF7D0) else Color(0xFFE4E4E7)
+                            )
+                        }
                     }
 
                     NeoButton(
@@ -1372,6 +1414,66 @@ fun AppDetailDialog(
                         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 2.dp)
                     ) {
                         Text("✕", fontSize = 12.sp, fontWeight = FontWeight.Black, color = Color.White)
+                    }
+                }
+
+                if (app.supportsAiUnlock) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 12.dp, vertical = 8.dp),
+                        verticalArrangement = Arrangement.spacedBy(6.dp)
+                    ) {
+                        Text(
+                            text = if (app.aiUnlocked) {
+                                "AI features unlocked for this RykerSoft account."
+                            } else {
+                                "AI features stay off until you unlock this app with a family unlock code."
+                            },
+                            fontSize = 11.sp,
+                            fontFamily = FontFamily.Monospace,
+                            color = NeoSubtext
+                        )
+                        when {
+                            !hubFirebaseConfigured -> {
+                                Text(
+                                    text = "Configure FIREBASE_* in hub .env (see firebase/SEED.md).",
+                                    fontSize = 10.sp,
+                                    color = NeoMagenta,
+                                    fontFamily = FontFamily.Monospace
+                                )
+                            }
+                            !hubSignedIn -> {
+                                NeoButton(
+                                    onClick = onOpenAccountSettings,
+                                    style = NeoButtonStyle.SECONDARY_YELLOW,
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Text(
+                                        "SIGN IN TO UNLOCK AI",
+                                        fontSize = 11.sp,
+                                        fontWeight = FontWeight.Black,
+                                        fontFamily = FontFamily.Monospace,
+                                        color = Color.Black
+                                    )
+                                }
+                            }
+                            !app.aiUnlocked -> {
+                                NeoButton(
+                                    onClick = onUnlockClick,
+                                    style = NeoButtonStyle.ACCENT_CYAN,
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Text(
+                                        "UNLOCK AI FEATURES",
+                                        fontSize = 11.sp,
+                                        fontWeight = FontWeight.Black,
+                                        fontFamily = FontFamily.Monospace,
+                                        color = Color.Black
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
 
@@ -1529,13 +1631,11 @@ fun AppDetailDialog(
                                     accentColor = NeoCyan
                                 )
                             }
-                        }
 
-                        AppDetailTab.SPECS -> {
                             if (app.specs.isNotBlank()) {
                                 NeoCard(shadowOffset = 3.dp) {
                                     Text(
-                                        text = "DETAILED SPECIFICATIONS",
+                                        text = "TECHNICAL SPECIFICATIONS",
                                         fontSize = 11.sp,
                                         fontWeight = FontWeight.Black,
                                         fontFamily = FontFamily.Monospace,
@@ -1853,14 +1953,23 @@ fun SettingsDialog(
     currentUrl: String,
     currentGithubToken: String = "",
     notificationsEnabled: Boolean,
+    hubFirebaseConfigured: Boolean = false,
+    hubSignedIn: Boolean = false,
+    hubAccountEmail: String? = null,
+    hubBusy: Boolean = false,
     onDismiss: () -> Unit,
     onSave: (url: String, notify: Boolean, token: String) -> Unit,
     onLoadSamples: () -> Unit,
-    onAddAppClick: () -> Unit
+    onAddAppClick: () -> Unit,
+    onHubSignIn: (email: String, password: String) -> Unit = { _, _ -> },
+    onHubSignUp: (email: String, password: String) -> Unit = { _, _ -> },
+    onHubSignOut: () -> Unit = {}
 ) {
     var url by remember { mutableStateOf(currentUrl) }
     var token by remember { mutableStateOf(currentGithubToken) }
     var notify by remember { mutableStateOf(notificationsEnabled) }
+    var hubEmail by remember { mutableStateOf("") }
+    var hubPassword by remember { mutableStateOf("") }
 
     val textFieldColors = OutlinedTextFieldDefaults.colors(
         focusedTextColor = NeoText,
@@ -1873,12 +1982,15 @@ fun SettingsDialog(
 
     Dialog(onDismissRequest = onDismiss) {
         NeoCard(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.92f),
             shadowOffset = 6.dp
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
                     .padding(8.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
@@ -1889,6 +2001,79 @@ fun SettingsDialog(
                     fontSize = 16.sp,
                     color = NeoText
                 )
+
+                Text(
+                    text = "RYKERSOFT ACCOUNT (AI UNLOCK)",
+                    fontWeight = FontWeight.Black,
+                    fontFamily = FontFamily.Monospace,
+                    fontSize = 12.sp,
+                    color = NeoYellow
+                )
+                if (!hubFirebaseConfigured) {
+                    Text(
+                        text = "Firebase not configured. Add FIREBASE_* keys to .env (firebase/SEED.md).",
+                        fontSize = 10.sp,
+                        fontFamily = FontFamily.Monospace,
+                        color = NeoMagenta
+                    )
+                } else if (hubSignedIn) {
+                    Text(
+                        text = "Signed in as ${hubAccountEmail ?: "account"}",
+                        fontSize = 11.sp,
+                        fontFamily = FontFamily.Monospace,
+                        color = NeoText
+                    )
+                    NeoButton(
+                        onClick = onHubSignOut,
+                        style = NeoButtonStyle.NEUTRAL_WHITE,
+                        modifier = Modifier.fillMaxWidth(),
+                        enabled = !hubBusy
+                    ) {
+                        Text("SIGN OUT", fontSize = 11.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace, color = Color.Black)
+                    }
+                } else {
+                    OutlinedTextField(
+                        value = hubEmail,
+                        onValueChange = { hubEmail = it },
+                        label = { Text("Email", fontSize = 11.sp, fontFamily = FontFamily.Monospace) },
+                        singleLine = true,
+                        shape = RectangleShape,
+                        colors = textFieldColors,
+                        modifier = Modifier.fillMaxWidth(),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+                    )
+                    OutlinedTextField(
+                        value = hubPassword,
+                        onValueChange = { hubPassword = it },
+                        label = { Text("Password", fontSize = 11.sp, fontFamily = FontFamily.Monospace) },
+                        singleLine = true,
+                        visualTransformation = PasswordVisualTransformation(),
+                        shape = RectangleShape,
+                        colors = textFieldColors,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        NeoButton(
+                            onClick = { onHubSignIn(hubEmail, hubPassword) },
+                            style = NeoButtonStyle.PRIMARY_MAGENTA,
+                            modifier = Modifier.weight(1f),
+                            enabled = !hubBusy && hubEmail.isNotBlank() && hubPassword.length >= 6
+                        ) {
+                            Text("SIGN IN", fontSize = 10.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace)
+                        }
+                        NeoButton(
+                            onClick = { onHubSignUp(hubEmail, hubPassword) },
+                            style = NeoButtonStyle.ACCENT_CYAN,
+                            modifier = Modifier.weight(1f),
+                            enabled = !hubBusy && hubEmail.isNotBlank() && hubPassword.length >= 6
+                        ) {
+                            Text("CREATE", fontSize = 10.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace, color = Color.Black)
+                        }
+                    }
+                }
 
                 OutlinedTextField(
                     value = url,
@@ -1958,6 +2143,73 @@ fun SettingsDialog(
                         style = NeoButtonStyle.PRIMARY_MAGENTA
                     ) {
                         Text("SAVE SETTINGS", fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace)
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun UnlockAiDialog(
+    appName: String,
+    busy: Boolean,
+    onDismiss: () -> Unit,
+    onUnlock: (code: String) -> Unit
+) {
+    var code by remember { mutableStateOf("") }
+    val textFieldColors = OutlinedTextFieldDefaults.colors(
+        focusedTextColor = NeoText,
+        unfocusedTextColor = NeoText,
+        focusedBorderColor = NeoCyan,
+        unfocusedBorderColor = NeoBorder,
+        focusedLabelColor = NeoCyan,
+        unfocusedLabelColor = NeoSubtext
+    )
+    Dialog(onDismissRequest = onDismiss) {
+        NeoCard(modifier = Modifier.fillMaxWidth(), shadowOffset = 6.dp) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                Text(
+                    text = "UNLOCK AI — ${appName.uppercase()}",
+                    fontWeight = FontWeight.Black,
+                    fontFamily = FontFamily.Monospace,
+                    fontSize = 14.sp,
+                    color = NeoText
+                )
+                Text(
+                    text = "Enter the family unlock code. Sign into the same RykerSoft account inside the app to load AI keys.",
+                    fontSize = 11.sp,
+                    fontFamily = FontFamily.Monospace,
+                    color = NeoSubtext
+                )
+                OutlinedTextField(
+                    value = code,
+                    onValueChange = { code = it },
+                    label = { Text("Unlock code", fontSize = 11.sp, fontFamily = FontFamily.Monospace) },
+                    singleLine = true,
+                    shape = RectangleShape,
+                    colors = textFieldColors,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    TextButton(onClick = onDismiss) {
+                        Text("CANCEL", fontFamily = FontFamily.Monospace, color = NeoSubtext)
+                    }
+                    Spacer(modifier = Modifier.width(8.dp))
+                    NeoButton(
+                        onClick = { onUnlock(code) },
+                        style = NeoButtonStyle.ACCENT_CYAN,
+                        enabled = !busy && code.isNotBlank()
+                    ) {
+                        Text("UNLOCK", fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace, color = Color.Black)
                     }
                 }
             }

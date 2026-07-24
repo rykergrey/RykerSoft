@@ -1,5 +1,10 @@
 # Release Updates & History
 
+## v1.1.2 (Version Code 4) - July 24th, 2026
+- RykerSoft Firebase account sign-in in Settings for AI entitlements
+- Per-app AI unlock with family unlock codes (SuperThinking, bettertracking, INFORMANT)
+- Hub UI shows AI LOCKED / AI UNLOCKED and unlock flow
+
 ## v1.1.1 (Version Code 3) - July 24th, 2026
 - Switched release builds to a dedicated RykerSoft upload keystore (non-debug signing)
 - Required one-time uninstall if upgrading from a debug-signed install

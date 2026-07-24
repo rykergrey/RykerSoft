@@ -1,0 +1,47 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    function entitlementsPath(uid) {
+      return /databases/$(database)/documents/users/$(uid)/entitlements/apps;
+    }
+
+    function hasPackageUnlock(packageId) {
+      return signedIn()
+        && exists(entitlementsPath(request.auth.uid))
+        && get(entitlementsPath(request.auth.uid)).data.get(packageId, false) == true;
+    }
+
+    match /users/{uid} {
+      allow read, write: if isOwner(uid);
+
+      match /entitlements/apps {
+        allow read: if isOwner(uid);
+        allow write: if isOwner(uid);
+      }
+    }
+
+    match /unlockCodes/{codeHash} {
+      allow get: if signedIn();
+      allow list, write: if false;
+    }
+
+    // Per-app AI provider keys (document ID = Android package name)
+    match /providerKeys/{packageId} {
+      allow read: if hasPackageUnlock(packageId);
+      allow write: if false;
+    }
+
+    // Legacy single-doc path (unused; deny)
+    match /config/providerKeys {
+      allow read, write: if false;
+    }
+  }
+}
