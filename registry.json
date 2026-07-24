@@ -3,11 +3,11 @@
     {
       "packageName": "com.rykersoft.appmanager",
       "name": "RykerSoft",
-      "latestVersionCode": 2,
-      "latestVersionName": "1.1.0",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft/releases/download/v1.1.0/app-release.apk",
+      "latestVersionCode": 3,
+      "latestVersionName": "1.1.1",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft/releases/download/v1.1.1/app-release.apk",
       "icon": "android",
-      "changelog": "4-tab app detail view (Updates, Description, Specs, User Guide), modular docs, interactive TOC",
+      "changelog": "Release-signed builds with dedicated RykerSoft keystore (uninstall debug builds once before updating)",
       "screenshots": [],
       "isGame": false
     },

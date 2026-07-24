@@ -1,5 +1,9 @@
 # Release Updates & History
 
+## v1.1.1 (Version Code 3) - July 24th, 2026
+- Switched release builds to a dedicated RykerSoft upload keystore (non-debug signing)
+- Required one-time uninstall if upgrading from a debug-signed install
+
 ## v1.1.0 (Version Code 2) - July 24th, 2026
 - Redesigned Application Detail View into a 4-tab tabbed interface (Updates, Description, Specs, User Guide)
 - Modularized per-app repository documentation (`app_docs/<slug>/`) for independent updates
