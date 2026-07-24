@@ -1377,51 +1377,23 @@ fun AppDetailDialog(
 
                 // Tab Selection State
                 var selectedTab by remember { mutableStateOf(AppDetailTab.UPDATES) }
-                val tocEntries = remember(app.userGuide) { extractTocEntries(app.userGuide) }
+                var activeHighlightAnchor by remember { mutableStateOf<String?>(null) }
                 val headerPositions = remember { mutableStateMapOf<String, Float>() }
                 val bodyScrollState = rememberScrollState()
                 val coroutineScope = rememberCoroutineScope()
 
-                // Tab Selector Bar
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(NeoMutedBg)
-                        .border(width = 1.dp, color = NeoBorder),
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    AppDetailTab.values().forEach { tab ->
-                        val isSelected = selectedTab == tab
-                        val bgColor = if (isSelected) NeoMagenta else Color.Transparent
-                        val textColor = if (isSelected) Color.White else NeoSubtext
-
-                        Box(
-                            modifier = Modifier
-                                .weight(1f)
-                                .background(bgColor)
-                                .clickable { selectedTab = tab }
-                                .padding(vertical = 10.dp, horizontal = 2.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(4.dp)
-                            ) {
-                                Icon(
-                                    imageVector = tab.icon,
-                                    contentDescription = tab.label,
-                                    tint = textColor,
-                                    modifier = Modifier.size(13.dp)
-                                )
-                                Text(
-                                    text = tab.label,
-                                    fontSize = 10.sp,
-                                    fontWeight = if (isSelected) FontWeight.Black else FontWeight.Bold,
-                                    fontFamily = FontFamily.Monospace,
-                                    color = textColor,
-                                    maxLines = 1
-                                )
-                            }
+                val handleUrlClick: (String) -> Unit = { rawUrl ->
+                    val targetAnchor = rawUrl.removePrefix("#")
+                    activeHighlightAnchor = targetAnchor
+                    val normTarget = normalizeAnchor(targetAnchor)
+                    val matchingKey = headerPositions.keys.find { key ->
+                        val normKey = normalizeAnchor(key)
+                        normKey == normTarget || normKey.contains(normTarget) || normTarget.contains(normKey)
+                    }
+                    val targetY = matchingKey?.let { headerPositions[it] }
+                    if (targetY != null) {
+                        coroutineScope.launch {
+                            bodyScrollState.animateScrollTo((targetY - 12f).toInt().coerceAtLeast(0))
                         }
                     }
                 }
@@ -1463,6 +1435,53 @@ fun AppDetailDialog(
                                         contentDescription = "Thumb $idx",
                                         modifier = Modifier.fillMaxSize(),
                                         contentScale = ContentScale.Fit
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+                    // Tab Selector Bar (Positioned below screenshots & thumbnails)
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(NeoMutedBg)
+                            .border(width = 1.dp, color = NeoBorder),
+                        horizontalArrangement = Arrangement.SpaceEvenly
+                    ) {
+                        AppDetailTab.values().forEach { tab ->
+                            val isSelected = selectedTab == tab
+                            val bgColor = if (isSelected) NeoMagenta else Color.Transparent
+                            val textColor = if (isSelected) Color.White else NeoSubtext
+
+                            Box(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .background(bgColor)
+                                    .clickable {
+                                        selectedTab = tab
+                                        activeHighlightAnchor = null
+                                    }
+                                    .padding(vertical = 10.dp, horizontal = 2.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                                ) {
+                                    Icon(
+                                        imageVector = tab.icon,
+                                        contentDescription = tab.label,
+                                        tint = textColor,
+                                        modifier = Modifier.size(13.dp)
+                                    )
+                                    Text(
+                                        text = tab.label,
+                                        fontSize = 10.sp,
+                                        fontWeight = if (isSelected) FontWeight.Black else FontWeight.Bold,
+                                        fontFamily = FontFamily.Monospace,
+                                        color = textColor,
+                                        maxLines = 1
                                     )
                                 }
                             }
@@ -1558,49 +1577,6 @@ fun AppDetailDialog(
                                 "# User Guide for ${app.name}\n\nComprehensive user documentation is available for ${app.name}.\n\n## Overview\nRefer to the description tab for key application capabilities.\n\n## Quick Start\nInstall or update the application using the button below."
                             }
 
-                            // Interactive Table of Contents Header Chips
-                            if (tocEntries.isNotEmpty()) {
-                                NeoCard(shadowOffset = 3.dp) {
-                                    Text(
-                                        text = "TABLE OF CONTENTS",
-                                        fontSize = 10.sp,
-                                        fontWeight = FontWeight.Black,
-                                        fontFamily = FontFamily.Monospace,
-                                        color = NeoYellow
-                                    )
-                                    Spacer(modifier = Modifier.height(6.dp))
-                                    LazyRow(
-                                        horizontalArrangement = Arrangement.spacedBy(6.dp)
-                                    ) {
-                                        items(tocEntries.size) { idx ->
-                                            val entry = tocEntries[idx]
-                                            Box(
-                                                modifier = Modifier
-                                                    .border(1.5.dp, NeoCyan)
-                                                    .background(NeoSurface)
-                                                    .clickable {
-                                                        val targetY = headerPositions[entry.title]
-                                                            ?: headerPositions[entry.targetAnchor]
-                                                            ?: 0f
-                                                        coroutineScope.launch {
-                                                            bodyScrollState.animateScrollTo(targetY.toInt().coerceAtLeast(0))
-                                                        }
-                                                    }
-                                                    .padding(horizontal = 8.dp, vertical = 4.dp)
-                                            ) {
-                                                Text(
-                                                    text = entry.title,
-                                                    fontSize = 10.sp,
-                                                    fontWeight = FontWeight.Bold,
-                                                    fontFamily = FontFamily.Monospace,
-                                                    color = NeoCyan
-                                                )
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
                             NeoCard(shadowOffset = 3.dp) {
                                 Text(
                                     text = "${app.name.uppercase()} USER GUIDE",
@@ -1616,10 +1592,12 @@ fun AppDetailDialog(
                                     lineHeight = 16.sp,
                                     headingColor = NeoYellow,
                                     accentColor = NeoCyan,
+                                    highlightAnchor = activeHighlightAnchor,
                                     onHeaderPositioned = { title, anchor, yPx ->
                                         headerPositions[title] = yPx
                                         headerPositions[anchor] = yPx
-                                    }
+                                    },
+                                    onUrlClick = handleUrlClick
                                 )
                             }
                         }

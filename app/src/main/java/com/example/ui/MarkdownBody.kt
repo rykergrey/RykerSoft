@@ -1,27 +1,37 @@
 package com.example.ui
 
+import androidx.compose.animation.Animatable
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInParent
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.layout.positionInParent
+import com.example.ui.theme.NeoBlack
 import com.example.ui.theme.NeoCyan
 import com.example.ui.theme.NeoMagenta
 import com.example.ui.theme.NeoSubtext
@@ -32,7 +42,7 @@ private val BOLD_REGEX = Regex("""\*\*(.+?)\*\*""")
 private val CODE_REGEX = Regex("""`(.+?)`""")
 private val MARKDOWN_SYMBOLS_REGEX = Regex("""[#*_`>]""")
 private val MULTI_SPACE_REGEX = Regex("""\s+""")
-private val INLINE_MARKDOWN_REGEX = Regex("""(\*\*(.+?)\*\*|`(.+?)`)""")
+private val INLINE_MARKDOWN_REGEX = Regex("""(\*\*(.+?)\*\*|`(.+?)`|\[(.+?)\]\((.+?)\))""")
 private val HEADING_REGEX = Regex("""^(#{1,3})\s+(.*)$""")
 private val BULLET_REGEX = Regex("""^[-*]\s+""")
 private val NUMBER_REGEX = Regex("""^\d+\.\s+""")
@@ -41,6 +51,12 @@ data class TocEntry(
     val title: String,
     val targetAnchor: String
 )
+
+fun normalizeAnchor(raw: String): String {
+    return raw.lowercase()
+        .removePrefix("#")
+        .replace(Regex("[^a-z0-9]"), "")
+}
 
 fun extractTocEntries(markdown: String): List<TocEntry> {
     val entries = mutableListOf<TocEntry>()
@@ -78,6 +94,7 @@ fun markdownSummary(markdown: String): String {
             .removePrefix("* ")
             .replace(BOLD_REGEX, "$1")
             .replace(CODE_REGEX, "$1")
+            .replace(Regex("""\[(.+?)\]\((.+?)\)"""), "$1")
             .trim()
         if (cleaned.isEmpty()) continue
         if (summary.isNotEmpty()) summary.append(' ')
@@ -85,6 +102,163 @@ fun markdownSummary(markdown: String): String {
     }
     return summary.toString().ifBlank {
         markdown.replace(MARKDOWN_SYMBOLS_REGEX, " ").replace(MULTI_SPACE_REGEX, " ").trim()
+    }
+}
+
+private fun inlineMarkdown(text: String): AnnotatedString = buildAnnotatedString {
+    var last = 0
+    for (match in INLINE_MARKDOWN_REGEX.findAll(text)) {
+        append(text.substring(last, match.range.first))
+        val bold = match.groups[2]?.value
+        val code = match.groups[3]?.value
+        val linkText = match.groups[4]?.value
+        val linkTarget = match.groups[5]?.value
+
+        if (bold != null) {
+            withStyle(SpanStyle(fontWeight = FontWeight.Bold, color = NeoYellow)) {
+                append(bold)
+            }
+        } else if (code != null) {
+            withStyle(SpanStyle(fontFamily = FontFamily.Monospace, color = NeoCyan)) {
+                append(code)
+            }
+        } else if (linkText != null && linkTarget != null) {
+            pushStringAnnotation(tag = "URL", annotation = linkTarget)
+            withStyle(
+                SpanStyle(
+                    color = NeoCyan,
+                    fontWeight = FontWeight.Bold,
+                    textDecoration = TextDecoration.Underline,
+                    fontFamily = FontFamily.Monospace
+                )
+            ) {
+                append(linkText)
+            }
+            pop()
+        }
+        last = match.range.last + 1
+    }
+    if (last < text.length) append(text.substring(last))
+}
+
+@Composable
+fun ClickableMarkdownText(
+    markdownText: String,
+    modifier: Modifier = Modifier,
+    color: Color = NeoText,
+    fontSize: TextUnit = 11.5.sp,
+    fontFamily: FontFamily = FontFamily.Monospace,
+    lineHeight: TextUnit = 16.sp,
+    onUrlClick: ((String) -> Unit)? = null
+) {
+    val annotatedString = remember(markdownText) { inlineMarkdown(markdownText) }
+    val hasLinks = remember(annotatedString) {
+        annotatedString.getStringAnnotations(tag = "URL", start = 0, end = annotatedString.length).isNotEmpty()
+    }
+
+    if (hasLinks && onUrlClick != null) {
+        ClickableText(
+            text = annotatedString,
+            modifier = modifier,
+            style = androidx.compose.ui.text.TextStyle(
+                color = color,
+                fontSize = fontSize,
+                fontFamily = fontFamily,
+                lineHeight = lineHeight
+            ),
+            onClick = { offset ->
+                annotatedString.getStringAnnotations(tag = "URL", start = offset, end = offset)
+                    .firstOrNull()?.let { annotation ->
+                        onUrlClick(annotation.item)
+                    }
+            }
+        )
+    } else {
+        Text(
+            text = annotatedString,
+            modifier = modifier,
+            color = color,
+            fontSize = fontSize,
+            fontFamily = fontFamily,
+            lineHeight = lineHeight
+        )
+    }
+}
+
+@Composable
+private fun HeadingText(
+    text: String,
+    level: Int,
+    headingColor: Color,
+    accentColor: Color,
+    highlightAnchor: String?,
+    onHeaderPositioned: ((title: String, anchor: String, yPx: Float) -> Unit)?
+) {
+    val size = when (level) {
+        1 -> 16.sp
+        2 -> 13.sp
+        else -> 12.sp
+    }
+    val defaultColor = when (level) {
+        1 -> headingColor
+        2 -> accentColor
+        else -> NeoYellow
+    }
+    val anchor = remember(text) {
+        text.lowercase().replace(Regex("[^a-z0-9\\s-]"), "").replace(Regex("\\s+"), "-")
+    }
+
+    val isHighlighted = remember(highlightAnchor, text, anchor) {
+        if (highlightAnchor.isNullOrBlank()) false
+        else {
+            val normHighlight = normalizeAnchor(highlightAnchor)
+            val normAnchor = normalizeAnchor(anchor)
+            val normText = normalizeAnchor(text)
+            normHighlight.isNotEmpty() && (
+                normHighlight == normAnchor ||
+                normHighlight == normText ||
+                normText.contains(normHighlight) ||
+                normHighlight.contains(normText)
+            )
+        }
+    }
+
+    val animColor = remember { Animatable(Color.Transparent) }
+
+    LaunchedEffect(isHighlighted, highlightAnchor) {
+        if (isHighlighted) {
+            animColor.snapTo(NeoYellow)
+            animColor.animateTo(
+                targetValue = Color.Transparent,
+                animationSpec = tween(
+                    durationMillis = 2500,
+                    delayMillis = 800
+                )
+            )
+        }
+    }
+
+    val currentBg = animColor.value
+    val isYellowBg = currentBg != Color.Transparent && currentBg.alpha > 0.2f
+    val textColor = if (isYellowBg) NeoBlack else defaultColor
+
+    Box(
+        modifier = Modifier
+            .onGloballyPositioned { coordinates ->
+                val y = coordinates.positionInParent().y
+                onHeaderPositioned?.invoke(text, anchor, y)
+            }
+            .background(currentBg, shape = RoundedCornerShape(3.dp))
+            .padding(horizontal = 4.dp, vertical = 2.dp)
+    ) {
+        Text(
+            text = inlineMarkdown(text),
+            color = textColor,
+            fontSize = size,
+            fontWeight = FontWeight.Black,
+            fontFamily = FontFamily.Monospace,
+            lineHeight = (size.value + 4).sp
+        )
     }
 }
 
@@ -98,7 +272,9 @@ fun MarkdownBody(
     accentColor: Color = NeoCyan,
     bodySize: TextUnit = 11.5.sp,
     lineHeight: TextUnit = 16.sp,
-    onHeaderPositioned: ((title: String, anchor: String, yPx: Float) -> Unit)? = null
+    highlightAnchor: String? = null,
+    onHeaderPositioned: ((title: String, anchor: String, yPx: Float) -> Unit)? = null,
+    onUrlClick: ((String) -> Unit)? = null
 ) {
     val blocks = remember(markdown) { parseMarkdownBlocks(markdown) }
 
@@ -109,39 +285,22 @@ fun MarkdownBody(
         blocks.forEach { block ->
             when (block) {
                 is MdBlock.Heading -> {
-                    val size = when (block.level) {
-                        1 -> 16.sp
-                        2 -> 13.sp
-                        else -> 12.sp
-                    }
-                    val color = when (block.level) {
-                        1 -> headingColor
-                        2 -> accentColor
-                        else -> NeoYellow
-                    }
-                    val anchor = remember(block.text) {
-                        block.text.lowercase().replace(Regex("[^a-z0-9\\s-]"), "").replace(Regex("\\s+"), "-")
-                    }
-                    Text(
-                        text = inlineMarkdown(block.text),
-                        color = color,
-                        fontSize = size,
-                        fontWeight = FontWeight.Black,
-                        fontFamily = FontFamily.Monospace,
-                        lineHeight = (size.value + 4).sp,
-                        modifier = Modifier.onGloballyPositioned { coordinates ->
-                            val y = coordinates.positionInParent().y
-                            onHeaderPositioned?.invoke(block.text, anchor, y)
-                        }
+                    HeadingText(
+                        text = block.text,
+                        level = block.level,
+                        headingColor = headingColor,
+                        accentColor = accentColor,
+                        highlightAnchor = highlightAnchor,
+                        onHeaderPositioned = onHeaderPositioned
                     )
                 }
                 is MdBlock.Paragraph -> {
-                    Text(
-                        text = inlineMarkdown(block.text),
+                    ClickableMarkdownText(
+                        markdownText = block.text,
                         color = textColor,
                         fontSize = bodySize,
-                        fontFamily = FontFamily.Monospace,
-                        lineHeight = lineHeight
+                        lineHeight = lineHeight,
+                        onUrlClick = onUrlClick
                     )
                 }
                 is MdBlock.BulletList -> {
@@ -157,12 +316,12 @@ fun MarkdownBody(
                                         .width(14.dp)
                                         .padding(top = 0.dp)
                                 )
-                                Text(
-                                    text = inlineMarkdown(item),
+                                ClickableMarkdownText(
+                                    markdownText = item,
                                     color = textColor,
                                     fontSize = bodySize,
-                                    fontFamily = FontFamily.Monospace,
                                     lineHeight = lineHeight,
+                                    onUrlClick = onUrlClick,
                                     modifier = Modifier.weight(1f)
                                 )
                             }
@@ -180,12 +339,12 @@ fun MarkdownBody(
                                     fontFamily = FontFamily.Monospace,
                                     modifier = Modifier.width(22.dp)
                                 )
-                                Text(
-                                    text = inlineMarkdown(item),
+                                ClickableMarkdownText(
+                                    markdownText = item,
                                     color = textColor,
                                     fontSize = bodySize,
-                                    fontFamily = FontFamily.Monospace,
                                     lineHeight = lineHeight,
+                                    onUrlClick = onUrlClick,
                                     modifier = Modifier.weight(1f)
                                 )
                             }
@@ -193,12 +352,12 @@ fun MarkdownBody(
                     }
                 }
                 is MdBlock.Quote -> {
-                    Text(
-                        text = inlineMarkdown(block.text),
+                    ClickableMarkdownText(
+                        markdownText = block.text,
                         color = mutedColor,
                         fontSize = bodySize,
-                        fontFamily = FontFamily.Monospace,
                         lineHeight = lineHeight,
+                        onUrlClick = onUrlClick,
                         modifier = Modifier.padding(start = 8.dp)
                     )
                 }
@@ -304,24 +463,3 @@ private fun parseMarkdownBlocks(markdown: String): List<MdBlock> {
     }
     return blocks
 }
-
-private fun inlineMarkdown(text: String) = buildAnnotatedString {
-    var last = 0
-    for (match in INLINE_MARKDOWN_REGEX.findAll(text)) {
-        append(text.substring(last, match.range.first))
-        val bold = match.groups[2]?.value
-        val code = match.groups[3]?.value
-        if (bold != null) {
-            withStyle(SpanStyle(fontWeight = FontWeight.Bold, color = NeoYellow)) {
-                append(bold)
-            }
-        } else if (code != null) {
-            withStyle(SpanStyle(fontFamily = FontFamily.Monospace, color = NeoCyan)) {
-                append(code)
-            }
-        }
-        last = match.range.last + 1
-    }
-    if (last < text.length) append(text.substring(last))
-}
-
