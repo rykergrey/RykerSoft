@@ -1,15 +1,30 @@
 {
   "apps": [
     {
-      "packageName": "com.informant.app",
+      "packageName": "com.rykersoft.informant",
       "name": "INFORMANT",
-      "description": "Local workspace for researching YouTube videos, articles, and Reddit posts. Organize work into projects, keep notes and bookmarks on each item, and run chat or analysis against the material you collected. No YouTube account login — API keys go in Settings.\n\n## Features\n- Project-based workspace: create, search, sort, rename, export, and delete projects\n- Import YouTube, article, and Reddit URLs (single links or mixed batches)\n- Android share-target: share a link into INFORMANT to start or fill a project\n- Per-item tabs for notes, bookmarks, transcripts, comments, chat, and custom AI actions\n- Quote bookmarks in articles/Reddit; timestamp bookmarks on videos with jump-to\n- Fetch and search YouTube captions; click a line to seek the player\n- Pull YouTube or Reddit comment threads, search/filter, and favorite comments\n- Project-wide chat and AI actions across selected items, with a Texts tab for context\n- One floating YouTube player (inline, expanded, or PiP) with saved playback position\n- Export/import project JSON with selectable artifacts\n- External search from highlighted text (Perplexity, Google, ChatGPT, and more)\n\n## Content & tools\nOpen a card for tabs that match the content type:\n- **YouTube** — Info, Comments, Transcript, Notes, Bookmarks, Chat / AI actions\n- **Articles** — Reader, Notes, Bookmarks, Chat / AI actions\n- **Reddit** — Post reader, Comments, Notes, Bookmarks, Chat / AI actions\n\nBuilt-in AI actions include summary, analysis, key takeaways, and lists. You can add your own. Outputs can include mind maps when relevant.\n\n## Platforms\n- **Android** — Capacitor build; IndexedDB on device; native share import\n- **Desktop** — Windows portable / local server; projects as JSON; artifacts in SQLite (`informant.db`)\n\n## Requirements\nOptional keys in Settings (or `.env` on desktop): Gemini, YouTube Data API, YouTube Transcript API, Webshare for scraping/transcripts.",
-      "latestVersionCode": 3,
-      "latestVersionName": "1.0.2",
-      "apkUrl": "https://github.com/rykergrey/INFORMANT/releases/download/v1.0.2/app-release.apk",
+      "description": "Local workspace for researching YouTube videos, articles, and Reddit posts. Organize work into projects, keep notes and bookmarks on each item, and run chat or analysis against the material you collected. No YouTube account login — API keys go in Settings.\n\n## Features\n- Project-based workspace: create, search, sort, rename, export, and delete projects\n- Import YouTube, article, and Reddit URLs (single links or mixed batches)\n- Android share-target: share a link into INFORMANT to start or fill a project\n- Per-item tabs for notes, bookmarks, transcripts, comments, chat, and custom AI actions\n- Quote bookmarks in articles/Reddit; timestamp bookmarks on videos with jump-to\n- Fetch and search YouTube captions; click a line to seek the player\n- Pull YouTube or Reddit comment threads, search/filter, and favorite comments\n- Project-wide chat and AI actions across selected items, with a Texts tab for context\n- One floating YouTube player (inline, expanded, or PiP) with saved playback position\n- Export/import project JSON with selectable artifacts\n- External search from highlighted text (Perplexity, Google, ChatGPT, and more)\n\n## Content & tools\nOpen a card for tabs that match the content type:\n- **YouTube** — Info, Comments, Transcript, Notes, Bookmarks, Chat / AI actions\n- **Articles** — Reader, Notes, Bookmarks, Chat / AI actions\n- **Reddit** — Post reader, Comments, Notes, Bookmarks, Chat / AI actions\n\nBuilt-in AI actions include summary, analysis, key takeaways, and lists. You can add your own. Outputs can include mind maps when relevant.\n\n## Platforms\n- **Android** — Capacitor build; IndexedDB on device; native share import\n- **Desktop** — Windows portable / local server; projects as JSON; artifacts in SQLite (informant.db)\n\n## Requirements\nOptional keys in Settings (or .env on desktop): Gemini, YouTube Data API, YouTube Transcript API, Webshare for scraping/transcripts.",
+      "latestVersionCode": 4,
+      "latestVersionName": "1.0.3",
+      "apkUrl": "https://github.com/rykergrey/INFORMANT/releases/download/v1.0.3/app-release.apk",
       "icon": "android",
-      "changelog": "- Fix hang on install by shipping a proper release-signed APK (not debug)\n- Version 1.0.2 (versionCode 3)",
-      "screenshots": [],
+      "changelog": "- Package ID changed to com.rykersoft.informant (clean install may be required)\n- Hub screenshots added for the RykerSoft listing\n- Version 1.0.3 (versionCode 4)",
+      "screenshots": [
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/01-home.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/02-workspace.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/03-texts.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/04-video-info.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/05-comments.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/06-transcript.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/07-notes.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/08-ai-actions.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/09-action-creator.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/10-chat.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/11-share-import.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/12-article-reader.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/13-article-body.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/14-bookmarks.jpg"
+      ],
       "isGame": false
     },
     {
