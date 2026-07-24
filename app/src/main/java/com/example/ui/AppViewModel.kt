@@ -1,0 +1,590 @@
+package com.example.ui
+
+import android.app.Application
+import android.content.Context
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.data.AppDatabase
+import com.example.data.AppRepository
+import com.example.data.ManagedApp
+import com.example.util.ApkManager
+import com.example.util.DownloadProgress
+import com.example.util.SchedulerHelper
+import com.example.ui.theme.TitleFontPreset
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
+data class AppUiItem(
+    val packageName: String,
+    val name: String,
+    val description: String,
+    val summaryDescription: String,
+    val latestVersionCode: Int,
+    val latestVersionName: String,
+    val apkUrl: String,
+    val icon: String,
+    val changelog: String,
+    val screenshots: List<String>,
+    val isGame: Boolean,
+    val isInstalled: Boolean,
+    val installedVersionName: String?,
+    val installedVersionCode: Long?,
+    val isOutdated: Boolean,
+    val statusText: String,
+    val userGuide: String = "",
+    val updatesHistory: String = "",
+    val specs: String = ""
+)
+
+data class MainUiState(
+    val apps: List<AppUiItem> = emptyList(),
+    val isLoading: Boolean = false,
+    val isSyncing: Boolean = false,
+    val registryUrl: String = "",
+    val githubToken: String = "",
+    val notificationsEnabled: Boolean = true,
+    val titleFontPreset: TitleFontPreset = TitleFontPreset.ARCADE_3D,
+    val downloadingPackage: String? = null,
+    val downloadProgress: Int = 0,
+    val errorMessage: String? = null,
+    val infoMessage: String? = null,
+    val filterType: FilterType = FilterType.ALL,
+    val sortOption: SortOption = SortOption.RECENTLY_UPDATED,
+    /** When true, UI should background RykerSoft so Play Protect / installer stay on top. */
+    val backgroundForInstall: Boolean = false,
+    val appManagerUpdateAvailable: AppUiItem? = null
+)
+
+enum class FilterType {
+    ALL, GAMES, APPS, UPDATES_AVAILABLE, INSTALLED, NOT_INSTALLED
+}
+
+enum class SortOption(val label: String) {
+    RECENTLY_UPDATED("Recently Updated"),
+    NAME_ASC("Name (A to Z)"),
+    NAME_DESC("Name (Z to A)"),
+    VERSION_CODE_DESC("Version (Newest First)"),
+    STATUS("Update Status")
+}
+
+class AppViewModel(application: Application) : AndroidViewModel(application) {
+
+    private val context = application.applicationContext
+    private val repository: AppRepository
+    private val sharedPrefs = context.getSharedPreferences("app_manager_prefs", Context.MODE_PRIVATE)
+
+    private val _uiState = MutableStateFlow(MainUiState())
+    val uiState: StateFlow<MainUiState> = _uiState.asStateFlow()
+
+    init {
+        val database = AppDatabase.getDatabase(context)
+        repository = AppRepository(context, database.managedAppDao())
+
+        // Load preferences
+        val defaultUrl = "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/registry.json"
+        val defaultToken = ""
+        val savedUrl = sharedPrefs.getString("registry_url", defaultUrl) ?: defaultUrl
+        val sanitizedUrl = repository.fetcher.sanitizeUrl(if (savedUrl.isBlank()) defaultUrl else savedUrl)
+        val savedNotify = sharedPrefs.getBoolean("notifications_enabled", true)
+        val rawToken = sharedPrefs.getString("github_token", defaultToken) ?: defaultToken
+        val sanitizedToken = if (rawToken.isBlank()) defaultToken else rawToken
+        val savedPresetName = sharedPrefs.getString("title_font_preset", TitleFontPreset.ARCADE_3D.name)
+        val savedPreset = try { TitleFontPreset.valueOf(savedPresetName ?: "") } catch (e: Exception) { TitleFontPreset.ARCADE_3D }
+        val savedSortName = sharedPrefs.getString("sort_option", SortOption.RECENTLY_UPDATED.name)
+        val savedSortOption = try { SortOption.valueOf(savedSortName ?: "") } catch (e: Exception) { SortOption.RECENTLY_UPDATED }
+        _uiState.update { 
+            it.copy(
+                registryUrl = sanitizedUrl, 
+                githubToken = sanitizedToken,
+                notificationsEnabled = savedNotify, 
+                titleFontPreset = savedPreset,
+                sortOption = savedSortOption
+            ) 
+        }
+
+        // Start observing database and scanning system package manager
+        observeApps()
+        
+        viewModelScope.launch {
+            if (repository.getApp("com.rykersoft.appmanager") == null) {
+                repository.addOrUpdateApp(
+                    ManagedApp(
+                        packageName = "com.rykersoft.appmanager",
+                        name = "RykerSoft",
+                        description = "Personal Android app hub and application manager. Easily check for updates, view changelogs, download, and install latest versions of RykerSoft applications.",
+                        latestVersionCode = 1,
+                        latestVersionName = "1.0.0",
+                        apkUrl = "https://github.com/rykergrey/RykerSoft/releases/download/v1.0.0/app-release.apk",
+                        icon = "android",
+                        changelog = "• Official RykerSoft Application Manager package registration\n• In-app self-updating and version detection alerts",
+                        isGame = false
+                    )
+                )
+            }
+            if (repository.getApp("com.informant.app") == null) {
+                repository.addOrUpdateApp(
+                    ManagedApp(
+                        packageName = "com.informant.app",
+                        name = "INFORMANT",
+                        description = "Official INFORMANT Android Application from RykerSoft. Built with Capacitor Android web sync, real-time update tracking, and standalone distribution.",
+                        latestVersionCode = 2,
+                        latestVersionName = "1.0.1",
+                        apkUrl = "https://github.com/rykergrey/INFORMANT/releases/download/v1.0.1/app-release.apk",
+                        icon = "android",
+                        changelog = "• Initial RykerSoft hub registration for INFORMANT\n• Android package com.informant.app version 1.0.1 (versionCode 2)\n• Capacitor Android build synced from current web app",
+                        isGame = false
+                    )
+                )
+            }
+            refreshLocalInstallations()
+            syncWithRegistry()
+        }
+    }
+
+    private fun observeApps() {
+        viewModelScope.launch {
+            repository.allAppsFlow.collect { dbApps ->
+                mapAppsToUi(dbApps)
+            }
+        }
+    }
+
+    fun setFilter(filter: FilterType) {
+        _uiState.update { it.copy(filterType = filter) }
+        refreshLocalInstallations()
+    }
+
+    fun setSortOption(sort: SortOption) {
+        sharedPrefs.edit().putString("sort_option", sort.name).apply()
+        _uiState.update { it.copy(sortOption = sort) }
+        refreshLocalInstallations()
+    }
+
+    fun updateSettings(registryUrl: String, notificationsEnabled: Boolean, githubToken: String) {
+        val sanitized = repository.fetcher.sanitizeUrl(registryUrl)
+        val trimmedToken = githubToken.trim()
+        sharedPrefs.edit()
+            .putString("registry_url", sanitized)
+            .putBoolean("notifications_enabled", notificationsEnabled)
+            .putString("github_token", trimmedToken)
+            .apply()
+        _uiState.update { 
+            it.copy(
+                registryUrl = sanitized,
+                notificationsEnabled = notificationsEnabled,
+                githubToken = trimmedToken
+            ) 
+        }
+        SchedulerHelper.schedulePeriodicCheck(context, notificationsEnabled)
+        syncWithRegistry()
+    }
+
+    fun updateRegistryUrl(url: String) {
+        val sanitized = repository.fetcher.sanitizeUrl(url)
+        sharedPrefs.edit().putString("registry_url", sanitized).apply()
+        _uiState.update { it.copy(registryUrl = sanitized) }
+        syncWithRegistry()
+    }
+
+    fun updateNotificationsEnabled(enabled: Boolean) {
+        sharedPrefs.edit().putBoolean("notifications_enabled", enabled).apply()
+        _uiState.update { it.copy(notificationsEnabled = enabled) }
+        SchedulerHelper.schedulePeriodicCheck(context, enabled)
+    }
+
+    fun setTitleFontPreset(preset: TitleFontPreset) {
+        sharedPrefs.edit().putString("title_font_preset", preset.name).apply()
+        _uiState.update { it.copy(titleFontPreset = preset) }
+    }
+
+    fun clearBackgroundForInstall() {
+        _uiState.update { it.copy(backgroundForInstall = false) }
+    }
+
+    fun clearError() {
+        _uiState.update { it.copy(errorMessage = null) }
+    }
+
+    fun clearInfo() {
+        _uiState.update { it.copy(infoMessage = null) }
+    }
+
+    private fun loadAssetDoc(slug: String, docName: String): String {
+        return try {
+            context.assets.open("app_docs/$slug/$docName").bufferedReader().use { it.readText() }
+        } catch (e: Exception) {
+            ""
+        }
+    }
+
+    private fun getAppSlug(packageName: String, name: String): String {
+        val pkg = packageName.lowercase()
+        val n = name.lowercase()
+        return when {
+            pkg.contains("appmanager") || n.contains("rykersoft") -> "rykersoft"
+            pkg.contains("informant") || n.contains("informant") -> "informant"
+            pkg.contains("rush") || n.contains("rush") -> "rush"
+            pkg.contains("synthing") || n.contains("synthing") -> "synthing"
+            pkg.contains("superthinking") || n.contains("superthink") -> "superthinking"
+            pkg.contains("bettertracking") || n.contains("bettertracking") -> "bettertracking"
+            else -> name.lowercase().replace(Regex("[^a-z0-9]"), "")
+        }
+    }
+
+    /**
+     * Map database model to UI representation by combining it with current local system installations.
+     */
+    private fun mapAppsToUi(dbApps: List<ManagedApp>) {
+        val uiItems = dbApps.map { app ->
+            val info = ApkManager.getInstalledAppInfo(context, app.packageName)
+            val currentCode = info.versionCode ?: 0L
+            val isOutdated = info.isInstalled && (app.latestVersionCode > currentCode)
+            
+            val statusText = when {
+                !info.isInstalled -> "Not Installed"
+                isOutdated -> "Update Available"
+                else -> "Up to Date"
+            }
+
+            val slug = getAppSlug(app.packageName, app.name)
+            val fullDescription = app.description.ifBlank { loadAssetDoc(slug, "description.md") }.ifBlank {
+                if (app.isGame) {
+                    "High-action immersive arcade game featuring high-definition graphics, reactive touch controls, custom leaderboard achievements, and standalone offline gameplay built for smooth performance."
+                } else {
+                    "Essential utility application engineered by Ryker Grey. Built with modern Kotlin, high-speed local data persistence, clean navigation, and responsive Material Design 3 interface elements."
+                }
+            }
+
+            val userGuideDoc = app.userGuide.ifBlank { loadAssetDoc(slug, "user_guide.md") }
+            val updatesHistoryDoc = app.updatesHistory.ifBlank { loadAssetDoc(slug, "updates.md") }.ifBlank { app.changelog }
+            val specsDoc = app.specs.ifBlank { loadAssetDoc(slug, "specs.md") }
+
+            val parsedScreenshots = if (app.screenshots.isNotBlank()) {
+                app.screenshots.split(",").map { it.trim() }.filter { it.isNotEmpty() }
+            } else {
+                // Fallback default screenshots if none specified
+                if (app.isGame) {
+                    listOf(
+                        "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80",
+                        "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&q=80",
+                        "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800&q=80"
+                    )
+                } else {
+                    listOf(
+                        "https://images.unsplash.com/photo-1507925921958-8a62f3d1a50d?w=800&q=80",
+                        "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&q=80",
+                        "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&q=80"
+                    )
+                }
+            }
+
+            AppUiItem(
+                packageName = app.packageName,
+                name = app.name,
+                description = fullDescription,
+                summaryDescription = markdownSummary(fullDescription),
+                latestVersionCode = app.latestVersionCode,
+                latestVersionName = app.latestVersionName,
+                apkUrl = app.apkUrl,
+                icon = app.icon,
+                changelog = app.changelog.ifBlank {
+                    "• Performance improvements and general bug fixes.\n• Enhanced memory management and system stability."
+                },
+                screenshots = parsedScreenshots,
+                isGame = app.isGame,
+                isInstalled = info.isInstalled,
+                installedVersionName = info.versionName,
+                installedVersionCode = info.versionCode,
+                isOutdated = isOutdated,
+                statusText = statusText,
+                userGuide = userGuideDoc,
+                updatesHistory = updatesHistoryDoc,
+                specs = specsDoc
+            )
+        }
+        val appManagerUpdate = uiItems.find { it.packageName == context.packageName && it.isOutdated }
+        _uiState.update { 
+            it.copy(
+                apps = uiItems,
+                appManagerUpdateAvailable = appManagerUpdate
+            ) 
+        }
+    }
+
+    /**
+     * Manually scans package manager to ensure all displayed version statuses are 100% in sync.
+     */
+    fun refreshLocalInstallations() {
+        viewModelScope.launch {
+            val dbApps = repository.getAllApps()
+            mapAppsToUi(dbApps)
+        }
+    }
+
+    private var pendingInstallFile: java.io.File? = null
+
+    fun checkPendingInstall() {
+        val file = pendingInstallFile
+        if (file != null && file.exists() && ApkManager.canInstallApks(context)) {
+            val success = ApkManager.triggerInstall(context, file)
+            if (success) {
+                pendingInstallFile = null
+                _uiState.update { it.copy(backgroundForInstall = true) }
+            }
+        }
+    }
+
+    /**
+     * Downloads APK from registry URL and triggers system package installer.
+     */
+    fun downloadAndInstall(app: AppUiItem) {
+        if (_uiState.value.downloadingPackage != null) {
+            _uiState.update { it.copy(errorMessage = "A download is already in progress.") }
+            return
+        }
+
+        viewModelScope.launch {
+            _uiState.update { 
+                it.copy(
+                    downloadingPackage = app.packageName,
+                    downloadProgress = 0,
+                    infoMessage = "Starting download of ${app.name}..."
+                )
+            }
+
+            val fileName = "${app.packageName}_v${app.latestVersionName}.apk"
+            try {
+                ApkManager.downloadApk(context, app.apkUrl, fileName, _uiState.value.githubToken).collect { progress ->
+                    when (progress) {
+                        is DownloadProgress.Downloading -> {
+                            _uiState.update { it.copy(downloadProgress = progress.progress) }
+                        }
+                        is DownloadProgress.Completed -> {
+                            _uiState.update { 
+                                it.copy(
+                                    downloadingPackage = null,
+                                    downloadProgress = 100,
+                                    infoMessage = "Download completed. Launching installation..."
+                                )
+                            }
+                            
+                            // Check if system allows unknown app installations
+                            if (ApkManager.canInstallApks(context)) {
+                                pendingInstallFile = null
+                                val success = ApkManager.triggerInstall(context, progress.file)
+                                if (!success) {
+                                    _uiState.update { it.copy(errorMessage = "Failed to launch package installer.") }
+                                } else {
+                                    // Step out of the way so Play Protect's prompt isn't buried
+                                    // under RykerSoft's install/progress UI.
+                                    _uiState.update { it.copy(backgroundForInstall = true) }
+                                }
+                            } else {
+                                pendingInstallFile = progress.file
+                                _uiState.update { 
+                                    it.copy(
+                                        errorMessage = "Install permission required. Please allow unknown sources in settings."
+                                    )
+                                }
+                                ApkManager.launchInstallSettings(context)
+                            }
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _uiState.update { 
+                    it.copy(
+                        downloadingPackage = null,
+                        errorMessage = "Failed to download APK: ${e.localizedMessage ?: "Unknown error"}"
+                    )
+                }
+            }
+        }
+    }
+
+    /**
+     * Pull remote JSON and synchronize with local DB.
+     */
+    fun syncWithRegistry() {
+        val url = _uiState.value.registryUrl
+        if (url.isBlank()) {
+            _uiState.update { it.copy(errorMessage = "Please enter a valid Registry URL in settings.") }
+            return
+        }
+
+        viewModelScope.launch {
+            _uiState.update { it.copy(isSyncing = true, infoMessage = "Syncing with remote registry...") }
+            val result = repository.syncWithRegistry(url, _uiState.value.githubToken)
+            _uiState.update { it.copy(isSyncing = false) }
+            
+            result.onSuccess { apps ->
+                _uiState.update { 
+                    it.copy(infoMessage = "Successfully synced ${apps.size} applications.") 
+                }
+                refreshLocalInstallations()
+            }.onFailure { error ->
+                _uiState.update { 
+                    it.copy(errorMessage = "Sync failed: ${error.localizedMessage ?: "Connection error"}") 
+                }
+            }
+        }
+    }
+
+    /**
+     * Manually add an app to the local list.
+     */
+    fun addManualApp(
+        name: String,
+        packageName: String,
+        versionName: String,
+        versionCode: Int,
+        apkUrl: String,
+        icon: String,
+        changelog: String,
+        isGame: Boolean = false
+    ) {
+        viewModelScope.launch {
+            val app = ManagedApp(
+                packageName = packageName.trim(),
+                name = name.trim(),
+                latestVersionCode = versionCode,
+                latestVersionName = versionName.trim(),
+                apkUrl = apkUrl.trim(),
+                icon = icon.trim().ifEmpty { if (isGame) "sports_esports" else "apps" },
+                changelog = changelog.trim(),
+                isGame = isGame,
+                lastChecked = System.currentTimeMillis()
+            )
+            repository.addOrUpdateApp(app)
+            val typeLabel = if (isGame) "Game" else "App"
+            _uiState.update { it.copy(infoMessage = "$typeLabel '${app.name}' added successfully!") }
+            refreshLocalInstallations()
+        }
+    }
+
+    /**
+     * Delete an app from the manager.
+     */
+    fun deleteApp(packageName: String) {
+        viewModelScope.launch {
+            val app = repository.getApp(packageName)
+            repository.deleteApp(packageName)
+            _uiState.update { it.copy(infoMessage = "${app?.name ?: "Item"} removed from list.") }
+            refreshLocalInstallations()
+        }
+    }
+
+    /**
+     * Seed sample personal apps & games for instant out-of-the-box enjoyment!
+     */
+    fun seedSampleApps() {
+        viewModelScope.launch {
+            val samples = listOf(
+                // APPS
+                ManagedApp(
+                    packageName = "com.informant.app",
+                    name = "INFORMANT",
+                    description = "Official INFORMANT Android Application from RykerSoft. Built with Capacitor Android web sync, real-time update tracking, and standalone distribution.",
+                    latestVersionCode = 2,
+                    latestVersionName = "1.0.1",
+                    apkUrl = "https://github.com/rykergrey/INFORMANT/releases/download/v1.0.1/app-release.apk",
+                    icon = "android",
+                    changelog = "• Initial RykerSoft hub registration for INFORMANT\n• Android package com.informant.app version 1.0.1 (versionCode 2)\n• Capacitor Android build synced from current web app",
+                    screenshots = "https://images.unsplash.com/photo-1507925921958-8a62f3d1a50d?w=800&q=80,https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&q=80",
+                    isGame = false,
+                    lastChecked = System.currentTimeMillis()
+                ),
+                ManagedApp(
+                    packageName = "com.aistudio.todolist.sample",
+                    name = "Focus Notes & Tasks",
+                    description = "A powerful personal task organizer and productivity notebook. Features fast offline database synchronization, priority task tags, deadline reminders, and an interactive home screen widget.",
+                    latestVersionCode = 2,
+                    latestVersionName = "1.0.8",
+                    apkUrl = "https://raw.githubusercontent.com/aistudio/assets/main/samples/focus_tasks.apk",
+                    icon = "playlist_add_check",
+                    changelog = "• Added high-speed SQLite local cache engine\n• Improved home screen quick task entry widget\n• Resolved notification badge sync latency",
+                    screenshots = "https://images.unsplash.com/photo-1507925921958-8a62f3d1a50d?w=800&q=80,https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800&q=80,https://images.unsplash.com/photo-1517842645767-c639042777db?w=800&q=80",
+                    isGame = false,
+                    lastChecked = System.currentTimeMillis()
+                ),
+                ManagedApp(
+                    packageName = "com.aistudio.calculator.sample",
+                    name = "Retro Calculator",
+                    description = "A tactical scientific calculator with high-contrast OLED dark aesthetics. Includes multi-line calculation history memory, haptic tactile feedback, trigonometric functions, and unit conversion suites.",
+                    latestVersionCode = 4,
+                    latestVersionName = "2.3.1",
+                    apkUrl = "https://raw.githubusercontent.com/aistudio/assets/main/samples/retro_calc.apk",
+                    icon = "calculate",
+                    changelog = "• Tactical scientific keypad layout upgrade\n• Custom haptic audio engine on touch response\n• High-contrast dark display with history export",
+                    screenshots = "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&q=80,https://images.unsplash.com/photo-1587145820266-a5951ee6f620?w=800&q=80,https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=800&q=80",
+                    isGame = false,
+                    lastChecked = System.currentTimeMillis()
+                ),
+                ManagedApp(
+                    packageName = "com.aistudio.pixelplayer.sample",
+                    name = "Pixel Media Player",
+                    description = "Hardware-accelerated local audio and video playback suite. Supports high-resolution 10-bit video decoding, gapless FLAC audio streaming, equalizer presets, and wireless smart TV casting.",
+                    latestVersionCode = 12,
+                    latestVersionName = "3.4.0",
+                    apkUrl = "https://raw.githubusercontent.com/aistudio/assets/main/samples/pixel_player.apk",
+                    icon = "play_circle",
+                    changelog = "• Native support for 10-bit HDR video streams\n• Ultra low-latency background audio playback engine\n• Improved casting protocol stability for TV devices",
+                    screenshots = "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&q=80,https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=80,https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&q=80",
+                    isGame = false,
+                    lastChecked = System.currentTimeMillis()
+                ),
+                // GAMES
+                ManagedApp(
+                    packageName = "com.aistudio.cyberrunner.game",
+                    name = "Cyber Runner 2099",
+                    description = "Fast-paced futuristic arcade endless runner set in a glowing synthwave metropolis. Navigate neon obstacles, collect energy cells, unlock cybernetic hoverboards, and compete on global leaderboards.",
+                    latestVersionCode = 5,
+                    latestVersionName = "1.2.0",
+                    apkUrl = "https://raw.githubusercontent.com/aistudio/assets/main/samples/cyber_runner.apk",
+                    icon = "sports_esports",
+                    changelog = "• Unlocked Neon City night environment track\n• Full Bluetooth wireless gamepad controller support\n• 60 FPS frame rate rendering boost and anti-aliasing",
+                    screenshots = "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80,https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&q=80,https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&q=80",
+                    isGame = true,
+                    lastChecked = System.currentTimeMillis()
+                ),
+                ManagedApp(
+                    packageName = "com.aistudio.astropuzzle.game",
+                    name = "Astro Puzzle Quest",
+                    description = "Mind-bending gravity puzzle game in deep space. Solve zero-gravity spatial physics challenges across 100 interstellar sectors with relaxing ambient soundscapes and offline progress saving.",
+                    latestVersionCode = 1,
+                    latestVersionName = "1.0.0",
+                    apkUrl = "https://raw.githubusercontent.com/aistudio/assets/main/samples/astro_puzzle.apk",
+                    icon = "extension",
+                    changelog = "• Initial release featuring 100 orbital puzzle levels\n• Zero-gravity momentum physics engine\n• Offline single player campaign mode",
+                    screenshots = "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80,https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?w=800&q=80,https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=800&q=80",
+                    isGame = true,
+                    lastChecked = System.currentTimeMillis()
+                ),
+                ManagedApp(
+                    packageName = "com.aistudio.neontanks.game",
+                    name = "Neon Tank Warfare",
+                    description = "Action-packed tactical tank combat arena with retro arcade visuals. Battle against AI battalion waves or play locally with friends using plasma cannons, laser shields, and customizable armored treads.",
+                    latestVersionCode = 3,
+                    latestVersionName = "2.0.1",
+                    apkUrl = "https://raw.githubusercontent.com/aistudio/assets/main/samples/neon_tanks.apk",
+                    icon = "gamepad",
+                    changelog = "• Added 4-player co-op arcade survival arena mode\n• New plasma shield & laser cannon supply drops\n• Custom tank armor skin builder",
+                    screenshots = "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800&q=80,https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&q=80,https://images.unsplash.com/photo-1563089145-599997674d42?w=800&q=80",
+                    isGame = true,
+                    lastChecked = System.currentTimeMillis()
+                )
+            )
+            repository.clearAllApps()
+            samples.forEach { repository.addOrUpdateApp(it) }
+            _uiState.update { it.copy(infoMessage = "Sandbox Games & Apps loaded successfully.") }
+            refreshLocalInstallations()
+        }
+    }
+}

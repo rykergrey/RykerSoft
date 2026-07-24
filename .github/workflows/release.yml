@@ -1,0 +1,88 @@
+name: Release Deployment
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version_name:
+        description: 'Release Version Name (e.g. 1.0.1)'
+        required: true
+        default: '1.0.1'
+      is_prerelease:
+        description: 'Is Release Candidate / Prerelease?'
+        type: boolean
+        required: false
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    name: Build Release APK & Deploy Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Java JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Make Gradlew Executable
+        run: chmod +x gradlew
+
+      - name: Build Release APK
+        run: ./gradlew assembleRelease --no-daemon
+
+      - name: Verify Release APK Created
+        run: |
+          if [ -f "app/build/outputs/apk/release/app-release.apk" ]; then
+            echo "Release APK built successfully."
+            ls -lh app/build/outputs/apk/release/app-release.apk
+          else
+            echo "Error: app-release.apk not found!"
+            exit 1
+          fi
+
+      - name: Determine Prerelease Flag
+        id: prerelease_check
+        run: |
+          TAG_NAME="${GITHUB_REF_NAME}"
+          IS_RC="${{ inputs.is_prerelease }}"
+          if [[ "$TAG_NAME" == *"-rc"* ]] || [[ "$IS_RC" == "true" ]]; then
+            echo "is_prerelease=true" >> $GITHUB_OUTPUT
+          else
+            echo "is_prerelease=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "RykerSoft ${{ github.ref_name }}"
+          prerelease: ${{ steps.prerelease_check.outputs.is_prerelease }}
+          files: app/build/outputs/apk/release/app-release.apk
+          body: |
+            ### RykerSoft Application Manager ${{ github.ref_name }}
+            
+            - **Release Artifact**: `app-release.apk`
+            - **Package ID**: `com.rykersoft.appmanager`
+            
+            #### Upgrading
+            If you already have RykerSoft installed, download the APK or check for updates inside the RykerSoft app to self-update automatically.
+            
+            #### Registry Update
+            To propagate this release to all RykerSoft clients, update `registry.json` in the `rykergrey/RykerSoft` repository with:
+            - `latestVersionName`: `${{ github.ref_name }}`
+            - `latestVersionCode`: `<versionCode>`
+            - `apkUrl`: `https://github.com/rykergrey/RykerSoft/releases/download/${{ github.ref_name }}/app-release.apk`
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

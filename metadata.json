@@ -1,0 +1,6 @@
+{
+  "name": "RykerSoft",
+  "description": "I'm Ryker Grey and these are my apps. A personal app hub and manager to easily check for updates, download, and install latest versions of RykerSoft applications.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
