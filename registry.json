@@ -63,12 +63,11 @@
     {
       "packageName": "com.rykersoft.synthing",
       "name": "Synthing",
-      "description": "Android music sketchpad with a continuous arrangement timeline, content-fitted piano-roll overview navigator, scale-aware melody keyboard, chord grid, and dual synth voices with a native low-latency Oboe engine.\n\n## Features\n- Continuous infinite-arrangement timeline with arrangement-wide loop IN/OUT markers\n- Piano-roll bird's-eye overview strip that stretches the full arrangement and tap/drags the viewport lens for fast timeline navigation\n- Play-tab header mini-map for playhead scrubbing and punch-in recording\n- Dual Synth A / Synth B subtractive engines with presets, modulators, and FX\n- Chord grid and performance toggles (Glide, Slide, Latch, Tog, step-sequenced arp)\n- Scale-aware melody keyboard with touch expression modulators\n- Piano-roll editor with touchpads, snap, and multi-lane automation\n- Simplified project manager with arrangement preview canvases\n\n## Platforms\n- Android API 24+ (arm64-v8a / armeabi-v7a / x86 / x86_64) with native Oboe C++ audio",
       "latestVersionCode": 8,
       "latestVersionName": "1.0.7",
       "apkUrl": "https://github.com/rykergrey/Synthing/releases/download/v1.0.7/app-release.apk",
       "icon": "android",
-      "changelog": "- Fix overview strip drag alignment so the blue viewport lens follows tap/drag across the full arrangement\n- Gesture handlers use fresh scroll/zoom state (no stale maxScroll capture)",
+      "changelog": "- Fix overview strip drag alignment\n- Hub docs now served from docs/ on the app repo",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/synthing/01-play-grids.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/synthing/02-play-keys.jpg",
