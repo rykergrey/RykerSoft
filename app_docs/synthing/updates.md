@@ -1,5 +1,14 @@
 # Release Updates & History
 
+## v1.0.6 (Version Code 7) - July 2026
+- Content-fitted arrangement overview strip navigator
+- Tap/drag overview navigates the piano-roll viewport without moving the playhead
+- Viewport lens tracks zoom/scroll with correct 480 PPQ tick math
+
+## v1.0.5 (Version Code 6) - July 2026
+- Fixed transport Play button for piano-roll workspace notes
+- Preserved workspace notes when materializing a clip from the piano roll
+
 ## v1.0.4 (Version Code 5) - July 2026
 - Fixed arrangement note playback when tapping Play across extended timelines
 - Preserved full sequence data without 4-bar truncation
