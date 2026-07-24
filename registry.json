@@ -22,14 +22,14 @@
       "icon": "android",
       "changelog": "- Album Videos tab listing YouTube videos from all tracks\n- Per-track video icon and count on the Tracks tab\n- Package ID changed to com.rykersoft.rush (clean install may be required)\n- Hub screenshots added",
       "screenshots": [
-        "https://raw.githubusercontent.com/rykergrey/Rush/main/screenshots/01-home.jpg",
-        "https://raw.githubusercontent.com/rykergrey/Rush/main/screenshots/02-home-spotlight.jpg",
-        "https://raw.githubusercontent.com/rykergrey/Rush/main/screenshots/03-album-about.jpg",
-        "https://raw.githubusercontent.com/rykergrey/Rush/main/screenshots/04-album-tracks.jpg",
-        "https://raw.githubusercontent.com/rykergrey/Rush/main/screenshots/05-track-videos.jpg",
-        "https://raw.githubusercontent.com/rykergrey/Rush/main/screenshots/06-collection.jpg",
-        "https://raw.githubusercontent.com/rykergrey/Rush/main/screenshots/07-timeline.jpg",
-        "https://raw.githubusercontent.com/rykergrey/Rush/main/screenshots/08-band.jpg"
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rush/01-home.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rush/02-home-spotlight.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rush/03-album-about.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rush/04-album-tracks.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rush/05-track-videos.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rush/06-collection.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rush/07-timeline.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rush/08-band.jpg"
       ],
       "isGame": false
     },
@@ -43,10 +43,10 @@
       "icon": "android",
       "changelog": "- Fixed arrangement note playback when tapping Play\n- Preserves notes across full continuous timeline without 4-bar truncation\n- Auto-resets playhead to IN point if parked past end of song\n- Official RykerSoft Application Package ID (com.rykersoft.synthing)",
       "screenshots": [
-        "https://raw.githubusercontent.com/rykergrey/Synthing/main/screenshots/01-play-grids.jpg",
-        "https://raw.githubusercontent.com/rykergrey/Synthing/main/screenshots/02-play-keys.jpg",
-        "https://raw.githubusercontent.com/rykergrey/Synthing/main/screenshots/03-synth.jpg",
-        "https://raw.githubusercontent.com/rykergrey/Synthing/main/screenshots/04-piano-roll.jpg"
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/synthing/01-play-grids.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/synthing/02-play-keys.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/synthing/03-synth.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/synthing/04-piano-roll.jpg"
       ],
       "isGame": false
     },
@@ -60,17 +60,17 @@
       "icon": "android",
       "changelog": "- First RykerSoft hub release of the current multimodal workspace\n- Cards/tabs for text, chat, image, audio, and video with reusable AI actions\n- Song sheets, Markmap/Mermaid, linked audio, HTML export, and transcription\n- Vault organization (categories, kanban, floating windows), ZIP import/export, guest local or Firebase sync\n- Signed Android APK package com.rykersoft.superthinking (versionCode 120 / 2.0.118)",
       "screenshots": [
-        "https://raw.githubusercontent.com/rykergrey/SuperThinking/main/screenshots/01-categories.jpg",
-        "https://raw.githubusercontent.com/rykergrey/SuperThinking/main/screenshots/02-category-cards.jpg",
-        "https://raw.githubusercontent.com/rykergrey/SuperThinking/main/screenshots/03-song-chords.jpg",
-        "https://raw.githubusercontent.com/rykergrey/SuperThinking/main/screenshots/04-audio-tab.jpg",
-        "https://raw.githubusercontent.com/rykergrey/SuperThinking/main/screenshots/05-vault-sidebar.jpg",
-        "https://raw.githubusercontent.com/rykergrey/SuperThinking/main/screenshots/06-custom-action.jpg",
-        "https://raw.githubusercontent.com/rykergrey/SuperThinking/main/screenshots/07-action-manager.jpg",
-        "https://raw.githubusercontent.com/rykergrey/SuperThinking/main/screenshots/08-text-preview.jpg",
-        "https://raw.githubusercontent.com/rykergrey/SuperThinking/main/screenshots/09-tab-manager.jpg",
-        "https://raw.githubusercontent.com/rykergrey/SuperThinking/main/screenshots/10-card-switcher.jpg",
-        "https://raw.githubusercontent.com/rykergrey/SuperThinking/main/screenshots/11-category-picker.jpg"
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/superthinking/01-categories.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/superthinking/02-category-cards.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/superthinking/03-song-chords.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/superthinking/04-audio-tab.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/superthinking/05-vault-sidebar.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/superthinking/06-custom-action.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/superthinking/07-action-manager.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/superthinking/08-text-preview.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/superthinking/09-tab-manager.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/superthinking/10-card-switcher.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/superthinking/11-category-picker.jpg"
       ],
       "isGame": false
     },
@@ -84,14 +84,14 @@
       "icon": "android",
       "changelog": "- Display name standardized to bettertracking across Android, Electron, PWA, and docs\n- Hub screenshots added for the RykerSoft listing\n- Package ID remains com.rykersoft.bettertracking",
       "screenshots": [
-        "https://raw.githubusercontent.com/rykergrey/BetterTracking/main/screenshots/01-journal.jpg",
-        "https://raw.githubusercontent.com/rykergrey/BetterTracking/main/screenshots/02-logs.jpg",
-        "https://raw.githubusercontent.com/rykergrey/BetterTracking/main/screenshots/03-library.jpg",
-        "https://raw.githubusercontent.com/rykergrey/BetterTracking/main/screenshots/04-profile.jpg",
-        "https://raw.githubusercontent.com/rykergrey/BetterTracking/main/screenshots/05-trends.jpg",
-        "https://raw.githubusercontent.com/rykergrey/BetterTracking/main/screenshots/06-history.jpg",
-        "https://raw.githubusercontent.com/rykergrey/BetterTracking/main/screenshots/07-tray.jpg",
-        "https://raw.githubusercontent.com/rykergrey/BetterTracking/main/screenshots/08-item-detail.jpg"
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/bettertracking/01-journal.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/bettertracking/02-logs.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/bettertracking/03-library.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/bettertracking/04-profile.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/bettertracking/05-trends.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/bettertracking/06-history.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/bettertracking/07-tray.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/bettertracking/08-item-detail.jpg"
       ],
       "isGame": false
     }
