@@ -13,15 +13,24 @@
       "isGame": false
     },
     {
-      "packageName": "com.rush.companion",
+      "packageName": "com.rykersoft.rush",
       "name": "Rush",
-      "description": "Unofficial Rush companion app with the full discography, album details, lyrics, band history, studio timeline, search, and random song/video picks. Includes My Collection for favorites, star ratings, saved lyric excerpts, notes, custom YouTube links, and library import/export. Content is bundled on-device from rush.com sources.",
-      "latestVersionCode": 1,
-      "latestVersionName": "1.0.0",
-      "apkUrl": "https://github.com/rykergrey/Rush/releases/download/v1.0.0/app-release.apk",
+      "description": "Unofficial Rush companion for Android — browse the discography, read lyrics and album notes, explore the band, and build a personal collection of pins, ratings, lyric quotes, and YouTube links.\n\n## Features\n- Home with explore shortcuts, featured content, and spotlight into the catalog\n- Discography with artwork, decade grouping, and studio / live / solo filters\n- Album pages with About, Tracks, Videos, Credits, Liner Notes, and Awards\n- Track list shows per-track YouTube video counts when videos are present\n- Album Videos tab aggregates official and user-added YouTube links by track\n- Song pages with Lyrics, Appears On, and Videos tabs\n- My Collection for pins, ratings, lyric quotes, notes, and custom YouTube links\n- The Band history and member pages, studio Timeline, search, random song/video\n- Offline bundled catalog; collection data stored on device\n\n## Platforms\n- Android (Jetpack Compose), minSdk 26\n- Package ID: com.rykersoft.rush\n\n## Requirements\n- Android 8.0+\n- Internet for YouTube links and external search",
+      "latestVersionCode": 2,
+      "latestVersionName": "1.0.1",
+      "apkUrl": "https://github.com/rykergrey/Rush/releases/download/v1.0.1/app-release.apk",
       "icon": "android",
-      "changelog": "- Initial RykerSoft hub release\n- Discography, lyrics, band pages, timeline, search, random song/video\n- My Collection with favorites, ratings, excerpts, and library import/export",
-      "screenshots": [],
+      "changelog": "- Album Videos tab listing YouTube videos from all tracks\n- Per-track video icon and count on the Tracks tab\n- Package ID changed to com.rykersoft.rush (clean install may be required)\n- Hub screenshots added",
+      "screenshots": [
+        "https://raw.githubusercontent.com/rykergrey/Rush/main/screenshots/01-home.jpg",
+        "https://raw.githubusercontent.com/rykergrey/Rush/main/screenshots/02-home-spotlight.jpg",
+        "https://raw.githubusercontent.com/rykergrey/Rush/main/screenshots/03-album-about.jpg",
+        "https://raw.githubusercontent.com/rykergrey/Rush/main/screenshots/04-album-tracks.jpg",
+        "https://raw.githubusercontent.com/rykergrey/Rush/main/screenshots/05-track-videos.jpg",
+        "https://raw.githubusercontent.com/rykergrey/Rush/main/screenshots/06-collection.jpg",
+        "https://raw.githubusercontent.com/rykergrey/Rush/main/screenshots/07-timeline.jpg",
+        "https://raw.githubusercontent.com/rykergrey/Rush/main/screenshots/08-band.jpg"
+      ],
       "isGame": false
     },
     {
