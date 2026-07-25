@@ -58,7 +58,6 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.size.Size
 import coil.size.Precision
-import com.example.install.InstallStatusReceiver
 import com.example.ui.theme.*
 import com.example.util.ApkManager
 import kotlinx.coroutines.launch
@@ -358,42 +357,11 @@ fun AppDashboard(
         }
     }
 
-    // Close the detail Dialog while preparing install confirmation.
+    // Close the detail Dialog while install confirmation runs — Dialog windows can bury Play Protect.
+    // Keep the hub Activity itself in the foreground (no moveTaskToBack / home-screen bounce).
     LaunchedEffect(uiState.installSessionActive) {
         if (uiState.installSessionActive) {
             selectedAppForDetail = null
-        }
-    }
-
-    // Play Protect cannot stay tappable if App Manager remains the foreground task.
-    // Briefly background the hub; InstallStatusReceiver brings it back on success/failure.
-    LaunchedEffect(uiState.yieldForInstaller) {
-        if (uiState.yieldForInstaller) {
-            selectedAppForDetail = null
-            kotlinx.coroutines.delay(200)
-            (context as? android.app.Activity)?.moveTaskToBack(true)
-            viewModel.clearYieldForInstaller()
-        }
-    }
-
-    // Also yield when the PackageInstaller callback says confirmation is about to show.
-    DisposableEffect(context) {
-        val filter = android.content.IntentFilter(InstallStatusReceiver.ACTION_YIELD_FOR_INSTALLER)
-        val receiver = object : android.content.BroadcastReceiver() {
-            override fun onReceive(ctx: android.content.Context?, intent: android.content.Intent?) {
-                viewModel.requestYieldForInstaller()
-            }
-        }
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-            context.registerReceiver(receiver, filter, android.content.Context.RECEIVER_NOT_EXPORTED)
-        } else {
-            context.registerReceiver(receiver, filter)
-        }
-        onDispose {
-            try {
-                context.unregisterReceiver(receiver)
-            } catch (_: Exception) {
-            }
         }
     }
 
@@ -514,6 +482,14 @@ fun AppDashboard(
                         RykerSoftTitleHeader(
                             onOpenSettings = { showSettingsDialog = true }
                         )
+
+                        if (uiState.installSessionActive) {
+                            InstallWaitingBanner(
+                                message = uiState.installStatusMessage
+                                    ?: "Waiting for install confirmation…",
+                                onCancel = { viewModel.cancelStuckInstall() }
+                            )
+                        }
 
                         // Action Controls Bar (Platform Dropdown, App Count, Sync)
                         Row(
@@ -1405,6 +1381,54 @@ enum class AppDetailTab(val label: String, val icon: ImageVector) {
     UPDATES("UPDATES", Icons.Default.SystemUpdate),
     DESCRIPTION("DESCRIPTION", Icons.Default.Description),
     USER_GUIDE("USER GUIDE", Icons.Default.MenuBook)
+}
+
+@Composable
+private fun InstallWaitingBanner(
+    message: String,
+    onCancel: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .border(1.5.dp, NeoYellow)
+            .background(NeoYellowDim)
+            .padding(horizontal = 10.dp, vertical = 8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            CircularProgressIndicator(
+                modifier = Modifier.size(16.dp),
+                strokeWidth = 2.dp,
+                color = NeoYellow
+            )
+            Text(
+                text = message,
+                fontSize = 11.sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = FontFamily.Monospace,
+                color = NeoText,
+                modifier = Modifier.weight(1f)
+            )
+        }
+        NeoButton(
+            onClick = onCancel,
+            style = NeoButtonStyle.NEUTRAL_WHITE,
+            modifier = Modifier.fillMaxWidth(),
+            contentPadding = PaddingValues(horizontal = 10.dp, vertical = 6.dp)
+        ) {
+            Text(
+                "CANCEL INSTALL",
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Black,
+                fontFamily = FontFamily.Monospace,
+                color = NeoText
+            )
+        }
+    }
 }
 
 /** Default detail tab: Updates if outdated, Description if not installed, else User Guide. */

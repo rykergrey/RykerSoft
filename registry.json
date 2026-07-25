@@ -3,11 +3,11 @@
     {
       "packageName": "com.rykersoft.appmanager",
       "name": "RykerSoft",
-      "latestVersionCode": 12,
-      "latestVersionName": "1.2.5",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft/releases/download/v1.2.5/app-release.apk",
+      "latestVersionCode": 13,
+      "latestVersionName": "1.2.6",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft/releases/download/v1.2.6/app-release.apk",
       "icon": "android",
-      "changelog": "- Fixed Play Protect vanishing after tapping Install on the consent dialog\n- Clearer guidance when an app still exists in Island / Secure Folder / Work profile\n- Pre-checks other profiles before download to avoid cryptic install conflicts",
+      "changelog": "- Stay in App Manager during install/update (no more home-screen bounce)\n- In-app waiting banner + Cancel Install while system prompts run\n- Returns to User Guide after a successful install",
       "screenshots": [],
       "isGame": false
     },

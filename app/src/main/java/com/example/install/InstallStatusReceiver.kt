@@ -12,9 +12,8 @@ import com.example.util.ApkManager
 /**
  * Handles PackageInstaller session status callbacks.
  *
- * Confirmation intents (install consent + Play Protect) are started directly.
- * Re-yielding / re-hosting on the *second* PENDING_USER_ACTION was burying Play Protect
- * after the user tapped Install on the first prompt.
+ * Confirmation intents are handed to [MainActivity] so they launch in the hub's task
+ * (no home-screen bounce). Do not call moveTaskToBack from here.
  */
 class InstallStatusReceiver : BroadcastReceiver() {
 
@@ -35,19 +34,18 @@ class InstallStatusReceiver : BroadcastReceiver() {
                     Log.e(TAG, "PENDING_USER_ACTION missing EXTRA_INTENT")
                     return
                 }
-                // Yield only once per session. A second yield when Play Protect appears
-                // brings the hub forward / restarts activities and dismisses the prompt.
-                if (InstallSessionTracker.markYieldedIfNeeded(context, sessionId)) {
-                    context.sendBroadcast(
-                        Intent(ACTION_YIELD_FOR_INSTALLER).setPackage(context.packageName)
+                // Bridge through MainActivity so confirmation stays in our task stack.
+                val bridge = Intent(context, MainActivity::class.java).apply {
+                    action = ACTION_START_CONFIRMATION
+                    putExtra(EXTRA_CONFIRM_INTENT, confirmIntent)
+                    putExtra(EXTRA_TARGET_PACKAGE, targetPackage)
+                    addFlags(
+                        Intent.FLAG_ACTIVITY_NEW_TASK or
+                            Intent.FLAG_ACTIVITY_SINGLE_TOP or
+                            Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
                     )
                 }
-                try {
-                    confirmIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    context.startActivity(confirmIntent)
-                } catch (e: Exception) {
-                    Log.e(TAG, "Failed to start install confirmation", e)
-                }
+                context.startActivity(bridge)
             }
 
             PackageInstaller.STATUS_SUCCESS -> {
@@ -120,8 +118,7 @@ class InstallStatusReceiver : BroadcastReceiver() {
             addFlags(
                 Intent.FLAG_ACTIVITY_NEW_TASK or
                     Intent.FLAG_ACTIVITY_SINGLE_TOP or
-                    Intent.FLAG_ACTIVITY_REORDER_TO_FRONT or
-                    Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
             )
             putExtra(EXTRA_INSTALL_RESULT, result)
             if (!targetPackage.isNullOrBlank()) {
@@ -138,8 +135,8 @@ class InstallStatusReceiver : BroadcastReceiver() {
         private const val TAG = "InstallStatusReceiver"
 
         const val ACTION_INSTALL_STATUS = "com.rykersoft.appmanager.INSTALL_STATUS"
-        /** Hub should call moveTaskToBack so Play Protect stays interactable. */
-        const val ACTION_YIELD_FOR_INSTALLER = "com.rykersoft.appmanager.YIELD_FOR_INSTALLER"
+        const val ACTION_START_CONFIRMATION = "com.rykersoft.appmanager.START_CONFIRMATION"
+        const val EXTRA_CONFIRM_INTENT = "confirm_intent"
         const val EXTRA_TARGET_PACKAGE = "target_package"
         const val EXTRA_POST_INSTALL_PACKAGE = "post_install_package"
         const val EXTRA_INSTALL_RESULT = "install_result"

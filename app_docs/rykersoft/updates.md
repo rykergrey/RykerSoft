@@ -1,5 +1,10 @@
 # Release Updates & History
 
+## v1.2.6 (Version Code 13) - July 25th, 2026
+- Install / update no longer sends you to the home screen — App Manager stays open
+- System install + Play Protect prompts launch in the hub’s task; an in-app banner shows while waiting
+- After success, the hub opens that app’s User Guide (Cancel Install clears a stuck wait)
+
 ## v1.2.5 (Version Code 12) - July 25th, 2026
 - Fixed Play Protect disappearing after tapping Install: the hub no longer re-yields / restarts UI on the second confirmation prompt
 - Clearer install-conflict guidance when an app still exists in Island, Secure Folder, or a Work profile (main profile can show Not Installed)

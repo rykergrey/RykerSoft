@@ -33,10 +33,10 @@ You can still switch tabs manually anytime:
 ## 3. Checking & Installing Updates
 1. Tap the sync (refresh) button in the top control bar to pull the latest registry.
 2. Each app card shows a status sticker: **NEW RELEASE** (not installed), **UPDATE READY** (yellow — a newer version is available), or **INSTALLED** (green — up to date).
-3. Tap the yellow **INSTALL** / **UPDATE** button to download the latest APK. App Manager steps to the background briefly so Play Protect / install prompts stay on top and tappable (this is required on Android — otherwise the prompt can vanish behind the hub).
-4. Accept Play Protect / install confirmation when asked — you do **not** need to disable Play Protect.
-5. When install finishes, App Manager returns on its own to that app’s **User Guide** tab.
-6. If a prior install got stuck, tapping **INSTALL** again clears it and retries. Installed, up-to-date apps show a green **OPEN** / **PLAY** / **LAUNCH** button.
+3. Tap the yellow **INSTALL** / **UPDATE** button to download the latest APK. App Manager stays open and shows a waiting banner.
+4. Accept the system install prompt and Play Protect when they appear on top — you do **not** need to disable Play Protect. (The app detail sheet closes during this so those prompts stay tappable.)
+5. When install finishes, that app’s **User Guide** tab opens automatically.
+6. If a wait gets stuck, tap **CANCEL INSTALL** on the banner (or tap Install again). Installed, up-to-date apps show a green **OPEN** / **PLAY** / **LAUNCH** button.
 
 App downloads and documentation come from the private **RykerSoft-APKs** distribution repo. The required access token is built into the app, so downloads work out of the box. If the built-in token is ever rotated, paste the replacement into **Settings → GitHub Token** (that field overrides the built-in one).
 
@@ -72,4 +72,4 @@ Access Settings via the top gear / title controls to:
 - **“Already installed” / install conflict but the hub says Not Installed**: A copy still exists in **Island**, **Secure Folder**, or a **Work profile**. Open that profile, uninstall the app there, then try again from App Manager. The main home screen can look clean while Island still has it.
 - **AI unlock fails**: Confirm Firebase `.env` keys are set, Email/Password Auth is enabled, and the unlock code hash exists under `unlockCodes/{hash}`.
 - **App AI still locked after unlock**: Sign into the same RykerSoft account inside the app and tap Refresh keys.
-- **Home screen during Play Protect**: App Manager steps aside briefly so Play Protect stays tappable, then returns after a successful install.
+- **Install prompts not appearing**: Tap **CANCEL INSTALL** on the yellow banner, then try again. Keep App Manager in the foreground while confirming.
