@@ -20,6 +20,7 @@ val PressStartFont = GoogleFont("Press Start 2P")
 val ChakraPetchFont = GoogleFont("Chakra Petch")
 val RighteousFont = GoogleFont("Righteous")
 val OrbitronFont = GoogleFont("Orbitron")
+val InterFont = GoogleFont("Inter")
 
 val BungeeFontFamily = FontFamily(
     Font(googleFont = BungeeFont, fontProvider = googleFontProvider)
@@ -41,6 +42,18 @@ val OrbitronFontFamily = FontFamily(
     Font(googleFont = OrbitronFont, fontProvider = googleFontProvider)
 )
 
+/**
+ * Dual-font system:
+ *  - Display / headers / badges / stats -> Monospace (retro personality)
+ *  - Body / documentation prose         -> Inter (legible sans-serif)
+ */
+val BodyFontFamily = FontFamily(
+    Font(googleFont = InterFont, fontProvider = googleFontProvider, weight = FontWeight.Normal),
+    Font(googleFont = InterFont, fontProvider = googleFontProvider, weight = FontWeight.Medium),
+    Font(googleFont = InterFont, fontProvider = googleFontProvider, weight = FontWeight.SemiBold),
+    Font(googleFont = InterFont, fontProvider = googleFontProvider, weight = FontWeight.Bold)
+)
+
 enum class TitleFontPreset(val displayName: String, val fontFamily: FontFamily) {
     ARCADE_3D("Arcade Bungee", BungeeFontFamily),
     PIXEL_8BIT("Pixel 8-Bit", PressStartFontFamily),
@@ -50,16 +63,24 @@ enum class TitleFontPreset(val displayName: String, val fontFamily: FontFamily) 
     CLASSIC_MONO("Classic Mono", FontFamily.Monospace)
 }
 
-// Set of Material typography styles to start with
+// Dual-font Material typography: sans-serif for reading, monospace for identity
 val Typography =
   Typography(
     bodyLarge =
       TextStyle(
-        fontFamily = FontFamily.Monospace,
+        fontFamily = BodyFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 15.sp,
-        lineHeight = 22.sp,
-        letterSpacing = 0.5.sp,
+        lineHeight = 23.sp,
+        letterSpacing = 0.2.sp,
+      ),
+    bodyMedium =
+      TextStyle(
+        fontFamily = BodyFontFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 13.sp,
+        lineHeight = 20.sp,
+        letterSpacing = 0.2.sp,
       ),
     titleMedium =
       TextStyle(

@@ -11,6 +11,8 @@
 ## 1. Overview
 RykerSoft serves as the unified dashboard for all applications developed under the RykerSoft software collection. It manages version tracking, downloads, documentation, and instant installations.
 
+Colors carry meaning throughout the app: **yellow** marks primary actions and the active tab, **green** means installed or success, **red** means an error or a destructive action, and **cyan** marks links and interactive highlights.
+
 ## 2. App Tabbed Interface
 Tap any application card to open its detail view:
 - **Updates Tab**: View reverse chronological release notes for all current and past versions.
@@ -19,9 +21,9 @@ Tap any application card to open its detail view:
 - **User Guide Tab**: Access interactive guides with clickable Table of Contents headers for instant section jump.
 
 ## 3. Checking & Installing Updates
-1. Tap **SYNC REGISTRY** or pull to refresh on the home screen.
-2. Apps with updates available will show an **UPDATE AVAILABLE** status badge.
-3. Tap **INSTALL / UPDATE** to download the latest APK and launch the package installer.
+1. Tap the sync (refresh) button in the top control bar to pull the latest registry.
+2. Each app card shows a status sticker: **NEW RELEASE** (not installed), **UPDATE READY** (yellow — a newer version is available), or **INSTALLED** (green — up to date).
+3. Tap the yellow **INSTALL** / **UPDATE** button to download the latest APK and launch the package installer; installed apps show a green **OPEN** / **PLAY** button instead.
 
 App downloads and documentation come from the private **RykerSoft-APKs** distribution repo. The required access token is built into the app, so downloads work out of the box. If the built-in token is ever rotated, paste the replacement into **Settings → GitHub Token** (that field overrides the built-in one).
 

@@ -17,17 +17,25 @@ val SharpShapes = Shapes(
   extraLarge = RoundedCornerShape(12.dp)
 )
 
+// Semantic mapping: primary = CTA yellow, secondary = interactive cyan,
+// tertiary = brand magenta, error = alert red.
 private val DarkNeoColorScheme = darkColorScheme(
-  primary = NeoMagenta,
-  onPrimary = Color.White,
-  primaryContainer = NeoYellow,
-  onPrimaryContainer = Color.Black,
+  primary = NeoYellow,
+  onPrimary = Color.Black,
+  primaryContainer = NeoYellowDim,
+  onPrimaryContainer = NeoYellow,
   secondary = NeoCyan,
   onSecondary = Color.Black,
-  secondaryContainer = NeoMutedBg,
-  tertiary = NeoPurple,
+  secondaryContainer = NeoCyanDim,
+  onSecondaryContainer = NeoCyan,
+  tertiary = NeoMagenta,
   onTertiary = Color.White,
-  tertiaryContainer = NeoGreen,
+  tertiaryContainer = NeoPurpleDim,
+  onTertiaryContainer = NeoText,
+  error = NeoRed,
+  onError = Color.White,
+  errorContainer = NeoRedDim,
+  onErrorContainer = NeoRed,
   background = NeoBg,
   onBackground = NeoText,
   surface = NeoSurface,

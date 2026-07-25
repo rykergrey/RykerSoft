@@ -10,4 +10,4 @@
 - Single-activity architecture powered by Jetpack Compose
 - Modern Room SQLite database storing synced application registries
 - Direct OkHttp stream fetcher with background download progress reporting
-- Neumorphic custom design system with dynamic HSL dark mode palettes
+- Neo-brutalist custom design system: semantic color tokens (CTA yellow / success green / danger crimson / link cyan / brand magenta), hard 2D offset shadows, and a dual-font stack (monospace display + Inter body via Google Fonts)

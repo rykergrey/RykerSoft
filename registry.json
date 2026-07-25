@@ -3,11 +3,11 @@
     {
       "packageName": "com.rykersoft.appmanager",
       "name": "RykerSoft",
-      "latestVersionCode": 6,
-      "latestVersionName": "1.1.4",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft/releases/download/v1.1.4/app-release.apk",
+      "latestVersionCode": 7,
+      "latestVersionName": "1.2.0",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft/releases/download/v1.2.0/app-release.apk",
       "icon": "android",
-      "changelog": "- Family access token is now built in: downloads work with zero setup\n- Settings -> GitHub Token overrides the built-in token if it's ever rotated\n- All app downloads and docs come from the private RykerSoft-APKs repo",
+      "changelog": "- Full visual redesign with a semantic color system: yellow CTAs, green success, red errors, cyan links\n- Error toasts now show a red border + alert icon (no more green check on failures)\n- Easier reading: Inter sans-serif for descriptions and guides, monospace kept for headers/badges\n- Update banner no longer truncates; cleaner detail view with flat nested panels",
       "screenshots": [],
       "isGame": false
     },

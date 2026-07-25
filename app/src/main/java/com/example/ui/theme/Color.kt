@@ -2,27 +2,52 @@ package com.example.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-// Dark Cyber Neo-Brutalist Palette (RykerSoft Dark Theme)
-val NeoBg = Color(0xFF0D0E12)             // Deep dark carbon canvas
-val NeoSurface = Color(0xFF161820)        // Dark sleek card surface
-val NeoBlack = Color(0xFF000000)          // Stark pitch black for offset drop shadows
-val NeoText = Color(0xFFF4F4F6)           // High-contrast crisp light text
+// ============================================================================
+// RykerSoft Design Tokens — Dark Cyber Neo-Brutalist Palette
+//
+// Strict color-role system: every neon accent has exactly one semantic job so
+// users can navigate by color instinctively.
+//
+//   YELLOW  -> Primary CTA & focus (install/update buttons, active tabs)
+//   GREEN   -> Success & installed state (badges, launch, success toasts)
+//   RED     -> Error, alerts & destructive actions (remove, error toasts)
+//   CYAN    -> Interactive links & secondary interactive accents
+//   MAGENTA -> Brand identity only (logo, zig-zag strip, "new" stickers)
+//   PURPLE  -> Games category accent
+// ============================================================================
 
-// Electric Neon Accent Colors
-val NeoMagenta = Color(0xFFFF2A85)        // Hot Pink / Electric Magenta
-val NeoYellow = Color(0xFFFFE600)         // Sun Yellow / Electric Gold
-val NeoCyan = Color(0xFF00E5FF)           // Electric Turquoise / Cyan
-val NeoPurple = Color(0xFF9D67FF)         // Vivid Game Violet
-val NeoGreen = Color(0xFF10B981)          // Mint Emerald Green
-val NeoOrange = Color(0xFFFF7A00)         // Punchy Neon Orange
-val NeoRed = Color(0xFFFF4D4D)            // Vibrant Crimson Red
+// --- Neutral canvas & surfaces -----------------------------------------------
+val NeoBg = Color(0xFF121318)             // Dark charcoal app canvas
+val NeoSurface = Color(0xFF1C1D26)        // Card / dialog surface
+val NeoMutedBg = Color(0xFF242633)        // Inset panel surface (one step up)
+val NeoGridLines = Color(0xFF1A1B22)      // Whisper-subtle graph-paper grid
+val NeoBlack = Color(0xFF000000)          // Hard 2D offset shadows
+val NeoBorder = Color(0xFF3C3F52)         // Structural border stroke
+val NeoBorderSoft = Color(0xFF2C2E3D)     // Softer border for nested elements
 
-// Secondary Dark Shades
-val NeoMutedBg = Color(0xFF20222E)        // Dark inset card surface
-val NeoGridLines = Color(0xFF1C1E28)      // Subtle dark grid lines on canvas
-val NeoSubtext = Color(0xFFA1A1AA)        // Muted light gray body text
-val NeoBorder = Color(0xFF383A4A)         // Crisp border stroke line
+// --- Text ---------------------------------------------------------------------
+val NeoText = Color(0xFFF2F3F7)           // High-contrast primary text
+val NeoSubtext = Color(0xFFA6A8B8)        // Muted secondary / body-muted text
 
+// --- Semantic accents ----------------------------------------------------------
+val NeoYellow = Color(0xFFFFD600)         // PRIMARY CTA / focus / active tab
+val NeoGreen = Color(0xFF00E676)          // SUCCESS / installed / launch
+val NeoRed = Color(0xFFFF3366)            // ERROR / alert / destructive
+val NeoCyan = Color(0xFF00E5FF)           // LINKS / interactive secondary
+val NeoMagenta = Color(0xFFFF2A85)        // BRAND accent (identity, not UI state)
+val NeoPurple = Color(0xFF9D67FF)         // Games category accent
+val NeoOrange = Color(0xFFFFAA33)         // Warning / in-progress accent
 
+// --- Semantic aliases (prefer these in new code) -------------------------------
+val NeoPrimary = NeoYellow
+val NeoSuccess = NeoGreen
+val NeoDanger = NeoRed
+val NeoLink = NeoCyan
+val NeoBrand = NeoMagenta
 
-
+// --- Dim companion tints for chips/containers (accent at low luminance) --------
+val NeoGreenDim = Color(0xFF0E3B26)       // Success container background
+val NeoRedDim = Color(0xFF3D1220)         // Error container background
+val NeoCyanDim = Color(0xFF0B3540)        // Link/interactive container background
+val NeoPurpleDim = Color(0xFF2B1B47)      // Games / hero container background
+val NeoYellowDim = Color(0xFF3B330A)      // Primary-CTA container background

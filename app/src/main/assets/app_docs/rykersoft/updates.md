@@ -1,5 +1,14 @@
 # Release Updates & History
 
+## v1.2.0 (Version Code 7) - July 24th, 2026
+- Complete visual design overhaul with a strict semantic color system: yellow = primary actions and active tabs, green = installed/success, crimson = errors and destructive actions, cyan = links and interactive focus, magenta reserved for brand accents
+- Error toasts now show a red border and alert icon instead of a green checkmark
+- Dual-font typography: retro monospace stays on headers, badges, and stats; descriptions, user guides, and release notes switch to the Inter sans-serif for comfortable reading
+- App Manager update banner redesigned — description text wraps across the full card width instead of truncating, with a full-width UPDATE NOW button
+- Cleaner app detail view: flat nested panels with softer borders, one unified section-label style, and yellow active tabs
+- Markdown polish: cyan underlined hyperlinks, inline code chips, neon accent-bar headings; inline bold no longer borrows the CTA yellow
+- Fixed dark-on-dark icons and labels (settings gear, sign-out button)
+
 ## v1.1.4 (Version Code 6) - July 24th, 2026
 - Family access token now ships baked into the app — downloads work out of the box, no manual token entry needed
 - Settings → GitHub Token overrides the built-in token (useful if the token is ever rotated); clearing it returns to the built-in one

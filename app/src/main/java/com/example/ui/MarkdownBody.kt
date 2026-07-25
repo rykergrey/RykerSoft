@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,9 +32,11 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.ui.theme.BodyFontFamily
 import com.example.ui.theme.NeoBlack
 import com.example.ui.theme.NeoCyan
 import com.example.ui.theme.NeoMagenta
+import com.example.ui.theme.NeoMutedBg
 import com.example.ui.theme.NeoSubtext
 import com.example.ui.theme.NeoText
 import com.example.ui.theme.NeoYellow
@@ -105,6 +108,10 @@ fun markdownSummary(markdown: String): String {
     }
 }
 
+// Inline styling rules (strict color roles):
+//  - **bold**  -> weight only, inherits body color (yellow stays reserved for CTAs)
+//  - `code`    -> monospace on a subtle inset background chip
+//  - [link](x) -> electric cyan + underline (cyan = interactive)
 private fun inlineMarkdown(text: String): AnnotatedString = buildAnnotatedString {
     var last = 0
     for (match in INLINE_MARKDOWN_REGEX.findAll(text)) {
@@ -115,11 +122,17 @@ private fun inlineMarkdown(text: String): AnnotatedString = buildAnnotatedString
         val linkTarget = match.groups[5]?.value
 
         if (bold != null) {
-            withStyle(SpanStyle(fontWeight = FontWeight.Bold, color = NeoYellow)) {
+            withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
                 append(bold)
             }
         } else if (code != null) {
-            withStyle(SpanStyle(fontFamily = FontFamily.Monospace, color = NeoCyan)) {
+            withStyle(
+                SpanStyle(
+                    fontFamily = FontFamily.Monospace,
+                    color = NeoText,
+                    background = NeoMutedBg
+                )
+            ) {
                 append(code)
             }
         } else if (linkText != null && linkTarget != null) {
@@ -127,9 +140,8 @@ private fun inlineMarkdown(text: String): AnnotatedString = buildAnnotatedString
             withStyle(
                 SpanStyle(
                     color = NeoCyan,
-                    fontWeight = FontWeight.Bold,
-                    textDecoration = TextDecoration.Underline,
-                    fontFamily = FontFamily.Monospace
+                    fontWeight = FontWeight.SemiBold,
+                    textDecoration = TextDecoration.Underline
                 )
             ) {
                 append(linkText)
@@ -146,9 +158,9 @@ fun ClickableMarkdownText(
     markdownText: String,
     modifier: Modifier = Modifier,
     color: Color = NeoText,
-    fontSize: TextUnit = 11.5.sp,
-    fontFamily: FontFamily = FontFamily.Monospace,
-    lineHeight: TextUnit = 16.sp,
+    fontSize: TextUnit = 12.5.sp,
+    fontFamily: FontFamily = BodyFontFamily,
+    lineHeight: TextUnit = 18.sp,
     onUrlClick: ((String) -> Unit)? = null
 ) {
     val annotatedString = remember(markdownText) { inlineMarkdown(markdownText) }
@@ -194,15 +206,16 @@ private fun HeadingText(
     highlightAnchor: String?,
     onHeaderPositioned: ((title: String, anchor: String, yPx: Float) -> Unit)?
 ) {
+    // Restrained hierarchy: headings stay high-contrast text; the neon accent is
+    // confined to a short underline bar so section colors never fight the CTAs.
     val size = when (level) {
         1 -> 16.sp
-        2 -> 13.sp
+        2 -> 13.5.sp
         else -> 12.sp
     }
     val defaultColor = when (level) {
-        1 -> headingColor
-        2 -> accentColor
-        else -> NeoYellow
+        1, 2 -> headingColor
+        else -> NeoSubtext
     }
     val anchor = remember(text) {
         text.lowercase().replace(Regex("[^a-z0-9\\s-]"), "").replace(Regex("\\s+"), "-")
@@ -242,7 +255,7 @@ private fun HeadingText(
     val isYellowBg = currentBg != Color.Transparent && currentBg.alpha > 0.2f
     val textColor = if (isYellowBg) NeoBlack else defaultColor
 
-    Box(
+    Column(
         modifier = Modifier
             .onGloballyPositioned { coordinates ->
                 val y = coordinates.positionInParent().y
@@ -259,6 +272,16 @@ private fun HeadingText(
             fontFamily = FontFamily.Monospace,
             lineHeight = (size.value + 4).sp
         )
+        // Short neon accent bar under major headings (color-restrained flair)
+        if (level <= 2) {
+            Box(
+                modifier = Modifier
+                    .padding(top = 3.dp)
+                    .width(if (level == 1) 34.dp else 22.dp)
+                    .height(3.dp)
+                    .background(accentColor)
+            )
+        }
     }
 }
 
@@ -268,10 +291,10 @@ fun MarkdownBody(
     modifier: Modifier = Modifier,
     textColor: Color = NeoText,
     mutedColor: Color = NeoSubtext,
-    headingColor: Color = NeoMagenta,
-    accentColor: Color = NeoCyan,
-    bodySize: TextUnit = 11.5.sp,
-    lineHeight: TextUnit = 16.sp,
+    headingColor: Color = NeoText,
+    accentColor: Color = NeoMagenta,
+    bodySize: TextUnit = 12.5.sp,
+    lineHeight: TextUnit = 18.sp,
     highlightAnchor: String? = null,
     onHeaderPositioned: ((title: String, anchor: String, yPx: Float) -> Unit)? = null,
     onUrlClick: ((String) -> Unit)? = null
@@ -372,8 +395,8 @@ fun MarkdownSummaryText(
     modifier: Modifier = Modifier,
     maxLines: Int = 2,
     color: Color = NeoText,
-    fontSize: TextUnit = 11.sp,
-    lineHeight: TextUnit = 15.sp
+    fontSize: TextUnit = 12.sp,
+    lineHeight: TextUnit = 17.sp
 ) {
     val summaryText = remember(markdown) { markdownSummary(markdown) }
     Text(
@@ -381,7 +404,7 @@ fun MarkdownSummaryText(
         modifier = modifier,
         color = color,
         fontSize = fontSize,
-        fontFamily = FontFamily.Monospace,
+        fontFamily = BodyFontFamily,
         maxLines = maxLines,
         overflow = TextOverflow.Ellipsis,
         lineHeight = lineHeight

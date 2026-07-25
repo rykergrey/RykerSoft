@@ -126,7 +126,7 @@ fun RykerSoftTitleHeader(
             Icon(
                 imageVector = Icons.Default.Settings,
                 contentDescription = "Store Settings",
-                tint = Color.Black,
+                tint = NeoText,
                 modifier = Modifier.size(14.dp)
             )
         }

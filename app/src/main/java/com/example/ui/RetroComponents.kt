@@ -36,6 +36,8 @@ import kotlin.math.sin
 
 /**
  * Neo-Brutalist Card Container with thick black border and stark offset shadow.
+ * Pass shadowOffset = 0.dp for a flat nested panel (reduces border/shadow fatigue
+ * on inner containers while keeping the tactile look on top-level cards).
  */
 @Composable
 fun NeoCard(
@@ -51,13 +53,15 @@ fun NeoCard(
     Box(
         modifier = modifier
     ) {
-        // Shadow Box Layer
-        Box(
-            modifier = Modifier
-                .matchParentSize()
-                .offset(x = shadowOffset, y = shadowOffset)
-                .background(shadowColor)
-        )
+        // Shadow Box Layer (skipped entirely for flat nested panels)
+        if (shadowOffset > 0.dp) {
+            Box(
+                modifier = Modifier
+                    .matchParentSize()
+                    .offset(x = shadowOffset, y = shadowOffset)
+                    .background(shadowColor)
+            )
+        }
 
         // Top Surface Layer
         Box(
@@ -76,11 +80,12 @@ fun NeoCard(
 }
 
 enum class NeoButtonStyle {
-    PRIMARY_MAGENTA,   // Hot Pink
-    SECONDARY_YELLOW,  // Sun Yellow
-    ACCENT_CYAN,       // Electric Turquoise
-    ACTION_GREEN,      // Emerald Green
-    NEUTRAL_WHITE,     // Dark Surface Neutral
+    PRIMARY_MAGENTA,   // Brand magenta (identity moments, not routine actions)
+    SECONDARY_YELLOW,  // PRIMARY CTA yellow (install / update / main actions)
+    ACCENT_CYAN,       // Interactive secondary (links, toggles, alt actions)
+    ACTION_GREEN,      // Success / launch / installed
+    DANGER_RED,        // Destructive / error actions (remove, delete)
+    NEUTRAL_WHITE,     // Quiet neutral surface control
     DARK_BLACK         // Carbon Black
 }
 
@@ -110,9 +115,16 @@ fun NeoButton(
         NeoButtonStyle.PRIMARY_MAGENTA -> NeoMagenta to Color.White
         NeoButtonStyle.SECONDARY_YELLOW -> NeoYellow to Color.Black
         NeoButtonStyle.ACCENT_CYAN -> NeoCyan to Color.Black
-        NeoButtonStyle.ACTION_GREEN -> NeoGreen to Color.White
-        NeoButtonStyle.NEUTRAL_WHITE -> NeoSurface to NeoText
+        NeoButtonStyle.ACTION_GREEN -> NeoGreen to Color.Black
+        NeoButtonStyle.DANGER_RED -> NeoRed to Color.White
+        NeoButtonStyle.NEUTRAL_WHITE -> NeoMutedBg to NeoText
         NeoButtonStyle.DARK_BLACK -> NeoBlack to Color.White
+    }
+
+    // Crisp black edge on bright fills; structural gray edge on dark neutrals.
+    val edgeColor = when (style) {
+        NeoButtonStyle.NEUTRAL_WHITE, NeoButtonStyle.DARK_BLACK -> NeoBorder
+        else -> NeoBlack
     }
 
     Box(
@@ -130,7 +142,7 @@ fun NeoButton(
         Box(
             modifier = Modifier
                 .offset(x = currentOffset, y = currentOffset)
-                .border(2.dp, NeoBorder)
+                .border(2.dp, edgeColor)
                 .background(if (enabled) bgColor else bgColor.copy(alpha = 0.5f))
                 .clickable(
                     interactionSource = interactionSource,
@@ -183,7 +195,7 @@ fun StickerBadge(
 
         Box(
             modifier = Modifier
-                .border(1.5.dp, NeoBorder)
+                .border(1.5.dp, NeoBlack)
                 .background(bgColor)
                 .padding(horizontal = 7.dp, vertical = 3.dp),
             contentAlignment = Alignment.Center
@@ -213,7 +225,7 @@ fun TagChip(
 ) {
     Box(
         modifier = modifier
-            .border(1.5.dp, NeoBorder)
+            .border(1.dp, NeoBorderSoft)
             .background(bgColor)
             .padding(horizontal = 6.dp, vertical = 2.5.dp)
     ) {

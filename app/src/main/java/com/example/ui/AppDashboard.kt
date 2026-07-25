@@ -62,6 +62,13 @@ import com.example.ui.theme.*
 import com.example.util.ApkManager
 import kotlinx.coroutines.launch
 
+/**
+ * Invisible sentinel prefixed onto snackbar messages that represent failures,
+ * so the host can style error toasts (red border + alert icon) distinctly from
+ * success/info toasts (green border + check icon).
+ */
+private const val ERROR_SNACKBAR_SENTINEL = "\u0001ERR\u0001"
+
 /** Pinch-to-zoom / pan screenshot. Scales within the full preview viewport (not a shrink-wrapped image frame). */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -347,7 +354,7 @@ fun AppDashboard(
         uiState.errorMessage?.let { error ->
             scope.launch {
                 snackbarHostState.showSnackbar(
-                    message = error,
+                    message = ERROR_SNACKBAR_SENTINEL + error,
                     withDismissAction = true,
                     duration = SnackbarDuration.Short
                 )
@@ -593,14 +600,14 @@ fun AppDashboard(
                                                             text = option.label,
                                                             fontFamily = FontFamily.Monospace,
                                                             fontWeight = if (isSelected) FontWeight.Black else FontWeight.Bold,
-                                                            color = if (isSelected) NeoMagenta else NeoText,
+                                                            color = if (isSelected) NeoCyan else NeoText,
                                                             fontSize = 12.sp
                                                         )
                                                         if (isSelected) {
                                                             Icon(
                                                                 imageVector = Icons.Default.Check,
                                                                 contentDescription = "Selected",
-                                                                tint = NeoMagenta,
+                                                                tint = NeoCyan,
                                                                 modifier = Modifier.size(14.dp)
                                                             )
                                                         }
@@ -615,10 +622,11 @@ fun AppDashboard(
                                     }
                                 }
 
-                                // Sync Button (Icon Only)
+                                // Sync Button (Icon Only) — utility control, kept neutral
+                                // so yellow stays reserved for the primary CTA
                                 NeoButton(
                                     onClick = { viewModel.syncWithRegistry() },
-                                    style = NeoButtonStyle.SECONDARY_YELLOW,
+                                    style = NeoButtonStyle.NEUTRAL_WHITE,
                                     contentPadding = PaddingValues(6.dp),
                                     modifier = Modifier.testTag("sync_action_button")
                                 ) {
@@ -626,13 +634,13 @@ fun AppDashboard(
                                         CircularProgressIndicator(
                                             modifier = Modifier.size(14.dp),
                                             strokeWidth = 2.dp,
-                                            color = Color.Black
+                                            color = NeoCyan
                                         )
                                     } else {
                                         Icon(
                                             imageVector = Icons.Default.Refresh,
                                             contentDescription = "Sync Registry",
-                                            tint = Color.Black,
+                                            tint = NeoText,
                                             modifier = Modifier.size(14.dp)
                                         )
                                     }
@@ -703,7 +711,7 @@ fun AppDashboard(
                                             unfocusedBorderColor = Color.Transparent,
                                             focusedTextColor = NeoText,
                                             unfocusedTextColor = NeoText,
-                                            cursorColor = NeoMagenta
+                                            cursorColor = NeoCyan
                                         )
                                     )
                                 }
@@ -717,6 +725,13 @@ fun AppDashboard(
             },
             snackbarHost = {
                 SnackbarHost(hostState = snackbarHostState) { data ->
+                    // Severity-aware toast: errors get a red border + alert icon,
+                    // success/info gets a green border + check icon.
+                    val rawMessage = data.visuals.message
+                    val isError = rawMessage.startsWith(ERROR_SNACKBAR_SENTINEL)
+                    val message = rawMessage.removePrefix(ERROR_SNACKBAR_SENTINEL)
+                    val accentColor = if (isError) NeoRed else NeoGreen
+
                     Box(
                         modifier = Modifier
                             .padding(horizontal = 14.dp, vertical = 8.dp)
@@ -734,7 +749,7 @@ fun AppDashboard(
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .border(2.dp, NeoMagenta)
+                                .border(2.dp, accentColor)
                                 .background(NeoSurface)
                                 .padding(horizontal = 14.dp, vertical = 12.dp),
                             verticalAlignment = Alignment.CenterVertically,
@@ -746,13 +761,13 @@ fun AppDashboard(
                                 modifier = Modifier.weight(1f)
                             ) {
                                 Icon(
-                                    imageVector = Icons.Default.CheckCircle,
-                                    contentDescription = null,
-                                    tint = NeoGreen,
+                                    imageVector = if (isError) Icons.Default.ErrorOutline else Icons.Default.CheckCircle,
+                                    contentDescription = if (isError) "Error" else "Success",
+                                    tint = accentColor,
                                     modifier = Modifier.size(18.dp)
                                 )
                                 Text(
-                                    text = data.visuals.message,
+                                    text = message,
                                     color = NeoText,
                                     fontSize = 12.sp,
                                     fontFamily = FontFamily.Monospace,
@@ -817,12 +832,13 @@ fun AppDashboard(
                                 onClick = { viewModel.setFilter(FilterType.ALL) }
                             )
                         }
+                        // Active tab = focus yellow across the board (single focus color)
                         item {
                             FilterTagButton(
                                 label = "GAMES",
                                 count = gamesCount,
                                 isSelected = uiState.filterType == FilterType.GAMES,
-                                selectedStyle = NeoButtonStyle.PRIMARY_MAGENTA,
+                                selectedStyle = NeoButtonStyle.SECONDARY_YELLOW,
                                 onClick = { viewModel.setFilter(FilterType.GAMES) }
                             )
                         }
@@ -831,7 +847,7 @@ fun AppDashboard(
                                 label = "APPS",
                                 count = appsCount,
                                 isSelected = uiState.filterType == FilterType.APPS,
-                                selectedStyle = NeoButtonStyle.ACCENT_CYAN,
+                                selectedStyle = NeoButtonStyle.SECONDARY_YELLOW,
                                 onClick = { viewModel.setFilter(FilterType.APPS) }
                             )
                         }
@@ -840,7 +856,7 @@ fun AppDashboard(
                                 label = "UPDATES",
                                 count = updatesCount,
                                 isSelected = uiState.filterType == FilterType.UPDATES_AVAILABLE,
-                                selectedStyle = NeoButtonStyle.PRIMARY_MAGENTA,
+                                selectedStyle = NeoButtonStyle.SECONDARY_YELLOW,
                                 onClick = { viewModel.setFilter(FilterType.UPDATES_AVAILABLE) }
                             )
                         }
@@ -849,7 +865,7 @@ fun AppDashboard(
                                 label = "INSTALLED",
                                 count = installedCount,
                                 isSelected = uiState.filterType == FilterType.INSTALLED,
-                                selectedStyle = NeoButtonStyle.ACTION_GREEN,
+                                selectedStyle = NeoButtonStyle.SECONDARY_YELLOW,
                                 onClick = { viewModel.setFilter(FilterType.INSTALLED) }
                             )
                         }
@@ -1060,11 +1076,12 @@ fun AppItemCard(
                             modifier = Modifier.weight(1f, fill = false)
                         )
 
-                        // Tilted Status Sticker Tag
+                        // Tilted Status Sticker Tag (magenta = new/brand, yellow = update
+                        // pending CTA, green = installed success)
                         val (statusText, statusBg, statusTextClr, rotation) = when {
                             !app.isInstalled -> Quadruple("NEW RELEASE", NeoMagenta, Color.White, -2f)
                             app.isOutdated -> Quadruple("UPDATE READY", NeoYellow, Color.Black, 3f)
-                            else -> Quadruple("INSTALLED", NeoGreen, Color.White, 0f)
+                            else -> Quadruple("INSTALLED", NeoGreen, Color.Black, 0f)
                         }
 
                         Spacer(modifier = Modifier.width(6.dp))
@@ -1100,14 +1117,14 @@ fun AppItemCard(
                     ) {
                         TagChip(
                             text = if (app.isGame) "🎮 GAME" else "⚡ APP",
-                            bgColor = if (app.isGame) Color(0xFF3B0764) else Color(0xFF0C4A6E),
-                            textColor = if (app.isGame) Color(0xFFE9D5FF) else Color(0xFFBAE6FD)
+                            bgColor = if (app.isGame) NeoPurpleDim else NeoCyanDim,
+                            textColor = if (app.isGame) Color(0xFFD9C6FF) else Color(0xFFB3F0FF)
                         )
                         if (app.supportsAiUnlock) {
                             TagChip(
                                 text = if (app.aiUnlocked) "AI ON" else "AI OFF",
-                                bgColor = if (app.aiUnlocked) Color(0xFF14532D) else Color(0xFF3F3F46),
-                                textColor = if (app.aiUnlocked) Color(0xFFBBF7D0) else Color(0xFFE4E4E7)
+                                bgColor = if (app.aiUnlocked) NeoGreenDim else Color(0xFF3F3F46),
+                                textColor = if (app.aiUnlocked) Color(0xFFA7F3C9) else Color(0xFFE4E4E7)
                             )
                         }
 
@@ -1193,7 +1210,7 @@ fun AppItemCard(
                         fontSize = 10.sp,
                         fontWeight = FontWeight.Bold,
                         fontFamily = FontFamily.Monospace,
-                        color = if (hasDifferentVersion) NeoMagenta else NeoText
+                        color = if (hasDifferentVersion) NeoYellow else NeoText
                     )
                 }
 
@@ -1208,7 +1225,7 @@ fun AppItemCard(
                                 progress = { downloadProgress / 100f },
                                 modifier = Modifier.size(16.dp),
                                 strokeWidth = 2.5.dp,
-                                color = NeoMagenta
+                                color = NeoYellow
                             )
                             Text(
                                 text = "$downloadProgress%",
@@ -1223,7 +1240,7 @@ fun AppItemCard(
                             !app.isInstalled -> {
                                 NeoButton(
                                     onClick = onActionClick,
-                                    style = NeoButtonStyle.PRIMARY_MAGENTA,
+                                    style = NeoButtonStyle.SECONDARY_YELLOW,
                                     shadowOffset = 2.dp,
                                     contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)
                                 ) {
@@ -1300,8 +1317,9 @@ fun EmptyStateView(
 
             Text(
                 text = "Your store catalog is currently empty. Load sandbox sample apps or sync with a remote JSON registry URL.",
-                fontSize = 11.5.sp,
-                fontFamily = FontFamily.Monospace,
+                fontSize = 12.sp,
+                fontFamily = BodyFontFamily,
+                lineHeight = 17.sp,
                 color = NeoSubtext,
                 textAlign = androidx.compose.ui.text.style.TextAlign.Center
             )
@@ -1398,22 +1416,26 @@ fun AppDetailDialog(
                             fontSize = 16.sp,
                             color = NeoText
                         )
-                        TagChip(text = if (app.isGame) "GAME" else "APP", bgColor = NeoMagenta, textColor = Color.White)
+                        TagChip(
+                            text = if (app.isGame) "GAME" else "APP",
+                            bgColor = if (app.isGame) NeoPurpleDim else NeoCyanDim,
+                            textColor = if (app.isGame) Color(0xFFD9C6FF) else Color(0xFFB3F0FF)
+                        )
                         if (app.supportsAiUnlock) {
                             TagChip(
                                 text = if (app.aiUnlocked) "AI UNLOCKED" else "AI LOCKED",
-                                bgColor = if (app.aiUnlocked) Color(0xFF14532D) else Color(0xFF3F3F46),
-                                textColor = if (app.aiUnlocked) Color(0xFFBBF7D0) else Color(0xFFE4E4E7)
+                                bgColor = if (app.aiUnlocked) NeoGreenDim else Color(0xFF3F3F46),
+                                textColor = if (app.aiUnlocked) Color(0xFFA7F3C9) else Color(0xFFE4E4E7)
                             )
                         }
                     }
 
                     NeoButton(
                         onClick = onDismiss,
-                        style = NeoButtonStyle.PRIMARY_MAGENTA,
+                        style = NeoButtonStyle.NEUTRAL_WHITE,
                         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 2.dp)
                     ) {
-                        Text("✕", fontSize = 12.sp, fontWeight = FontWeight.Black, color = Color.White)
+                        Text("✕", fontSize = 12.sp, fontWeight = FontWeight.Black, color = NeoText)
                     }
                 }
 
@@ -1430,8 +1452,9 @@ fun AppDetailDialog(
                             } else {
                                 "AI features stay off until you unlock this app with a family unlock code."
                             },
-                            fontSize = 11.sp,
-                            fontFamily = FontFamily.Monospace,
+                            fontSize = 12.sp,
+                            fontFamily = BodyFontFamily,
+                            lineHeight = 17.sp,
                             color = NeoSubtext
                         )
                         when {
@@ -1439,7 +1462,7 @@ fun AppDetailDialog(
                                 Text(
                                     text = "Configure FIREBASE_* in hub .env (see firebase/SEED.md).",
                                     fontSize = 10.sp,
-                                    color = NeoMagenta,
+                                    color = NeoRed,
                                     fontFamily = FontFamily.Monospace
                                 )
                             }
@@ -1527,7 +1550,7 @@ fun AppDetailDialog(
                                 Box(
                                     modifier = Modifier
                                         .size(54.dp)
-                                        .border(if (isSelected) 3.dp else 1.5.dp, if (isSelected) NeoMagenta else NeoBorder)
+                                        .border(if (isSelected) 3.dp else 1.dp, if (isSelected) NeoCyan else NeoBorderSoft)
                                         .background(NeoSurface)
                                         .clickable { currentScreenshotIndex = idx },
                                     contentAlignment = Alignment.Center
@@ -1553,8 +1576,9 @@ fun AppDetailDialog(
                     ) {
                         AppDetailTab.values().forEach { tab ->
                             val isSelected = selectedTab == tab
-                            val bgColor = if (isSelected) NeoMagenta else Color.Transparent
-                            val textColor = if (isSelected) Color.White else NeoSubtext
+                            // Active tab = focus yellow (consistent with main filter tabs)
+                            val bgColor = if (isSelected) NeoYellow else Color.Transparent
+                            val textColor = if (isSelected) Color.Black else NeoSubtext
 
                             Box(
                                 modifier = Modifier
@@ -1590,76 +1614,48 @@ fun AppDetailDialog(
                         }
                     }
 
-                    // Tab Body Contents
+                    // Tab Body Contents — nested panels are flat (no offset shadow,
+                    // soft border) to cut border fatigue inside the modal; section
+                    // kickers share one muted style so content owns the hierarchy.
                     when (selectedTab) {
                         AppDetailTab.UPDATES -> {
-                            NeoCard(shadowOffset = 3.dp) {
-                                Text(
-                                    text = "RELEASE UPDATES & HISTORY",
-                                    fontSize = 11.sp,
-                                    fontWeight = FontWeight.Black,
-                                    fontFamily = FontFamily.Monospace,
-                                    color = NeoCyan
-                                )
+                            NeoCard(shadowOffset = 0.dp, borderColor = NeoBorderSoft, borderWidth = 1.5.dp) {
+                                SectionKicker("RELEASE UPDATES & HISTORY")
                                 Spacer(modifier = Modifier.height(6.dp))
                                 val updatesContent = app.updatesHistory.ifBlank { app.changelog }
                                 MarkdownBody(
                                     markdown = updatesContent,
-                                    bodySize = 11.sp,
-                                    lineHeight = 15.sp,
-                                    headingColor = NeoCyan,
-                                    accentColor = NeoYellow
+                                    bodySize = 12.sp,
+                                    lineHeight = 17.sp
                                 )
                             }
                         }
 
                         AppDetailTab.DESCRIPTION -> {
-                            NeoCard(shadowOffset = 3.dp) {
-                                Text(
-                                    text = "APPLICATION OVERVIEW",
-                                    fontSize = 11.sp,
-                                    fontWeight = FontWeight.Black,
-                                    fontFamily = FontFamily.Monospace,
-                                    color = NeoMagenta
-                                )
+                            NeoCard(shadowOffset = 0.dp, borderColor = NeoBorderSoft, borderWidth = 1.5.dp) {
+                                SectionKicker("APPLICATION OVERVIEW")
                                 Spacer(modifier = Modifier.height(6.dp))
                                 MarkdownBody(
                                     markdown = app.description,
-                                    bodySize = 11.5.sp,
-                                    lineHeight = 16.sp,
-                                    headingColor = NeoMagenta,
-                                    accentColor = NeoCyan
+                                    bodySize = 12.5.sp,
+                                    lineHeight = 18.sp
                                 )
                             }
 
                             if (app.specs.isNotBlank()) {
-                                NeoCard(shadowOffset = 3.dp) {
-                                    Text(
-                                        text = "TECHNICAL SPECIFICATIONS",
-                                        fontSize = 11.sp,
-                                        fontWeight = FontWeight.Black,
-                                        fontFamily = FontFamily.Monospace,
-                                        color = NeoYellow
-                                    )
+                                NeoCard(shadowOffset = 0.dp, borderColor = NeoBorderSoft, borderWidth = 1.5.dp) {
+                                    SectionKicker("TECHNICAL SPECIFICATIONS")
                                     Spacer(modifier = Modifier.height(6.dp))
                                     MarkdownBody(
                                         markdown = app.specs,
-                                        bodySize = 11.sp,
-                                        lineHeight = 15.sp,
-                                        headingColor = NeoYellow,
-                                        accentColor = NeoCyan
+                                        bodySize = 12.sp,
+                                        lineHeight = 17.sp
                                     )
                                 }
                             }
 
-                            NeoCard(shadowOffset = 3.dp) {
-                                Text(
-                                    text = "SYSTEM & PACKAGE PROPERTIES",
-                                    fontSize = 11.sp,
-                                    fontWeight = FontWeight.Black,
-                                    fontFamily = FontFamily.Monospace,
-                                    color = NeoText
-                                )
+                            NeoCard(shadowOffset = 0.dp, borderColor = NeoBorderSoft, borderWidth = 1.5.dp) {
+                                SectionKicker("SYSTEM & PACKAGE PROPERTIES")
                                 Spacer(modifier = Modifier.height(6.dp))
 
                                 DetailRow("APPLICATION NAME", app.name)
@@ -1677,21 +1673,13 @@ fun AppDetailDialog(
                                 "# User Guide for ${app.name}\n\nComprehensive user documentation is available for ${app.name}.\n\n## Overview\nRefer to the description tab for key application capabilities.\n\n## Quick Start\nInstall or update the application using the button below."
                             }
 
-                            NeoCard(shadowOffset = 3.dp) {
-                                Text(
-                                    text = "${app.name.uppercase()} USER GUIDE",
-                                    fontSize = 11.sp,
-                                    fontWeight = FontWeight.Black,
-                                    fontFamily = FontFamily.Monospace,
-                                    color = NeoYellow
-                                )
+                            NeoCard(shadowOffset = 0.dp, borderColor = NeoBorderSoft, borderWidth = 1.5.dp) {
+                                SectionKicker("${app.name.uppercase()} USER GUIDE")
                                 Spacer(modifier = Modifier.height(6.dp))
                                 MarkdownBody(
                                     markdown = userGuideText,
-                                    bodySize = 11.5.sp,
-                                    lineHeight = 16.sp,
-                                    headingColor = NeoYellow,
-                                    accentColor = NeoCyan,
+                                    bodySize = 12.5.sp,
+                                    lineHeight = 18.sp,
                                     highlightAnchor = activeHighlightAnchor,
                                     onHeaderPositioned = { title, anchor, yPx ->
                                         headerPositions[title] = yPx
@@ -1714,14 +1702,15 @@ fun AppDetailDialog(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+                    // Destructive action = crimson (semantic error/danger color)
                     NeoButton(
                         onClick = onDeleteClick,
-                        style = NeoButtonStyle.NEUTRAL_WHITE,
+                        style = NeoButtonStyle.DANGER_RED,
                         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 6.dp)
                     ) {
-                        Icon(Icons.Default.Delete, contentDescription = "Delete", tint = NeoRed, modifier = Modifier.size(14.dp))
+                        Icon(Icons.Default.Delete, contentDescription = "Delete", tint = Color.White, modifier = Modifier.size(14.dp))
                         Spacer(modifier = Modifier.width(4.dp))
-                        Text("REMOVE", fontSize = 10.sp, fontWeight = FontWeight.Bold, color = NeoRed, fontFamily = FontFamily.Monospace)
+                        Text("REMOVE", fontSize = 10.sp, fontWeight = FontWeight.Bold, color = Color.White, fontFamily = FontFamily.Monospace)
                     }
 
                     if (isCurrentDownloading) {
@@ -1730,18 +1719,18 @@ fun AppDetailDialog(
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Black,
                             fontFamily = FontFamily.Monospace,
-                            color = NeoMagenta
+                            color = NeoYellow
                         )
                     } else {
                         when {
                             !app.isInstalled -> {
                                 NeoButton(
                                     onClick = onActionClick,
-                                    style = NeoButtonStyle.PRIMARY_MAGENTA
+                                    style = NeoButtonStyle.SECONDARY_YELLOW
                                 ) {
-                                    Icon(Icons.Default.Download, contentDescription = null, tint = Color.White, modifier = Modifier.size(14.dp))
+                                    Icon(Icons.Default.Download, contentDescription = null, tint = Color.Black, modifier = Modifier.size(14.dp))
                                     Spacer(modifier = Modifier.width(4.dp))
-                                    Text("INSTALL NOW", fontSize = 11.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace)
+                                    Text("INSTALL NOW", fontSize = 11.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace, color = Color.Black)
                                 }
                             }
                             app.isOutdated -> {
@@ -1759,9 +1748,9 @@ fun AppDetailDialog(
                                     onClick = onLaunchClick,
                                     style = NeoButtonStyle.ACTION_GREEN
                                 ) {
-                                    Icon(Icons.Default.Launch, contentDescription = null, tint = Color.White, modifier = Modifier.size(14.dp))
+                                    Icon(Icons.Default.Launch, contentDescription = null, tint = Color.Black, modifier = Modifier.size(14.dp))
                                     Spacer(modifier = Modifier.width(4.dp))
-                                    Text("LAUNCH NOW", fontSize = 11.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace)
+                                    Text("LAUNCH NOW", fontSize = 11.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace, color = Color.Black)
                                 }
                             }
                         }
@@ -1769,6 +1758,30 @@ fun AppDetailDialog(
                 }
             }
         }
+    }
+}
+
+/**
+ * Uniform muted section label — one consistent kicker style keeps neon accents
+ * free for actions instead of decorating every panel differently.
+ */
+@Composable
+fun SectionKicker(text: String) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Box(
+            modifier = Modifier
+                .size(width = 4.dp, height = 10.dp)
+                .background(NeoMagenta)
+        )
+        Spacer(modifier = Modifier.width(6.dp))
+        Text(
+            text = text,
+            fontSize = 10.5.sp,
+            fontWeight = FontWeight.Black,
+            fontFamily = FontFamily.Monospace,
+            color = NeoSubtext,
+            letterSpacing = 1.sp
+        )
     }
 }
 
@@ -1832,9 +1845,10 @@ fun AddAppDialog(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
+                    // Segmented choice: selected segment = focus yellow
                     NeoButton(
                         onClick = { isGame = false },
-                        style = if (!isGame) NeoButtonStyle.ACCENT_CYAN else NeoButtonStyle.NEUTRAL_WHITE,
+                        style = if (!isGame) NeoButtonStyle.SECONDARY_YELLOW else NeoButtonStyle.NEUTRAL_WHITE,
                         modifier = Modifier.weight(1f)
                     ) {
                         Text("APPLICATION", fontSize = 10.sp, fontWeight = FontWeight.Bold, fontFamily = FontFamily.Monospace)
@@ -1842,7 +1856,7 @@ fun AddAppDialog(
 
                     NeoButton(
                         onClick = { isGame = true },
-                        style = if (isGame) NeoButtonStyle.PRIMARY_MAGENTA else NeoButtonStyle.NEUTRAL_WHITE,
+                        style = if (isGame) NeoButtonStyle.SECONDARY_YELLOW else NeoButtonStyle.NEUTRAL_WHITE,
                         modifier = Modifier.weight(1f)
                     ) {
                         Text("GAME", fontSize = 10.sp, fontWeight = FontWeight.Bold, fontFamily = FontFamily.Monospace)
@@ -1852,10 +1866,11 @@ fun AddAppDialog(
                 val textFieldColors = OutlinedTextFieldDefaults.colors(
                     focusedTextColor = NeoText,
                     unfocusedTextColor = NeoText,
-                    focusedBorderColor = NeoMagenta,
+                    focusedBorderColor = NeoCyan,
                     unfocusedBorderColor = NeoBorder,
-                    focusedLabelColor = NeoMagenta,
-                    unfocusedLabelColor = NeoSubtext
+                    focusedLabelColor = NeoCyan,
+                    unfocusedLabelColor = NeoSubtext,
+                    cursorColor = NeoCyan
                 )
 
                 OutlinedTextField(
@@ -1974,10 +1989,11 @@ fun SettingsDialog(
     val textFieldColors = OutlinedTextFieldDefaults.colors(
         focusedTextColor = NeoText,
         unfocusedTextColor = NeoText,
-        focusedBorderColor = NeoMagenta,
+        focusedBorderColor = NeoCyan,
         unfocusedBorderColor = NeoBorder,
-        focusedLabelColor = NeoMagenta,
-        unfocusedLabelColor = NeoSubtext
+        focusedLabelColor = NeoCyan,
+        unfocusedLabelColor = NeoSubtext,
+        cursorColor = NeoCyan
     )
 
     Dialog(onDismissRequest = onDismiss) {
@@ -2002,19 +2018,13 @@ fun SettingsDialog(
                     color = NeoText
                 )
 
-                Text(
-                    text = "RYKERSOFT ACCOUNT (AI UNLOCK)",
-                    fontWeight = FontWeight.Black,
-                    fontFamily = FontFamily.Monospace,
-                    fontSize = 12.sp,
-                    color = NeoYellow
-                )
+                SectionKicker("RYKERSOFT ACCOUNT (AI UNLOCK)")
                 if (!hubFirebaseConfigured) {
                     Text(
                         text = "Firebase not configured. Add FIREBASE_* keys to .env (firebase/SEED.md).",
                         fontSize = 10.sp,
                         fontFamily = FontFamily.Monospace,
-                        color = NeoMagenta
+                        color = NeoRed
                     )
                 } else if (hubSignedIn) {
                     Text(
@@ -2029,7 +2039,7 @@ fun SettingsDialog(
                         modifier = Modifier.fillMaxWidth(),
                         enabled = !hubBusy
                     ) {
-                        Text("SIGN OUT", fontSize = 11.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace, color = Color.Black)
+                        Text("SIGN OUT", fontSize = 11.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace, color = NeoText)
                     }
                 } else {
                     OutlinedTextField(
@@ -2058,11 +2068,11 @@ fun SettingsDialog(
                     ) {
                         NeoButton(
                             onClick = { onHubSignIn(hubEmail, hubPassword) },
-                            style = NeoButtonStyle.PRIMARY_MAGENTA,
+                            style = NeoButtonStyle.SECONDARY_YELLOW,
                             modifier = Modifier.weight(1f),
                             enabled = !hubBusy && hubEmail.isNotBlank() && hubPassword.length >= 6
                         ) {
-                            Text("SIGN IN", fontSize = 10.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace)
+                            Text("SIGN IN", fontSize = 10.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace, color = Color.Black)
                         }
                         NeoButton(
                             onClick = { onHubSignUp(hubEmail, hubPassword) },
@@ -2140,9 +2150,9 @@ fun SettingsDialog(
                     Spacer(modifier = Modifier.width(8.dp))
                     NeoButton(
                         onClick = { onSave(url, notify, token) },
-                        style = NeoButtonStyle.PRIMARY_MAGENTA
+                        style = NeoButtonStyle.SECONDARY_YELLOW
                     ) {
-                        Text("SAVE SETTINGS", fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace)
+                        Text("SAVE SETTINGS", fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace, color = Color.Black)
                     }
                 }
             }
@@ -2183,8 +2193,9 @@ fun UnlockAiDialog(
                 )
                 Text(
                     text = "Enter the family unlock code. Sign into the same RykerSoft account inside the app to load AI keys.",
-                    fontSize = 11.sp,
-                    fontFamily = FontFamily.Monospace,
+                    fontSize = 12.sp,
+                    fontFamily = BodyFontFamily,
+                    lineHeight = 17.sp,
                     color = NeoSubtext
                 )
                 OutlinedTextField(
@@ -2206,7 +2217,7 @@ fun UnlockAiDialog(
                     Spacer(modifier = Modifier.width(8.dp))
                     NeoButton(
                         onClick = { onUnlock(code) },
-                        style = NeoButtonStyle.ACCENT_CYAN,
+                        style = NeoButtonStyle.SECONDARY_YELLOW,
                         enabled = !busy && code.isNotBlank()
                     ) {
                         Text("UNLOCK", fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace, color = Color.Black)
@@ -2257,11 +2268,13 @@ private fun AppManagerUpdateBanner(
         "v${app.latestVersionName}"
     }
 
+    // Header row carries the identity; the description gets the full card width
+    // below it so copy wraps naturally instead of truncating mid-sentence.
     NeoCard(
         modifier = modifier
             .fillMaxWidth()
             .testTag("app_manager_update_banner"),
-        backgroundColor = Color(0xFF2B1B47),
+        backgroundColor = NeoPurpleDim,
         borderColor = NeoYellow,
         borderWidth = 2.dp,
         shadowOffset = 4.dp,
@@ -2270,94 +2283,90 @@ private fun AppManagerUpdateBanner(
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
-                verticalAlignment = Alignment.CenterVertically,
+            Box(
+                modifier = Modifier
+                    .size(38.dp)
+                    .background(NeoYellow)
+                    .border(1.5.dp, NeoBlack),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Default.SystemUpdate,
+                    contentDescription = "Update Available",
+                    tint = Color.Black,
+                    modifier = Modifier.size(22.dp)
+                )
+            }
+
+            Column(
+                verticalArrangement = Arrangement.spacedBy(3.dp),
                 modifier = Modifier.weight(1f)
             ) {
+                Text(
+                    text = "APP MANAGER UPDATE",
+                    fontFamily = FontFamily.Monospace,
+                    fontWeight = FontWeight.Black,
+                    fontSize = 12.sp,
+                    color = NeoYellow
+                )
                 Box(
                     modifier = Modifier
-                        .size(38.dp)
-                        .background(NeoYellow)
-                        .border(1.5.dp, NeoBorder),
-                    contentAlignment = Alignment.Center
+                        .background(NeoBlack)
+                        .padding(horizontal = 5.dp, vertical = 1.dp)
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.SystemUpdate,
-                        contentDescription = "Update Available",
-                        tint = Color.Black,
-                        modifier = Modifier.size(22.dp)
-                    )
-                }
-
-                Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(6.dp)
-                    ) {
-                        Text(
-                            text = "APP MANAGER UPDATE",
-                            fontFamily = FontFamily.Monospace,
-                            fontWeight = FontWeight.Black,
-                            fontSize = 12.sp,
-                            color = NeoYellow
-                        )
-                        Box(
-                            modifier = Modifier
-                                .background(NeoMagenta)
-                                .padding(horizontal = 4.dp, vertical = 1.dp)
-                        ) {
-                            Text(
-                                text = versionDiff,
-                                fontFamily = FontFamily.Monospace,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 10.sp,
-                                color = Color.White
-                            )
-                        }
-                    }
-
                     Text(
-                        text = "New version of RykerSoft is available! Click to update now.",
+                        text = versionDiff,
                         fontFamily = FontFamily.Monospace,
                         fontWeight = FontWeight.Bold,
                         fontSize = 10.sp,
-                        color = Color.White,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis
+                        color = NeoYellow
                     )
                 }
             }
+        }
 
-            Spacer(modifier = Modifier.width(8.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
-            NeoButton(
-                onClick = onUpdateClick,
-                style = NeoButtonStyle.SECONDARY_YELLOW,
-                enabled = !isDownloading,
-                modifier = Modifier.testTag("app_manager_update_now_button")
+        Text(
+            text = "New version of RykerSoft is available! Click to update now.",
+            fontFamily = BodyFontFamily,
+            fontWeight = FontWeight.Medium,
+            fontSize = 12.sp,
+            lineHeight = 17.sp,
+            color = NeoText,
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        NeoButton(
+            onClick = onUpdateClick,
+            style = NeoButtonStyle.SECONDARY_YELLOW,
+            enabled = !isDownloading,
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag("app_manager_update_now_button")
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Download,
-                        contentDescription = null,
-                        tint = Color.Black,
-                        modifier = Modifier.size(13.dp)
-                    )
-                    Text(
-                        text = if (isDownloading) "$downloadProgress%" else "UPDATE NOW",
-                        fontFamily = FontFamily.Monospace,
-                        fontWeight = FontWeight.Black,
-                        fontSize = 10.sp,
-                        color = Color.Black
-                    )
-                }
+                Icon(
+                    imageVector = Icons.Default.Download,
+                    contentDescription = null,
+                    tint = Color.Black,
+                    modifier = Modifier.size(13.dp)
+                )
+                Text(
+                    text = if (isDownloading) "DOWNLOADING... $downloadProgress%" else "UPDATE NOW",
+                    fontFamily = FontFamily.Monospace,
+                    fontWeight = FontWeight.Black,
+                    fontSize = 11.sp,
+                    color = Color.Black
+                )
             }
         }
     }
