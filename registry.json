@@ -14,11 +14,11 @@
     {
       "packageName": "com.rykersoft.informant",
       "name": "INFORMANT",
-      "latestVersionCode": 6,
-      "latestVersionName": "1.1.0",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/informant-v1.1.0/app-release.apk",
+      "latestVersionCode": 7,
+      "latestVersionName": "1.2.0",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/informant-v1.2.0/app-release.apk",
       "icon": "android",
-      "changelog": "- RykerSoft AI unlock: sign in under Settings to sync AI keys after unlocking in the App Manager\n- Gemini features (chat, AI actions, analyses) are unlock-gated; transcripts, metadata, and comments stay free\n- Manually entered keys still work and take priority",
+      "changelog": "- Text-to-speech on every tab (ElevenLabs, Piper TTS, System TTS)\n- Selection-aware reading with smart scripts for comments and bookmarks\n- Settings → TTS for voices, models, and Piper downloads",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/01-home.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/02-workspace.jpg",
