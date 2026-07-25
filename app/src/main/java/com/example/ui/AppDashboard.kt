@@ -315,6 +315,7 @@ fun AppDashboard(
     var searchQuery by remember { mutableStateOf("") }
     var showSearchBar by remember { mutableStateOf(false) }
     var selectedAppForDetail by remember { mutableStateOf<AppUiItem?>(null) }
+    var detailInitialTab by remember { mutableStateOf(AppDetailTab.DESCRIPTION) }
     var selectedScreenshotIndex by remember { mutableIntStateOf(0) }
     var showAddDialog by remember { mutableStateOf(false) }
     var showSettingsDialog by remember { mutableStateOf(false) }
@@ -339,14 +340,16 @@ fun AppDashboard(
         }
     }
 
-    // After launching the system installer, background RykerSoft so Play Protect's
-    // "Send app for a security check?" sheet stays visible long enough to tap.
-    LaunchedEffect(uiState.backgroundForInstall) {
-        if (uiState.backgroundForInstall) {
-            kotlinx.coroutines.delay(250)
-            (context as? android.app.Activity)?.moveTaskToBack(true)
-            viewModel.clearBackgroundForInstall()
+    // After a successful install/update, keep the user on that app's detail User Guide tab.
+    LaunchedEffect(uiState.postInstallOpenPackage) {
+        val pkg = uiState.postInstallOpenPackage ?: return@LaunchedEffect
+        val app = uiState.apps.find { it.packageName == pkg }
+        if (app != null) {
+            selectedAppForDetail = app
+            detailInitialTab = AppDetailTab.USER_GUIDE
+            selectedScreenshotIndex = 0
         }
+        viewModel.clearPostInstallOpen()
     }
 
     // Side-effects for error or info popups
@@ -894,6 +897,7 @@ fun AppDashboard(
                                     onUpdateClick = { viewModel.downloadAndInstall(updateApp) },
                                     onOpenDetail = {
                                         selectedAppForDetail = updateApp
+                                        detailInitialTab = defaultAppDetailTab(updateApp)
                                         selectedScreenshotIndex = 0
                                     },
                                     downloadingPackage = uiState.downloadingPackage,
@@ -907,6 +911,7 @@ fun AppDashboard(
                                 app = app,
                                 onOpenDetail = { index ->
                                     selectedAppForDetail = app
+                                    detailInitialTab = defaultAppDetailTab(app)
                                     selectedScreenshotIndex = index
                                 },
                                 onLongClick = {
@@ -932,6 +937,7 @@ fun AppDashboard(
             AppDetailDialog(
                 app = currentApp,
                 initialScreenshotIndex = selectedScreenshotIndex,
+                initialTab = detailInitialTab,
                 onDismiss = { selectedAppForDetail = null },
                 onActionClick = { viewModel.downloadAndInstall(currentApp) },
                 onLaunchClick = { ApkManager.launchApp(context, currentApp.packageName) },
@@ -1344,10 +1350,18 @@ enum class AppDetailTab(val label: String, val icon: ImageVector) {
     USER_GUIDE("USER GUIDE", Icons.Default.MenuBook)
 }
 
+/** Default detail tab: Updates if outdated, Description if not installed, else User Guide. */
+fun defaultAppDetailTab(app: AppUiItem): AppDetailTab = when {
+    app.isOutdated -> AppDetailTab.UPDATES
+    !app.isInstalled -> AppDetailTab.DESCRIPTION
+    else -> AppDetailTab.USER_GUIDE
+}
+
 @Composable
 fun AppDetailDialog(
     app: AppUiItem,
     initialScreenshotIndex: Int = 0,
+    initialTab: AppDetailTab = defaultAppDetailTab(app),
     onDismiss: () -> Unit,
     onActionClick: () -> Unit,
     onLaunchClick: () -> Unit,
@@ -1500,8 +1514,8 @@ fun AppDetailDialog(
                     }
                 }
 
-                // Tab Selection State
-                var selectedTab by remember { mutableStateOf(AppDetailTab.UPDATES) }
+                // Tab Selection State — keyed so post-install User Guide focus and reopen defaults apply
+                var selectedTab by remember(app.packageName, initialTab) { mutableStateOf(initialTab) }
                 var activeHighlightAnchor by remember { mutableStateOf<String?>(null) }
                 val headerPositions = remember { mutableStateMapOf<String, Float>() }
                 val bodyScrollState = rememberScrollState()

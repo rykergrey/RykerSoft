@@ -61,8 +61,10 @@ data class MainUiState(
     val infoMessage: String? = null,
     val filterType: FilterType = FilterType.ALL,
     val sortOption: SortOption = SortOption.RECENTLY_UPDATED,
-    /** When true, UI should background RykerSoft so Play Protect / installer stay on top. */
-    val backgroundForInstall: Boolean = false,
+    /**
+     * After a successful install/update, UI should open this package's detail on the User Guide tab.
+     */
+    val postInstallOpenPackage: String? = null,
     val appManagerUpdateAvailable: AppUiItem? = null,
     val hubFirebaseConfigured: Boolean = false,
     val hubSignedIn: Boolean = false,
@@ -94,6 +96,9 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     val uiState: StateFlow<MainUiState> = _uiState.asStateFlow()
 
     private var cachedDbApps: List<ManagedApp> = emptyList()
+
+    /** Package whose system installer was launched; used to open User Guide after success. */
+    private var awaitingInstallPackage: String? = null
 
     init {
         val database = AppDatabase.getDatabase(context)
@@ -296,8 +301,8 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         _uiState.update { it.copy(titleFontPreset = preset) }
     }
 
-    fun clearBackgroundForInstall() {
-        _uiState.update { it.copy(backgroundForInstall = false) }
+    fun clearPostInstallOpen() {
+        _uiState.update { it.copy(postInstallOpenPackage = null) }
     }
 
     fun clearError() {
@@ -407,10 +412,22 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
             )
         }
         val appManagerUpdate = uiItems.find { it.packageName == context.packageName && it.isOutdated }
+
+        val awaiting = awaitingInstallPackage
+        var postInstallOpen = _uiState.value.postInstallOpenPackage
+        if (awaiting != null) {
+            val installedItem = uiItems.find { it.packageName == awaiting }
+            if (installedItem != null && installedItem.isInstalled && !installedItem.isOutdated) {
+                postInstallOpen = awaiting
+                awaitingInstallPackage = null
+            }
+        }
+
         _uiState.update { 
             it.copy(
                 apps = uiItems,
-                appManagerUpdateAvailable = appManagerUpdate
+                appManagerUpdateAvailable = appManagerUpdate,
+                postInstallOpenPackage = postInstallOpen
             ) 
         }
     }
@@ -433,7 +450,11 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
             val success = ApkManager.triggerInstall(context, file)
             if (success) {
                 pendingInstallFile = null
-                _uiState.update { it.copy(backgroundForInstall = true) }
+                // Package name is embedded in cache filename: {packageName}_v{version}.apk
+                val inferredPackage = file.name.substringBefore("_v").takeIf { it.isNotBlank() }
+                if (inferredPackage != null) {
+                    awaitingInstallPackage = inferredPackage
+                }
             }
         }
     }
@@ -479,12 +500,12 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                                 if (!success) {
                                     _uiState.update { it.copy(errorMessage = "Failed to launch package installer.") }
                                 } else {
-                                    // Step out of the way so Play Protect's prompt isn't buried
-                                    // under RykerSoft's install/progress UI.
-                                    _uiState.update { it.copy(backgroundForInstall = true) }
+                                    // Stay in App Manager; after install succeeds, open User Guide.
+                                    awaitingInstallPackage = app.packageName
                                 }
                             } else {
                                 pendingInstallFile = progress.file
+                                awaitingInstallPackage = app.packageName
                                 _uiState.update { 
                                     it.copy(
                                         errorMessage = "Install permission required. Please allow unknown sources in settings."

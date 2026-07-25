@@ -1,5 +1,14 @@
 # Release Updates & History
 
+## v1.2.2 (Version Code 9) - July 24th, 2026
+- App Manager no longer backgrounds itself when launching the system package installer — you stay in the hub during install
+- After a successful install or update, the app detail view reopens on the User Guide tab
+- Opening an app detail view now picks a smarter default tab: Updates if an update is available, Description if not installed, User Guide if installed and up to date
+
+## v1.2.1 (Version Code 8) - July 24th, 2026
+- Photocraft.ing added as an unlockable AI app
+- UNLOCK AI FEATURES applies to Photocraft.ing alongside SuperThinking, bettertracking, and INFORMANT
+
 ## v1.2.0 (Version Code 7) - July 24th, 2026
 - Complete visual design overhaul with a strict semantic color system: yellow = primary actions and active tabs, green = installed/success, crimson = errors and destructive actions, cyan = links and interactive focus, magenta reserved for brand accents
 - Error toasts now show a red border and alert icon instead of a green checkmark
