@@ -327,6 +327,8 @@ fun AppDashboard(
     val snackbarHostState = remember { SnackbarHostState() }
 
     val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
+    val activity = context as? androidx.activity.ComponentActivity
+
     DisposableEffect(lifecycleOwner) {
         val observer = androidx.lifecycle.LifecycleEventObserver { _, event ->
             if (event == androidx.lifecycle.Lifecycle.Event.ON_RESUME) {
@@ -337,6 +339,29 @@ fun AppDashboard(
         lifecycleOwner.lifecycle.addObserver(observer)
         onDispose {
             lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
+
+    // Install-result intents from PackageInstaller status callbacks.
+    DisposableEffect(activity) {
+        val act = activity
+        if (act == null) {
+            onDispose { }
+        } else {
+            val listener = androidx.core.util.Consumer<android.content.Intent> { intent ->
+                viewModel.consumeInstallIntent(intent)
+            }
+            act.addOnNewIntentListener(listener)
+            viewModel.consumeInstallIntent(act.intent)
+            onDispose { act.removeOnNewIntentListener(listener) }
+        }
+    }
+
+    // Close the detail Dialog while a session install needs Play Protect / confirmation.
+    // Compose Dialog windows otherwise sit above the system prompt and leave install stuck forever.
+    LaunchedEffect(uiState.installSessionActive) {
+        if (uiState.installSessionActive) {
+            selectedAppForDetail = null
         }
     }
 

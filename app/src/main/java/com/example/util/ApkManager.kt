@@ -1,17 +1,23 @@
 package com.example.util
 
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
+import android.content.pm.PackageInstaller
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import android.util.Log
 import androidx.core.content.FileProvider
+import com.example.install.InstallSessionTracker
+import com.example.install.InstallStatusReceiver
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.File
@@ -204,7 +210,7 @@ object ApkManager {
     }
 
     /**
-     * Launches the Package Installer with the specified APK file.
+     * Legacy ACTION_VIEW install path. Prefer [installViaSession] so Play Protect stays interactable.
      */
     fun triggerInstall(context: Context, file: File): Boolean {
         if (!file.exists()) return false
@@ -217,7 +223,7 @@ object ApkManager {
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
-        
+
         return try {
             context.startActivity(intent)
             true
@@ -226,6 +232,94 @@ object ApkManager {
             false
         }
     }
+
+    /**
+     * Abandons any PackageInstaller sessions owned by this app so a previous stuck
+     * Play Protect / confirmation dialog cannot block the next install forever.
+     */
+    fun abandonOwnedSessions(context: Context) {
+        val installer = context.packageManager.packageInstaller
+        for (session in installer.mySessions) {
+            try {
+                installer.abandonSession(session.sessionId)
+                Log.i(TAG, "Abandoned stale session ${session.sessionId}")
+            } catch (e: Exception) {
+                Log.w(TAG, "Could not abandon session ${session.sessionId}: ${e.message}")
+            }
+        }
+        InstallSessionTracker.clear(context)
+    }
+
+    /**
+     * Installs [file] via [PackageInstaller] sessions. Status (including Play Protect
+     * confirmation) is delivered to [InstallStatusReceiver].
+     *
+     * @return session id on success, or null if the session could not be created/committed
+     */
+    suspend fun installViaSession(context: Context, file: File, targetPackage: String): Int? =
+        withContext(Dispatchers.IO) {
+            if (!file.exists() || file.length() <= 0L) return@withContext null
+
+            abandonOwnedSessions(context)
+
+            val installer = context.packageManager.packageInstaller
+            val params = PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL).apply {
+                setAppPackageName(targetPackage)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    setInstallReason(PackageManager.INSTALL_REASON_USER)
+                }
+                // Force the system confirmation / Play Protect path through our wrapper Activity
+                // so the prompt cannot be buried under App Manager UI.
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    setRequireUserAction(PackageInstaller.SessionParams.USER_ACTION_REQUIRED)
+                }
+            }
+
+            var sessionId = -1
+            try {
+                sessionId = installer.createSession(params)
+                installer.openSession(sessionId).use { session ->
+                    session.openWrite("base.apk", 0, file.length()).use { out ->
+                        file.inputStream().use { input -> input.copyTo(out) }
+                        session.fsync(out)
+                    }
+
+                    val callbackIntent = Intent(context, InstallStatusReceiver::class.java).apply {
+                        action = InstallStatusReceiver.ACTION_INSTALL_STATUS
+                        setPackage(context.packageName)
+                        putExtra(InstallStatusReceiver.EXTRA_TARGET_PACKAGE, targetPackage)
+                    }
+                    val flags = PendingIntent.FLAG_UPDATE_CURRENT or
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                            PendingIntent.FLAG_MUTABLE
+                        } else {
+                            0
+                        }
+                    val pending = PendingIntent.getBroadcast(
+                        context,
+                        sessionId,
+                        callbackIntent,
+                        flags
+                    )
+                    InstallSessionTracker.setAwaiting(context, targetPackage, sessionId)
+                    session.commit(pending.intentSender)
+                }
+                Log.i(TAG, "Committed install session $sessionId for $targetPackage")
+                sessionId
+            } catch (e: Exception) {
+                Log.e(TAG, "installViaSession failed", e)
+                if (sessionId >= 0) {
+                    try {
+                        installer.abandonSession(sessionId)
+                    } catch (_: Exception) {
+                    }
+                }
+                InstallSessionTracker.clear(context)
+                null
+            }
+        }
+
+    private const val TAG = "ApkManager"
 }
 
 sealed class DownloadProgress {

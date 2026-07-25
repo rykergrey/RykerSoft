@@ -3,11 +3,11 @@
     {
       "packageName": "com.rykersoft.appmanager",
       "name": "RykerSoft",
-      "latestVersionCode": 9,
-      "latestVersionName": "1.2.2",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft/releases/download/v1.2.2/app-release.apk",
+      "latestVersionCode": 10,
+      "latestVersionName": "1.2.3",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft/releases/download/v1.2.3/app-release.apk",
       "icon": "android",
-      "changelog": "- Stay in App Manager during installs (no more home-screen bounce)\n- After install/update, reopen the app detail on the User Guide tab\n- Smarter default detail tab: Updates / Description / User Guide based on install state",
+      "changelog": "- Fixed Play Protect prompt disappearing mid-install (PackageInstaller sessions + confirmation host)\n- Detail dialog closes during confirmation so prompts stay tappable\n- Returns to User Guide after success; clears stuck install sessions on retry",
       "screenshots": [],
       "isGame": false
     },

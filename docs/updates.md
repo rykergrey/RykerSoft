@@ -1,5 +1,11 @@
 # Release Updates & History
 
+## v1.2.3 (Version Code 10) - July 25th, 2026
+- Installs now use Android PackageInstaller sessions instead of ACTION_VIEW, so Play Protect stays on-screen and tappable
+- App detail dialog closes while confirmation runs (Compose dialogs were burying Play Protect and leaving installs stuck forever)
+- After success, App Manager returns to the foreground on that app’s User Guide tab
+- Stuck/abandoned install sessions are cleared before each new install
+
 ## v1.2.2 (Version Code 9) - July 24th, 2026
 - App Manager no longer backgrounds itself when launching the system package installer — you stay in the hub during install
 - After a successful install or update, the app detail view reopens on the User Guide tab

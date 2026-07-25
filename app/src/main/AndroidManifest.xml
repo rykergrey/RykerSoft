@@ -19,6 +19,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:launchMode="singleTop"
             android:label="@string/app_name"
             android:theme="@style/Theme.MyApplication">
             <intent-filter>
@@ -27,6 +28,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Hosts PackageInstaller / Play Protect confirmation above App Manager UI -->
+        <activity
+            android:name=".install.InstallConfirmationActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -39,6 +47,13 @@
         </provider>
 
         <receiver android:name=".receiver.UpdateCheckReceiver" android:exported="false" />
+        <receiver
+            android:name=".install.InstallStatusReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.rykersoft.appmanager.INSTALL_STATUS" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

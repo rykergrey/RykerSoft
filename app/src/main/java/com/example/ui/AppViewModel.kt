@@ -9,6 +9,9 @@ import com.example.data.AppRepository
 import com.example.data.ManagedApp
 import com.example.entitlements.AiUnlockPackages
 import com.example.entitlements.EntitlementRepository
+import android.content.Intent
+import com.example.install.InstallSessionTracker
+import com.example.install.InstallStatusReceiver
 import com.example.util.ApkManager
 import com.example.util.DownloadProgress
 import com.example.util.FamilyToken
@@ -65,6 +68,11 @@ data class MainUiState(
      * After a successful install/update, UI should open this package's detail on the User Guide tab.
      */
     val postInstallOpenPackage: String? = null,
+    /**
+     * True while a PackageInstaller session is active — UI should dismiss the detail dialog so
+     * Play Protect / install confirmation is not buried under a Compose Dialog window.
+     */
+    val installSessionActive: Boolean = false,
     val appManagerUpdateAvailable: AppUiItem? = null,
     val hubFirebaseConfigured: Boolean = false,
     val hubSignedIn: Boolean = false,
@@ -313,6 +321,47 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         _uiState.update { it.copy(infoMessage = null) }
     }
 
+    /**
+     * Handles install-result intents delivered by [InstallStatusReceiver] / confirmation host.
+     */
+    fun consumeInstallIntent(intent: Intent?) {
+        if (intent == null) return
+        val result = intent.getStringExtra(InstallStatusReceiver.EXTRA_INSTALL_RESULT) ?: return
+        val packageName = intent.getStringExtra(InstallStatusReceiver.EXTRA_POST_INSTALL_PACKAGE)
+        val message = intent.getStringExtra(InstallStatusReceiver.EXTRA_INSTALL_MESSAGE)
+
+        // Prevent re-processing the same intent on configuration changes.
+        intent.removeExtra(InstallStatusReceiver.EXTRA_INSTALL_RESULT)
+        intent.removeExtra(InstallStatusReceiver.EXTRA_POST_INSTALL_PACKAGE)
+        intent.removeExtra(InstallStatusReceiver.EXTRA_INSTALL_MESSAGE)
+
+        _uiState.update { it.copy(installSessionActive = false) }
+        awaitingInstallPackage = packageName
+        InstallSessionTracker.clear(context)
+
+        when (result) {
+            InstallStatusReceiver.RESULT_SUCCESS -> {
+                if (!packageName.isNullOrBlank()) {
+                    awaitingInstallPackage = packageName
+                }
+                _uiState.update {
+                    it.copy(infoMessage = "Install completed.")
+                }
+                refreshLocalInstallations()
+            }
+            else -> {
+                awaitingInstallPackage = null
+                _uiState.update {
+                    it.copy(
+                        errorMessage = message ?: "Install failed.",
+                        postInstallOpenPackage = null
+                    )
+                }
+                refreshLocalInstallations()
+            }
+        }
+    }
+
     private fun loadAssetDoc(slug: String, docName: String): String {
         return try {
             context.assets.open("app_docs/$slug/$docName").bufferedReader().use { it.readText() }
@@ -447,24 +496,42 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     fun checkPendingInstall() {
         val file = pendingInstallFile
         if (file != null && file.exists() && ApkManager.canInstallApks(context)) {
-            val success = ApkManager.triggerInstall(context, file)
-            if (success) {
-                pendingInstallFile = null
-                // Package name is embedded in cache filename: {packageName}_v{version}.apk
-                val inferredPackage = file.name.substringBefore("_v").takeIf { it.isNotBlank() }
-                if (inferredPackage != null) {
-                    awaitingInstallPackage = inferredPackage
-                }
+            val inferredPackage = file.name.substringBefore("_v").takeIf { it.isNotBlank() }
+                ?: return
+            pendingInstallFile = null
+            viewModelScope.launch {
+                beginSessionInstall(file, inferredPackage)
+            }
+        }
+    }
+
+    private suspend fun beginSessionInstall(file: java.io.File, packageName: String) {
+        // Dismiss detail dialog first so Play Protect is not covered by a Compose Dialog window.
+        _uiState.update {
+            it.copy(
+                installSessionActive = true,
+                infoMessage = "Confirm the system install / Play Protect prompts to continue..."
+            )
+        }
+        awaitingInstallPackage = packageName
+        val sessionId = ApkManager.installViaSession(context, file, packageName)
+        if (sessionId == null) {
+            awaitingInstallPackage = null
+            _uiState.update {
+                it.copy(
+                    installSessionActive = false,
+                    errorMessage = "Failed to start package installer session."
+                )
             }
         }
     }
 
     /**
-     * Downloads APK from registry URL and triggers system package installer.
+     * Downloads APK from registry URL and installs via PackageInstaller session API.
      */
     fun downloadAndInstall(app: AppUiItem) {
-        if (_uiState.value.downloadingPackage != null) {
-            _uiState.update { it.copy(errorMessage = "A download is already in progress.") }
+        if (_uiState.value.downloadingPackage != null || _uiState.value.installSessionActive) {
+            _uiState.update { it.copy(errorMessage = "A download or install is already in progress.") }
             return
         }
 
@@ -489,20 +556,13 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                                 it.copy(
                                     downloadingPackage = null,
                                     downloadProgress = 100,
-                                    infoMessage = "Download completed. Launching installation..."
+                                    infoMessage = "Download completed. Preparing installation..."
                                 )
                             }
-                            
-                            // Check if system allows unknown app installations
+
                             if (ApkManager.canInstallApks(context)) {
                                 pendingInstallFile = null
-                                val success = ApkManager.triggerInstall(context, progress.file)
-                                if (!success) {
-                                    _uiState.update { it.copy(errorMessage = "Failed to launch package installer.") }
-                                } else {
-                                    // Stay in App Manager; after install succeeds, open User Guide.
-                                    awaitingInstallPackage = app.packageName
-                                }
+                                beginSessionInstall(progress.file, app.packageName)
                             } else {
                                 pendingInstallFile = progress.file
                                 awaitingInstallPackage = app.packageName
@@ -521,6 +581,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                 _uiState.update { 
                     it.copy(
                         downloadingPackage = null,
+                        installSessionActive = false,
                         errorMessage = "Failed to download APK: ${e.localizedMessage ?: "Unknown error"}"
                     )
                 }

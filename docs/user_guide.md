@@ -33,18 +33,19 @@ You can still switch tabs manually anytime:
 ## 3. Checking & Installing Updates
 1. Tap the sync (refresh) button in the top control bar to pull the latest registry.
 2. Each app card shows a status sticker: **NEW RELEASE** (not installed), **UPDATE READY** (yellow — a newer version is available), or **INSTALLED** (green — up to date).
-3. Tap the yellow **INSTALL** / **UPDATE** button to download the latest APK and launch the package installer. App Manager stays open behind the system installer instead of closing to the home screen.
-4. Installed, up-to-date apps show a green **OPEN** / **PLAY** / **LAUNCH** button.
+3. Tap the yellow **INSTALL** / **UPDATE** button to download the latest APK. The app detail sheet closes briefly so the system install / Play Protect prompts stay on top and tappable.
+4. Accept Play Protect / install confirmation when asked — you do **not** need to disable Play Protect.
+5. Installed, up-to-date apps show a green **OPEN** / **PLAY** / **LAUNCH** button.
 
 App downloads and documentation come from the private **RykerSoft-APKs** distribution repo. The required access token is built into the app, so downloads work out of the box. If the built-in token is ever rotated, paste the replacement into **Settings → GitHub Token** (that field overrides the built-in one).
 
 ## 4. After an Install
-When the system installer finishes and you return to RykerSoft:
+When install finishes successfully:
 
-1. The hub refreshes installed versions.
-2. That app’s detail view opens (or stays open) on the **User Guide** tab so you can learn the app immediately.
+1. App Manager returns to the foreground automatically.
+2. That app’s detail view opens on the **User Guide** tab.
 
-If Play Protect or the installer asks for confirmation, accept those prompts; then you’ll land back in App Manager on the guide.
+If an install was cancelled or blocked, you’ll see an error toast and can try again. Retrying also clears any stuck prior install session.
 
 ## 5. RykerSoft Account & AI Unlock
 Some apps (SuperThink.ing, bettertracking, INFORMANT, Photocraft.ing) can run without AI. AI features use keys delivered from your RykerSoft Firebase project after unlock.
