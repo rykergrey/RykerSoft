@@ -88,10 +88,18 @@ VITE_RYKERSOFT_FIREBASE_APP_ID=
 2. Bump hub docs (`docs/user_guide.md` AI unlock section) if user-facing flow changes.
 3. No second APK / “pro flavor” — unlock is entitlement + remote keys.
 
-### F. Deploy / verify
+### F. Deploy / verify (RykerSoft-APKs distribution model)
 
-1. Rebuild release APK; register in hub if version bumped.
-2. Verify: locked → AI errors/disabled; unlock in manager → hub sign-in in app → AI works; other apps’ keys not readable.
+APKs and hub docs distribute from the **private `rykergrey/RykerSoft-APKs` repo** (one shared fine-grained PAT for family/friends, scoped to that repo only). App source repos stay private and are NOT referenced by `registry.json`.
+
+1. Rebuild the signed release APK in the app repo; commit/tag/release in the app repo as usual (source of truth).
+2. Also publish the APK to the distribution repo:
+   `gh release create <slug>-v<version> app-release.apk --repo rykergrey/RykerSoft-APKs --title "<AppName> v<version>"`
+3. Copy the app repo's `docs/*.md` into `RykerSoft-APKs/docs/<slug>/`, commit, push (hub fetches docs from there).
+4. Point `registry.json` `apkUrl` at:
+   `https://github.com/rykergrey/RykerSoft-APKs/releases/download/<slug>-v<version>/app-release.apk`
+   (Exception: the App Manager's own APK stays on the public `rykergrey/RykerSoft` repo so self-update needs no token.)
+5. Verify: locked → AI errors/disabled; unlock in manager → hub sign-in in app → AI works; other apps’ keys not readable.
 
 ## Dual Firebase Auth — intentional
 
