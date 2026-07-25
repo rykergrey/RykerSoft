@@ -1,5 +1,10 @@
 # Release Updates & History
 
+## v1.1.3 (Version Code 5) - July 24th, 2026
+- App APKs and docs now distribute from the private RykerSoft-APKs repo — one shared access token covers every app
+- Per-app documentation is fetched from `docs/<app>/` in the distribution repo (with fallback to each app repo's layout)
+- Users paste a single RykerSoft access token in Settings; app source repos stay private
+
 ## v1.1.2 (Version Code 4) - July 24th, 2026
 - RykerSoft Firebase account sign-in in Settings for AI entitlements
 - Per-app AI unlock with family unlock codes (SuperThinking, bettertracking, INFORMANT)

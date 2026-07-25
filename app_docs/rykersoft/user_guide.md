@@ -23,6 +23,8 @@ Tap any application card to open its detail view:
 2. Apps with updates available will show an **UPDATE AVAILABLE** status badge.
 3. Tap **INSTALL / UPDATE** to download the latest APK and launch the package installer.
 
+App downloads and documentation come from the private **RykerSoft-APKs** distribution repo. One-time setup: paste the RykerSoft access token (provided by the admin) into **Settings → GitHub Token**. Without it, downloads fail with HTTP 404.
+
 ## 4. RykerSoft Account & AI Unlock
 Some apps (SuperThink.ing, bettertracking, INFORMANT) can run without AI. AI features use keys delivered from your RykerSoft Firebase project after unlock.
 
@@ -37,12 +39,12 @@ Admin setup (one-time): see `firebase/SEED.md` for Firestore rules, unlock code 
 ## 5. Customizing Settings
 Access Settings via the top gear / title controls to:
 - Sign in to your RykerSoft account for AI unlocks
-- Set a GitHub Personal Access Token for private APK/docs downloads
+- Set the RykerSoft access token (GitHub PAT scoped to the RykerSoft-APKs repo) for APK/docs downloads
 - Configure periodic background update notification checks
 - Change title font presets (Arcade 3D, Cyber Neon, etc.)
 
 ## 6. Troubleshooting
 - **Install Permission Denied**: Ensure Android allows RykerSoft to install unknown applications in system settings.
-- **Network Error / APK 404**: Private app repos need a valid GitHub PAT in Settings.
+- **Network Error / APK 404**: The RykerSoft access token is missing or invalid in Settings — paste the token provided by the admin.
 - **AI unlock fails**: Confirm Firebase `.env` keys are set, Email/Password Auth is enabled, and the unlock code hash exists under `unlockCodes/{hash}`.
 - **App AI still locked after unlock**: Sign into the same RykerSoft account inside the app and tap Refresh keys.
