@@ -3,11 +3,14 @@ package com.example.util
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.pm.LauncherApps
 import android.content.pm.PackageInfo
 import android.content.pm.PackageInstaller
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+import android.os.Process
+import android.os.UserManager
 import android.provider.Settings
 import android.util.Log
 import androidx.core.content.FileProvider
@@ -34,8 +37,14 @@ object ApkManager {
 
     private val client = OkHttpClient()
 
+    const val OTHER_PROFILE_CONFLICT_MESSAGE =
+        "This app is still installed in another profile on this phone " +
+            "(Island, Secure Folder, or a Work profile). " +
+            "The main home screen can show it as not installed even when a copy exists there. " +
+            "Open that profile, uninstall the app, then try again."
+
     /**
-     * Get details of an installed app by package name.
+     * Get details of an installed app by package name (current user/profile only).
      */
     fun getInstalledAppInfo(context: Context, packageName: String): InstalledAppInfo {
         return try {
@@ -64,6 +73,27 @@ object ApkManager {
                 versionCode = null
             )
         }
+    }
+
+    /**
+     * True when [packageName] is present in a related profile (e.g. Island / work) but may be
+     * absent from the current profile — which causes PackageInstaller CONFLICT on install.
+     */
+    fun packageExistsInOtherProfile(context: Context, packageName: String): Boolean {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return false
+        val userManager = context.getSystemService(UserManager::class.java) ?: return false
+        val launcherApps = context.getSystemService(LauncherApps::class.java) ?: return false
+        val myUser = Process.myUserHandle()
+        for (profile in userManager.userProfiles) {
+            if (profile == myUser) continue
+            try {
+                launcherApps.getApplicationInfo(packageName, 0, profile)
+                return true
+            } catch (_: Exception) {
+                // Not installed in this profile, or profile not queryable.
+            }
+        }
+        return false
     }
 
     /**

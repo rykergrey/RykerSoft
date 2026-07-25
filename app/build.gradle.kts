@@ -24,8 +24,8 @@ android {
     applicationId = "com.rykersoft.appmanager"
     minSdk = 24
     targetSdk = 36
-    versionCode = 11
-    versionName = "1.2.4"
+    versionCode = 12
+    versionName = "1.2.5"
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
   }

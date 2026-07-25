@@ -7,12 +7,14 @@ import android.content.pm.PackageInstaller
 import android.os.Build
 import android.util.Log
 import com.example.MainActivity
+import com.example.util.ApkManager
 
 /**
  * Handles PackageInstaller session status callbacks.
  *
- * PENDING_USER_ACTION (includes Play Protect) is routed through [InstallConfirmationActivity]
- * so the system confirmation UI is not buried under App Manager's Compose dialogs.
+ * Confirmation intents (install consent + Play Protect) are started directly.
+ * Re-yielding / re-hosting on the *second* PENDING_USER_ACTION was burying Play Protect
+ * after the user tapped Install on the first prompt.
  */
 class InstallStatusReceiver : BroadcastReceiver() {
 
@@ -33,18 +35,19 @@ class InstallStatusReceiver : BroadcastReceiver() {
                     Log.e(TAG, "PENDING_USER_ACTION missing EXTRA_INTENT")
                     return
                 }
-                // Ask the hub to leave the foreground first — Play Protect is otherwise buried
-                // under App Manager's task/windows within milliseconds.
-                context.sendBroadcast(
-                    Intent(ACTION_YIELD_FOR_INSTALLER).setPackage(context.packageName)
-                )
-                val wrapper = Intent(context, InstallConfirmationActivity::class.java).apply {
-                    putExtra(InstallConfirmationActivity.EXTRA_CONFIRM_INTENT, confirmIntent)
-                    putExtra(InstallConfirmationActivity.EXTRA_SESSION_ID, sessionId)
-                    putExtra(EXTRA_TARGET_PACKAGE, targetPackage)
-                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                // Yield only once per session. A second yield when Play Protect appears
+                // brings the hub forward / restarts activities and dismisses the prompt.
+                if (InstallSessionTracker.markYieldedIfNeeded(context, sessionId)) {
+                    context.sendBroadcast(
+                        Intent(ACTION_YIELD_FOR_INSTALLER).setPackage(context.packageName)
+                    )
                 }
-                context.startActivity(wrapper)
+                try {
+                    confirmIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    context.startActivity(confirmIntent)
+                } catch (e: Exception) {
+                    Log.e(TAG, "Failed to start install confirmation", e)
+                }
             }
 
             PackageInstaller.STATUS_SUCCESS -> {
@@ -58,7 +61,6 @@ class InstallStatusReceiver : BroadcastReceiver() {
             }
 
             else -> {
-                // Failure / aborted / conflict — clean up and return user to the hub with an error.
                 if (sessionId >= 0) {
                     try {
                         context.packageManager.packageInstaller.abandonSession(sessionId)
@@ -70,8 +72,16 @@ class InstallStatusReceiver : BroadcastReceiver() {
                 val userMessage = when (status) {
                     PackageInstaller.STATUS_FAILURE_ABORTED ->
                         "Install was cancelled or blocked."
-                    PackageInstaller.STATUS_FAILURE_CONFLICT ->
-                        "Install conflict: an incompatible package with the same name is already installed. Uninstall it first, then try again."
+                    PackageInstaller.STATUS_FAILURE_CONFLICT -> {
+                        val elsewhere = !targetPackage.isNullOrBlank() &&
+                            ApkManager.packageExistsInOtherProfile(context, targetPackage)
+                        if (elsewhere || !targetPackage.isNullOrBlank()) {
+                            ApkManager.OTHER_PROFILE_CONFLICT_MESSAGE
+                        } else {
+                            "Install conflict: a package with the same name is already on this device. " +
+                                "Uninstall every copy (including Island / Secure Folder / Work), then try again."
+                        }
+                    }
                     PackageInstaller.STATUS_FAILURE_INVALID ->
                         "Install failed: the APK is invalid or corrupt."
                     PackageInstaller.STATUS_FAILURE_STORAGE ->

@@ -582,6 +582,13 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
             return
         }
 
+        // Catch Island / Secure Folder / Work copies before download — otherwise install fails
+        // with a cryptic CONFLICT even though the main profile shows Not Installed.
+        if (!app.isInstalled && ApkManager.packageExistsInOtherProfile(context, app.packageName)) {
+            _uiState.update { it.copy(errorMessage = ApkManager.OTHER_PROFILE_CONFLICT_MESSAGE) }
+            return
+        }
+
         // If a prior install got stuck (Play Protect buried, session orphaned), clear it and retry
         // instead of permanently blocking the user.
         if (_uiState.value.installSessionActive ||

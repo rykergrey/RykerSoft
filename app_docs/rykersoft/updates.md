@@ -1,5 +1,10 @@
 # Release Updates & History
 
+## v1.2.5 (Version Code 12) - July 25th, 2026
+- Fixed Play Protect disappearing after tapping Install: the hub no longer re-yields / restarts UI on the second confirmation prompt
+- Clearer install-conflict guidance when an app still exists in Island, Secure Folder, or a Work profile (main profile can show Not Installed)
+- Pre-checks for other-profile copies before downloading, so users get actionable instructions instead of a cryptic conflict
+
 ## v1.2.4 (Version Code 11) - July 25th, 2026
 - Fixed Play Protect vanishing immediately: a confirmation-host lifecycle bug was bringing App Manager back on top and abandoning the install session
 - During Play Protect / install confirmation the hub briefly backgrounds again (the reliable fix), then returns automatically on success to the User Guide

@@ -69,6 +69,7 @@ Access Settings via the top gear / title controls to:
 ## 7. Troubleshooting
 - **Install Permission Denied**: Ensure Android allows RykerSoft to install unknown applications in system settings.
 - **Network Error / APK 404**: The access token is invalid — usually a stale token pasted in Settings (clear the field to use the built-in one), or the built-in token was rotated (paste the new one from the admin).
+- **“Already installed” / install conflict but the hub says Not Installed**: A copy still exists in **Island**, **Secure Folder**, or a **Work profile**. Open that profile, uninstall the app there, then try again from App Manager. The main home screen can look clean while Island still has it.
 - **AI unlock fails**: Confirm Firebase `.env` keys are set, Email/Password Auth is enabled, and the unlock code hash exists under `unlockCodes/{hash}`.
 - **App AI still locked after unlock**: Sign into the same RykerSoft account inside the app and tap Refresh keys.
-- **Landed on home screen after install**: Update to App Manager 1.2.2+ — installs no longer background the hub to the launcher.
+- **Home screen during Play Protect**: App Manager steps aside briefly so Play Protect stays tappable, then returns after a successful install.
