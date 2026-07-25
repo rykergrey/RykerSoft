@@ -1,5 +1,9 @@
 # Release Updates & History
 
+## v1.1.4 (Version Code 6) - July 24th, 2026
+- Family access token now ships baked into the app — downloads work out of the box, no manual token entry needed
+- Settings → GitHub Token overrides the built-in token (useful if the token is ever rotated); clearing it returns to the built-in one
+
 ## v1.1.3 (Version Code 5) - July 24th, 2026
 - App APKs and docs now distribute from the private RykerSoft-APKs repo — one shared access token covers every app
 - Per-app documentation is fetched from `docs/<app>/` in the distribution repo (with fallback to each app repo's layout)

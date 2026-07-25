@@ -6,6 +6,7 @@ import android.content.Intent
 import com.example.data.AppDatabase
 import com.example.network.RegistryFetcher
 import com.example.util.ApkManager
+import com.example.util.FamilyToken
 import com.example.util.NotificationHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,9 +17,8 @@ class UpdateCheckReceiver : BroadcastReceiver() {
         val prefs = context.getSharedPreferences("app_manager_prefs", Context.MODE_PRIVATE)
         val defaultUrl = "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/registry.json"
         val rawUrl = prefs.getString("registry_url", defaultUrl) ?: defaultUrl
-        val defaultToken = ""
-        val rawToken = prefs.getString("github_token", defaultToken) ?: defaultToken
-        val token = if (rawToken.isBlank()) defaultToken else rawToken
+        val rawToken = prefs.getString("github_token", "") ?: ""
+        val token = if (rawToken.isBlank()) FamilyToken.baked() else rawToken
         val fetcher = RegistryFetcher()
         val registryUrl = fetcher.sanitizeUrl(if (rawUrl.isBlank()) defaultUrl else rawUrl)
         val notificationsEnabled = prefs.getBoolean("notifications_enabled", true)

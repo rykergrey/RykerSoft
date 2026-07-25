@@ -3,11 +3,11 @@
     {
       "packageName": "com.rykersoft.appmanager",
       "name": "RykerSoft",
-      "latestVersionCode": 5,
-      "latestVersionName": "1.1.3",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft/releases/download/v1.1.3/app-release.apk",
+      "latestVersionCode": 6,
+      "latestVersionName": "1.1.4",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft/releases/download/v1.1.4/app-release.apk",
       "icon": "android",
-      "changelog": "- All app downloads and docs now come from the private RykerSoft-APKs repo\n- One shared RykerSoft access token in Settings covers every app\n- Includes v1.1.2 AI unlock: RykerSoft account sign-in, family unlock codes, AI LOCKED/UNLOCKED status",
+      "changelog": "- Family access token is now built in: downloads work with zero setup\n- Settings -> GitHub Token overrides the built-in token if it's ever rotated\n- All app downloads and docs come from the private RykerSoft-APKs repo",
       "screenshots": [],
       "isGame": false
     },

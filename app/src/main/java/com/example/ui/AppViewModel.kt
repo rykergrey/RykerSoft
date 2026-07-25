@@ -11,6 +11,7 @@ import com.example.entitlements.AiUnlockPackages
 import com.example.entitlements.EntitlementRepository
 import com.example.util.ApkManager
 import com.example.util.DownloadProgress
+import com.example.util.FamilyToken
 import com.example.util.SchedulerHelper
 import com.example.ui.theme.TitleFontPreset
 import kotlinx.coroutines.Dispatchers
@@ -100,11 +101,11 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
         // Load preferences
         val defaultUrl = "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/registry.json"
-        val defaultToken = ""
+        val defaultToken = FamilyToken.baked()
         val savedUrl = sharedPrefs.getString("registry_url", defaultUrl) ?: defaultUrl
         val sanitizedUrl = repository.fetcher.sanitizeUrl(if (savedUrl.isBlank()) defaultUrl else savedUrl)
         val savedNotify = sharedPrefs.getBoolean("notifications_enabled", true)
-        val rawToken = sharedPrefs.getString("github_token", defaultToken) ?: defaultToken
+        val rawToken = sharedPrefs.getString("github_token", "") ?: ""
         val sanitizedToken = if (rawToken.isBlank()) defaultToken else rawToken
         val savedPresetName = sharedPrefs.getString("title_font_preset", TitleFontPreset.ARCADE_3D.name)
         val savedPreset = try { TitleFontPreset.valueOf(savedPresetName ?: "") } catch (e: Exception) { TitleFontPreset.ARCADE_3D }
@@ -259,6 +260,8 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     fun updateSettings(registryUrl: String, notificationsEnabled: Boolean, githubToken: String) {
         val sanitized = repository.fetcher.sanitizeUrl(registryUrl)
         val trimmedToken = githubToken.trim()
+        // Blank saved token means "use the baked-in family token".
+        val effectiveToken = trimmedToken.ifBlank { FamilyToken.baked() }
         sharedPrefs.edit()
             .putString("registry_url", sanitized)
             .putBoolean("notifications_enabled", notificationsEnabled)
@@ -268,7 +271,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
             it.copy(
                 registryUrl = sanitized,
                 notificationsEnabled = notificationsEnabled,
-                githubToken = trimmedToken
+                githubToken = effectiveToken
             ) 
         }
         SchedulerHelper.schedulePeriodicCheck(context, notificationsEnabled)
