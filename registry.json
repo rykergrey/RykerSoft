@@ -100,11 +100,11 @@
     {
       "packageName": "com.rykersoft.bettertracking",
       "name": "bettertracking",
-      "latestVersionCode": 4,
-      "latestVersionName": "1.1.0",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.1.0/app-release.apk",
+      "latestVersionCode": 5,
+      "latestVersionName": "1.1.1",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.1.1/app-release.apk",
       "icon": "android",
-      "changelog": "- RykerSoft AI unlock: sign in under Profile -> API Keys to sync Gemini/Groq keys after unlocking in the App Manager\n- AI features (Quick Log, AI Architect, chat, Coach Analysis, transcription) are unlock-gated; tracking stays free\n- Manually entered keys still work and take priority",
+      "changelog": "- Add-from-library uses each item library-defined unit (pcs, g, srv)\n- Library tab keeps search, scroll, and expanded groups across tray switches",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/bettertracking/01-journal.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/bettertracking/02-logs.jpg",
