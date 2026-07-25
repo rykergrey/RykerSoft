@@ -69,10 +69,15 @@ data class MainUiState(
      */
     val postInstallOpenPackage: String? = null,
     /**
-     * True while a PackageInstaller session is active — UI should dismiss the detail dialog so
-     * Play Protect / install confirmation is not buried under a Compose Dialog window.
+     * True briefly while preparing an install — UI dismisses the detail dialog so Compose Dialog
+     * windows cannot cover Play Protect.
      */
     val installSessionActive: Boolean = false,
+    /**
+     * When true, UI should call [android.app.Activity.moveTaskToBack] so Play Protect stays
+     * tappable. On success the hub is brought back automatically.
+     */
+    val yieldForInstaller: Boolean = false,
     val appManagerUpdateAvailable: AppUiItem? = null,
     val hubFirebaseConfigured: Boolean = false,
     val hubSignedIn: Boolean = false,
@@ -313,6 +318,38 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         _uiState.update { it.copy(postInstallOpenPackage = null) }
     }
 
+    fun clearYieldForInstaller() {
+        _uiState.update { it.copy(yieldForInstaller = false) }
+    }
+
+    /** Called when Play Protect / confirmation is about to appear — get out of the way. */
+    fun requestYieldForInstaller() {
+        _uiState.update {
+            it.copy(
+                yieldForInstaller = true,
+                installSessionActive = false
+            )
+        }
+    }
+
+    /**
+     * Clears a stuck "install in progress" lock and abandons any leftover PackageInstaller sessions
+     * so the user can retry.
+     */
+    fun cancelStuckInstall() {
+        ApkManager.abandonOwnedSessions(context)
+        awaitingInstallPackage = null
+        pendingInstallFile = null
+        _uiState.update {
+            it.copy(
+                installSessionActive = false,
+                yieldForInstaller = false,
+                downloadingPackage = null,
+                infoMessage = "Previous install cancelled. You can try again."
+            )
+        }
+    }
+
     fun clearError() {
         _uiState.update { it.copy(errorMessage = null) }
     }
@@ -335,8 +372,12 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         intent.removeExtra(InstallStatusReceiver.EXTRA_POST_INSTALL_PACKAGE)
         intent.removeExtra(InstallStatusReceiver.EXTRA_INSTALL_MESSAGE)
 
-        _uiState.update { it.copy(installSessionActive = false) }
-        awaitingInstallPackage = packageName
+        _uiState.update {
+            it.copy(
+                installSessionActive = false,
+                yieldForInstaller = false
+            )
+        }
         InstallSessionTracker.clear(context)
 
         when (result) {
@@ -506,11 +547,13 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private suspend fun beginSessionInstall(file: java.io.File, packageName: String) {
-        // Dismiss detail dialog first so Play Protect is not covered by a Compose Dialog window.
+        // Dismiss detail dialog + yield the task so Play Protect stays on top (proven requirement
+        // on this device). Success callback brings App Manager back to the User Guide.
         _uiState.update {
             it.copy(
                 installSessionActive = true,
-                infoMessage = "Confirm the system install / Play Protect prompts to continue..."
+                yieldForInstaller = true,
+                infoMessage = null
             )
         }
         awaitingInstallPackage = packageName
@@ -520,9 +563,13 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
             _uiState.update {
                 it.copy(
                     installSessionActive = false,
+                    yieldForInstaller = false,
                     errorMessage = "Failed to start package installer session."
                 )
             }
+        } else {
+            // System owns the session now — don't leave the Install button permanently locked.
+            _uiState.update { it.copy(installSessionActive = false) }
         }
     }
 
@@ -530,9 +577,24 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
      * Downloads APK from registry URL and installs via PackageInstaller session API.
      */
     fun downloadAndInstall(app: AppUiItem) {
-        if (_uiState.value.downloadingPackage != null || _uiState.value.installSessionActive) {
-            _uiState.update { it.copy(errorMessage = "A download or install is already in progress.") }
+        if (_uiState.value.downloadingPackage != null) {
+            _uiState.update { it.copy(errorMessage = "A download is already in progress.") }
             return
+        }
+
+        // If a prior install got stuck (Play Protect buried, session orphaned), clear it and retry
+        // instead of permanently blocking the user.
+        if (_uiState.value.installSessionActive ||
+            InstallSessionTracker.awaitingPackage(context) != null ||
+            context.packageManager.packageInstaller.mySessions.isNotEmpty()
+        ) {
+            ApkManager.abandonOwnedSessions(context)
+            _uiState.update {
+                it.copy(
+                    installSessionActive = false,
+                    yieldForInstaller = false
+                )
+            }
         }
 
         viewModelScope.launch {
@@ -556,7 +618,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                                 it.copy(
                                     downloadingPackage = null,
                                     downloadProgress = 100,
-                                    infoMessage = "Download completed. Preparing installation..."
+                                    infoMessage = null
                                 )
                             }
 
@@ -582,6 +644,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                     it.copy(
                         downloadingPackage = null,
                         installSessionActive = false,
+                        yieldForInstaller = false,
                         errorMessage = "Failed to download APK: ${e.localizedMessage ?: "Unknown error"}"
                     )
                 }

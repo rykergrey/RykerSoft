@@ -33,9 +33,10 @@ You can still switch tabs manually anytime:
 ## 3. Checking & Installing Updates
 1. Tap the sync (refresh) button in the top control bar to pull the latest registry.
 2. Each app card shows a status sticker: **NEW RELEASE** (not installed), **UPDATE READY** (yellow — a newer version is available), or **INSTALLED** (green — up to date).
-3. Tap the yellow **INSTALL** / **UPDATE** button to download the latest APK. The app detail sheet closes briefly so the system install / Play Protect prompts stay on top and tappable.
+3. Tap the yellow **INSTALL** / **UPDATE** button to download the latest APK. App Manager steps to the background briefly so Play Protect / install prompts stay on top and tappable (this is required on Android — otherwise the prompt can vanish behind the hub).
 4. Accept Play Protect / install confirmation when asked — you do **not** need to disable Play Protect.
-5. Installed, up-to-date apps show a green **OPEN** / **PLAY** / **LAUNCH** button.
+5. When install finishes, App Manager returns on its own to that app’s **User Guide** tab.
+6. If a prior install got stuck, tapping **INSTALL** again clears it and retries. Installed, up-to-date apps show a green **OPEN** / **PLAY** / **LAUNCH** button.
 
 App downloads and documentation come from the private **RykerSoft-APKs** distribution repo. The required access token is built into the app, so downloads work out of the box. If the built-in token is ever rotated, paste the replacement into **Settings → GitHub Token** (that field overrides the built-in one).
 

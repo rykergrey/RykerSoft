@@ -58,6 +58,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.size.Size
 import coil.size.Precision
+import com.example.install.InstallStatusReceiver
 import com.example.ui.theme.*
 import com.example.util.ApkManager
 import kotlinx.coroutines.launch
@@ -357,11 +358,42 @@ fun AppDashboard(
         }
     }
 
-    // Close the detail Dialog while a session install needs Play Protect / confirmation.
-    // Compose Dialog windows otherwise sit above the system prompt and leave install stuck forever.
+    // Close the detail Dialog while preparing install confirmation.
     LaunchedEffect(uiState.installSessionActive) {
         if (uiState.installSessionActive) {
             selectedAppForDetail = null
+        }
+    }
+
+    // Play Protect cannot stay tappable if App Manager remains the foreground task.
+    // Briefly background the hub; InstallStatusReceiver brings it back on success/failure.
+    LaunchedEffect(uiState.yieldForInstaller) {
+        if (uiState.yieldForInstaller) {
+            selectedAppForDetail = null
+            kotlinx.coroutines.delay(200)
+            (context as? android.app.Activity)?.moveTaskToBack(true)
+            viewModel.clearYieldForInstaller()
+        }
+    }
+
+    // Also yield when the PackageInstaller callback says confirmation is about to show.
+    DisposableEffect(context) {
+        val filter = android.content.IntentFilter(InstallStatusReceiver.ACTION_YIELD_FOR_INSTALLER)
+        val receiver = object : android.content.BroadcastReceiver() {
+            override fun onReceive(ctx: android.content.Context?, intent: android.content.Intent?) {
+                viewModel.requestYieldForInstaller()
+            }
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            context.registerReceiver(receiver, filter, android.content.Context.RECEIVER_NOT_EXPORTED)
+        } else {
+            context.registerReceiver(receiver, filter)
+        }
+        onDispose {
+            try {
+                context.unregisterReceiver(receiver)
+            } catch (_: Exception) {
+            }
         }
     }
 

@@ -3,11 +3,11 @@
     {
       "packageName": "com.rykersoft.appmanager",
       "name": "RykerSoft",
-      "latestVersionCode": 10,
-      "latestVersionName": "1.2.3",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft/releases/download/v1.2.3/app-release.apk",
+      "latestVersionCode": 11,
+      "latestVersionName": "1.2.4",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft/releases/download/v1.2.4/app-release.apk",
       "icon": "android",
-      "changelog": "- Fixed Play Protect prompt disappearing mid-install (PackageInstaller sessions + confirmation host)\n- Detail dialog closes during confirmation so prompts stay tappable\n- Returns to User Guide after success; clears stuck install sessions on retry",
+      "changelog": "- Fixed Play Protect vanishing behind App Manager during install\n- Hub briefly backgrounds for Play Protect, then returns to User Guide on success\n- Retrying Install clears stuck sessions instead of blocking forever",
       "screenshots": [],
       "isGame": false
     },

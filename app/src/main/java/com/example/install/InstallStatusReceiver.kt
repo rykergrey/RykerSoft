@@ -33,6 +33,11 @@ class InstallStatusReceiver : BroadcastReceiver() {
                     Log.e(TAG, "PENDING_USER_ACTION missing EXTRA_INTENT")
                     return
                 }
+                // Ask the hub to leave the foreground first — Play Protect is otherwise buried
+                // under App Manager's task/windows within milliseconds.
+                context.sendBroadcast(
+                    Intent(ACTION_YIELD_FOR_INSTALLER).setPackage(context.packageName)
+                )
                 val wrapper = Intent(context, InstallConfirmationActivity::class.java).apply {
                     putExtra(InstallConfirmationActivity.EXTRA_CONFIRM_INTENT, confirmIntent)
                     putExtra(InstallConfirmationActivity.EXTRA_SESSION_ID, sessionId)
@@ -123,6 +128,8 @@ class InstallStatusReceiver : BroadcastReceiver() {
         private const val TAG = "InstallStatusReceiver"
 
         const val ACTION_INSTALL_STATUS = "com.rykersoft.appmanager.INSTALL_STATUS"
+        /** Hub should call moveTaskToBack so Play Protect stays interactable. */
+        const val ACTION_YIELD_FOR_INSTALLER = "com.rykersoft.appmanager.YIELD_FOR_INSTALLER"
         const val EXTRA_TARGET_PACKAGE = "target_package"
         const val EXTRA_POST_INSTALL_PACKAGE = "post_install_package"
         const val EXTRA_INSTALL_RESULT = "install_result"

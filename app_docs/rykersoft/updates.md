@@ -1,5 +1,10 @@
 # Release Updates & History
 
+## v1.2.4 (Version Code 11) - July 25th, 2026
+- Fixed Play Protect vanishing immediately: a confirmation-host lifecycle bug was bringing App Manager back on top and abandoning the install session
+- During Play Protect / install confirmation the hub briefly backgrounds again (the reliable fix), then returns automatically on success to the User Guide
+- Retrying Install clears stuck sessions instead of permanently showing “install already in progress”
+
 ## v1.2.3 (Version Code 10) - July 25th, 2026
 - Installs now use Android PackageInstaller sessions instead of ACTION_VIEW, so Play Protect stays on-screen and tappable
 - App detail dialog closes while confirmation runs (Compose dialogs were burying Play Protect and leaving installs stuck forever)

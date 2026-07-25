@@ -4,7 +4,7 @@
 - **Target OS**: Android 7.0+ (API Level 24+)
 - **Architecture**: Jetpack Compose, Kotlin, Room DB, Coroutines & Flow
 - **Package ID**: `com.rykersoft.appmanager`
-- **Version**: 1.2.3 (versionCode 10)
+- **Version**: 1.2.4 (versionCode 11)
 - **Permissions**: `INTERNET`, `REQUEST_INSTALL_PACKAGES`, `POST_NOTIFICATIONS`
 
 ## Architecture Highlights
