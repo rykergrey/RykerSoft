@@ -23,3 +23,4 @@ keystore.properties
 firebase/FAMILY_UNLOCK_CODE.txt
 
 app/google-services.json
+firebase/FAMILY_ACCESS_TOKEN.txt
