@@ -3,11 +3,11 @@
     {
       "packageName": "com.rykersoft.appmanager",
       "name": "RykerSoft",
-      "latestVersionCode": 7,
-      "latestVersionName": "1.2.0",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft/releases/download/v1.2.0/app-release.apk",
+      "latestVersionCode": 8,
+      "latestVersionName": "1.2.1",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft/releases/download/v1.2.1/app-release.apk",
       "icon": "android",
-      "changelog": "- Full visual redesign with a semantic color system: yellow CTAs, green success, red errors, cyan links\n- Error toasts now show a red border + alert icon (no more green check on failures)\n- Easier reading: Inter sans-serif for descriptions and guides, monospace kept for headers/badges\n- Update banner no longer truncates; cleaner detail view with flat nested panels",
+      "changelog": "- Photocraft.ing added as an unlockable AI app (com.rykersoft.photocrafting)\n- UNLOCK AI FEATURES now applies to Photocraft.ing alongside SuperThinking, bettertracking, and INFORMANT",
       "screenshots": [],
       "isGame": false
     },
@@ -131,6 +131,21 @@
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/03-splash.jpg"
       ],
       "isGame": true
+    },
+    {
+      "packageName": "com.rykersoft.photocrafting",
+      "name": "Photocraft.ing",
+      "latestVersionCode": 2,
+      "latestVersionName": "1.0.0",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/photocrafting-v1.0.0/app-release.apk",
+      "icon": "android",
+      "changelog": "- First RykerSoft hub release (com.rykersoft.photocrafting)\n- RykerSoft AI unlock: sign in under Settings to sync Gemini keys after unlocking in App Manager\n- Baked Gemini key removed; AI requires unlock or a manual key\n- Craft catalog, transformation chat, Action Builder, paint/crop, Gemini + OpenAI image providers",
+      "screenshots": [
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/photocrafting/01-home.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/photocrafting/02-workspace.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/photocrafting/03-settings.jpg"
+      ],
+      "isGame": false
     }
   ]
 }

@@ -44,6 +44,7 @@ Per-app documents (already seedable via CLI):
 | `com.rykersoft.superthinking` | SuperThink.ing |
 | `com.rykersoft.bettertracking` | bettertracking |
 | `com.rykersoft.informant` | INFORMANT |
+| `com.rykersoft.photocrafting` | Photocraft.ing |
 
 INFORMANT free features (transcript / Webshare / YouTube Data for metadata+comments) stay baked in the app — not in hub unlock.
 
@@ -67,6 +68,7 @@ Create document:
 com.rykersoft.superthinking
 com.rykersoft.bettertracking
 com.rykersoft.informant
+com.rykersoft.photocrafting
 ```
 
 Use one code for all AI apps, or separate codes with different `packages` arrays.
