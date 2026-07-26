@@ -14,11 +14,11 @@
     {
       "packageName": "com.rykersoft.informant",
       "name": "INFORMANT",
-      "latestVersionCode": 8,
-      "latestVersionName": "1.2.1",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/informant-v1.2.1/app-release.apk",
+      "latestVersionCode": 9,
+      "latestVersionName": "1.2.2",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/informant-v1.2.2/app-release.apk",
       "icon": "android",
-      "changelog": "- TTS mode: tap sections to play, long-press for generate/regenerate/download\n- Faster segmented Piper/ElevenLabs with cache replay and responsive Stop\n- Settings preview buttons for each TTS provider",
+      "changelog": "- Compact TTS toolbar with provider dropdown, generated/total counter, prev/next\n- Tap a section to choose start point; Play continues from there\n- Status colors for pending/generated/playing; word highlight disabled in TTS mode",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/01-home.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/02-workspace.jpg",
