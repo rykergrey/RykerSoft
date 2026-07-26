@@ -8,12 +8,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.gestures.transformable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
@@ -38,9 +40,12 @@ import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontFamily
@@ -53,6 +58,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -60,6 +66,7 @@ import coil.size.Size
 import coil.size.Precision
 import com.example.ui.theme.*
 import com.example.util.ApkManager
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 /**
@@ -974,10 +981,6 @@ fun AppDashboard(
                 onDismiss = { selectedAppForDetail = null },
                 onActionClick = { viewModel.downloadAndInstall(currentApp) },
                 onLaunchClick = { ApkManager.launchApp(context, currentApp.packageName) },
-                onDeleteClick = {
-                    viewModel.deleteApp(currentApp.packageName)
-                    selectedAppForDetail = null
-                },
                 downloadingPackage = uiState.downloadingPackage,
                 downloadProgress = uiState.downloadProgress,
                 hubSignedIn = uiState.hubSignedIn,
@@ -988,7 +991,7 @@ fun AppDashboard(
         }
 
         unlockTargetPackage?.let { pkg ->
-            UnlockAiDialog(
+            UnlockProDialog(
                 appName = uiState.apps.find { it.packageName == pkg }?.name ?: pkg,
                 busy = uiState.hubBusy,
                 onDismiss = { unlockTargetPackage = null },
@@ -1161,7 +1164,7 @@ fun AppItemCard(
                         )
                         if (app.supportsAiUnlock) {
                             TagChip(
-                                text = if (app.aiUnlocked) "AI ON" else "AI OFF",
+                                text = if (app.aiUnlocked) "PRO ON" else "PRO OFF",
                                 bgColor = if (app.aiUnlocked) NeoGreenDim else Color(0xFF3F3F46),
                                 textColor = if (app.aiUnlocked) Color(0xFFA7F3C9) else Color(0xFFE4E4E7)
                             )
@@ -1438,6 +1441,14 @@ fun defaultAppDetailTab(app: AppUiItem): AppDetailTab = when {
     else -> AppDetailTab.USER_GUIDE
 }
 
+/**
+ * When the app is already installed (including outdated / update-available), open with the
+ * tab bar pinned to the top so docs are front-and-center. Screenshots stay the priority
+ * only for apps that are not installed yet.
+ */
+fun shouldPinDetailTabsOnOpen(app: AppUiItem): Boolean = app.isInstalled
+
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AppDetailDialog(
     app: AppUiItem,
@@ -1446,7 +1457,6 @@ fun AppDetailDialog(
     onDismiss: () -> Unit,
     onActionClick: () -> Unit,
     onLaunchClick: () -> Unit,
-    onDeleteClick: () -> Unit,
     downloadingPackage: String?,
     downloadProgress: Int,
     hubSignedIn: Boolean = false,
@@ -1518,7 +1528,7 @@ fun AppDetailDialog(
                         )
                         if (app.supportsAiUnlock) {
                             TagChip(
-                                text = if (app.aiUnlocked) "AI UNLOCKED" else "AI LOCKED",
+                                text = if (app.aiUnlocked) "PRO UNLOCKED" else "PRO LOCKED",
                                 bgColor = if (app.aiUnlocked) NeoGreenDim else Color(0xFF3F3F46),
                                 textColor = if (app.aiUnlocked) Color(0xFFA7F3C9) else Color(0xFFE4E4E7)
                             )
@@ -1539,58 +1549,26 @@ fun AppDetailDialog(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 12.dp, vertical = 8.dp),
-                        verticalArrangement = Arrangement.spacedBy(6.dp)
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
                         Text(
                             text = if (app.aiUnlocked) {
-                                "AI features unlocked for this RykerSoft account."
+                                "Pro features unlocked for this RykerSoft account."
                             } else {
-                                "AI features stay off until you unlock this app with a family unlock code."
+                                "Pro features stay off until you unlock this app with a family unlock code."
                             },
                             fontSize = 12.sp,
                             fontFamily = BodyFontFamily,
                             lineHeight = 17.sp,
                             color = NeoSubtext
                         )
-                        when {
-                            !hubFirebaseConfigured -> {
-                                Text(
-                                    text = "Configure FIREBASE_* in hub .env (see firebase/SEED.md).",
-                                    fontSize = 10.sp,
-                                    color = NeoRed,
-                                    fontFamily = FontFamily.Monospace
-                                )
-                            }
-                            !hubSignedIn -> {
-                                NeoButton(
-                                    onClick = onOpenAccountSettings,
-                                    style = NeoButtonStyle.SECONDARY_YELLOW,
-                                    modifier = Modifier.fillMaxWidth()
-                                ) {
-                                    Text(
-                                        "SIGN IN TO UNLOCK AI",
-                                        fontSize = 11.sp,
-                                        fontWeight = FontWeight.Black,
-                                        fontFamily = FontFamily.Monospace,
-                                        color = Color.Black
-                                    )
-                                }
-                            }
-                            !app.aiUnlocked -> {
-                                NeoButton(
-                                    onClick = onUnlockClick,
-                                    style = NeoButtonStyle.ACCENT_CYAN,
-                                    modifier = Modifier.fillMaxWidth()
-                                ) {
-                                    Text(
-                                        "UNLOCK AI FEATURES",
-                                        fontSize = 11.sp,
-                                        fontWeight = FontWeight.Black,
-                                        fontFamily = FontFamily.Monospace,
-                                        color = Color.Black
-                                    )
-                                }
-                            }
+                        if (!hubFirebaseConfigured) {
+                            Text(
+                                text = "Configure FIREBASE_* in hub .env (see firebase/SEED.md).",
+                                fontSize = 10.sp,
+                                color = NeoRed,
+                                fontFamily = FontFamily.Monospace
+                            )
                         }
                     }
                 }
@@ -1598,190 +1576,275 @@ fun AppDetailDialog(
                 // Tab Selection State — keyed so post-install User Guide focus and reopen defaults apply
                 var selectedTab by remember(app.packageName, initialTab) { mutableStateOf(initialTab) }
                 var activeHighlightAnchor by remember { mutableStateOf<String?>(null) }
+                var highlightNonce by remember { mutableIntStateOf(0) }
                 val headerPositions = remember { mutableStateMapOf<String, Float>() }
-                val bodyScrollState = rememberScrollState()
+                val bodyListState = rememberLazyListState()
                 val coroutineScope = rememberCoroutineScope()
+                val density = LocalDensity.current
+                var listWindowTopPx by remember { mutableFloatStateOf(0f) }
+                var stickyTabsHeightPx by remember { mutableFloatStateOf(0f) }
+                val hasThumbStrip = safeScreenshots.size > 1
+                // Lazy items: 0 gallery, [1 thumbs], then sticky tabs, then content
+                val tabsListIndex = if (hasThumbStrip) 2 else 1
+                val pinTabsOnOpen = remember(app.packageName) { shouldPinDetailTabsOnOpen(app) }
 
-                val handleUrlClick: (String) -> Unit = { rawUrl ->
-                    val targetAnchor = rawUrl.removePrefix("#")
-                    activeHighlightAnchor = targetAnchor
-                    val normTarget = normalizeAnchor(targetAnchor)
-                    val matchingKey = headerPositions.keys.find { key ->
-                        val normKey = normalizeAnchor(key)
-                        normKey == normTarget || normKey.contains(normTarget) || normTarget.contains(normKey)
-                    }
-                    val targetY = matchingKey?.let { headerPositions[it] }
-                    if (targetY != null) {
-                        coroutineScope.launch {
-                            bodyScrollState.animateScrollTo((targetY - 12f).toInt().coerceAtLeast(0))
-                        }
+                fun pinTabBarToTop(animate: Boolean) {
+                    coroutineScope.launch {
+                        if (animate) bodyListState.animateScrollToItem(tabsListIndex)
+                        else bodyListState.scrollToItem(tabsListIndex)
                     }
                 }
 
-                // Scrollable Body Content
-                Column(
+                // Installed / update-available: start with tabs pinned (screenshots scrolled away).
+                // Not installed: keep gallery visible as the priority.
+                LaunchedEffect(app.packageName, pinTabsOnOpen, tabsListIndex) {
+                    if (!pinTabsOnOpen) return@LaunchedEffect
+                    snapshotFlow { bodyListState.layoutInfo.totalItemsCount }
+                        .first { it > tabsListIndex }
+                    bodyListState.scrollToItem(tabsListIndex)
+                }
+
+                fun findHeaderKey(normTarget: String): String? {
+                    return headerPositions.keys.firstOrNull { key ->
+                        normalizeAnchor(key) == normTarget
+                    } ?: headerPositions.keys.find { key ->
+                        val normKey = normalizeAnchor(key)
+                        normKey.length >= 4 && normTarget.length >= 4 && (
+                            normKey.contains(normTarget) || normTarget.contains(normKey)
+                            )
+                    }
+                }
+
+                val handleUrlClick: (String) -> Unit = click@{ rawUrl ->
+                    // Only in-doc TOC anchors are handled here; http(s) links are ignored in-dialog.
+                    if (!rawUrl.startsWith("#") && rawUrl.contains("://")) return@click
+                    val targetAnchor = rawUrl.removePrefix("#").trim()
+                    if (targetAnchor.isEmpty()) return@click
+                    activeHighlightAnchor = targetAnchor
+                    val normTarget = normalizeAnchor(targetAnchor)
+                    if (normTarget.isEmpty()) return@click
+                    coroutineScope.launch {
+                        // Positions fill after first layout; briefly retry if TOC tapped early.
+                        var matchingKey = findHeaderKey(normTarget)
+                        var attempts = 0
+                        while (matchingKey == null && attempts < 5) {
+                            kotlinx.coroutines.delay(32)
+                            matchingKey = findHeaderKey(normTarget)
+                            attempts++
+                        }
+                        val headerWindowY = matchingKey?.let { headerPositions[it] }
+                        if (headerWindowY != null) {
+                            val padPx = with(density) { 8.dp.toPx() }
+                            val desiredTop = listWindowTopPx + stickyTabsHeightPx + padPx
+                            val delta = headerWindowY - desiredTop
+                            if (kotlin.math.abs(delta) > 1f) {
+                                bodyListState.animateScrollBy(delta)
+                            }
+                        }
+                        // Flash after scroll so the highlight isn't spent off-screen.
+                        highlightNonce += 1
+                    }
+                }
+
+                // Scrollable body: gallery + sticky tab bar + tab content.
+                // stickyHeader keeps the tab bar visible while long docs scroll.
+                LazyColumn(
+                    state = bodyListState,
                     modifier = Modifier
                         .weight(1f)
-                        .verticalScroll(bodyScrollState)
-                        .padding(14.dp),
+                        .padding(horizontal = 14.dp)
+                        .onGloballyPositioned { coords ->
+                            listWindowTopPx = coords.positionInWindow().y
+                        },
+                    contentPadding = PaddingValues(top = 14.dp, bottom = 14.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    // Main Screenshot Preview — swipe pages, pinch-zoom / pan active image
-                    SwipeableZoomableScreenshotPreview(
-                        screenshots = safeScreenshots,
-                        currentIndex = currentScreenshotIndex,
-                        onIndexChange = { currentScreenshotIndex = it },
-                        maxHeight = 360.dp,
-                        fallbackAspectRatio = if (app.isGame) 16f / 9f else 9f / 16f
-                    )
-
-                    // Thumbnail Selector Strip
-                    if (safeScreenshots.size > 1) {
-                        LazyRow(
-                            horizontalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
-                            items(safeScreenshots.size) { idx ->
-                                val isSelected = idx == currentScreenshotIndex
-                                Box(
-                                    modifier = Modifier
-                                        .size(54.dp)
-                                        .border(if (isSelected) 3.dp else 1.dp, if (isSelected) NeoCyan else NeoBorderSoft)
-                                        .background(NeoSurface)
-                                        .clickable { currentScreenshotIndex = idx },
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    AsyncImage(
-                                        model = safeScreenshots[idx],
-                                        contentDescription = "Thumb $idx",
-                                        modifier = Modifier.fillMaxSize(),
-                                        contentScale = ContentScale.Fit
-                                    )
-                                }
-                            }
-                        }
+                    item(key = "gallery") {
+                        // Main Screenshot Preview — swipe pages, pinch-zoom / pan active image
+                        SwipeableZoomableScreenshotPreview(
+                            screenshots = safeScreenshots,
+                            currentIndex = currentScreenshotIndex,
+                            onIndexChange = { currentScreenshotIndex = it },
+                            maxHeight = 360.dp,
+                            fallbackAspectRatio = if (app.isGame) 16f / 9f else 9f / 16f
+                        )
                     }
 
-                    // Tab Selector Bar (Positioned below screenshots & thumbnails)
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(NeoMutedBg)
-                            .border(width = 1.dp, color = NeoBorder),
-                        horizontalArrangement = Arrangement.SpaceEvenly
-                    ) {
-                        AppDetailTab.values().forEach { tab ->
-                            val isSelected = selectedTab == tab
-                            // Active tab = focus yellow (consistent with main filter tabs)
-                            val bgColor = if (isSelected) NeoYellow else Color.Transparent
-                            val textColor = if (isSelected) Color.Black else NeoSubtext
-
-                            Box(
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .background(bgColor)
-                                    .clickable {
-                                        selectedTab = tab
-                                        activeHighlightAnchor = null
-                                    }
-                                    .padding(vertical = 10.dp, horizontal = 2.dp),
-                                contentAlignment = Alignment.Center
+                    if (hasThumbStrip) {
+                        item(key = "thumbs") {
+                            LazyRow(
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
                             ) {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-                                ) {
-                                    Icon(
-                                        imageVector = tab.icon,
-                                        contentDescription = tab.label,
-                                        tint = textColor,
-                                        modifier = Modifier.size(13.dp)
-                                    )
-                                    Text(
-                                        text = tab.label,
-                                        fontSize = 10.sp,
-                                        fontWeight = if (isSelected) FontWeight.Black else FontWeight.Bold,
-                                        fontFamily = FontFamily.Monospace,
-                                        color = textColor,
-                                        maxLines = 1
-                                    )
+                                items(safeScreenshots.size) { idx ->
+                                    val isSelected = idx == currentScreenshotIndex
+                                    Box(
+                                        modifier = Modifier
+                                            .size(54.dp)
+                                            .border(
+                                                if (isSelected) 3.dp else 1.dp,
+                                                if (isSelected) NeoCyan else NeoBorderSoft
+                                            )
+                                            .background(NeoSurface)
+                                            .clickable { currentScreenshotIndex = idx },
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        AsyncImage(
+                                            model = safeScreenshots[idx],
+                                            contentDescription = "Thumb $idx",
+                                            modifier = Modifier.fillMaxSize(),
+                                            contentScale = ContentScale.Fit
+                                        )
+                                    }
                                 }
                             }
                         }
                     }
 
-                    // Tab Body Contents — nested panels are flat (no offset shadow,
-                    // soft border) to cut border fatigue inside the modal; section
-                    // kickers share one muted style so content owns the hierarchy.
-                    when (selectedTab) {
-                        AppDetailTab.UPDATES -> {
-                            NeoCard(shadowOffset = 0.dp, borderColor = NeoBorderSoft, borderWidth = 1.5.dp) {
-                                SectionKicker("RELEASE UPDATES & HISTORY")
-                                Spacer(modifier = Modifier.height(6.dp))
-                                val updatesContent = app.updatesHistory.ifBlank { app.changelog }
-                                MarkdownBody(
-                                    markdown = updatesContent,
-                                    bodySize = 12.sp,
-                                    lineHeight = 17.sp
-                                )
-                            }
-                        }
+                    stickyHeader(key = "tabs") {
+                        // Opaque sticky surface so scrolling content never shows through.
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .zIndex(2f)
+                                .background(NeoBg)
+                                .onSizeChanged { stickyTabsHeightPx = it.height.toFloat() }
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .background(NeoMutedBg)
+                                    .border(width = 1.dp, color = NeoBorder),
+                                horizontalArrangement = Arrangement.SpaceEvenly
+                            ) {
+                                AppDetailTab.values().forEach { tab ->
+                                    val isSelected = selectedTab == tab
+                                    // Active tab = focus yellow (consistent with main filter tabs)
+                                    val bgColor = if (isSelected) NeoYellow else Color.Transparent
+                                    val textColor = if (isSelected) Color.Black else NeoSubtext
 
-                        AppDetailTab.DESCRIPTION -> {
-                            NeoCard(shadowOffset = 0.dp, borderColor = NeoBorderSoft, borderWidth = 1.5.dp) {
-                                SectionKicker("APPLICATION OVERVIEW")
-                                Spacer(modifier = Modifier.height(6.dp))
-                                MarkdownBody(
-                                    markdown = app.description,
-                                    bodySize = 12.5.sp,
-                                    lineHeight = 18.sp
-                                )
-                            }
-
-                            if (app.specs.isNotBlank()) {
-                                NeoCard(shadowOffset = 0.dp, borderColor = NeoBorderSoft, borderWidth = 1.5.dp) {
-                                    SectionKicker("TECHNICAL SPECIFICATIONS")
-                                    Spacer(modifier = Modifier.height(6.dp))
-                                    MarkdownBody(
-                                        markdown = app.specs,
-                                        bodySize = 12.sp,
-                                        lineHeight = 17.sp
-                                    )
+                                    Box(
+                                        modifier = Modifier
+                                            .weight(1f)
+                                            .background(bgColor)
+                                            .clickable {
+                                                selectedTab = tab
+                                                activeHighlightAnchor = null
+                                                headerPositions.clear()
+                                                pinTabBarToTop(animate = true)
+                                            }
+                                            .padding(vertical = 10.dp, horizontal = 2.dp),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Row(
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            horizontalArrangement = Arrangement.spacedBy(4.dp)
+                                        ) {
+                                            Icon(
+                                                imageVector = tab.icon,
+                                                contentDescription = tab.label,
+                                                tint = textColor,
+                                                modifier = Modifier.size(13.dp)
+                                            )
+                                            Text(
+                                                text = tab.label,
+                                                fontSize = 10.sp,
+                                                fontWeight = if (isSelected) FontWeight.Black else FontWeight.Bold,
+                                                fontFamily = FontFamily.Monospace,
+                                                color = textColor,
+                                                maxLines = 1
+                                            )
+                                        }
+                                    }
                                 }
                             }
-
-                            NeoCard(shadowOffset = 0.dp, borderColor = NeoBorderSoft, borderWidth = 1.5.dp) {
-                                SectionKicker("SYSTEM & PACKAGE PROPERTIES")
-                                Spacer(modifier = Modifier.height(6.dp))
-
-                                DetailRow("APPLICATION NAME", app.name)
-                                DetailRow("PACKAGE ID", app.packageName)
-                                DetailRow("CATEGORY", if (app.isGame) "Game" else "Application")
-                                DetailRow("LATEST VERSION", "${app.latestVersionName} (code ${app.latestVersionCode})")
-                                DetailRow("INSTALLED VERSION", app.installedVersionName?.let { "$it (code ${app.installedVersionCode})" } ?: "Not Installed")
-                                DetailRow("UPDATE STATUS", app.statusText)
-                                DetailRow("APK DOWNLOAD URL", app.apkUrl)
-                            }
+                            // Small spacer under sticky tabs so content doesn't kiss the bar
+                            Spacer(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(8.dp)
+                                    .background(NeoBg)
+                            )
                         }
+                    }
 
-                        AppDetailTab.USER_GUIDE -> {
-                            val userGuideText = app.userGuide.ifBlank {
-                                "# User Guide for ${app.name}\n\nComprehensive user documentation is available for ${app.name}.\n\n## Overview\nRefer to the description tab for key application capabilities.\n\n## Quick Start\nInstall or update the application using the button below."
-                            }
+                    item(key = "tab-content-$selectedTab") {
+                        // Tab Body Contents — nested panels are flat (no offset shadow,
+                        // soft border) to cut border fatigue inside the modal; section
+                        // kickers share one muted style so content owns the hierarchy.
+                        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                            when (selectedTab) {
+                                AppDetailTab.UPDATES -> {
+                                    NeoCard(shadowOffset = 0.dp, borderColor = NeoBorderSoft, borderWidth = 1.5.dp) {
+                                        SectionKicker("RELEASE UPDATES & HISTORY")
+                                        Spacer(modifier = Modifier.height(6.dp))
+                                        val updatesContent = app.updatesHistory.ifBlank { app.changelog }
+                                        MarkdownBody(
+                                            markdown = updatesContent,
+                                            bodySize = 12.sp,
+                                            lineHeight = 17.sp
+                                        )
+                                    }
+                                }
 
-                            NeoCard(shadowOffset = 0.dp, borderColor = NeoBorderSoft, borderWidth = 1.5.dp) {
-                                SectionKicker("${app.name.uppercase()} USER GUIDE")
-                                Spacer(modifier = Modifier.height(6.dp))
-                                MarkdownBody(
-                                    markdown = userGuideText,
-                                    bodySize = 12.5.sp,
-                                    lineHeight = 18.sp,
-                                    highlightAnchor = activeHighlightAnchor,
-                                    onHeaderPositioned = { title, anchor, yPx ->
-                                        headerPositions[title] = yPx
-                                        headerPositions[anchor] = yPx
-                                    },
-                                    onUrlClick = handleUrlClick
-                                )
+                                AppDetailTab.DESCRIPTION -> {
+                                    NeoCard(shadowOffset = 0.dp, borderColor = NeoBorderSoft, borderWidth = 1.5.dp) {
+                                        SectionKicker("APPLICATION OVERVIEW")
+                                        Spacer(modifier = Modifier.height(6.dp))
+                                        MarkdownBody(
+                                            markdown = app.description,
+                                            bodySize = 12.5.sp,
+                                            lineHeight = 18.sp
+                                        )
+                                    }
+
+                                    if (app.specs.isNotBlank()) {
+                                        NeoCard(shadowOffset = 0.dp, borderColor = NeoBorderSoft, borderWidth = 1.5.dp) {
+                                            SectionKicker("TECHNICAL SPECIFICATIONS")
+                                            Spacer(modifier = Modifier.height(6.dp))
+                                            MarkdownBody(
+                                                markdown = app.specs,
+                                                bodySize = 12.sp,
+                                                lineHeight = 17.sp
+                                            )
+                                        }
+                                    }
+
+                                    NeoCard(shadowOffset = 0.dp, borderColor = NeoBorderSoft, borderWidth = 1.5.dp) {
+                                        SectionKicker("SYSTEM & PACKAGE PROPERTIES")
+                                        Spacer(modifier = Modifier.height(6.dp))
+
+                                        DetailRow("APPLICATION NAME", app.name)
+                                        DetailRow("PACKAGE ID", app.packageName)
+                                        DetailRow("CATEGORY", if (app.isGame) "Game" else "Application")
+                                        DetailRow("LATEST VERSION", "${app.latestVersionName} (code ${app.latestVersionCode})")
+                                        DetailRow("INSTALLED VERSION", app.installedVersionName?.let { "$it (code ${app.installedVersionCode})" } ?: "Not Installed")
+                                        DetailRow("UPDATE STATUS", app.statusText)
+                                        DetailRow("APK DOWNLOAD URL", app.apkUrl)
+                                    }
+                                }
+
+                                AppDetailTab.USER_GUIDE -> {
+                                    val userGuideText = app.userGuide.ifBlank {
+                                        "# User Guide for ${app.name}\n\nComprehensive user documentation is available for ${app.name}.\n\n## Overview\nRefer to the description tab for key application capabilities.\n\n## Quick Start\nInstall or update the application using the button below."
+                                    }
+
+                                    NeoCard(shadowOffset = 0.dp, borderColor = NeoBorderSoft, borderWidth = 1.5.dp) {
+                                        SectionKicker("${app.name.uppercase()} USER GUIDE")
+                                        Spacer(modifier = Modifier.height(6.dp))
+                                        MarkdownBody(
+                                            markdown = userGuideText,
+                                            bodySize = 12.5.sp,
+                                            lineHeight = 18.sp,
+                                            highlightAnchor = activeHighlightAnchor,
+                                            highlightNonce = highlightNonce,
+                                            onHeaderPositioned = { title, anchor, yPx ->
+                                                headerPositions[title] = yPx
+                                                headerPositions[anchor] = yPx
+                                            },
+                                            onUrlClick = handleUrlClick
+                                        )
+                                    }
+                                }
                             }
                         }
                     }
@@ -1797,15 +1860,40 @@ fun AppDetailDialog(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    // Destructive action = crimson (semantic error/danger color)
-                    NeoButton(
-                        onClick = onDeleteClick,
-                        style = NeoButtonStyle.DANGER_RED,
-                        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 6.dp)
-                    ) {
-                        Icon(Icons.Default.Delete, contentDescription = "Delete", tint = Color.White, modifier = Modifier.size(14.dp))
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text("REMOVE", fontSize = 10.sp, fontWeight = FontWeight.Bold, color = Color.White, fontFamily = FontFamily.Monospace)
+                    when {
+                        app.supportsAiUnlock && hubFirebaseConfigured && !hubSignedIn -> {
+                            NeoButton(
+                                onClick = onOpenAccountSettings,
+                                style = NeoButtonStyle.SECONDARY_YELLOW,
+                                contentPadding = PaddingValues(horizontal = 8.dp, vertical = 6.dp)
+                            ) {
+                                Text(
+                                    "SIGN IN TO UNLOCK PRO",
+                                    fontSize = 10.sp,
+                                    fontWeight = FontWeight.Black,
+                                    fontFamily = FontFamily.Monospace,
+                                    color = Color.Black
+                                )
+                            }
+                        }
+                        app.supportsAiUnlock && hubFirebaseConfigured && hubSignedIn && !app.aiUnlocked -> {
+                            NeoButton(
+                                onClick = onUnlockClick,
+                                style = NeoButtonStyle.ACCENT_CYAN,
+                                contentPadding = PaddingValues(horizontal = 8.dp, vertical = 6.dp)
+                            ) {
+                                Text(
+                                    "UNLOCK PRO FEATURES",
+                                    fontSize = 10.sp,
+                                    fontWeight = FontWeight.Black,
+                                    fontFamily = FontFamily.Monospace,
+                                    color = Color.Black
+                                )
+                            }
+                        }
+                        else -> {
+                            Spacer(modifier = Modifier.width(1.dp))
+                        }
                     }
 
                     if (isCurrentDownloading) {
@@ -2113,7 +2201,7 @@ fun SettingsDialog(
                     color = NeoText
                 )
 
-                SectionKicker("RYKERSOFT ACCOUNT (AI UNLOCK)")
+                SectionKicker("RYKERSOFT ACCOUNT (PRO UNLOCK)")
                 if (!hubFirebaseConfigured) {
                     Text(
                         text = "Firebase not configured. Add FIREBASE_* keys to .env (firebase/SEED.md).",
@@ -2256,7 +2344,7 @@ fun SettingsDialog(
 }
 
 @Composable
-fun UnlockAiDialog(
+fun UnlockProDialog(
     appName: String,
     busy: Boolean,
     onDismiss: () -> Unit,
@@ -2280,14 +2368,14 @@ fun UnlockAiDialog(
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 Text(
-                    text = "UNLOCK AI — ${appName.uppercase()}",
+                    text = "UNLOCK PRO — ${appName.uppercase()}",
                     fontWeight = FontWeight.Black,
                     fontFamily = FontFamily.Monospace,
                     fontSize = 14.sp,
                     color = NeoText
                 )
                 Text(
-                    text = "Enter the family unlock code. Sign into the same RykerSoft account inside the app to load AI keys.",
+                    text = "Enter the family unlock code. Sign into the same RykerSoft account inside the app to load pro feature keys.",
                     fontSize = 12.sp,
                     fontFamily = BodyFontFamily,
                     lineHeight = 17.sp,

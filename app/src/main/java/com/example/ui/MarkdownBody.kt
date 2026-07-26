@@ -12,17 +12,19 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.layout.positionInParent
+import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -112,8 +114,16 @@ fun markdownSummary(markdown: String): String {
 //  - **bold**  -> weight only, inherits body color (yellow stays reserved for CTAs)
 //  - `code`    -> monospace on a subtle inset background chip
 //  - [link](x) -> electric cyan + underline (cyan = interactive)
-private fun inlineMarkdown(text: String): AnnotatedString = buildAnnotatedString {
+private fun inlineMarkdown(
+    text: String,
+    onUrlClick: ((String) -> Unit)? = null
+): AnnotatedString = buildAnnotatedString {
     var last = 0
+    val linkStyle = SpanStyle(
+        color = NeoCyan,
+        fontWeight = FontWeight.SemiBold,
+        textDecoration = TextDecoration.Underline
+    )
     for (match in INLINE_MARKDOWN_REGEX.findAll(text)) {
         append(text.substring(last, match.range.first))
         val bold = match.groups[2]?.value
@@ -136,17 +146,21 @@ private fun inlineMarkdown(text: String): AnnotatedString = buildAnnotatedString
                 append(code)
             }
         } else if (linkText != null && linkTarget != null) {
-            pushStringAnnotation(tag = "URL", annotation = linkTarget)
-            withStyle(
-                SpanStyle(
-                    color = NeoCyan,
-                    fontWeight = FontWeight.SemiBold,
-                    textDecoration = TextDecoration.Underline
+            if (onUrlClick != null) {
+                pushLink(
+                    LinkAnnotation.Clickable(
+                        tag = linkTarget,
+                        styles = TextLinkStyles(style = linkStyle),
+                        linkInteractionListener = { onUrlClick(linkTarget) }
+                    )
                 )
-            ) {
                 append(linkText)
+                pop()
+            } else {
+                withStyle(linkStyle) {
+                    append(linkText)
+                }
             }
-            pop()
         }
         last = match.range.last + 1
     }
@@ -163,38 +177,24 @@ fun ClickableMarkdownText(
     lineHeight: TextUnit = 18.sp,
     onUrlClick: ((String) -> Unit)? = null
 ) {
-    val annotatedString = remember(markdownText) { inlineMarkdown(markdownText) }
-    val hasLinks = remember(annotatedString) {
-        annotatedString.getStringAnnotations(tag = "URL", start = 0, end = annotatedString.length).isNotEmpty()
+    val latestOnUrlClick = rememberUpdatedState(onUrlClick)
+    val linksEnabled = onUrlClick != null
+    val annotatedString = remember(markdownText, linksEnabled) {
+        if (linksEnabled) {
+            inlineMarkdown(markdownText) { url -> latestOnUrlClick.value?.invoke(url) }
+        } else {
+            inlineMarkdown(markdownText)
+        }
     }
 
-    if (hasLinks && onUrlClick != null) {
-        ClickableText(
-            text = annotatedString,
-            modifier = modifier,
-            style = androidx.compose.ui.text.TextStyle(
-                color = color,
-                fontSize = fontSize,
-                fontFamily = fontFamily,
-                lineHeight = lineHeight
-            ),
-            onClick = { offset ->
-                annotatedString.getStringAnnotations(tag = "URL", start = offset, end = offset)
-                    .firstOrNull()?.let { annotation ->
-                        onUrlClick(annotation.item)
-                    }
-            }
-        )
-    } else {
-        Text(
-            text = annotatedString,
-            modifier = modifier,
-            color = color,
-            fontSize = fontSize,
-            fontFamily = fontFamily,
-            lineHeight = lineHeight
-        )
-    }
+    Text(
+        text = annotatedString,
+        modifier = modifier,
+        color = color,
+        fontSize = fontSize,
+        fontFamily = fontFamily,
+        lineHeight = lineHeight
+    )
 }
 
 @Composable
@@ -204,6 +204,7 @@ private fun HeadingText(
     headingColor: Color,
     accentColor: Color,
     highlightAnchor: String?,
+    highlightNonce: Int,
     onHeaderPositioned: ((title: String, anchor: String, yPx: Float) -> Unit)?
 ) {
     // Restrained hierarchy: headings stay high-contrast text; the neon accent is
@@ -229,16 +230,18 @@ private fun HeadingText(
             val normText = normalizeAnchor(text)
             normHighlight.isNotEmpty() && (
                 normHighlight == normAnchor ||
-                normHighlight == normText ||
-                normText.contains(normHighlight) ||
-                normHighlight.contains(normText)
-            )
+                    normHighlight == normText ||
+                    // Prefer exact/near-exact; avoid loose contains on very short anchors
+                    (normHighlight.length >= 4 && normText.contains(normHighlight)) ||
+                    (normText.length >= 4 && normHighlight.contains(normText))
+                )
         }
     }
 
     val animColor = remember { Animatable(Color.Transparent) }
 
-    LaunchedEffect(isHighlighted, highlightAnchor) {
+    // highlightNonce re-triggers the flash when the same TOC link is tapped again
+    LaunchedEffect(highlightAnchor, highlightNonce, isHighlighted) {
         if (isHighlighted) {
             animColor.snapTo(NeoYellow)
             animColor.animateTo(
@@ -248,21 +251,26 @@ private fun HeadingText(
                     delayMillis = 800
                 )
             )
+        } else {
+            animColor.snapTo(Color.Transparent)
         }
     }
 
     val currentBg = animColor.value
-    val isYellowBg = currentBg != Color.Transparent && currentBg.alpha > 0.2f
+    val isYellowBg = currentBg.alpha > 0.2f
     val textColor = if (isYellowBg) NeoBlack else defaultColor
 
     Column(
         modifier = Modifier
+            .fillMaxWidth()
             .onGloballyPositioned { coordinates ->
-                val y = coordinates.positionInParent().y
+                // Window Y so the detail dialog can scroll relative to the outer list,
+                // not the inner markdown column (positionInParent was too small).
+                val y = coordinates.positionInWindow().y
                 onHeaderPositioned?.invoke(text, anchor, y)
             }
             .background(currentBg, shape = RoundedCornerShape(3.dp))
-            .padding(horizontal = 4.dp, vertical = 2.dp)
+            .padding(horizontal = 6.dp, vertical = 4.dp)
     ) {
         Text(
             text = inlineMarkdown(text),
@@ -279,7 +287,7 @@ private fun HeadingText(
                     .padding(top = 3.dp)
                     .width(if (level == 1) 34.dp else 22.dp)
                     .height(3.dp)
-                    .background(accentColor)
+                    .background(if (isYellowBg) NeoBlack else accentColor)
             )
         }
     }
@@ -296,6 +304,7 @@ fun MarkdownBody(
     bodySize: TextUnit = 12.5.sp,
     lineHeight: TextUnit = 18.sp,
     highlightAnchor: String? = null,
+    highlightNonce: Int = 0,
     onHeaderPositioned: ((title: String, anchor: String, yPx: Float) -> Unit)? = null,
     onUrlClick: ((String) -> Unit)? = null
 ) {
@@ -314,6 +323,7 @@ fun MarkdownBody(
                         headingColor = headingColor,
                         accentColor = accentColor,
                         highlightAnchor = highlightAnchor,
+                        highlightNonce = highlightNonce,
                         onHeaderPositioned = onHeaderPositioned
                     )
                 }

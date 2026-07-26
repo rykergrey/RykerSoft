@@ -45,7 +45,7 @@ data class AppUiItem(
     val userGuide: String = "",
     val updatesHistory: String = "",
     val specs: String = "",
-    /** True when this package supports AI unlock and the signed-in hub account has unlocked it. */
+    /** True when this package supports pro unlock and the signed-in hub account has unlocked it. */
     val supportsAiUnlock: Boolean = false,
     val aiUnlocked: Boolean = false
 )
@@ -249,7 +249,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
             try {
                 val granted = entitlementRepository.unlockWithCode(code, packageName)
                 _uiState.update {
-                    it.copy(infoMessage = "Unlocked AI for: ${granted.joinToString()}")
+                    it.copy(infoMessage = "Unlocked pro features for: ${granted.joinToString()}")
                 }
             } catch (e: Exception) {
                 _uiState.update {

@@ -3,11 +3,11 @@
     {
       "packageName": "com.rykersoft.appmanager",
       "name": "RykerSoft",
-      "latestVersionCode": 13,
-      "latestVersionName": "1.2.6",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft/releases/download/v1.2.6/app-release.apk",
+      "latestVersionCode": 14,
+      "latestVersionName": "1.2.7",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft/releases/download/v1.2.7/app-release.apk",
       "icon": "android",
-      "changelog": "- Stay in App Manager during install/update (no more home-screen bounce)\n- In-app waiting banner + Cancel Install while system prompts run\n- Returns to User Guide after a successful install",
+      "changelog": "- Unlock Pro Features moved to the detail-card footer (Remove button removed)\n- User-facing copy uses pro features instead of AI\n- Badges and settings renamed to Pro Locked / Pro Unlock",
       "screenshots": [],
       "isGame": false
     },

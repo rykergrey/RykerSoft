@@ -27,7 +27,7 @@ object RykerSoftFirebase {
     fun ensureInitialized(context: Context): Boolean {
         if (ready) return true
         if (!isConfigured()) {
-            Log.w(TAG, "Firebase env not configured; AI unlock disabled until .env is filled.")
+            Log.w(TAG, "Firebase env not configured; pro unlock disabled until .env is filled.")
             return false
         }
         synchronized(this) {

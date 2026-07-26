@@ -1,5 +1,10 @@
 # Release Updates & History
 
+## v1.2.7 (Version Code 14) - July 25th, 2026
+- Removed the Remove button from the app detail footer
+- Unlock control moved to the bottom-left of the detail card as **Unlock Pro Features**
+- User-facing copy shifted from “AI” to **pro features** (badges, settings, unlock dialog, docs)
+
 ## v1.2.6 (Version Code 13) - July 25th, 2026
 - Install / update no longer sends you to the home screen — App Manager stays open
 - System install + Play Protect prompts launch in the hub’s task; an in-app banner shows while waiting

@@ -8,7 +8,7 @@ RykerSoft is the hub for installing, updating, and reading docs for the RykerSof
 - [2. App Detail Tabs](#2-app-detail-tabs)
 - [3. Checking & Installing Updates](#3-checking--installing-updates)
 - [4. After an Install](#4-after-an-install)
-- [5. RykerSoft Account & AI Unlock](#5-rykersoft-account--ai-unlock)
+- [5. RykerSoft Account & Pro Unlock](#5-rykersoft-account--pro-unlock)
 - [6. Customizing Settings](#6-customizing-settings)
 - [7. Troubleshooting](#7-troubleshooting)
 
@@ -48,20 +48,20 @@ When install finishes successfully:
 
 If an install was cancelled or blocked, you’ll see an error toast and can try again. Retrying also clears any stuck prior install session.
 
-## 5. RykerSoft Account & AI Unlock
-Some apps (SuperThink.ing, bettertracking, INFORMANT, Photocraft.ing) can run without AI. AI features use keys delivered from your RykerSoft Firebase project after unlock.
+## 5. RykerSoft Account & Pro Unlock
+Some apps (SuperThink.ing, bettertracking, INFORMANT, Photocraft.ing) include optional pro features. Those features use keys delivered from your RykerSoft Firebase project after unlock.
 
 1. Open **Settings** and create or sign in to a **RykerSoft account** (email/password). This is separate from each app’s own login.
-2. Open an AI-capable app’s detail page. If you see **AI LOCKED**, tap **UNLOCK AI FEATURES**.
+2. Open a pro-capable app’s detail page. If you see **PRO LOCKED**, tap **UNLOCK PRO FEATURES** in the bottom-left of the detail card.
 3. Enter the family unlock code provided by the admin.
-4. Install or open the app, then sign into the **same RykerSoft account** inside that app’s settings (RykerSoft AI unlock section) so keys can sync.
-5. Non-AI features work even when locked. AI stays off until unlock + hub sign-in succeed.
+4. Install or open the app, then sign into the **same RykerSoft account** inside that app’s settings (RykerSoft pro unlock section) so keys can sync.
+5. Core app features work even when locked. Pro features stay off until unlock + hub sign-in succeed.
 
 Admin setup (one-time): see `firebase/SEED.md` for Firestore rules, unlock code hashes, and `config/providerKeys`.
 
 ## 6. Customizing Settings
 Access Settings via the top gear / title controls to:
-- Sign in to your RykerSoft account for AI unlocks
+- Sign in to your RykerSoft account for pro unlocks
 - Set the RykerSoft access token (GitHub PAT scoped to the RykerSoft-APKs repo) for APK/docs downloads
 - Configure periodic background update notification checks
 - Change title font presets (Arcade 3D, Cyber Neon, etc.)
@@ -70,6 +70,6 @@ Access Settings via the top gear / title controls to:
 - **Install Permission Denied**: Ensure Android allows RykerSoft to install unknown applications in system settings.
 - **Network Error / APK 404**: The access token is invalid — usually a stale token pasted in Settings (clear the field to use the built-in one), or the built-in token was rotated (paste the new one from the admin).
 - **“Already installed” / install conflict but the hub says Not Installed**: A copy still exists in **Island**, **Secure Folder**, or a **Work profile**. Open that profile, uninstall the app there, then try again from App Manager. The main home screen can look clean while Island still has it.
-- **AI unlock fails**: Confirm Firebase `.env` keys are set, Email/Password Auth is enabled, and the unlock code hash exists under `unlockCodes/{hash}`.
-- **App AI still locked after unlock**: Sign into the same RykerSoft account inside the app and tap Refresh keys.
+- **Pro unlock fails**: Confirm Firebase `.env` keys are set, Email/Password Auth is enabled, and the unlock code hash exists under `unlockCodes/{hash}`.
+- **App still locked after unlock**: Sign into the same RykerSoft account inside the app and tap Refresh keys.
 - **Install prompts not appearing**: Tap **CANCEL INSTALL** on the yellow banner, then try again. Keep App Manager in the foreground while confirming.

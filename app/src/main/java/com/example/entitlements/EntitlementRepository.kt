@@ -123,7 +123,7 @@ class EntitlementRepository(private val context: Context) {
             ?: emptyList()
 
         if (packages.isEmpty()) {
-            throw IllegalStateException("Unlock code has no AI packages configured.")
+            throw IllegalStateException("Unlock code has no packages configured.")
         }
 
         val toGrant = if (packageName != null) {
