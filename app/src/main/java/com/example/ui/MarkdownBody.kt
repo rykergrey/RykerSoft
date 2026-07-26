@@ -49,7 +49,9 @@ private val MARKDOWN_SYMBOLS_REGEX = Regex("""[#*_`>]""")
 private val MULTI_SPACE_REGEX = Regex("""\s+""")
 private val INLINE_MARKDOWN_REGEX = Regex("""(\*\*(.+?)\*\*|`(.+?)`|\[(.+?)\]\((.+?)\))""")
 private val HEADING_REGEX = Regex("""^(#{1,3})\s+(.*)$""")
-private val BULLET_REGEX = Regex("""^[-*]\s+""")
+private val BULLET_REGEX = Regex("""^([-*\u2022])\s+""")
+/** Magenta asterisk marker for PRO / unlock-gated features in hub docs. */
+private val NeoProAsterisk = NeoMagenta
 private val NUMBER_REGEX = Regex("""^\d+\.\s+""")
 
 data class TocEntry(
@@ -341,16 +343,17 @@ fun MarkdownBody(
                         block.items.forEach { item ->
                             Row(modifier = Modifier.fillMaxWidth()) {
                                 Text(
-                                    text = "•",
-                                    color = accentColor,
+                                    text = if (item.isPro) "*" else "•",
+                                    color = if (item.isPro) NeoProAsterisk else accentColor,
                                     fontSize = bodySize,
+                                    fontWeight = if (item.isPro) FontWeight.Black else FontWeight.Normal,
                                     fontFamily = FontFamily.Monospace,
                                     modifier = Modifier
                                         .width(14.dp)
                                         .padding(top = 0.dp)
                                 )
                                 ClickableMarkdownText(
-                                    markdownText = item,
+                                    markdownText = item.text,
                                     color = textColor,
                                     fontSize = bodySize,
                                     lineHeight = lineHeight,
@@ -421,12 +424,30 @@ fun MarkdownSummaryText(
     )
 }
 
+private data class BulletItem(val text: String, val isPro: Boolean = false)
+
 private sealed class MdBlock {
     data class Heading(val level: Int, val text: String) : MdBlock()
     data class Paragraph(val text: String) : MdBlock()
-    data class BulletList(val items: List<String>) : MdBlock()
+    data class BulletList(val items: List<BulletItem>) : MdBlock()
     data class NumberedList(val items: List<String>) : MdBlock()
     data class Quote(val text: String) : MdBlock()
+}
+
+/**
+ * PRO marker rules for hub docs:
+ * - `* Feature` → magenta `*` bullet (pro / unlock-gated)
+ * - `- * Feature` → same (dash list with a leading asterisk in the item text)
+ * - `- Feature` → normal `•` bullet
+ */
+private fun parseBulletItem(rawLine: String): BulletItem {
+    val trimmed = rawLine.trim()
+    val marker = BULLET_REGEX.find(trimmed)?.groupValues?.getOrNull(1)
+    var body = trimmed.replace(BULLET_REGEX, "")
+    val starredMarker = marker == "*"
+    val inlinePro = body.startsWith("* ")
+    if (inlinePro) body = body.removePrefix("* ").trimStart()
+    return BulletItem(text = body, isPro = starredMarker || inlinePro)
 }
 
 private fun parseMarkdownBlocks(markdown: String): List<MdBlock> {
@@ -460,9 +481,9 @@ private fun parseMarkdownBlocks(markdown: String): List<MdBlock> {
         }
 
         if (BULLET_REGEX.containsMatchIn(trimmed)) {
-            val items = mutableListOf<String>()
+            val items = mutableListOf<BulletItem>()
             while (i < lines.size && BULLET_REGEX.containsMatchIn(lines[i].trim())) {
-                items.add(lines[i].trim().replace(BULLET_REGEX, ""))
+                items.add(parseBulletItem(lines[i]))
                 i++
             }
             blocks.add(MdBlock.BulletList(items))

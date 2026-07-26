@@ -7,7 +7,7 @@ RykerSoft is the hub for installing, updating, and reading docs for the RykerSof
 - [1. Overview](#1-overview)
 - [2. App Detail Tabs](#2-app-detail-tabs)
 - [3. Checking & Installing Updates](#3-checking--installing-updates)
-- [4. After an Install](#4-after-an-install)
+- [4. After an Install or Update](#4-after-an-install-or-update)
 - [5. RykerSoft Account & Pro Unlock](#5-rykersoft-account--pro-unlock)
 - [6. Customizing Settings](#6-customizing-settings)
 - [7. Troubleshooting](#7-troubleshooting)
@@ -33,18 +33,19 @@ You can still switch tabs manually anytime:
 ## 3. Checking & Installing Updates
 1. Tap the sync (refresh) button in the top control bar to pull the latest registry.
 2. Each app card shows a status sticker: **NEW RELEASE** (not installed), **UPDATE READY** (yellow — a newer version is available), or **INSTALLED** (green — up to date).
-3. Tap the yellow **INSTALL** / **UPDATE** button to download the latest APK. App Manager stays open and shows a waiting banner.
-4. Accept the system install prompt and Play Protect when they appear on top — you do **not** need to disable Play Protect. (The app detail sheet closes during this so those prompts stay tappable.)
-5. When install finishes, that app’s **User Guide** tab opens automatically.
+3. Tap the yellow **UPDATE** button on a collapsed card — the detail view opens on the **Updates** tab so you can read the changelog while the APK downloads. Tap **INSTALL** to download a new app.
+4. Accept the system install prompt and Play Protect when they appear on top — you do **not** need to disable Play Protect. (The app detail sheet closes during confirmation so those prompts stay tappable; the yellow waiting banner stays visible with **CANCEL INSTALL**.)
+5. When an **update** finishes, that app’s **Updates** tab opens again. When a fresh **install** finishes, the **User Guide** tab opens.
 6. If a wait gets stuck, tap **CANCEL INSTALL** on the banner (or tap Install again). Installed, up-to-date apps show a green **OPEN** / **PLAY** / **LAUNCH** button.
 
 App downloads and documentation come from the private **RykerSoft-APKs** distribution repo. The required access token is built into the app, so downloads work out of the box. If the built-in token is ever rotated, paste the replacement into **Settings → GitHub Token** (that field overrides the built-in one).
 
-## 4. After an Install
-When install finishes successfully:
+## 4. After an Install or Update
+When the operation finishes successfully:
 
 1. App Manager returns to the foreground automatically.
-2. That app’s detail view opens on the **User Guide** tab.
+2. **Update** → detail view opens on the **Updates** tab (changelog).
+3. **Fresh install** → detail view opens on the **User Guide** tab.
 
 If an install was cancelled or blocked, you’ll see an error toast and can try again. Retrying also clears any stuck prior install session.
 
@@ -55,8 +56,6 @@ Some apps (SuperThink.ing, bettertracking, INFORMANT, Photocraft.ing) include op
 2. Open a pro-capable app’s detail page. If you see **PRO LOCKED**, tap **UNLOCK PRO FEATURES** in the bottom-left of the detail card.
 3. Enter the family unlock code provided by the admin.
 4. Install or open the app, then sign into the **same RykerSoft account** inside that app’s settings (RykerSoft pro unlock section) so keys can sync.
-5. Core app features work even when locked. Pro features stay off until unlock + hub sign-in succeed.
-
 Admin setup (one-time): see `firebase/SEED.md` for Firestore rules, unlock code hashes, and `config/providerKeys`.
 
 ## 6. Customizing Settings

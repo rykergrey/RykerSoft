@@ -2,12 +2,13 @@
 name: rykersoft-hub-ai-unlock
 description: >-
   Integrate a RykerSoft Android/Capacitor/web app with the RykerSoft Application
-  Manager AI unlock system (hub Firebase Auth, entitlements, remote provider
-  keys). Use when adding a new app to the hub, wiring AI unlock, providerKeys,
-  dual Firebase Auth, or when the user mentions RykerSoft unlock / pro AI access.
+  Manager pro unlock system (hub Firebase Auth, entitlements, remote provider
+  keys). Use when adding a new app to the hub, wiring pro/AI unlock, providerKeys,
+  dual Firebase Auth, PRO Features docs with colored asterisks, or when the user
+  mentions RykerSoft unlock / pro features access.
 ---
 
-# RykerSoft Hub AI Unlock Integration
+# RykerSoft Hub Pro Unlock Integration
 
 ## System overview (do not reinvent)
 
@@ -15,11 +16,13 @@ description: >-
 |---------|----------------|
 | App install / updates | RykerSoft App Manager + `registry.json` |
 | Family unlock code entry | **App Manager only** |
-| Entitlements + AI provider keys | Hub Firebase project **`rykersoft-abe84`** |
+| Entitlements + provider keys | Hub Firebase project **`rykersoft-abe84`** |
 | App-specific user data (vault, journal, etc.) | That app’s **own** Firebase project (if any) |
-| AI keys at runtime | Fetched from hub Firestore after entitlement + hub sign-in |
+| Provider keys at runtime | Fetched from hub Firestore after entitlement + hub sign-in |
 
-**Unlock code is never typed inside the target app.** Users unlock in App Manager, then sign into the **same RykerSoft hub account** inside the app (Settings → RykerSoft AI unlock) so keys can sync.
+**Unlock code is never typed inside the target app.** Users unlock in App Manager, then sign into the **same RykerSoft hub account** inside the app (Settings → RykerSoft pro unlock) so keys can sync.
+
+Prefer user-facing language **“pro features”** over heavy “AI” branding (badges, buttons, settings, hub docs).
 
 Hub project ID: `rykersoft-abe84`  
 Reference implementation: `RykerSoft/` (hub), `BetterTrackingV2/BetterTrackingV2/services/rykersoftHub.ts`, `superthinkingCursor/services/rykersoftHub.ts`, `supertube/src/lib/rykersoftHub.ts`.
@@ -27,13 +30,40 @@ Reference implementation: `RykerSoft/` (hub), `BetterTrackingV2/BetterTrackingV2
 ## User journey (explain this if asked)
 
 1. User creates/signs in to RykerSoft account in **App Manager** (hub Auth).
-2. User opens app detail → **UNLOCK AI FEATURES** → enters family unlock code.
+2. User opens app detail → **UNLOCK PRO FEATURES** → enters family unlock code.
 3. Hub writes `users/{uid}/entitlements/apps` → `{ "<packageName>": true }`.
 4. User installs/opens the app.
 5. If the app has its **own** Firebase login (e.g. SuperThinking vault), that login is **separate** and unchanged.
-6. User also signs into **RykerSoft hub** inside the app (second account UI) → app reads `providerKeys/{packageName}` and enables AI.
+6. User also signs into **RykerSoft hub** inside the app (second account UI) → app reads `providerKeys/{packageName}` and enables pro features.
 
 Apps with **no** local auth (e.g. INFORMANT) only need the hub sign-in step inside the app.
+
+## PRO Features docs (MANDATORY on every deploy of an AI-capable app)
+
+Any app that uses AI functions or other unlock-gated capabilities MUST ship hub docs that:
+
+1. Include a dedicated **`## PRO Features`** section in **both** `docs/description.md` and `docs/user_guide.md` (exact heading; list it in the user-guide TOC).
+2. Mark **every** pro / unlock-gated feature and function with a **colored asterisk** list marker so App Manager renders a magenta `*`:
+   - Prefer `* Feature name — …`
+   - Or `- * Feature name — …`
+3. Keep free / non-pro features on normal `-` bullets (hub shows `•`).
+4. Briefly note that `*`-marked items need a RykerSoft pro unlock in App Manager, then sign-in to the same account inside the app. Do **not** add long “features stay off until…” filler copy in the hub UI or docs.
+
+Example (`description.md`):
+
+```markdown
+## Key Features
+- **Offline journal**: Works without an account.
+- **Reminders**: Local notifications for habits.
+
+## PRO Features
+Items marked * require a RykerSoft pro unlock (App Manager), then sign-in to the same RykerSoft account inside this app.
+
+* **Quick Logging** — Photo or natural-language meal capture
+* **Coaching insights** — Personalized tips from your journal
+```
+
+Same asterisk convention applies inside relevant user-guide sections (not only the PRO Features heading).
 
 ## Checklist for each new AI-capable app
 
@@ -70,11 +100,12 @@ VITE_RYKERSOFT_FIREBASE_APP_ID=
 
    Use the **hub web app** config from Firebase Console (same values as RykerSoft App Manager `.env` `FIREBASE_*` web fields).
 
-3. UI: Settings section **“RykerSoft AI unlock”** with sign-in / create / sign-out / refresh keys (mirror BetterTracking Profile → API Keys or SuperThinking Settings).
+3. UI: Settings section **“RykerSoft pro unlock”** with sign-in / create / sign-out / refresh keys (mirror BetterTracking Profile → API Keys or SuperThinking Settings).
 4. On hub auth state change: `syncRemoteKeysToLocalStorage()` (or merge into that app’s preferences model).
-5. Gate AI calls: if no Gemini (or required) key after sync, show a clear “unlock in App Manager + sign in here” message. Non-AI features must keep working.
-6. **Do not bake costly AI keys** into release builds. Optional local-only escape hatch: `VITE_ALLOW_BAKED_AI_KEYS=true` for developer machines only.
-7. Free non-AI secrets (e.g. INFORMANT transcript/Webshare/YouTube Data for metadata) may remain baked if the product owner says they are free-tier.
+5. Gate pro/AI calls: if no Gemini (or required) key after sync, show a clear “unlock in App Manager + sign in here” message. Core non-pro features must keep working.
+6. **Do not bake costly provider keys** into release builds. Optional local-only escape hatch: `VITE_ALLOW_BAKED_AI_KEYS=true` for developer machines only.
+7. Free non-pro secrets (e.g. INFORMANT transcript/Webshare/YouTube Data for metadata) may remain baked if the product owner says they are free-tier.
+8. Write/update **`## PRO Features`** docs with `*` markers (see above) before every hub deploy.
 
 ### D. Native Android-only apps (Kotlin)
 
@@ -82,10 +113,10 @@ VITE_RYKERSOFT_FIREBASE_APP_ID=
 2. Do **not** replace the app’s primary FirebaseApp if it already has one.
 3. Add hub sign-in UI + entitlement/key fetch equivalent to the web module.
 
-### E. App Manager changes (only when adding unlockable AI)
+### E. App Manager changes (only when adding unlockable pro features)
 
 1. Add package id to `AiUnlockPackages` (or shared constant list) in the hub repo.
-2. Bump hub docs (`docs/user_guide.md` AI unlock section) if user-facing flow changes.
+2. Bump hub docs (`docs/user_guide.md` pro unlock section) if user-facing flow changes.
 3. No second APK / “pro flavor” — unlock is entitlement + remote keys.
 
 ### F. Deploy / verify (RykerSoft-APKs distribution model)
@@ -95,16 +126,16 @@ APKs and hub docs distribute from the **private `rykergrey/RykerSoft-APKs` repo*
 1. Rebuild the signed release APK in the app repo; commit/tag/release in the app repo as usual (source of truth).
 2. Also publish the APK to the distribution repo:
    `gh release create <slug>-v<version> app-release.apk --repo rykergrey/RykerSoft-APKs --title "<AppName> v<version>"`
-3. Copy the app repo's `docs/*.md` into `RykerSoft-APKs/docs/<slug>/`, commit, push (hub fetches docs from there).
+3. Copy the app repo's `docs/*.md` into `RykerSoft-APKs/docs/<slug>/`, commit, push (hub fetches docs from there). Confirm `## PRO Features` + `*` markers are present for AI-capable apps.
 4. Point `registry.json` `apkUrl` at:
    `https://github.com/rykergrey/RykerSoft-APKs/releases/download/<slug>-v<version>/app-release.apk`
    (Exception: the App Manager's own APK stays on the public `rykergrey/RykerSoft` repo so self-update needs no token.)
-5. Verify: locked → AI errors/disabled; unlock in manager → hub sign-in in app → AI works; other apps’ keys not readable.
+5. Verify: locked → pro features disabled with clear message; unlock in manager → hub sign-in in app → pro works; other apps’ keys not readable.
 
 ## Dual Firebase Auth — intentional
 
 - **App Firebase**: user content sync for that product.
-- **Hub Firebase**: cross-app entitlements + AI keys for the family/friends circle.
+- **Hub Firebase**: cross-app entitlements + provider keys for the family/friends circle.
 
 Do not merge these projects. Do not require the unlock code inside the target app.
 

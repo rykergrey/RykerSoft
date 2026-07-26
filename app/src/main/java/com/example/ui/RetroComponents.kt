@@ -91,6 +91,10 @@ enum class NeoButtonStyle {
 
 /**
  * Tactile Neo-Brutalist Button with heavy outline and responsive press shift.
+ *
+ * Shadow is sized to the face (not the outer constraint box). When the caller
+ * passes fillMaxWidth, both face and shadow expand together; wrap-content
+ * buttons keep a matching shadow instead of a full-width black bar.
  */
 @Composable
 fun NeoButton(
@@ -127,40 +131,47 @@ fun NeoButton(
         else -> NeoBlack
     }
 
-    Box(
-        modifier = modifier
-    ) {
-        // Shadow Layer (shrinks into place when pressed)
-        Box(
-            modifier = Modifier
-                .matchParentSize()
-                .offset(x = shadowOffset, y = shadowOffset)
-                .background(if (enabled) NeoBlack else NeoBlack.copy(alpha = 0.3f))
-        )
+    // fillMaxWidth() gives tight width constraints (min == max). Detect that so the
+    // face expands with the shadow instead of leaving a full-width black bar behind
+    // a wrap-content label (e.g. CANCEL INSTALL on the install waiting banner).
+    BoxWithConstraints(modifier = modifier) {
+        val expandWidth = constraints.hasFixedWidth
+        val widthModifier = if (expandWidth) Modifier.fillMaxWidth() else Modifier
 
-        // Interactive Button Layer
-        Box(
-            modifier = Modifier
-                .offset(x = currentOffset, y = currentOffset)
-                .border(2.dp, edgeColor)
-                .background(if (enabled) bgColor else bgColor.copy(alpha = 0.5f))
-                .clickable(
-                    interactionSource = interactionSource,
-                    indication = null,
-                    enabled = enabled,
-                    onClick = onClick
-                )
-                .padding(contentPadding),
-            contentAlignment = Alignment.Center
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
+        Box(modifier = widthModifier) {
+            // Shadow Layer (sized to the face; shrinks into place when pressed)
+            Box(
+                modifier = Modifier
+                    .matchParentSize()
+                    .offset(x = shadowOffset, y = shadowOffset)
+                    .background(if (enabled) NeoBlack else NeoBlack.copy(alpha = 0.3f))
+            )
+
+            // Interactive Button Layer
+            Box(
+                modifier = Modifier
+                    .then(widthModifier)
+                    .offset(x = currentOffset, y = currentOffset)
+                    .border(2.dp, edgeColor)
+                    .background(if (enabled) bgColor else bgColor.copy(alpha = 0.5f))
+                    .clickable(
+                        interactionSource = interactionSource,
+                        indication = null,
+                        enabled = enabled,
+                        onClick = onClick
+                    )
+                    .padding(contentPadding),
+                contentAlignment = Alignment.Center
             ) {
-                CompositionLocalProvider(
-                    LocalContentColor provides if (enabled) textColor else textColor.copy(alpha = 0.6f)
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
                 ) {
-                    content()
+                    CompositionLocalProvider(
+                        LocalContentColor provides if (enabled) textColor else textColor.copy(alpha = 0.6f)
+                    ) {
+                        content()
+                    }
                 }
             }
         }

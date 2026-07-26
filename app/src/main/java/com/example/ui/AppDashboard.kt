@@ -372,13 +372,17 @@ fun AppDashboard(
         }
     }
 
-    // After a successful install/update, keep the user on that app's detail User Guide tab.
+    // After a successful install/update, reopen detail: Updates tab for updates, User Guide for installs.
     LaunchedEffect(uiState.postInstallOpenPackage) {
         val pkg = uiState.postInstallOpenPackage ?: return@LaunchedEffect
         val app = uiState.apps.find { it.packageName == pkg }
         if (app != null) {
             selectedAppForDetail = app
-            detailInitialTab = AppDetailTab.USER_GUIDE
+            detailInitialTab = if (uiState.postInstallOpenUpdatesTab) {
+                AppDetailTab.UPDATES
+            } else {
+                AppDetailTab.USER_GUIDE
+            }
             selectedScreenshotIndex = 0
         }
         viewModel.clearPostInstallOpen()
@@ -934,7 +938,12 @@ fun AppDashboard(
                             item(key = "app_manager_update_banner") {
                                 AppManagerUpdateBanner(
                                     app = updateApp,
-                                    onUpdateClick = { viewModel.downloadAndInstall(updateApp) },
+                                    onUpdateClick = {
+                                        selectedAppForDetail = updateApp
+                                        detailInitialTab = AppDetailTab.UPDATES
+                                        selectedScreenshotIndex = 0
+                                        viewModel.downloadAndInstall(updateApp)
+                                    },
                                     onOpenDetail = {
                                         selectedAppForDetail = updateApp
                                         detailInitialTab = defaultAppDetailTab(updateApp)
@@ -960,7 +969,16 @@ fun AppDashboard(
                                         snackbarHostState.showSnackbar("Copied package ID to clipboard")
                                     }
                                 },
-                                onActionClick = { viewModel.downloadAndInstall(app) },
+                                onActionClick = {
+                                    // UPDATE from collapsed card: open Updates/changelog first, then download.
+                                    // INSTALL still starts immediately without forcing a tab change.
+                                    if (app.isOutdated) {
+                                        selectedAppForDetail = app
+                                        detailInitialTab = AppDetailTab.UPDATES
+                                        selectedScreenshotIndex = 0
+                                    }
+                                    viewModel.downloadAndInstall(app)
+                                },
                                 onLaunchClick = { ApkManager.launchApp(context, app.packageName) },
                                 downloadingPackage = uiState.downloadingPackage,
                                 downloadProgress = uiState.downloadProgress
@@ -979,7 +997,12 @@ fun AppDashboard(
                 initialScreenshotIndex = selectedScreenshotIndex,
                 initialTab = detailInitialTab,
                 onDismiss = { selectedAppForDetail = null },
-                onActionClick = { viewModel.downloadAndInstall(currentApp) },
+                onActionClick = {
+                    if (currentApp.isOutdated) {
+                        detailInitialTab = AppDetailTab.UPDATES
+                    }
+                    viewModel.downloadAndInstall(currentApp)
+                },
                 onLaunchClick = { ApkManager.launchApp(context, currentApp.packageName) },
                 downloadingPackage = uiState.downloadingPackage,
                 downloadProgress = uiState.downloadProgress,
@@ -1417,19 +1440,28 @@ private fun InstallWaitingBanner(
                 modifier = Modifier.weight(1f)
             )
         }
-        NeoButton(
-            onClick = onCancel,
-            style = NeoButtonStyle.NEUTRAL_WHITE,
-            modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(horizontal = 10.dp, vertical = 6.dp)
+        // Bottom/end padding leaves room for NeoButton's offset shadow so it
+        // doesn't sit flush against the banner border.
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(end = 4.dp, bottom = 4.dp)
         ) {
-            Text(
-                "CANCEL INSTALL",
-                fontSize = 10.sp,
-                fontWeight = FontWeight.Black,
-                fontFamily = FontFamily.Monospace,
-                color = NeoText
-            )
+            NeoButton(
+                onClick = onCancel,
+                style = NeoButtonStyle.NEUTRAL_WHITE,
+                modifier = Modifier.fillMaxWidth(),
+                shadowOffset = 3.dp,
+                contentPadding = PaddingValues(horizontal = 10.dp, vertical = 6.dp)
+            ) {
+                Text(
+                    "CANCEL INSTALL",
+                    fontSize = 10.sp,
+                    fontWeight = FontWeight.Black,
+                    fontFamily = FontFamily.Monospace,
+                    color = NeoText
+                )
+            }
         }
     }
 }
@@ -1544,33 +1576,14 @@ fun AppDetailDialog(
                     }
                 }
 
-                if (app.supportsAiUnlock) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 12.dp, vertical = 8.dp),
-                        verticalArrangement = Arrangement.spacedBy(4.dp)
-                    ) {
-                        Text(
-                            text = if (app.aiUnlocked) {
-                                "Pro features unlocked for this RykerSoft account."
-                            } else {
-                                "Pro features stay off until you unlock this app with a family unlock code."
-                            },
-                            fontSize = 12.sp,
-                            fontFamily = BodyFontFamily,
-                            lineHeight = 17.sp,
-                            color = NeoSubtext
-                        )
-                        if (!hubFirebaseConfigured) {
-                            Text(
-                                text = "Configure FIREBASE_* in hub .env (see firebase/SEED.md).",
-                                fontSize = 10.sp,
-                                color = NeoRed,
-                                fontFamily = FontFamily.Monospace
-                            )
-                        }
-                    }
+                if (app.supportsAiUnlock && !hubFirebaseConfigured) {
+                    Text(
+                        text = "Configure FIREBASE_* in hub .env (see firebase/SEED.md).",
+                        fontSize = 10.sp,
+                        color = NeoRed,
+                        fontFamily = FontFamily.Monospace,
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
+                    )
                 }
 
                 // Tab Selection State — keyed so post-install User Guide focus and reopen defaults apply

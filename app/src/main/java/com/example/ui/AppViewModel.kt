@@ -65,9 +65,14 @@ data class MainUiState(
     val filterType: FilterType = FilterType.ALL,
     val sortOption: SortOption = SortOption.RECENTLY_UPDATED,
     /**
-     * After a successful install/update, UI should open this package's detail on the User Guide tab.
+     * After a successful install/update, UI should open this package's detail dialog.
      */
     val postInstallOpenPackage: String? = null,
+    /**
+     * When [postInstallOpenPackage] is set, open the Updates tab (true) or User Guide (false).
+     * Updates keep the user on changelog; fresh installs land on the User Guide.
+     */
+    val postInstallOpenUpdatesTab: Boolean = false,
     /**
      * True while a PackageInstaller session is waiting on the user / system.
      * UI dismisses the detail Dialog (Dialog windows bury Play Protect) and shows an in-app banner.
@@ -107,8 +112,11 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
     private var cachedDbApps: List<ManagedApp> = emptyList()
 
-    /** Package whose system installer was launched; used to open User Guide after success. */
+    /** Package whose system installer was launched; used to reopen detail after success. */
     private var awaitingInstallPackage: String? = null
+
+    /** True when the in-flight install is an update (reopen Updates tab); false for fresh installs. */
+    private var preferUpdatesTabAfterInstall: Boolean = false
 
     init {
         val database = AppDatabase.getDatabase(context)
@@ -312,7 +320,12 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun clearPostInstallOpen() {
-        _uiState.update { it.copy(postInstallOpenPackage = null) }
+        _uiState.update {
+            it.copy(
+                postInstallOpenPackage = null,
+                postInstallOpenUpdatesTab = false
+            )
+        }
     }
 
     /**
@@ -322,12 +335,14 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     fun cancelStuckInstall() {
         ApkManager.abandonOwnedSessions(context)
         awaitingInstallPackage = null
+        preferUpdatesTabAfterInstall = false
         pendingInstallFile = null
         _uiState.update {
             it.copy(
                 installSessionActive = false,
                 installStatusMessage = null,
                 downloadingPackage = null,
+                postInstallOpenUpdatesTab = false,
                 infoMessage = "Previous install cancelled. You can try again."
             )
         }
@@ -375,10 +390,12 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
             }
             else -> {
                 awaitingInstallPackage = null
+                preferUpdatesTabAfterInstall = false
                 _uiState.update {
                     it.copy(
                         errorMessage = message ?: "Install failed.",
-                        postInstallOpenPackage = null
+                        postInstallOpenPackage = null,
+                        postInstallOpenUpdatesTab = false
                     )
                 }
                 refreshLocalInstallations()
@@ -488,12 +505,15 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
         val awaiting = awaitingInstallPackage
         var postInstallOpen = _uiState.value.postInstallOpenPackage
+        var postInstallUpdatesTab = _uiState.value.postInstallOpenUpdatesTab
         var clearInstallSession = false
         if (awaiting != null) {
             val installedItem = uiItems.find { it.packageName == awaiting }
             if (installedItem != null && installedItem.isInstalled && !installedItem.isOutdated) {
                 postInstallOpen = awaiting
+                postInstallUpdatesTab = preferUpdatesTabAfterInstall
                 awaitingInstallPackage = null
+                preferUpdatesTabAfterInstall = false
                 clearInstallSession = true
                 InstallSessionTracker.clear(context)
             }
@@ -504,6 +524,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                 apps = uiItems,
                 appManagerUpdateAvailable = appManagerUpdate,
                 postInstallOpenPackage = postInstallOpen,
+                postInstallOpenUpdatesTab = postInstallUpdatesTab,
                 installSessionActive = if (clearInstallSession) false else it.installSessionActive,
                 installStatusMessage = if (clearInstallSession) null else it.installStatusMessage,
                 infoMessage = if (clearInstallSession && it.infoMessage == null) {
@@ -579,6 +600,9 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
             return
         }
 
+        // Updates reopen on the Updates/changelog tab; fresh installs keep User Guide.
+        preferUpdatesTabAfterInstall = app.isOutdated
+
         // If a prior install got stuck (Play Protect buried, session orphaned), clear it and retry
         // instead of permanently blocking the user.
         if (_uiState.value.installSessionActive ||
@@ -637,11 +661,13 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                preferUpdatesTabAfterInstall = false
                 _uiState.update { 
                     it.copy(
                         downloadingPackage = null,
                         installSessionActive = false,
                         installStatusMessage = null,
+                        postInstallOpenUpdatesTab = false,
                         errorMessage = "Failed to download APK: ${e.localizedMessage ?: "Unknown error"}"
                     )
                 }
