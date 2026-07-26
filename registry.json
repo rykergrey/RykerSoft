@@ -14,11 +14,11 @@
     {
       "packageName": "com.rykersoft.informant",
       "name": "INFORMANT",
-      "latestVersionCode": 11,
-      "latestVersionName": "1.2.4",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/informant-v1.2.4/app-release.apk",
+      "latestVersionCode": 12,
+      "latestVersionName": "1.2.5",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/informant-v1.2.5/app-release.apk",
       "icon": "android",
-      "changelog": "- Fix TTS mode race that flashed fencing then snapped back to default text UI\n- Keep section colors and tap/long-press active while TTS toolbar is open\n- Notes switch to preview in TTS mode for section fencing",
+      "changelog": "- Fix TTS mode on AI action tabs (Summary, Key Takeaways, Analysis)\n- Timestamp seek chips no longer steal section taps in TTS mode\n- AI action paragraphs stay fenceable while TTS toolbar is open",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/01-home.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/02-workspace.jpg",
