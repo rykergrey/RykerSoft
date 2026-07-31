@@ -150,11 +150,11 @@
     {
       "packageName": "com.rykersoft.freeballing",
       "name": "FreeBall.ing",
-      "latestVersionCode": 2,
-      "latestVersionName": "1.0.1",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.1/app-release.apk",
+      "latestVersionCode": 3,
+      "latestVersionName": "1.0.2",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.2/app-release.apk",
       "icon": "android",
-      "changelog": "- Simplified ball mechanics (standard charge shot)\n- Bumper one-shot + new multiplier peg SFX\n- Updated gutter samples; trimmed campaign levels\n- Safer level delete with confirmation",
+      "changelog": "- Stereo positional SFX for peg hits and gutter captures\n- Refreshed bundled campaign level data",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/01-gameplay.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/02-board.jpg",
