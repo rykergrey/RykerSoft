@@ -150,11 +150,11 @@
     {
       "packageName": "com.rykersoft.freeballing",
       "name": "FreeBall.ing",
-      "latestVersionCode": 1,
-      "latestVersionName": "1.0.0",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.0/app-release.apk",
+      "latestVersionCode": 2,
+      "latestVersionName": "1.0.1",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.1/app-release.apk",
       "icon": "android",
-      "changelog": "- First RykerSoft hub release of FreeBall.ing (Godot)\n- Physics pegboard puzzle with editor, audio, and Firebase leaderboards\n- Signed package com.rykersoft.freeballing (versionCode 1 / 1.0.0)",
+      "changelog": "- Simplified ball mechanics (standard charge shot)\n- Bumper one-shot + new multiplier peg SFX\n- Updated gutter samples; trimmed campaign levels\n- Safer level delete with confirmation",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/01-gameplay.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/02-board.jpg",
