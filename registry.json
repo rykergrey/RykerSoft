@@ -150,11 +150,11 @@
     {
       "packageName": "com.rykersoft.freeballing",
       "name": "FreeBall.ing",
-      "latestVersionCode": 4,
-      "latestVersionName": "1.0.3",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.3/app-release.apk",
+      "latestVersionCode": 5,
+      "latestVersionName": "1.0.4",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.4/app-release.apk",
       "icon": "android",
-      "changelog": "- New mobile arcade lobby and wide desktop three-column home\n- Soft cut-corner menu chrome and refreshed briefing / end overlays\n- Mobile performance budgets for smoother play",
+      "changelog": "- Redesigned mobile/desktop lobbies with accurate native board previews\n- Arcade brand mark and in-place Campaign / Community / Editor / Rankings / Settings\n- Local profile stats; 120s match timer",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/01-gameplay.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/02-board.jpg",
