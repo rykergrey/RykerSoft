@@ -150,11 +150,11 @@
     {
       "packageName": "com.rykersoft.freeballing",
       "name": "FreeBall.ing",
-      "latestVersionCode": 5,
-      "latestVersionName": "1.0.4",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.4/app-release.apk",
+      "latestVersionCode": 6,
+      "latestVersionName": "1.0.5",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.5/app-release.apk",
       "icon": "android",
-      "changelog": "- Redesigned mobile/desktop lobbies with accurate native board previews\n- Arcade brand mark and in-place Campaign / Community / Editor / Rankings / Settings\n- Local profile stats; 120s match timer",
+      "changelog": "- Scoring overhaul: Clear Combo I/II/III, Perfect Beam / Perfect Five, capped 3x gutters\n- Removed legacy power-ball systems (Ghost/Explosive/Sniper/Pilot/Zip)\n- Versioned foreground peg motion; desktop editor dual inspector rails",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/01-gameplay.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/02-board.jpg",
