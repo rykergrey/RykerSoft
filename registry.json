@@ -150,11 +150,11 @@
     {
       "packageName": "com.rykersoft.freeballing",
       "name": "FreeBall.ing",
-      "latestVersionCode": 6,
-      "latestVersionName": "1.0.5",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.5/app-release.apk",
+      "latestVersionCode": 7,
+      "latestVersionName": "1.0.6",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.6/app-release.apk",
       "icon": "android",
-      "changelog": "- Scoring overhaul: Clear Combo I/II/III, Perfect Beam / Perfect Five, capped 3x gutters\n- Removed legacy power-ball systems (Ghost/Explosive/Sniper/Pilot/Zip)\n- Versioned foreground peg motion; desktop editor dual inspector rails",
+      "changelog": "- Removed Clear Combo streak multipliers; pegs use fixed table values\n- Bumper kick speed floor; unified peg bounce; lower max ball speed\n- Combo HUD / floating-text / SFX routing cleanup",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/01-gameplay.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/02-board.jpg",
