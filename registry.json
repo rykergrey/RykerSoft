@@ -150,11 +150,11 @@
     {
       "packageName": "com.rykersoft.freeballing",
       "name": "FreeBall.ing",
-      "latestVersionCode": 8,
-      "latestVersionName": "1.0.7",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.7/app-release.apk",
+      "latestVersionCode": 9,
+      "latestVersionName": "1.0.8",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.8/app-release.apk",
       "icon": "android",
-      "changelog": "- Vertical-loop escapes redirect existing momentum instead of adding sideways speed\n- Removed artificial soft-bounce boosts and armored stuck-escape impulses\n- Spinning bumper groups keep capped tangential motion; armor uses solver result",
+      "changelog": "- Bonus pegs award points only (no extra launch)\n- More reliable Android/iOS mobile performance budgets; ambient AA / arc caps\n- Profiler HUD treats desktop as non-budgeted",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/01-gameplay.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/02-board.jpg",
