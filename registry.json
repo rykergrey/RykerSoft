@@ -150,11 +150,11 @@
     {
       "packageName": "com.rykersoft.freeballing",
       "name": "FreeBall.ing",
-      "latestVersionCode": 9,
-      "latestVersionName": "1.0.8",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.8/app-release.apk",
+      "latestVersionCode": 10,
+      "latestVersionName": "1.0.9",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.9/app-release.apk",
       "icon": "android",
-      "changelog": "- Bonus pegs award points only (no extra launch)\n- More reliable Android/iOS mobile performance budgets; ambient AA / arc caps\n- Profiler HUD treats desktop as non-budgeted",
+      "changelog": "- Native-resolution CanvasItem rendering on mobile\n- Full mobile AA, particles, ambient layers, and dense trail sampling\n- Display-aware 60/90/120 FPS pacing with interpolated custom draws",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/01-gameplay.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/02-board.jpg",
