@@ -150,11 +150,11 @@
     {
       "packageName": "com.rykersoft.freeballing",
       "name": "FreeBall.ing",
-      "latestVersionCode": 7,
-      "latestVersionName": "1.0.6",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.6/app-release.apk",
+      "latestVersionCode": 8,
+      "latestVersionName": "1.0.7",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.7/app-release.apk",
       "icon": "android",
-      "changelog": "- Removed Clear Combo streak multipliers; pegs use fixed table values\n- Bumper kick speed floor; unified peg bounce; lower max ball speed\n- Combo HUD / floating-text / SFX routing cleanup",
+      "changelog": "- Vertical-loop escapes redirect existing momentum instead of adding sideways speed\n- Removed artificial soft-bounce boosts and armored stuck-escape impulses\n- Spinning bumper groups keep capped tangential motion; armor uses solver result",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/01-gameplay.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/02-board.jpg",
