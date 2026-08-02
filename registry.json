@@ -150,11 +150,11 @@
     {
       "packageName": "com.rykersoft.freeballing",
       "name": "FreeBall.ing",
-      "latestVersionCode": 10,
-      "latestVersionName": "1.0.9",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.9/app-release.apk",
+      "latestVersionCode": 11,
+      "latestVersionName": "1.0.10",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.10/app-release.apk",
       "icon": "android",
-      "changelog": "- Native-resolution CanvasItem rendering on mobile\n- Full mobile AA, particles, ambient layers, and dense trail sampling\n- Display-aware 60/90/120 FPS pacing with interpolated custom draws",
+      "changelog": "- Smooth aiming under hit-stop with wall-clock launcher pacing\n- Lightweight flight-arc aim preview (no physics raycasts)\n- Crisp hit-stop recovery; desktop lobby dedicated level browser",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/01-gameplay.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/02-board.jpg",
