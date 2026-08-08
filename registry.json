@@ -3,11 +3,11 @@
     {
       "packageName": "com.rykersoft.appmanager",
       "name": "RykerSoft",
-      "latestVersionCode": 16,
-      "latestVersionName": "1.2.9",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft/releases/download/v1.2.9/app-release.apk",
+      "latestVersionCode": 17,
+      "latestVersionName": "1.2.10",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft/releases/download/v1.2.10/app-release.apk",
       "icon": "android",
-      "changelog": "- Validate APK package, signing certificate, and version before installation\n- Explain signing conflicts separately from Work Profile conflicts\n- Canonical namespace, hardened manual release checks, refreshed docs, and a public screenshot gallery",
+      "changelog": "- Add a share icon beside every app card's version\n- Copy each app's exact registry APK URL to the clipboard\n- Confirm successful copies with an app-specific message",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rykersoft/01-dashboard.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rykersoft/02-documentation.png",
