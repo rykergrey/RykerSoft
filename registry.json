@@ -124,15 +124,15 @@
     {
       "packageName": "com.rykersoft.wordplaying",
       "name": "WordPlay.ing",
-      "latestVersionCode": 3,
-      "latestVersionName": "1.1.1",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.1.1/app-release.apk",
+      "latestVersionCode": 4,
+      "latestVersionName": "1.2.0",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.2.0/app-release.apk",
       "icon": "android",
-      "changelog": "- Account-bound Daily and challenge attempts secured before board reveal\n- First competitive scores are immutable; every retry is practice-only\n- Stronger Firebase validation against duplicate, altered, or forged submissions",
+      "changelog": "- Wordbook, career progress, personal bests, missions, awards, and themes now follow signed-in players across devices\n- Match Options now focuses on match rules; appearance, sound, haptics, and accessibility moved to Player Settings\n- Expanded saved modes and contextual custom-mode saving",
       "screenshots": [
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/01-home.jpg",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/02-leaderboards.jpg",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/03-splash.jpg"
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/01-home-v1.2.0.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/02-player-settings-v1.2.0.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/03-match-options-v1.2.0.jpg"
       ],
       "isGame": true
     },
