@@ -1,6 +1,6 @@
 # RykerSoft Application Manager
 
-Current release: **v1.2.10** (`versionCode` 17), package `com.rykersoft.appmanager`, for Android 7.0/API 24 and newer.
+Current release: **v1.3.0** (`versionCode` 18), package `com.rykersoft.appmanager`, for Android 7.0/API 24 and newer.
 
 Personal Android app hub and application manager for RykerSoft applications. Easily check for updates, view changelogs, download, and install latest versions of RykerSoft apps — including self-updating RykerSoft itself!
 
@@ -10,6 +10,8 @@ Personal Android app hub and application manager for RykerSoft applications. Eas
 - **Rich App Cards & Detail Views**: View changelogs, markdown descriptions, version diffs (`v1.0.0 → v1.0.2`), and screenshots.
 - **Package Installer Integration**: Seamlessly downloads APKs and invokes system installer.
 - **Shareable APK Links**: Copy an app's exact APK download URL from the share icon beside its version.
+- **Google RykerSoft Account**: Sign in through Android Credential Manager, with a safe link-and-recovery path for legacy password accounts.
+- **Rules-Verified Pro Unlocks**: Atomic Firestore rules validate the code hash against a server-only record and permit only the listed package entitlement.
 
 ---
 
@@ -29,7 +31,7 @@ Run the included PowerShell script to build the release APK and install it direc
 
 ## Deploying Releases & Release Candidates
 
-Releases are published from a locally verified signed APK. The manual GitHub Actions workflow (`.github/workflows/release.yml`) can reproduce that process after its four encrypted signing secrets are configured.
+Releases are published from a locally verified signed APK. The manual GitHub Actions workflow (`.github/workflows/release.yml`) can reproduce that process after its encrypted signing secrets plus `RYKERSOFT_FIREBASE_API_KEY`, `RYKERSOFT_FIREBASE_APP_ID`, `RYKERSOFT_FIREBASE_WEB_CLIENT_ID`, and `FAMILY_GITHUB_TOKEN` are configured.
 
 ### 1. Tagging & Pushing a Release
 To publish a new release candidate or official release version:

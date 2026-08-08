@@ -58,7 +58,7 @@ If Android rejects the operation, RykerSoft presents the most specific available
 
 Open the gear control to:
 
-- Sign in to or create a RykerSoft account.
+- Sign in to RykerSoft with Google through Android's account chooser.
 - Override the built-in distribution token if the family token is rotated.
 - Change the registry URL for development or recovery.
 - Enable or disable periodic update notifications.
@@ -67,12 +67,16 @@ Open the gear control to:
 
 The RykerSoft account is separate from any product-specific account an individual app may use.
 
+New RykerSoft accounts use Google and do not require another password. If you already have a password-based RykerSoft account, choose **MIGRATE AN EXISTING PASSWORD ACCOUNT**, verify the old account, then choose **LINK GOOGLE & PRESERVE ACCOUNT**. Linking keeps the original Firebase UID, data ownership, and entitlements. The migration panel also provides password reset; it cannot create new password accounts.
+
+Every remaining secret field starts hidden. Use its accessible eye button to reveal or hide the value without clearing the field.
+
 ## PRO Features
 
 The App Manager itself is free. A magenta `*` marks optional features in connected apps that require a RykerSoft pro unlock.
 
-* Unlock eligible apps — Sign in to your RykerSoft account, open a pro-capable app's detail page, choose **UNLOCK PRO FEATURES**, and enter the provided unlock code.
-* Activate inside the app — Install or open the app, then sign in to the same RykerSoft account inside that app so its entitlement and provider configuration can synchronize.
+* Unlock eligible apps — Sign in with Google, open a pro-capable app's detail page, choose **UNLOCK PRO FEATURES**, and enter the provided unlock code. Firestore validates the atomic request against the server-only code record and grants only listed packages.
+* Activate inside the app — Install or open the app, then sign in with the same Google account inside that app so its entitlement and provider configuration can synchronize.
 
 Ordinary unstarred catalog, documentation, update, download, and installation features remain available without a pro unlock.
 
@@ -89,6 +93,10 @@ Ordinary unstarred catalog, documentation, update, download, and installation fe
 - **Play Protect prompt is hidden or stalled:** Return to RykerSoft, tap **CANCEL INSTALL**, and retry with the app left in the foreground.
 - **Download or documentation authorization fails:** Clear a stale token override to use the built-in family token, or enter the replacement token supplied by the administrator.
 - **Pro unlock fails:** Confirm you are signed in, the unlock code is active, and the app is included in that code's allowed packages.
+- **Google sign-in does not show an account:** Confirm Google Play services is available and that the device has a Google account, then retry the persistent **SIGN IN WITH GOOGLE** button.
+- **Google says the email belongs to a legacy account:** Open the migration panel, sign in with the existing password, and link Google from the signed-in account screen. Do not create or merge accounts manually.
+- **Legacy password is forgotten:** Enter the legacy email in the migration panel and choose **RESET PASSWORD**.
+- **Google is already linked elsewhere:** No automatic merge occurs. Contact support so ownership can be verified without choosing a data winner or changing a UID.
 - **App remains locked:** Sign in to the same RykerSoft account inside the target app and refresh its keys.
 
 ## 7. Privacy and Security

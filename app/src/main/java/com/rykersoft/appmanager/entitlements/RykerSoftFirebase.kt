@@ -24,6 +24,13 @@ object RykerSoftFirebase {
         ).all { it.isNotBlank() && !it.startsWith("REPLACE_") && it != "MY_GEMINI_API_KEY" }
     }
 
+    fun isGoogleConfigured(): Boolean {
+        return isConfigured() && BuildConfig.FIREBASE_WEB_CLIENT_ID
+            .let { it.isNotBlank() && !it.startsWith("REPLACE_") }
+    }
+
+    fun webClientId(): String = BuildConfig.FIREBASE_WEB_CLIENT_ID.trim()
+
     fun ensureInitialized(context: Context): Boolean {
         if (ready) return true
         if (!isConfigured()) {

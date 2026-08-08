@@ -9,6 +9,8 @@ import com.rykersoft.appmanager.data.AppRepository
 import com.rykersoft.appmanager.data.ManagedApp
 import com.rykersoft.appmanager.entitlements.AiUnlockPackages
 import com.rykersoft.appmanager.entitlements.EntitlementRepository
+import com.rykersoft.appmanager.entitlements.GoogleSignInManager
+import com.rykersoft.appmanager.entitlements.RykerSoftFirebase
 import android.content.Intent
 import com.rykersoft.appmanager.install.InstallSessionTracker
 import com.rykersoft.appmanager.install.InstallStatusReceiver
@@ -82,8 +84,11 @@ data class MainUiState(
     val installStatusMessage: String? = null,
     val appManagerUpdateAvailable: AppUiItem? = null,
     val hubFirebaseConfigured: Boolean = false,
+    val hubGoogleConfigured: Boolean = false,
     val hubSignedIn: Boolean = false,
     val hubAccountEmail: String? = null,
+    val hubHasGoogleProvider: Boolean = false,
+    val hubHasPasswordProvider: Boolean = false,
     val hubEntitlements: Map<String, Boolean> = emptyMap(),
     val hubBusy: Boolean = false
 )
@@ -141,7 +146,8 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                 notificationsEnabled = savedNotify, 
                 titleFontPreset = savedPreset,
                 sortOption = savedSortOption,
-                hubFirebaseConfigured = entitlementRepository.isConfigured()
+                hubFirebaseConfigured = entitlementRepository.isConfigured(),
+                hubGoogleConfigured = entitlementRepository.isGoogleConfigured()
             ) 
         }
 
@@ -200,8 +206,11 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                 _uiState.update {
                     it.copy(
                         hubFirebaseConfigured = account.configured,
+                        hubGoogleConfigured = account.googleConfigured,
                         hubSignedIn = account.user != null,
                         hubAccountEmail = account.email,
+                        hubHasGoogleProvider = account.hasGoogleProvider,
+                        hubHasPasswordProvider = account.hasPasswordProvider,
                         hubEntitlements = account.entitlements
                     )
                 }
@@ -214,15 +223,26 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun hubSignIn(email: String, password: String) {
+    fun hubGoogleSignIn(activityContext: Context, linkLegacyAccount: Boolean = false) {
         viewModelScope.launch {
             _uiState.update { it.copy(hubBusy = true) }
             try {
-                entitlementRepository.signIn(email, password)
-                _uiState.update { it.copy(infoMessage = "Signed in to RykerSoft account.") }
+                val idToken = GoogleSignInManager.requestIdToken(
+                    activityContext,
+                    RykerSoftFirebase.webClientId()
+                )
+                if (linkLegacyAccount) {
+                    entitlementRepository.linkGoogleAccount(idToken)
+                    _uiState.update {
+                        it.copy(infoMessage = "Google account linked. Your existing RykerSoft data and entitlements were preserved.")
+                    }
+                } else {
+                    entitlementRepository.signInWithGoogle(idToken)
+                    _uiState.update { it.copy(infoMessage = "Signed in to RykerSoft with Google.") }
+                }
             } catch (e: Exception) {
                 _uiState.update {
-                    it.copy(errorMessage = e.localizedMessage ?: "Sign-in failed.")
+                    it.copy(errorMessage = e.localizedMessage ?: "Google sign-in failed.")
                 }
             } finally {
                 _uiState.update { it.copy(hubBusy = false) }
@@ -230,15 +250,17 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun hubSignUp(email: String, password: String) {
+    fun hubLegacySignIn(email: String, password: String) {
         viewModelScope.launch {
             _uiState.update { it.copy(hubBusy = true) }
             try {
-                entitlementRepository.signUp(email, password)
-                _uiState.update { it.copy(infoMessage = "RykerSoft account created.") }
+                entitlementRepository.signInLegacy(email, password)
+                _uiState.update {
+                    it.copy(infoMessage = "Legacy account verified. Link Google now to preserve this account's UID and entitlements.")
+                }
             } catch (e: Exception) {
                 _uiState.update {
-                    it.copy(errorMessage = e.localizedMessage ?: "Account creation failed.")
+                    it.copy(errorMessage = e.localizedMessage ?: "Legacy sign-in failed.")
                 }
             } finally {
                 _uiState.update { it.copy(hubBusy = false) }
@@ -246,9 +268,28 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun hubSignOut() {
-        entitlementRepository.signOut()
-        _uiState.update { it.copy(infoMessage = "Signed out of RykerSoft account.") }
+    fun hubSendPasswordReset(email: String) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(hubBusy = true) }
+            try {
+                entitlementRepository.sendPasswordReset(email)
+                _uiState.update { it.copy(infoMessage = "Password reset email sent for the legacy account.") }
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(errorMessage = e.localizedMessage ?: "Password reset failed.")
+                }
+            } finally {
+                _uiState.update { it.copy(hubBusy = false) }
+            }
+        }
+    }
+
+    fun hubSignOut(activityContext: Context) {
+        viewModelScope.launch {
+            entitlementRepository.signOut()
+            runCatching { GoogleSignInManager.clearCredentialState(activityContext) }
+            _uiState.update { it.copy(infoMessage = "Signed out of RykerSoft account.") }
+        }
     }
 
     fun unlockAppWithCode(packageName: String, code: String) {

@@ -11,6 +11,8 @@
 .DS_Store
 /build
 /captures
+.codex-runtime/
+firestore-debug.log
 .externalNativeBuild
 .cxx
 local.properties

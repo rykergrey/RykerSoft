@@ -14,7 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.isDialog
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.text.font.FontFamily
@@ -30,6 +32,7 @@ import com.rykersoft.appmanager.ui.AppUiItem
 import com.rykersoft.appmanager.ui.RykerSoftTitleHeader
 import com.rykersoft.appmanager.ui.SettingsDialog
 import com.rykersoft.appmanager.ui.TagChip
+import com.rykersoft.appmanager.ui.UnlockProDialog
 import com.rykersoft.appmanager.ui.theme.MyApplicationTheme
 import com.rykersoft.appmanager.ui.theme.NeoBg
 import com.rykersoft.appmanager.ui.theme.NeoCyan
@@ -215,8 +218,7 @@ class ReleaseGalleryScreenshotTest {
                     currentUrl = "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/registry.json",
                     notificationsEnabled = true,
                     hubFirebaseConfigured = true,
-                    hubSignedIn = true,
-                    hubAccountEmail = "rykersoft@example.com",
+                    hubGoogleConfigured = true,
                     onDismiss = {},
                     onSave = { _, _, _ -> },
                     onLoadSamples = {},
@@ -229,6 +231,46 @@ class ReleaseGalleryScreenshotTest {
         composeTestRule.onNode(hasTestTag("settings_dialog_content")).captureRoboImage(
             filePath = "../screenshots/rykersoft/03-settings.png"
         )
+    }
+
+    @Test
+    fun remainingSecretFieldsHaveAccessibleVisibilityControls() {
+        composeTestRule.setContent {
+            MyApplicationTheme {
+                SettingsDialog(
+                    currentUrl = "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/registry.json",
+                    notificationsEnabled = true,
+                    hubFirebaseConfigured = true,
+                    hubGoogleConfigured = true,
+                    onDismiss = {},
+                    onSave = { _, _, _ -> },
+                    onLoadSamples = {},
+                    onAddAppClick = {}
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithText("MIGRATE AN EXISTING PASSWORD ACCOUNT").performClick()
+        composeTestRule.onNodeWithContentDescription("Show Legacy password").assertExists().performClick()
+        composeTestRule.onNodeWithContentDescription("Hide Legacy password").assertExists()
+        composeTestRule.onNodeWithContentDescription("Show GitHub token (PAT for private repos)").assertExists()
+    }
+
+    @Test
+    fun unlockCodeStartsHiddenAndCanBeRevealed() {
+        composeTestRule.setContent {
+            MyApplicationTheme {
+                UnlockProDialog(
+                    appName = "INFORMANT",
+                    busy = false,
+                    onDismiss = {},
+                    onUnlock = {}
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithContentDescription("Show Unlock code").assertExists().performClick()
+        composeTestRule.onNodeWithContentDescription("Hide Unlock code").assertExists()
     }
 
     private fun sampleApp(

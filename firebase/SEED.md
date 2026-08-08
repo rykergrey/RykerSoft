@@ -2,12 +2,14 @@
 
 Active project: **rykersoft-abe84** (display name RykerSoft).
 
-Auth (email/password) and Firestore rules are already deployed via Firebase CLI.
+Google Auth is the standard account provider. Email/password remains enabled temporarily for legacy sign-in, linking, and recovery only. The rules-validated atomic unlock flow deploys through Firebase CLI.
 
 ## 1. Enable products
 
-1. Firebase Console → Authentication → Sign-in method → enable **Email/Password**
-2. Create a Firestore database (production mode is fine; deploy rules next)
+1. Firebase Console → Authentication → Sign-in method → enable **Google** and set the approved public support email
+2. Keep **Email/Password** enabled only while legacy-account migration and recovery remain supported; do not expose password sign-up
+3. Register the App Manager release certificate SHA-1 and SHA-256 fingerprints for `com.rykersoft.appmanager`
+4. Create a Firestore database (production mode is fine; deploy rules next)
 
 ## 2. Deploy rules
 
@@ -28,6 +30,7 @@ FIREBASE_PROJECT_ID=...
 FIREBASE_STORAGE_BUCKET=...
 FIREBASE_MESSAGING_SENDER_ID=...
 FIREBASE_AUTH_DOMAIN=...
+FIREBASE_WEB_CLIENT_ID=...
 ```
 
 Register an Android app with package `com.rykersoft.appmanager` if you also want `google-services.json` (optional; hub initializes Firebase from these BuildConfig values).
@@ -59,7 +62,7 @@ $hash = [System.BitConverter]::ToString([System.Security.Cryptography.SHA256]::C
 Write-Host $hash
 ```
 
-Create document:
+Create the server-only document:
 
 - Path: `unlockCodes/{hash}`  (collection `unlockCodes`, document ID = hash)
 - Field `packages` (array of strings), for example:
@@ -72,6 +75,8 @@ com.rykersoft.photocrafting
 ```
 
 Use one code for all AI apps, or separate codes with different `packages` arrays.
+
+Clients cannot read this document or write arbitrary entitlements. App Manager submits an atomic unlock-request and entitlement batch; Firestore rules compare its hash and package against this server-only document and permit only the listed package grant.
 
 ## 6. Manual entitlements (optional)
 

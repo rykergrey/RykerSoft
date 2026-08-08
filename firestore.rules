@@ -19,18 +19,93 @@ service cloud.firestore {
         && get(entitlementsPath(request.auth.uid)).data.get(packageId, false) == true;
     }
 
+    function isUnlockablePackage(packageId) {
+      return packageId in [
+        'com.rykersoft.superthinking',
+        'com.rykersoft.bettertracking',
+        'com.rykersoft.informant',
+        'com.rykersoft.photocrafting'
+      ];
+    }
+
+    function hasValidUnlockRequest(uid, requestId, packageId) {
+      let requestPath = /databases/$(database)/documents/users/$(uid)/unlockRequests/$(requestId);
+      return existsAfter(requestPath)
+        && unlockRequestMatches(getAfter(requestPath).data, packageId);
+    }
+
+    function unlockRequestMatches(unlockRequest, packageId) {
+      return unlockRequest.packageName == packageId
+        && codeAllowsPackage(unlockRequest.codeHash, packageId);
+    }
+
+    function codeAllowsPackage(codeHash, packageId) {
+      let codePath = /databases/$(database)/documents/unlockCodes/$(codeHash);
+      return exists(codePath) && get(codePath).data.packages.hasAny([packageId]);
+    }
+
     match /users/{uid} {
-      allow read, write: if isOwner(uid);
+      allow read: if isOwner(uid);
+      allow create: if isOwner(uid)
+        && request.resource.data.keys().hasOnly(['email', 'updatedAt']);
+      allow update: if isOwner(uid)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['email', 'updatedAt']);
+      allow delete: if false;
 
       match /entitlements/apps {
         allow read: if isOwner(uid);
-        allow write: if isOwner(uid);
+        allow create: if isOwner(uid)
+          && isUnlockablePackage(request.resource.data.get('lastUnlockPackage', ''))
+          && request.resource.data.get(
+            request.resource.data.get('lastUnlockPackage', ''), false
+          ) == true
+          && request.resource.data.keys().hasOnly([
+            request.resource.data.lastUnlockPackage,
+            'lastUnlockRequestId',
+            'lastUnlockPackage',
+            'updatedAt'
+          ])
+          && hasValidUnlockRequest(
+            uid,
+            request.resource.data.get('lastUnlockRequestId', ''),
+            request.resource.data.get('lastUnlockPackage', '')
+          );
+        allow update: if isOwner(uid)
+          && isUnlockablePackage(request.resource.data.get('lastUnlockPackage', ''))
+          && request.resource.data.get(
+            request.resource.data.get('lastUnlockPackage', ''), false
+          ) == true
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+            request.resource.data.lastUnlockPackage,
+            'lastUnlockRequestId',
+            'lastUnlockPackage',
+            'updatedAt'
+          ])
+          && hasValidUnlockRequest(
+            uid,
+            request.resource.data.get('lastUnlockRequestId', ''),
+            request.resource.data.get('lastUnlockPackage', '')
+          );
+        allow delete: if false;
+      }
+
+      match /unlockRequests/{requestId} {
+        allow create: if isOwner(uid)
+          && request.resource.data.keys().hasOnly(['codeHash', 'packageName', 'createdAt'])
+          && request.resource.data.codeHash.matches('^[a-f0-9]{64}$')
+          && isUnlockablePackage(request.resource.data.packageName)
+          && request.resource.data.createdAt == request.time
+          && codeAllowsPackage(
+            request.resource.data.codeHash,
+            request.resource.data.packageName
+          );
+        allow read, update, delete: if false;
       }
     }
 
     match /unlockCodes/{codeHash} {
-      allow get: if signedIn();
-      allow list, write: if false;
+      // Unlock codes are server-only bearer credentials.
+      allow read, write: if false;
     }
 
     // Per-app AI provider keys (document ID = Android package name)

@@ -1,5 +1,14 @@
 # Release Updates & History
 
+## v1.3.0 (Version Code 18) - August 8th, 2026
+- Make Google the standard RykerSoft account sign-in through Android Credential Manager
+- Remove new email/password account creation while retaining an explicit legacy sign-in, password-reset, and Google-link migration path
+- Preserve each migrated account's Firebase UID, owned data, and existing entitlements when Google is linked
+- Add accessible show/hide controls to the remaining legacy password, unlock-code, and private-token fields
+- Move unlock-code validation into an atomic Firestore request whose rules grant only packages listed by the server-only code record
+- Deny client reads of unlock-code documents and client writes to entitlement documents in Firestore rules
+- Register the release signing certificate SHA-1 and SHA-256 fingerprints and enable Google in Firebase project `rykersoft-abe84`
+
 ## v1.2.10 (Version Code 17) - August 8th, 2026
 - Add a compact share icon beside every app card's version number
 - Copy the selected app's exact registry APK URL to the Android clipboard

@@ -3,8 +3,11 @@ package com.rykersoft.appmanager.entitlements
 import android.content.Context
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -14,8 +17,11 @@ import kotlinx.coroutines.tasks.await
 
 data class HubAccountState(
     val configured: Boolean,
+    val googleConfigured: Boolean,
     val user: FirebaseUser?,
     val email: String?,
+    val hasGoogleProvider: Boolean = false,
+    val hasPasswordProvider: Boolean = false,
     val entitlements: Map<String, Boolean> = emptyMap()
 )
 
@@ -23,9 +29,11 @@ class EntitlementRepository(private val context: Context) {
 
     fun isConfigured(): Boolean = RykerSoftFirebase.isConfigured()
 
+    fun isGoogleConfigured(): Boolean = RykerSoftFirebase.isGoogleConfigured()
+
     fun accountState(): Flow<HubAccountState> = callbackFlow {
         if (!RykerSoftFirebase.ensureInitialized(context)) {
-            trySend(HubAccountState(configured = false, user = null, email = null))
+            trySend(HubAccountState(configured = false, googleConfigured = false, user = null, email = null))
             awaitClose { }
             return@callbackFlow
         }
@@ -38,9 +46,17 @@ class EntitlementRepository(private val context: Context) {
             entitlementReg?.remove()
             entitlementReg = null
             if (user == null) {
-                trySend(HubAccountState(configured = true, user = null, email = null))
+                trySend(
+                    HubAccountState(
+                        configured = true,
+                        googleConfigured = RykerSoftFirebase.isGoogleConfigured(),
+                        user = null,
+                        email = null
+                    )
+                )
                 return
             }
+            val providers = user.providerData.map { it.providerId }.toSet()
             val doc = db.collection("users").document(user.uid)
                 .collection("entitlements").document("apps")
             entitlementReg = doc.addSnapshotListener { snap, error ->
@@ -48,8 +64,11 @@ class EntitlementRepository(private val context: Context) {
                     trySend(
                         HubAccountState(
                             configured = true,
+                            googleConfigured = RykerSoftFirebase.isGoogleConfigured(),
                             user = user,
                             email = user.email,
+                            hasGoogleProvider = GoogleAuthProvider.PROVIDER_ID in providers,
+                            hasPasswordProvider = "password" in providers,
                             entitlements = emptyMap()
                         )
                     )
@@ -62,36 +81,70 @@ class EntitlementRepository(private val context: Context) {
                 trySend(
                     HubAccountState(
                         configured = true,
+                        googleConfigured = RykerSoftFirebase.isGoogleConfigured(),
                         user = user,
                         email = user.email,
+                        hasGoogleProvider = GoogleAuthProvider.PROVIDER_ID in providers,
+                        hasPasswordProvider = "password" in providers,
                         entitlements = map
                     )
                 )
             }
         }
 
-        val authListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
+        val authListener = FirebaseAuth.IdTokenListener { firebaseAuth ->
             listenEntitlements(firebaseAuth.currentUser)
         }
-        auth.addAuthStateListener(authListener)
+        auth.addIdTokenListener(authListener)
         listenEntitlements(auth.currentUser)
 
         awaitClose {
-            auth.removeAuthStateListener(authListener)
+            auth.removeIdTokenListener(authListener)
             entitlementReg?.remove()
         }
     }.distinctUntilChanged()
 
-    suspend fun signIn(email: String, password: String) {
+    suspend fun signInLegacy(email: String, password: String) {
         val auth = requireAuth()
         auth.signInWithEmailAndPassword(email.trim(), password).await()
         ensureUserProfile()
     }
 
-    suspend fun signUp(email: String, password: String) {
+    suspend fun signInWithGoogle(idToken: String) {
         val auth = requireAuth()
-        auth.createUserWithEmailAndPassword(email.trim(), password).await()
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        try {
+            auth.signInWithCredential(credential).await()
+        } catch (error: FirebaseAuthUserCollisionException) {
+            throw IllegalStateException(
+                "This email belongs to a legacy RykerSoft account. Use the migration panel, sign in with its password, then link Google.",
+                error
+            )
+        }
         ensureUserProfile()
+    }
+
+    suspend fun linkGoogleAccount(idToken: String) {
+        val auth = requireAuth()
+        val user = auth.currentUser
+            ?: throw IllegalStateException("Sign in to the legacy account before linking Google.")
+        if (user.providerData.any { it.providerId == GoogleAuthProvider.PROVIDER_ID }) return
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        try {
+            user.linkWithCredential(credential).await()
+            user.reload().await()
+        } catch (error: FirebaseAuthUserCollisionException) {
+            throw IllegalStateException(
+                "That Google account is already linked to another RykerSoft account. No accounts were merged; contact support to resolve ownership safely.",
+                error
+            )
+        }
+        ensureUserProfile()
+    }
+
+    suspend fun sendPasswordReset(email: String) {
+        if (email.isBlank()) throw IllegalArgumentException("Enter the legacy account email.")
+        requireAuth().sendPasswordResetEmail(email.trim()).await()
     }
 
     fun signOut() {
@@ -99,53 +152,47 @@ class EntitlementRepository(private val context: Context) {
     }
 
     /**
-     * Looks up SHA-256(code) under unlockCodes/{hash} and merges granted packages
-     * into the signed-in user's entitlements document.
-     * @param packageName if set, only unlock that package (must be listed on the code).
+     * Atomically submits a server-rules-validated unlock request and entitlement grant.
+     * Clients cannot read unlock-code documents or write unrelated entitlements.
      */
     suspend fun unlockWithCode(rawCode: String, packageName: String? = null): List<String> {
         val auth = requireAuth()
         val user = auth.currentUser ?: throw IllegalStateException("Sign in to unlock apps.")
-        val db = RykerSoftFirebase.db(context) ?: throw IllegalStateException("Firebase not configured.")
-
         if (rawCode.isBlank()) throw IllegalArgumentException("Enter an unlock code.")
-        val hash = UnlockCodeHasher.sha256Hex(rawCode)
-
-        val snap = db.collection("unlockCodes").document(hash).get().await()
-        if (!snap.exists()) {
-            throw IllegalArgumentException("Invalid unlock code.")
+        val requestedPackage = packageName
+            ?: throw IllegalArgumentException("Choose an app to unlock.")
+        if (!AiUnlockPackages.isUnlockable(requestedPackage)) {
+            throw IllegalArgumentException("This app does not support RykerSoft pro unlock.")
         }
-
-        @Suppress("UNCHECKED_CAST")
-        val packages = (snap.get("packages") as? List<*>)
-            ?.mapNotNull { it as? String }
-            ?.filter { AiUnlockPackages.isUnlockable(it) }
-            ?: emptyList()
-
-        if (packages.isEmpty()) {
-            throw IllegalStateException("Unlock code has no packages configured.")
-        }
-
-        val toGrant = if (packageName != null) {
-            if (packageName !in packages) {
-                throw IllegalArgumentException("This code does not unlock that app.")
-            }
-            listOf(packageName)
-        } else {
-            packages
-        }
-
-        val updates = HashMap<String, Any>()
-        toGrant.forEach { updates[it] = true }
-        updates["updatedAt"] = Timestamp.now()
-
-        db.collection("users").document(user.uid)
+        val db = RykerSoftFirebase.db(context)
+            ?: throw IllegalStateException("Firebase not configured.")
+        val requestRef = db.collection("users").document(user.uid)
+            .collection("unlockRequests").document()
+        val entitlementRef = db.collection("users").document(user.uid)
             .collection("entitlements").document("apps")
-            .set(updates, SetOptions.merge())
-            .await()
+        db.runBatch { batch ->
+            batch.set(
+                requestRef,
+                mapOf(
+                    "codeHash" to UnlockCodeHasher.sha256Hex(rawCode),
+                    "packageName" to requestedPackage,
+                    "createdAt" to FieldValue.serverTimestamp()
+                )
+            )
+            batch.set(
+                entitlementRef,
+                mapOf(
+                    requestedPackage to true,
+                    "lastUnlockRequestId" to requestRef.id,
+                    "lastUnlockPackage" to requestedPackage,
+                    "updatedAt" to FieldValue.serverTimestamp()
+                ),
+                SetOptions.merge()
+            )
+        }.await()
 
         ensureUserProfile()
-        return toGrant
+        return listOf(requestedPackage)
     }
 
     private suspend fun ensureUserProfile() {

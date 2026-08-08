@@ -1,5 +1,6 @@
 package com.rykersoft.appmanager.ui
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.spring
@@ -52,6 +53,8 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -324,6 +327,7 @@ fun AppDashboard(
     var selectedAppForDetail by remember { mutableStateOf<AppUiItem?>(null) }
     var detailInitialTab by remember { mutableStateOf(AppDetailTab.DESCRIPTION) }
     var selectedScreenshotIndex by remember { mutableIntStateOf(0) }
+    var detailOpenedFromScreenshot by remember { mutableStateOf(false) }
     var showAddDialog by remember { mutableStateOf(false) }
     var showSettingsDialog by remember { mutableStateOf(false) }
     var showPlatformDropdown by remember { mutableStateOf(false) }
@@ -378,6 +382,7 @@ fun AppDashboard(
         val app = uiState.apps.find { it.packageName == pkg }
         if (app != null) {
             selectedAppForDetail = app
+            detailOpenedFromScreenshot = false
             detailInitialTab = if (uiState.postInstallOpenUpdatesTab) {
                 AppDetailTab.UPDATES
             } else {
@@ -940,12 +945,14 @@ fun AppDashboard(
                                     app = updateApp,
                                     onUpdateClick = {
                                         selectedAppForDetail = updateApp
+                                        detailOpenedFromScreenshot = false
                                         detailInitialTab = AppDetailTab.UPDATES
                                         selectedScreenshotIndex = 0
                                         viewModel.downloadAndInstall(updateApp)
                                     },
                                     onOpenDetail = {
                                         selectedAppForDetail = updateApp
+                                        detailOpenedFromScreenshot = false
                                         detailInitialTab = defaultAppDetailTab(updateApp)
                                         selectedScreenshotIndex = 0
                                     },
@@ -960,6 +967,13 @@ fun AppDashboard(
                                 app = app,
                                 onOpenDetail = { index ->
                                     selectedAppForDetail = app
+                                    detailOpenedFromScreenshot = false
+                                    detailInitialTab = defaultAppDetailTab(app)
+                                    selectedScreenshotIndex = index
+                                },
+                                onOpenScreenshot = { index ->
+                                    selectedAppForDetail = app
+                                    detailOpenedFromScreenshot = true
                                     detailInitialTab = defaultAppDetailTab(app)
                                     selectedScreenshotIndex = index
                                 },
@@ -980,6 +994,7 @@ fun AppDashboard(
                                     // INSTALL still starts immediately without forcing a tab change.
                                     if (app.isOutdated) {
                                         selectedAppForDetail = app
+                                        detailOpenedFromScreenshot = false
                                         detailInitialTab = AppDetailTab.UPDATES
                                         selectedScreenshotIndex = 0
                                     }
@@ -1002,6 +1017,7 @@ fun AppDashboard(
                 app = currentApp,
                 initialScreenshotIndex = selectedScreenshotIndex,
                 initialTab = detailInitialTab,
+                prioritizeScreenshot = detailOpenedFromScreenshot,
                 onDismiss = { selectedAppForDetail = null },
                 onActionClick = {
                     if (currentApp.isOutdated) {
@@ -1049,8 +1065,11 @@ fun AppDashboard(
                 currentGithubToken = uiState.githubToken,
                 notificationsEnabled = uiState.notificationsEnabled,
                 hubFirebaseConfigured = uiState.hubFirebaseConfigured,
+                hubGoogleConfigured = uiState.hubGoogleConfigured,
                 hubSignedIn = uiState.hubSignedIn,
                 hubAccountEmail = uiState.hubAccountEmail,
+                hubHasGoogleProvider = uiState.hubHasGoogleProvider,
+                hubHasPasswordProvider = uiState.hubHasPasswordProvider,
                 hubBusy = uiState.hubBusy,
                 onDismiss = { showSettingsDialog = false },
                 onSave = { url, notify, token ->
@@ -1065,9 +1084,11 @@ fun AppDashboard(
                     showSettingsDialog = false
                     showAddDialog = true
                 },
-                onHubSignIn = { email, password -> viewModel.hubSignIn(email, password) },
-                onHubSignUp = { email, password -> viewModel.hubSignUp(email, password) },
-                onHubSignOut = { viewModel.hubSignOut() }
+                onHubGoogleSignIn = { viewModel.hubGoogleSignIn(context) },
+                onHubLinkGoogle = { viewModel.hubGoogleSignIn(context, linkLegacyAccount = true) },
+                onHubLegacySignIn = { email, password -> viewModel.hubLegacySignIn(email, password) },
+                onHubPasswordReset = { email -> viewModel.hubSendPasswordReset(email) },
+                onHubSignOut = { viewModel.hubSignOut(context) }
             )
         }
     }
@@ -1106,7 +1127,8 @@ fun AppItemCard(
     onLaunchClick: () -> Unit,
     downloadingPackage: String?,
     downloadProgress: Int,
-    onShareClick: () -> Unit = {}
+    onShareClick: () -> Unit = {},
+    onOpenScreenshot: (Int) -> Unit = onOpenDetail
 ) {
     val isCurrentDownloading = downloadingPackage == app.packageName
 
@@ -1246,7 +1268,7 @@ fun AppItemCard(
                             contentDescription = "${app.name} Screenshot ${index + 1}",
                             fixedHeight = cardHeight,
                             fallbackAspectRatio = fallbackAspectRatio,
-                            onClick = { onOpenDetail(index) }
+                            onClick = { onOpenScreenshot(index) }
                         )
                     }
                 }
@@ -1284,74 +1306,78 @@ fun AppItemCard(
                         fontFamily = FontFamily.Monospace,
                         color = if (hasDifferentVersion) NeoYellow else NeoText
                     )
+                }
+
+                // Share control + main action (INSTALL / UPDATE / PLAY)
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
                     IconButton(
                         onClick = onShareClick,
                         modifier = Modifier
-                            .size(28.dp)
-                            .border(1.dp, NeoBorder)
-                            .background(NeoSurface)
+                            .size(32.dp)
                             .testTag("share_apk_${app.packageName}")
                     ) {
                         Icon(
                             imageVector = Icons.Default.Share,
                             contentDescription = "Copy ${app.name} APK link",
                             tint = NeoCyan,
-                            modifier = Modifier.size(15.dp)
+                            modifier = Modifier.size(18.dp)
                         )
                     }
-                }
 
-                // Action Button (INSTALL / UPDATE / PLAY)
-                Box {
-                    if (isCurrentDownloading) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(4.dp)
-                        ) {
-                            CircularProgressIndicator(
-                                progress = { downloadProgress / 100f },
-                                modifier = Modifier.size(16.dp),
-                                strokeWidth = 2.5.dp,
-                                color = NeoYellow
-                            )
-                            Text(
-                                text = "$downloadProgress%",
-                                fontSize = 10.sp,
-                                fontWeight = FontWeight.Black,
-                                fontFamily = FontFamily.Monospace,
-                                color = NeoText
-                            )
-                        }
-                    } else {
-                        when {
-                            !app.isInstalled -> {
-                                NeoButton(
-                                    onClick = onActionClick,
-                                    style = NeoButtonStyle.SECONDARY_YELLOW,
-                                    shadowOffset = 2.dp,
-                                    contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)
-                                ) {
-                                    Text("INSTALL >", fontSize = 10.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace)
-                                }
+                    Box {
+                        if (isCurrentDownloading) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                CircularProgressIndicator(
+                                    progress = { downloadProgress / 100f },
+                                    modifier = Modifier.size(16.dp),
+                                    strokeWidth = 2.5.dp,
+                                    color = NeoYellow
+                                )
+                                Text(
+                                    text = "$downloadProgress%",
+                                    fontSize = 10.sp,
+                                    fontWeight = FontWeight.Black,
+                                    fontFamily = FontFamily.Monospace,
+                                    color = NeoText
+                                )
                             }
-                            app.isOutdated -> {
-                                NeoButton(
-                                    onClick = onActionClick,
-                                    style = NeoButtonStyle.SECONDARY_YELLOW,
-                                    shadowOffset = 2.dp,
-                                    contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)
-                                ) {
-                                    Text("UPDATE >", fontSize = 10.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace)
+                        } else {
+                            when {
+                                !app.isInstalled -> {
+                                    NeoButton(
+                                        onClick = onActionClick,
+                                        style = NeoButtonStyle.SECONDARY_YELLOW,
+                                        shadowOffset = 2.dp,
+                                        contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)
+                                    ) {
+                                        Text("INSTALL >", fontSize = 10.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace)
+                                    }
                                 }
-                            }
-                            else -> {
-                                NeoButton(
-                                    onClick = onLaunchClick,
-                                    style = NeoButtonStyle.ACTION_GREEN,
-                                    shadowOffset = 2.dp,
-                                    contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)
-                                ) {
-                                    Text(if (app.isGame) "PLAY >" else "OPEN >", fontSize = 10.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace)
+                                app.isOutdated -> {
+                                    NeoButton(
+                                        onClick = onActionClick,
+                                        style = NeoButtonStyle.SECONDARY_YELLOW,
+                                        shadowOffset = 2.dp,
+                                        contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)
+                                    ) {
+                                        Text("UPDATE >", fontSize = 10.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace)
+                                    }
+                                }
+                                else -> {
+                                    NeoButton(
+                                        onClick = onLaunchClick,
+                                        style = NeoButtonStyle.ACTION_GREEN,
+                                        shadowOffset = 2.dp,
+                                        contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)
+                                    ) {
+                                        Text(if (app.isGame) "PLAY >" else "OPEN >", fontSize = 10.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace)
+                                    }
                                 }
                             }
                         }
@@ -1500,7 +1526,10 @@ fun defaultAppDetailTab(app: AppUiItem): AppDetailTab = when {
  * tab bar pinned to the top so docs are front-and-center. Screenshots stay the priority
  * only for apps that are not installed yet.
  */
-fun shouldPinDetailTabsOnOpen(app: AppUiItem): Boolean = app.isInstalled
+fun shouldPinDetailTabsOnOpen(
+    app: AppUiItem,
+    prioritizeScreenshot: Boolean = false
+): Boolean = app.isInstalled && !prioritizeScreenshot
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -1508,6 +1537,7 @@ fun AppDetailDialog(
     app: AppUiItem,
     initialScreenshotIndex: Int = 0,
     initialTab: AppDetailTab = defaultAppDetailTab(app),
+    prioritizeScreenshot: Boolean = false,
     onDismiss: () -> Unit,
     onActionClick: () -> Unit,
     onLaunchClick: () -> Unit,
@@ -1530,9 +1560,14 @@ fun AppDetailDialog(
         mutableIntStateOf(initialScreenshotIndex.coerceIn(0, (safeScreenshots.size - 1).coerceAtLeast(0)))
     }
 
+    BackHandler(onBack = onDismiss)
+
     Dialog(
         onDismissRequest = onDismiss,
-        properties = DialogProperties(usePlatformDefaultWidth = false)
+        properties = DialogProperties(
+            dismissOnBackPress = true,
+            usePlatformDefaultWidth = false
+        )
     ) {
         Box(
             modifier = Modifier
@@ -1621,7 +1656,9 @@ fun AppDetailDialog(
                 val hasThumbStrip = safeScreenshots.size > 1
                 // Lazy items: 0 gallery, [1 thumbs], then sticky tabs, then content
                 val tabsListIndex = if (hasThumbStrip) 2 else 1
-                val pinTabsOnOpen = remember(app.packageName) { shouldPinDetailTabsOnOpen(app) }
+                val pinTabsOnOpen = remember(app.packageName, prioritizeScreenshot) {
+                    shouldPinDetailTabsOnOpen(app, prioritizeScreenshot)
+                }
 
                 fun pinTabBarToTop(animate: Boolean) {
                     coroutineScope.launch {
@@ -2182,27 +2219,65 @@ fun AddAppDialog(
 }
 
 @Composable
+private fun SecureOutlinedTextField(
+    value: TextFieldValue,
+    onValueChange: (TextFieldValue) -> Unit,
+    label: String,
+    colors: TextFieldColors,
+    modifier: Modifier = Modifier,
+    testTag: String? = null
+) {
+    var visible by remember { mutableStateOf(false) }
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        label = { Text(label, fontSize = 11.sp, fontFamily = FontFamily.Monospace) },
+        singleLine = true,
+        visualTransformation = if (visible) VisualTransformation.None else PasswordVisualTransformation(),
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        trailingIcon = {
+            IconButton(onClick = { visible = !visible }) {
+                Icon(
+                    imageVector = if (visible) Icons.Default.VisibilityOff else Icons.Default.Visibility,
+                    contentDescription = if (visible) "Hide $label" else "Show $label",
+                    tint = NeoCyan
+                )
+            }
+        },
+        shape = RectangleShape,
+        colors = colors,
+        modifier = if (testTag == null) modifier else modifier.testTag(testTag)
+    )
+}
+
+@Composable
 fun SettingsDialog(
     currentUrl: String,
     currentGithubToken: String = "",
     notificationsEnabled: Boolean,
     hubFirebaseConfigured: Boolean = false,
+    hubGoogleConfigured: Boolean = false,
     hubSignedIn: Boolean = false,
     hubAccountEmail: String? = null,
+    hubHasGoogleProvider: Boolean = false,
+    hubHasPasswordProvider: Boolean = false,
     hubBusy: Boolean = false,
     onDismiss: () -> Unit,
     onSave: (url: String, notify: Boolean, token: String) -> Unit,
     onLoadSamples: () -> Unit,
     onAddAppClick: () -> Unit,
-    onHubSignIn: (email: String, password: String) -> Unit = { _, _ -> },
-    onHubSignUp: (email: String, password: String) -> Unit = { _, _ -> },
+    onHubGoogleSignIn: () -> Unit = {},
+    onHubLinkGoogle: () -> Unit = {},
+    onHubLegacySignIn: (email: String, password: String) -> Unit = { _, _ -> },
+    onHubPasswordReset: (email: String) -> Unit = {},
     onHubSignOut: () -> Unit = {}
 ) {
     var url by remember { mutableStateOf(currentUrl) }
-    var token by remember { mutableStateOf(currentGithubToken) }
+    var token by remember { mutableStateOf(TextFieldValue(currentGithubToken)) }
     var notify by remember { mutableStateOf(notificationsEnabled) }
     var hubEmail by remember { mutableStateOf("") }
-    var hubPassword by remember { mutableStateOf("") }
+    var hubPassword by remember { mutableStateOf(TextFieldValue("")) }
+    var showLegacyMigration by remember { mutableStateOf(false) }
 
     val textFieldColors = OutlinedTextFieldDefaults.colors(
         focusedTextColor = NeoText,
@@ -2252,6 +2327,36 @@ fun SettingsDialog(
                         fontFamily = FontFamily.Monospace,
                         color = NeoText
                     )
+                    if (hubHasGoogleProvider) {
+                        Text(
+                            text = if (hubHasPasswordProvider) {
+                                "Google is linked. This account keeps its original Firebase UID and legacy data."
+                            } else {
+                                "Google sign-in is active for this RykerSoft account."
+                            },
+                            fontSize = 10.sp,
+                            fontFamily = BodyFontFamily,
+                            color = NeoGreen
+                        )
+                    } else {
+                        Text(
+                            text = "Legacy password account: link Google before password sign-in is retired. Linking preserves this account's UID, data, and entitlements.",
+                            fontSize = 10.sp,
+                            lineHeight = 14.sp,
+                            fontFamily = BodyFontFamily,
+                            color = NeoYellow
+                        )
+                        NeoButton(
+                            onClick = onHubLinkGoogle,
+                            style = NeoButtonStyle.ACCENT_CYAN,
+                            modifier = Modifier.fillMaxWidth(),
+                            enabled = !hubBusy && hubGoogleConfigured
+                        ) {
+                            Icon(Icons.Default.AccountCircle, contentDescription = null, tint = Color.Black, modifier = Modifier.size(15.dp))
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Text("LINK GOOGLE & PRESERVE ACCOUNT", fontSize = 10.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace, color = Color.Black)
+                        }
+                    }
                     NeoButton(
                         onClick = onHubSignOut,
                         style = NeoButtonStyle.NEUTRAL_WHITE,
@@ -2261,45 +2366,86 @@ fun SettingsDialog(
                         Text("SIGN OUT", fontSize = 11.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace, color = NeoText)
                     }
                 } else {
-                    OutlinedTextField(
-                        value = hubEmail,
-                        onValueChange = { hubEmail = it },
-                        label = { Text("Email", fontSize = 11.sp, fontFamily = FontFamily.Monospace) },
-                        singleLine = true,
-                        shape = RectangleShape,
-                        colors = textFieldColors,
-                        modifier = Modifier.fillMaxWidth(),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+                    Text(
+                        text = "Use the same Google account here and inside unlocked RykerSoft apps.",
+                        fontSize = 10.sp,
+                        lineHeight = 14.sp,
+                        fontFamily = BodyFontFamily,
+                        color = NeoSubtext
                     )
-                    OutlinedTextField(
-                        value = hubPassword,
-                        onValueChange = { hubPassword = it },
-                        label = { Text("Password", fontSize = 11.sp, fontFamily = FontFamily.Monospace) },
-                        singleLine = true,
-                        visualTransformation = PasswordVisualTransformation(),
-                        shape = RectangleShape,
-                        colors = textFieldColors,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    Row(
+                    NeoButton(
+                        onClick = onHubGoogleSignIn,
+                        style = NeoButtonStyle.SECONDARY_YELLOW,
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        enabled = !hubBusy && hubGoogleConfigured
                     ) {
-                        NeoButton(
-                            onClick = { onHubSignIn(hubEmail, hubPassword) },
-                            style = NeoButtonStyle.SECONDARY_YELLOW,
-                            modifier = Modifier.weight(1f),
-                            enabled = !hubBusy && hubEmail.isNotBlank() && hubPassword.length >= 6
+                        Icon(Icons.Default.AccountCircle, contentDescription = null, tint = Color.Black, modifier = Modifier.size(16.dp))
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Text("SIGN IN WITH GOOGLE", fontSize = 11.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace, color = Color.Black)
+                    }
+                    if (!hubGoogleConfigured) {
+                        Text(
+                            text = "Google OAuth client configuration is missing from this build.",
+                            fontSize = 10.sp,
+                            fontFamily = FontFamily.Monospace,
+                            color = NeoRed
+                        )
+                    }
+                    TextButton(onClick = { showLegacyMigration = !showLegacyMigration }) {
+                        Text(
+                            if (showLegacyMigration) "HIDE LEGACY ACCOUNT MIGRATION" else "MIGRATE AN EXISTING PASSWORD ACCOUNT",
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = FontFamily.Monospace,
+                            color = NeoCyan
+                        )
+                    }
+                    if (showLegacyMigration) {
+                        Text(
+                            text = "For existing accounts only. Sign in with the old password, then link Google to preserve the original UID and all owned data. New password accounts cannot be created.",
+                            fontSize = 10.sp,
+                            lineHeight = 14.sp,
+                            fontFamily = BodyFontFamily,
+                            color = NeoSubtext
+                        )
+                        OutlinedTextField(
+                            value = hubEmail,
+                            onValueChange = { hubEmail = it },
+                            label = { Text("Legacy account email", fontSize = 11.sp, fontFamily = FontFamily.Monospace) },
+                            singleLine = true,
+                            shape = RectangleShape,
+                            colors = textFieldColors,
+                            modifier = Modifier.fillMaxWidth(),
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+                        )
+                        SecureOutlinedTextField(
+                            value = hubPassword,
+                            onValueChange = { hubPassword = it },
+                            label = "Legacy password",
+                            colors = textFieldColors,
+                            modifier = Modifier.fillMaxWidth(),
+                            testTag = "legacy_password_field"
+                        )
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
-                            Text("SIGN IN", fontSize = 10.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace, color = Color.Black)
-                        }
-                        NeoButton(
-                            onClick = { onHubSignUp(hubEmail, hubPassword) },
-                            style = NeoButtonStyle.ACCENT_CYAN,
-                            modifier = Modifier.weight(1f),
-                            enabled = !hubBusy && hubEmail.isNotBlank() && hubPassword.length >= 6
-                        ) {
-                            Text("CREATE", fontSize = 10.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace, color = Color.Black)
+                            NeoButton(
+                                onClick = { onHubLegacySignIn(hubEmail, hubPassword.text) },
+                                style = NeoButtonStyle.ACCENT_CYAN,
+                                modifier = Modifier.weight(1f),
+                                enabled = !hubBusy && hubEmail.isNotBlank() && hubPassword.text.length >= 6
+                            ) {
+                                Text("VERIFY LEGACY", fontSize = 9.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace, color = Color.Black)
+                            }
+                            NeoButton(
+                                onClick = { onHubPasswordReset(hubEmail) },
+                                style = NeoButtonStyle.NEUTRAL_WHITE,
+                                modifier = Modifier.weight(1f),
+                                enabled = !hubBusy && hubEmail.isNotBlank()
+                            ) {
+                                Text("RESET PASSWORD", fontSize = 9.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace, color = NeoText)
+                            }
                         }
                     }
                 }
@@ -2313,15 +2459,13 @@ fun SettingsDialog(
                     modifier = Modifier.fillMaxWidth()
                 )
 
-                OutlinedTextField(
+                SecureOutlinedTextField(
                     value = token,
                     onValueChange = { token = it },
-                    label = { Text("GitHub Token (PAT for Private Repos)", fontSize = 11.sp, fontFamily = FontFamily.Monospace) },
-                    placeholder = { Text("ghp_... or github_pat_...", fontSize = 10.sp, color = NeoSubtext) },
-                    singleLine = true,
-                    shape = RectangleShape,
+                    label = "GitHub token (PAT for private repos)",
                     colors = textFieldColors,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    testTag = "github_token_field"
                 )
 
                 Row(
@@ -2368,7 +2512,7 @@ fun SettingsDialog(
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     NeoButton(
-                        onClick = { onSave(url, notify, token) },
+                        onClick = { onSave(url, notify, token.text) },
                         style = NeoButtonStyle.SECONDARY_YELLOW
                     ) {
                         Text("SAVE SETTINGS", fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace, color = Color.Black)
@@ -2386,7 +2530,7 @@ fun UnlockProDialog(
     onDismiss: () -> Unit,
     onUnlock: (code: String) -> Unit
 ) {
-    var code by remember { mutableStateOf("") }
+    var code by remember { mutableStateOf(TextFieldValue("")) }
     val textFieldColors = OutlinedTextFieldDefaults.colors(
         focusedTextColor = NeoText,
         unfocusedTextColor = NeoText,
@@ -2417,14 +2561,13 @@ fun UnlockProDialog(
                     lineHeight = 17.sp,
                     color = NeoSubtext
                 )
-                OutlinedTextField(
+                SecureOutlinedTextField(
                     value = code,
                     onValueChange = { code = it },
-                    label = { Text("Unlock code", fontSize = 11.sp, fontFamily = FontFamily.Monospace) },
-                    singleLine = true,
-                    shape = RectangleShape,
+                    label = "Unlock code",
                     colors = textFieldColors,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    testTag = "unlock_code_field"
                 )
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -2435,9 +2578,9 @@ fun UnlockProDialog(
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     NeoButton(
-                        onClick = { onUnlock(code) },
+                        onClick = { onUnlock(code.text) },
                         style = NeoButtonStyle.SECONDARY_YELLOW,
-                        enabled = !busy && code.isNotBlank()
+                        enabled = !busy && code.text.isNotBlank()
                     ) {
                         Text("UNLOCK", fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace, color = Color.Black)
                     }

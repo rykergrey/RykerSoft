@@ -29,9 +29,9 @@ Reference implementation: `RykerSoft/` (hub), `BetterTrackingV2/BetterTrackingV2
 
 ## User journey (explain this if asked)
 
-1. User creates/signs in to RykerSoft account in **App Manager** (hub Auth).
+1. User signs in with Google to the RykerSoft account in **App Manager** (hub Auth).
 2. User opens app detail → **UNLOCK PRO FEATURES** → enters family unlock code.
-3. Hub writes `users/{uid}/entitlements/apps` → `{ "<packageName>": true }`.
+3. App Manager submits an atomic unlock request plus entitlement update. Firestore rules validate its code hash against the server-only unlock document and permit only the listed package; clients cannot grant unrelated access.
 4. User installs/opens the app.
 5. If the app has its **own** Firebase login (e.g. SuperThinking vault), that login is **separate** and unchanged.
 6. User also signs into **RykerSoft hub** inside the app (second account UI) → app reads `providerKeys/{packageName}` and enables pro features.
@@ -100,7 +100,7 @@ VITE_RYKERSOFT_FIREBASE_APP_ID=
 
    Use the **hub web app** config from Firebase Console (same values as RykerSoft App Manager `.env` `FIREBASE_*` web fields).
 
-3. UI: Settings section **“RykerSoft pro unlock”** with sign-in / create / sign-out / refresh keys (mirror BetterTracking Profile → API Keys or SuperThinking Settings).
+3. UI: Settings section **“RykerSoft pro unlock”** with Google sign-in / sign-out / refresh keys. Existing password accounts use a migration-only sign-in followed by Google credential linking that preserves their Firebase UID; do not expose password sign-up.
 4. On hub auth state change: `syncRemoteKeysToLocalStorage()` (or merge into that app’s preferences model).
 5. Gate pro/AI calls: if no Gemini (or required) key after sync, show a clear “unlock in App Manager + sign in here” message. Core non-pro features must keep working.
 6. **Do not bake costly provider keys** into release builds. Optional local-only escape hatch: `VITE_ALLOW_BAKED_AI_KEYS=true` for developer machines only.

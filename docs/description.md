@@ -11,7 +11,9 @@ RykerSoft is the Android hub for the RykerSoft app collection. It keeps one cata
 - **Reliable installer flow** — Use `PackageInstaller` sessions and a dedicated confirmation host so Play Protect and system prompts remain visible.
 - **Dynamic documentation** — Read descriptions, complete update history, specifications, user guides, and public screenshot galleries in the app.
 - **Automatic update checks** — Refresh on demand and optionally receive background notifications when newer releases are available.
-- **RykerSoft account** — Sign in once to manage pro unlocks for supported RykerSoft apps.
+- **Google RykerSoft account** — Sign in through Android Credential Manager to manage pro unlocks without creating another password.
+- **Safe legacy migration** — Verify an existing password account, link Google to that same Firebase UID, and retain password reset during migration.
+- **Rules-verified unlocks** — Submit an atomic unlock request whose code hash is checked against a server-only record; Firestore permits only the listed package entitlement.
 - **Neo-brutalist interface** — Use a high-contrast cyber palette, clear status colors, hard shadows, and readable tabbed detail views.
 - **Shareable APK links** — Copy an app's exact APK download URL from the share icon beside its version for quick sharing.
 
@@ -19,5 +21,5 @@ RykerSoft is the Android hub for the RykerSoft app collection. It keeps one cata
 
 The App Manager itself remains free. A magenta `*` identifies optional capabilities inside connected apps that require a RykerSoft pro unlock.
 
-* Connected-app pro features — Unlock eligible RykerSoft apps from their detail pages, then sign in to the same RykerSoft account inside those apps.
+* Connected-app pro features — Unlock eligible RykerSoft apps from their detail pages, then sign in with the same Google account inside those apps.
 * Provider-backed tools — Supported apps can receive their entitled provider configuration after account sign-in and unlock.

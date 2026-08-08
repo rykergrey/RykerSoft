@@ -24,8 +24,8 @@ android {
     applicationId = "com.rykersoft.appmanager"
     minSdk = 24
     targetSdk = 36
-    versionCode = 17
-    versionName = "1.2.10"
+    versionCode = 18
+    versionName = "1.3.0"
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
   }
@@ -103,6 +103,9 @@ dependencies {
   implementation(libs.firebase.ai)
   implementation(libs.firebase.firestore)
   implementation(libs.firebase.auth)
+  implementation(libs.androidx.credentials)
+  implementation(libs.androidx.credentials.play.services)
+  implementation(libs.googleid)
   implementation(libs.firebase.appcheck.recaptcha)
   implementation(libs.kotlinx.coroutines.android)
   implementation(libs.kotlinx.coroutines.core)
