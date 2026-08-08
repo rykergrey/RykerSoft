@@ -120,11 +120,11 @@
     {
       "packageName": "com.rykersoft.wordplaying",
       "name": "WordPlay.ing",
-      "latestVersionCode": 2,
-      "latestVersionName": "1.1.0",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.1.0/app-release.apk",
+      "latestVersionCode": 3,
+      "latestVersionName": "1.1.1",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.1.1/app-release.apk",
       "icon": "android",
-      "changelog": "- Daily Board with comparable rankings, goals, streaks, practice retries, and missed-word analysis\n- Wordbook, career stats, nine achievements, and unlockable tile themes\n- Better feedback, accessibility, and asynchronous best-of-three challenges",
+      "changelog": "- Account-bound Daily and challenge attempts secured before board reveal\n- First competitive scores are immutable; every retry is practice-only\n- Stronger Firebase validation against duplicate, altered, or forged submissions",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/01-home.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/02-leaderboards.jpg",
