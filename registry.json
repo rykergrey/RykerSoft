@@ -65,11 +65,11 @@
     {
       "packageName": "com.rykersoft.synthing",
       "name": "Synthing",
-      "latestVersionCode": 9,
-      "latestVersionName": "1.0.8",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/synthing-v1.0.8/app-release.apk",
+      "latestVersionCode": 10,
+      "latestVersionName": "1.0.9",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/synthing-v1.0.9/app-release.apk",
       "icon": "android",
-      "changelog": "- Hub user guide includes a clickable Table of Contents for section jumps\n- Docs continue to live under docs/ on the app repo",
+      "changelog": "- Reliably auto-save piano-roll and arrangement notes, synth parameters, chords, arps, filters, and workspace state\n- Flush finalized recordings through crash-safe atomic files when the app closes",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/synthing/01-play-grids.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/synthing/02-play-keys.jpg",
