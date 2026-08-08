@@ -1,5 +1,13 @@
 # Release Updates & History
 
+## v1.2.9 (Version Code 16) - August 7th, 2026
+- Validate downloaded APK package IDs, signing certificates, and version codes before opening Android's installer
+- Explain signing-key conflicts separately from Island, Secure Folder, and Work Profile conflicts
+- Document the one-time uninstall required for devices that still have the debug-signed v1.1.0 release
+- Canonicalize the Android namespace to `com.rykersoft.appmanager` without changing the installed application ID
+- Harden the manual release workflow to require encrypted signing secrets and verify the expected certificate before publication
+- Add a public RykerSoft screenshot gallery and refresh all hub documentation
+
 ## v1.2.8 (Version Code 15) - July 26th, 2026
 - Tapping **UPDATE** on a collapsed app card opens the detail view on the **Updates** tab so you can read the changelog while the APK downloads
 - After an update finishes, you stay on the **Updates** tab (fresh installs still open the User Guide)

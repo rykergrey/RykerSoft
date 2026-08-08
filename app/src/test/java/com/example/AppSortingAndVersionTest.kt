@@ -1,7 +1,7 @@
-package com.example
+package com.rykersoft.appmanager
 
-import com.example.ui.AppUiItem
-import com.example.ui.SortOption
+import com.rykersoft.appmanager.ui.AppUiItem
+import com.rykersoft.appmanager.ui.SortOption
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -66,7 +66,7 @@ class AppSortingAndVersionTest {
     fun `version comparative display text logic produces expected output`() {
         // App 1: Different installed version (e.g. 1.0.0 installed, 1.0.2 latest)
         val appOutdated = createApp(
-            packageName = "com.example.app",
+            packageName = "com.rykersoft.sampleapp",
             name = "Example",
             latestVersionCode = 3,
             latestVersionName = "1.0.2",
@@ -80,7 +80,7 @@ class AppSortingAndVersionTest {
 
         // App 2: Up to date installed version
         val appUpToDate = createApp(
-            packageName = "com.example.app2",
+            packageName = "com.rykersoft.sampleapp2",
             name = "Example 2",
             latestVersionCode = 3,
             latestVersionName = "1.0.2",
@@ -94,7 +94,7 @@ class AppSortingAndVersionTest {
 
         // App 3: Not installed
         val appNotInstalled = createApp(
-            packageName = "com.example.app3",
+            packageName = "com.rykersoft.sampleapp3",
             name = "Example 3",
             latestVersionCode = 1,
             latestVersionName = "1.0.0",

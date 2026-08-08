@@ -1,15 +1,12 @@
 name: Release Deployment
 
 on:
-  push:
-    tags:
-      - 'v*'
   workflow_dispatch:
     inputs:
       version_name:
         description: 'Release Version Name (e.g. 1.0.1)'
         required: true
-        default: '1.0.1'
+        default: '1.2.9'
       is_prerelease:
         description: 'Is Release Candidate / Prerelease?'
         type: boolean
@@ -40,6 +37,25 @@ jobs:
       - name: Make Gradlew Executable
         run: chmod +x gradlew
 
+      - name: Restore Release Signing Key
+        env:
+          RELEASE_KEYSTORE_BASE64: ${{ secrets.RELEASE_KEYSTORE_BASE64 }}
+          RELEASE_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
+          RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+        run: |
+          test -n "$RELEASE_KEYSTORE_BASE64"
+          test -n "$RELEASE_STORE_PASSWORD"
+          test -n "$RELEASE_KEY_ALIAS"
+          test -n "$RELEASE_KEY_PASSWORD"
+          printf '%s' "$RELEASE_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/rykersoft-release.jks"
+          {
+            echo "storeFile=$RUNNER_TEMP/rykersoft-release.jks"
+            echo "storePassword=$RELEASE_STORE_PASSWORD"
+            echo "keyAlias=$RELEASE_KEY_ALIAS"
+            echo "keyPassword=$RELEASE_KEY_PASSWORD"
+          } > keystore.properties
+
       - name: Build Release APK
         run: ./gradlew assembleRelease --no-daemon
 
@@ -53,10 +69,20 @@ jobs:
             exit 1
           fi
 
+      - name: Verify Release Identity
+        run: |
+          BUILD_TOOLS_DIR="$(find "$ANDROID_HOME/build-tools" -mindepth 1 -maxdepth 1 -type d | sort -V | tail -1)"
+          APK="app/build/outputs/apk/release/app-release.apk"
+          "$BUILD_TOOLS_DIR/apksigner" verify --verbose --print-certs "$APK" | tee apk-signing.txt
+          grep -q "Signer #1 certificate SHA-256 digest: f1b2d0a742f03a714a84c42fa503dfd88ad6260938488b18e3cf865cd0ae21d6" apk-signing.txt
+          "$BUILD_TOOLS_DIR/aapt" dump badging "$APK" | tee apk-badging.txt
+          grep -q "package: name='com.rykersoft.appmanager'" apk-badging.txt
+          grep -q "versionName='${{ inputs.version_name }}'" apk-badging.txt
+
       - name: Determine Prerelease Flag
         id: prerelease_check
         run: |
-          TAG_NAME="${GITHUB_REF_NAME}"
+          TAG_NAME="v${{ inputs.version_name }}"
           IS_RC="${{ inputs.is_prerelease }}"
           if [[ "$TAG_NAME" == *"-rc"* ]] || [[ "$IS_RC" == "true" ]]; then
             echo "is_prerelease=true" >> $GITHUB_OUTPUT
@@ -67,11 +93,12 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          name: "RykerSoft ${{ github.ref_name }}"
+          tag_name: "v${{ inputs.version_name }}"
+          name: "RykerSoft v${{ inputs.version_name }}"
           prerelease: ${{ steps.prerelease_check.outputs.is_prerelease }}
           files: app/build/outputs/apk/release/app-release.apk
           body: |
-            ### RykerSoft Application Manager ${{ github.ref_name }}
+            ### RykerSoft Application Manager v${{ inputs.version_name }}
             
             - **Release Artifact**: `app-release.apk`
             - **Package ID**: `com.rykersoft.appmanager`
@@ -81,8 +108,8 @@ jobs:
             
             #### Registry Update
             To propagate this release to all RykerSoft clients, update `registry.json` in the `rykergrey/RykerSoft` repository with:
-            - `latestVersionName`: `${{ github.ref_name }}`
+            - `latestVersionName`: `${{ inputs.version_name }}`
             - `latestVersionCode`: `<versionCode>`
-            - `apkUrl`: `https://github.com/rykergrey/RykerSoft/releases/download/${{ github.ref_name }}/app-release.apk`
+            - `apkUrl`: `https://github.com/rykergrey/RykerSoft/releases/download/v${{ inputs.version_name }}/app-release.apk`
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

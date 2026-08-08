@@ -1,6 +1,6 @@
-package com.example
+package com.rykersoft.appmanager
 
-import com.example.entitlements.UnlockCodeHasher
+import com.rykersoft.appmanager.entitlements.UnlockCodeHasher
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test

@@ -1,5 +1,7 @@
 # RykerSoft Application Manager
 
+Current release: **v1.2.9** (`versionCode` 16), package `com.rykersoft.appmanager`, for Android 7.0/API 24 and newer.
+
 Personal Android app hub and application manager for RykerSoft applications. Easily check for updates, view changelogs, download, and install latest versions of RykerSoft apps — including self-updating RykerSoft itself!
 
 ## Features
@@ -26,7 +28,7 @@ Run the included PowerShell script to build the release APK and install it direc
 
 ## Deploying Releases & Release Candidates
 
-Releases are managed using GitHub Tags and GitHub Actions (`.github/workflows/release.yml`).
+Releases are published from a locally verified signed APK. The manual GitHub Actions workflow (`.github/workflows/release.yml`) can reproduce that process after its four encrypted signing secrets are configured.
 
 ### 1. Tagging & Pushing a Release
 To publish a new release candidate or official release version:
@@ -42,10 +44,13 @@ To publish a new release candidate or official release version:
   git push origin v1.0.1
   ```
 
-The GitHub Actions workflow will automatically:
-1. Compile the release APK (`./gradlew assembleRelease`).
-2. Create a GitHub Release under the corresponding tag (marking `-rc` tags as Pre-release).
-3. Attach `app-release.apk` as a release asset.
+When its signing secrets are configured, the manual GitHub Actions workflow will:
+1. Restore the release key from encrypted repository secrets and compile the signed APK (`./gradlew assembleRelease`).
+2. Verify the expected RykerSoft certificate, package ID, and version metadata.
+3. Create a GitHub Release under the corresponding tag (marking `-rc` tags as Pre-release).
+4. Attach `app-release.apk` as a release asset.
+
+> Devices that still have debug-signed v1.1.0 must uninstall that copy before installing v1.1.1 or newer. Android cannot update an app across unrelated signing keys, and uninstalling clears local app data.
 
 ### 2. Updating `registry.json`
 To make the new version available to all RykerSoft users for automatic in-app update notifications, update `registry.json` in the root repository:

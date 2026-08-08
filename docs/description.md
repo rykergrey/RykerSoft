@@ -1,16 +1,22 @@
 # RykerSoft Application Manager
 
-RykerSoft is your personal Android application hub and central repository. Easily check for updates across all installed RykerSoft applications, view historical changelogs, explore user guides, inspect specifications, and install latest APK releases seamlessly.
+RykerSoft is the Android hub for the RykerSoft app collection. It keeps one catalog of available apps, compares installed versions with current releases, downloads signed APKs, guides Android's installer flow, and presents each app's documentation and screenshots.
 
 ## Key Features
-- **Central Repository**: View descriptions, specifications, updates, and comprehensive user guides for all RykerSoft apps.
-- **Automatic Update Engine**: Scans system package manager and compares installed versions against remote release manifests.
-- **In-App Self Updating**: Built-in self-update detection ensures RykerSoft itself stays current with zero friction.
-- **Smart Detail Tabs**: Opening an app jumps to Updates when an update is available, Description when not installed, or User Guide when already up to date.
-- **Update-While-Reading Changelog**: Tapping **UPDATE** on a collapsed card opens the Updates tab so you can read release notes while the APK downloads; after the update finishes you stay on Updates.
-- **Reliable Play Protect flow**: Installs use PackageInstaller sessions with a dedicated confirmation host so Play Protect prompts stay visible and tappable. An in-app waiting banner (with Cancel) stays visible while confirmation runs.
-- **Pro Feature Unlock**: Family unlock codes and a RykerSoft account unlock optional pro features in supported apps — wording stays product-focused, not AI-centric.
-- **Neo-Brutalist Cyber Design System**: Dark charcoal surfaces with hard offset shadows and a strict semantic neon palette — yellow for primary actions, green for installed/success, crimson for errors, cyan for links and interactive focus.
-- **Dual-Font Typography**: Retro monospace display type for headers and badges paired with the Inter sans-serif for comfortable long-form reading in descriptions and user guides.
-- **Interactive Documentation**: Tabbed detail views with markdown rendering, clickable user-guide Table of Contents, and pinch-to-zoom screenshot viewers.
-- **Severity-Aware Notifications**: Success toasts show a green check; failures show a red border with an alert icon, so status reads at a glance.
+
+- **Unified app catalog** — Browse RykerSoft apps and games from one dashboard with installed, update-ready, and new-release states.
+- **Version-aware updates** — Compare Android version codes and open the newest release notes before updating.
+- **Safer APK validation** — Check the downloaded package name, signing certificate, and version code before starting Android's installer.
+- **Actionable install errors** — Distinguish signing-key conflicts, another-profile copies, corrupt APKs, insufficient storage, and incompatible devices.
+- **Reliable installer flow** — Use `PackageInstaller` sessions and a dedicated confirmation host so Play Protect and system prompts remain visible.
+- **Dynamic documentation** — Read descriptions, complete update history, specifications, user guides, and public screenshot galleries in the app.
+- **Automatic update checks** — Refresh on demand and optionally receive background notifications when newer releases are available.
+- **RykerSoft account** — Sign in once to manage pro unlocks for supported RykerSoft apps.
+- **Neo-brutalist interface** — Use a high-contrast cyber palette, clear status colors, hard shadows, and readable tabbed detail views.
+
+## PRO Features
+
+The App Manager itself remains free. A magenta `*` identifies optional capabilities inside connected apps that require a RykerSoft pro unlock.
+
+* Connected-app pro features — Unlock eligible RykerSoft apps from their detail pages, then sign in to the same RykerSoft account inside those apps.
+* Provider-backed tools — Supported apps can receive their entitled provider configuration after account sign-in and unlock.

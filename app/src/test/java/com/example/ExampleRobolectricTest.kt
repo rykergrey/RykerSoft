@@ -1,4 +1,4 @@
-package com.example
+package com.rykersoft.appmanager
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider

@@ -17,15 +17,15 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-  namespace = "com.example"
+  namespace = "com.rykersoft.appmanager"
   compileSdk { version = release(36) { minorApiLevel = 1 } }
 
   defaultConfig {
     applicationId = "com.rykersoft.appmanager"
     minSdk = 24
     targetSdk = 36
-    versionCode = 15
-    versionName = "1.2.8"
+    versionCode = 16
+    versionName = "1.2.9"
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
   }

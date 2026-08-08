@@ -1,9 +1,9 @@
-package com.example
+package com.rykersoft.appmanager
 
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import com.example.data.AppDatabase
-import com.example.data.ManagedApp
+import com.rykersoft.appmanager.data.AppDatabase
+import com.rykersoft.appmanager.data.ManagedApp
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
