@@ -125,11 +125,12 @@
     {
       "packageName": "com.rykersoft.wordplaying",
       "name": "WordPlay.ing",
-      "latestVersionCode": 4,
-      "latestVersionName": "1.2.0",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.2.0/app-release.apk",
+      "latestVersionCode": 5,
+      "latestVersionName": "1.2.1",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.2.1/wordplaying-v1.2.1-android.apk",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.2.1/wordplaying-v1.2.1-windows-x64.exe",
       "icon": "android",
-      "changelog": "- Wordbook, career progress, personal bests, missions, awards, and themes now follow signed-in players across devices\n- Match Options now focuses on match rules; appearance, sound, haptics, and accessibility moved to Player Settings\n- Expanded saved modes and contextual custom-mode saving",
+      "changelog": "- Fix timer-expiry freeze when a letter is selected as time runs out\n- Make match completion fail-safe around Android audio and board analysis\n- Add Google sign-in, UID-preserving legacy migration, and private public player names",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/01-home-v1.2.0.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/02-player-settings-v1.2.0.jpg",
