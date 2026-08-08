@@ -31,6 +31,8 @@ The detail view chooses a useful starting tab:
 
 Each detail view can include an image gallery, full description, reverse-chronological updates, technical specifications, and a clickable user-guide table of contents.
 
+To share an APK download, tap the share icon beside an app's version number. RykerSoft copies that app's exact registry APK URL to the Android clipboard and confirms the copy at the bottom of the screen. Paste the link into a message or another sharing destination. Access to private distribution links still requires an authorized RykerSoft family token or GitHub account.
+
 ## 3. Install & Update Apps
 
 1. Tap the sync button to fetch the newest registry.

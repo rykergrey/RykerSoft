@@ -1,5 +1,11 @@
 # Release Updates & History
 
+## v1.2.10 (Version Code 17) - August 8th, 2026
+- Add a compact share icon beside every app card's version number
+- Copy the selected app's exact registry APK URL to the Android clipboard
+- Confirm successful copies with an app-specific snackbar message
+- Add Compose interaction coverage for the new share control
+
 ## v1.2.9 (Version Code 16) - August 7th, 2026
 - Validate downloaded APK package IDs, signing certificates, and version codes before opening Android's installer
 - Explain signing-key conflicts separately from Island, Secure Folder, and Work Profile conflicts

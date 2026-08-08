@@ -5,7 +5,7 @@
 - **Platform:** Native Android application written in Kotlin
 - **UI:** Jetpack Compose with Material 3
 - **Package ID / namespace:** `com.rykersoft.appmanager`
-- **Version:** 1.2.9 (`versionCode` 16)
+- **Version:** 1.2.10 (`versionCode` 17)
 - **Minimum Android:** Android 7.0 / API 24
 - **Target Android:** API 36
 - **APK architectures:** `arm64-v8a`, `armeabi-v7a`, `x86`, and `x86_64`
@@ -24,6 +24,7 @@
 ## Architecture
 
 - Single-activity Compose application with lifecycle-aware state flows
+- Android clipboard integration for copying per-app registry APK URLs
 - Room database for the synchronized managed-app registry
 - Repository layer for registry synchronization and dynamic Markdown documentation
 - OkHttp streaming downloads with progress reporting and authenticated private-release support

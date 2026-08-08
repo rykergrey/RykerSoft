@@ -14,7 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.isDialog
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onRoot
+import androidx.compose.ui.test.performClick
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -36,6 +38,7 @@ import com.rykersoft.appmanager.ui.theme.NeoText
 import com.rykersoft.appmanager.ui.theme.NeoYellow
 import java.io.File
 import org.junit.Before
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -58,6 +61,39 @@ class ReleaseGalleryScreenshotTest {
         check(galleryDir.exists() || galleryDir.mkdirs()) {
             "Could not create ${galleryDir.absolutePath}"
         }
+    }
+
+    @Test
+    fun apkShareButtonInvokesCallback() {
+        val app = sampleApp(
+            packageName = "com.rykersoft.informant",
+            name = "INFORMANT",
+            versionName = "1.2.6",
+            installed = true,
+            outdated = false,
+            status = "Installed",
+            supportsPro = false
+        )
+        var shareClicked = false
+
+        composeTestRule.setContent {
+            MyApplicationTheme {
+                AppItemCard(
+                    app = app,
+                    onOpenDetail = {},
+                    onLongClick = {},
+                    onActionClick = {},
+                    onLaunchClick = {},
+                    downloadingPackage = null,
+                    downloadProgress = 0,
+                    onShareClick = { shareClicked = true }
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithTag("share_apk_${app.packageName}").performClick()
+
+        assertTrue(shareClicked)
     }
 
     @Test

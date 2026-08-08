@@ -969,6 +969,12 @@ fun AppDashboard(
                                         snackbarHostState.showSnackbar("Copied package ID to clipboard")
                                     }
                                 },
+                                onShareClick = {
+                                    clipboardManager.setText(AnnotatedString(app.apkUrl))
+                                    scope.launch {
+                                        snackbarHostState.showSnackbar("Copied ${app.name} APK link to clipboard")
+                                    }
+                                },
                                 onActionClick = {
                                     // UPDATE from collapsed card: open Updates/changelog first, then download.
                                     // INSTALL still starts immediately without forcing a tab change.
@@ -1099,7 +1105,8 @@ fun AppItemCard(
     onActionClick: () -> Unit,
     onLaunchClick: () -> Unit,
     downloadingPackage: String?,
-    downloadProgress: Int
+    downloadProgress: Int,
+    onShareClick: () -> Unit = {}
 ) {
     val isCurrentDownloading = downloadingPackage == app.packageName
 
@@ -1277,6 +1284,21 @@ fun AppItemCard(
                         fontFamily = FontFamily.Monospace,
                         color = if (hasDifferentVersion) NeoYellow else NeoText
                     )
+                    IconButton(
+                        onClick = onShareClick,
+                        modifier = Modifier
+                            .size(28.dp)
+                            .border(1.dp, NeoBorder)
+                            .background(NeoSurface)
+                            .testTag("share_apk_${app.packageName}")
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Share,
+                            contentDescription = "Copy ${app.name} APK link",
+                            tint = NeoCyan,
+                            modifier = Modifier.size(15.dp)
+                        )
+                    }
                 }
 
                 // Action Button (INSTALL / UPDATE / PLAY)
