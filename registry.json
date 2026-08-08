@@ -154,15 +154,17 @@
     {
       "packageName": "com.rykersoft.freeballing",
       "name": "FreeBall.ing",
-      "latestVersionCode": 13,
-      "latestVersionName": "1.0.12",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.12/app-release.apk",
+      "latestVersionCode": 14,
+      "latestVersionName": "1.0.13",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.13/freeballing-v1.0.13-android.apk",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.13/freeballing-v1.0.13-windows-x86_64.exe",
       "icon": "android",
-      "changelog": "- More deliberate magnetic initials scrubbing\n- One-to-five-letter flicks with per-step Android haptics\n- Color-accurate mobile previews and refreshed arcade branding",
+      "changelog": "- Bumpers overload after 25 hits for a 500-point bonus\n- Heat warnings and critical red spark effects\n- Refined mobile selectors and expanded player profile\n- Official portable Windows x86_64 release",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/01-mobile-home.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/02-level-details.png",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/03-gameplay.jpg"
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/03-gameplay.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/04-player-profile.png"
       ],
       "isGame": true
     }
