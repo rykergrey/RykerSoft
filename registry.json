@@ -3,12 +3,16 @@
     {
       "packageName": "com.rykersoft.appmanager",
       "name": "RykerSoft",
-      "latestVersionCode": 15,
-      "latestVersionName": "1.2.8",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft/releases/download/v1.2.8/app-release.apk",
+      "latestVersionCode": 16,
+      "latestVersionName": "1.2.9",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft/releases/download/v1.2.9/app-release.apk",
       "icon": "android",
-      "changelog": "- UPDATE on a collapsed card opens the Updates/changelog tab while downloading\n- After an update finishes, stay on the Updates tab (installs still open User Guide)\n- Fixed CANCEL INSTALL button shadow stretching across the install banner",
-      "screenshots": [],
+      "changelog": "- Validate APK package, signing certificate, and version before installation\n- Explain signing conflicts separately from Work Profile conflicts\n- Canonical namespace, hardened manual release checks, refreshed docs, and a public screenshot gallery",
+      "screenshots": [
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rykersoft/01-dashboard.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rykersoft/02-documentation.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rykersoft/03-settings.png"
+      ],
       "isGame": false
     },
     {
