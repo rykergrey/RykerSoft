@@ -3,11 +3,11 @@
     {
       "packageName": "com.rykersoft.appmanager",
       "name": "RykerSoft",
-      "latestVersionCode": 19,
-      "latestVersionName": "1.3.1",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft/releases/download/v1.3.1/app-release.apk",
+      "latestVersionCode": 18,
+      "latestVersionName": "1.3.0",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft/releases/download/v1.3.0/app-release.apk",
       "icon": "android",
-      "changelog": "- Keep the open app card and documentation tab in place throughout installs and updates\n- Add sharing inside app details and show Windows availability without offering Windows downloads\n- Remove unnecessary programming-language labels from catalog cards",
+      "changelog": "- Make Google the standard RykerSoft sign-in\n- Safely link legacy password accounts without changing their Firebase UID\n- Validate pro unlocks with atomic, package-scoped Firestore rules",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rykersoft/01-dashboard.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rykersoft/02-documentation.png",
