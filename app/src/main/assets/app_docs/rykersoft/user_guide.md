@@ -33,7 +33,7 @@ Each detail view can include an image gallery, full description, reverse-chronol
 
 Apps with a separate desktop edition display a **WINDOWS** badge. This badge is informational: the Android hub does not download or launch Windows applications.
 
-To share an APK download, tap the share icon on the home card or beside **INSTALL NOW**, **UPDATE APP**, or **LAUNCH NOW** inside the expanded detail card. RykerSoft copies that app's exact registry APK URL to the Android clipboard and confirms the copy at the bottom of the screen. Paste the link into a message or another sharing destination. Access to private distribution links still requires an authorized RykerSoft family token or GitHub account.
+To share an APK download, tap the share icon on the home card or beside **INSTALL NOW**, **UPDATE APP**, or **LAUNCH NOW** inside the expanded detail card. RykerSoft copies that app's exact public registry APK URL to the Android clipboard and confirms the copy at the bottom of the screen. Paste the link into a message or another sharing destination; no family GitHub credential is required.
 
 ## 3. Install & Update Apps
 
@@ -64,7 +64,6 @@ If Android rejects the operation, RykerSoft presents the most specific available
 Open the gear control to:
 
 - Sign in to RykerSoft with Google through Android's account chooser.
-- Override the built-in distribution token if the family token is rotated.
 - Change the registry URL for development or recovery.
 - Enable or disable periodic update notifications.
 - Select a title-font preset.
@@ -74,16 +73,16 @@ The RykerSoft account is separate from any product-specific account an individua
 
 New RykerSoft accounts use Google and do not require another password. If you already have a password-based RykerSoft account, choose **MIGRATE AN EXISTING PASSWORD ACCOUNT**, verify the old account, then choose **LINK GOOGLE & PRESERVE ACCOUNT**. Linking keeps the original Firebase UID, data ownership, and entitlements. The migration panel also provides password reset; it cannot create new password accounts.
 
-Every remaining secret field starts hidden. Use its accessible eye button to reveal or hide the value without clearing the field.
+The legacy password field starts hidden. Use its accessible eye button to reveal or hide the value without clearing the field.
 
 ## PRO Features
 
-The App Manager itself is free. A magenta `*` marks optional features in connected apps that require a RykerSoft pro unlock.
+The App Manager itself is free. A magenta `*` marks optional features in connected apps that require RykerSoft Pro access.
 
-* Unlock eligible apps — Sign in with Google, open a pro-capable app's detail page, choose **UNLOCK PRO FEATURES**, and enter the provided unlock code. Firestore validates the atomic request against the server-only code record and grants only listed packages.
-* Activate inside the app — Install or open the app, then sign in with the same Google account inside that app so its entitlement and provider configuration can synchronize.
+* Request access — Sign in with Google and open a pro-capable app's detail page. **PRO ACCESS INFO** shows the account the administrator must authorize. The administrator grants only the requested package to that account's Firebase UID.
+* Activate inside the app — Install or open the app, then sign in with the same Google account inside that app so its entitlement and provider configuration can synchronize. Existing grants remain attached to the preserved UID.
 
-Ordinary unstarred catalog, documentation, update, download, and installation features remain available without a pro unlock.
+Ordinary unstarred catalog, documentation, update, download, and installation features remain available without Pro access.
 
 ## 6. Troubleshooting
 
@@ -96,8 +95,8 @@ Ordinary unstarred catalog, documentation, update, download, and installation fe
 - **Incompatible device:** RykerSoft requires Android 7.0 or newer and the target app may have additional requirements.
 - **Not enough storage:** Free internal storage and retry the download and installation.
 - **Play Protect prompt is hidden or stalled:** Return to RykerSoft, tap **CANCEL INSTALL**, and retry with the app left in the foreground.
-- **Download or documentation authorization fails:** Clear a stale token override to use the built-in family token, or enter the replacement token supplied by the administrator.
-- **Pro unlock fails:** Confirm you are signed in, the unlock code is active, and the app is included in that code's allowed packages.
+- **Download or documentation fails:** Confirm the device has internet access, then sync the registry again. Official RykerSoft distribution links are public and do not require a GitHub token.
+- **Pro access is not active:** Confirm you are signed in to the account the administrator authorized, then reopen or refresh the target app. If needed, send the administrator the signed-in email so they can locate the authoritative Firebase UID.
 - **Google sign-in does not show an account:** Confirm Google Play services is available and that the device has a Google account, then retry the persistent **SIGN IN WITH GOOGLE** button.
 - **Google says the email belongs to a legacy account:** Open the migration panel, sign in with the existing password, and link Google from the signed-in account screen. Do not create or merge accounts manually.
 - **Legacy password is forgotten:** Enter the legacy email in the migration panel and choose **RESET PASSWORD**.
@@ -108,4 +107,4 @@ Ordinary unstarred catalog, documentation, update, download, and installation fe
 
 RykerSoft reads package metadata to determine installation status and versions. It downloads registry data, documentation, screenshots, and APK assets from RykerSoft-controlled GitHub repositories. Android always presents the final installation confirmation.
 
-Release APKs are cryptographically signed. RykerSoft validates downloaded package identity and signing compatibility locally before starting an installation. Treat unlock codes and private-distribution tokens as credentials and do not share them publicly.
+Release APKs are cryptographically signed. RykerSoft validates downloaded package identity and signing compatibility locally before starting an installation. Pro authorization is stored as package-specific booleans under the account's Firebase UID; email addresses are used only by a trusted administrator to locate that UID and are never authorization proof by themselves.

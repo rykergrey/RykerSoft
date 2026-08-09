@@ -16,7 +16,6 @@ import com.rykersoft.appmanager.install.InstallSessionTracker
 import com.rykersoft.appmanager.install.InstallStatusReceiver
 import com.rykersoft.appmanager.util.ApkManager
 import com.rykersoft.appmanager.util.DownloadProgress
-import com.rykersoft.appmanager.util.FamilyToken
 import com.rykersoft.appmanager.util.SchedulerHelper
 import com.rykersoft.appmanager.ui.theme.TitleFontPreset
 import kotlinx.coroutines.Dispatchers
@@ -48,7 +47,7 @@ data class AppUiItem(
     val userGuide: String = "",
     val updatesHistory: String = "",
     val specs: String = "",
-    /** True when this package supports pro unlock and the signed-in hub account has unlocked it. */
+    /** True when this package supports pro access and the signed-in hub account is entitled to it. */
     val supportsAiUnlock: Boolean = false,
     val aiUnlocked: Boolean = false
 )
@@ -58,7 +57,6 @@ data class MainUiState(
     val isLoading: Boolean = false,
     val isSyncing: Boolean = false,
     val registryUrl: String = "",
-    val githubToken: String = "",
     val notificationsEnabled: Boolean = true,
     val titleFontPreset: TitleFontPreset = TitleFontPreset.ARCADE_3D,
     val downloadingPackage: String? = null,
@@ -125,20 +123,18 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
         // Load preferences
         val defaultUrl = "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/registry.json"
-        val defaultToken = FamilyToken.baked()
         val savedUrl = sharedPrefs.getString("registry_url", defaultUrl) ?: defaultUrl
         val sanitizedUrl = repository.fetcher.sanitizeUrl(if (savedUrl.isBlank()) defaultUrl else savedUrl)
         val savedNotify = sharedPrefs.getBoolean("notifications_enabled", true)
-        val rawToken = sharedPrefs.getString("github_token", "") ?: ""
-        val sanitizedToken = if (rawToken.isBlank()) defaultToken else rawToken
+        // Remove credentials saved by releases that supported private GitHub distribution.
+        sharedPrefs.edit().remove("github_token").apply()
         val savedPresetName = sharedPrefs.getString("title_font_preset", TitleFontPreset.ARCADE_3D.name)
         val savedPreset = try { TitleFontPreset.valueOf(savedPresetName ?: "") } catch (e: Exception) { TitleFontPreset.ARCADE_3D }
         val savedSortName = sharedPrefs.getString("sort_option", SortOption.RECENTLY_UPDATED.name)
         val savedSortOption = try { SortOption.valueOf(savedSortName ?: "") } catch (e: Exception) { SortOption.RECENTLY_UPDATED }
         _uiState.update { 
             it.copy(
-                registryUrl = sanitizedUrl, 
-                githubToken = sanitizedToken,
+                registryUrl = sanitizedUrl,
                 notificationsEnabled = savedNotify, 
                 titleFontPreset = savedPreset,
                 sortOption = savedSortOption,
@@ -288,24 +284,6 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun unlockAppWithCode(packageName: String, code: String) {
-        viewModelScope.launch {
-            _uiState.update { it.copy(hubBusy = true) }
-            try {
-                val granted = entitlementRepository.unlockWithCode(code, packageName)
-                _uiState.update {
-                    it.copy(infoMessage = "Unlocked pro features for: ${granted.joinToString()}")
-                }
-            } catch (e: Exception) {
-                _uiState.update {
-                    it.copy(errorMessage = e.localizedMessage ?: "Unlock failed.")
-                }
-            } finally {
-                _uiState.update { it.copy(hubBusy = false) }
-            }
-        }
-    }
-
     fun setFilter(filter: FilterType) {
         _uiState.update { it.copy(filterType = filter) }
         refreshLocalInstallations()
@@ -317,21 +295,17 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         refreshLocalInstallations()
     }
 
-    fun updateSettings(registryUrl: String, notificationsEnabled: Boolean, githubToken: String) {
+    fun updateSettings(registryUrl: String, notificationsEnabled: Boolean) {
         val sanitized = repository.fetcher.sanitizeUrl(registryUrl)
-        val trimmedToken = githubToken.trim()
-        // Blank saved token means "use the baked-in family token".
-        val effectiveToken = trimmedToken.ifBlank { FamilyToken.baked() }
         sharedPrefs.edit()
             .putString("registry_url", sanitized)
             .putBoolean("notifications_enabled", notificationsEnabled)
-            .putString("github_token", trimmedToken)
+            .remove("github_token")
             .apply()
         _uiState.update { 
             it.copy(
                 registryUrl = sanitized,
-                notificationsEnabled = notificationsEnabled,
-                githubToken = effectiveToken
+                notificationsEnabled = notificationsEnabled
             ) 
         }
         SchedulerHelper.schedulePeriodicCheck(context, notificationsEnabled)
@@ -667,7 +641,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
             val fileName = "${app.packageName}_v${app.latestVersionName}.apk"
             try {
-                ApkManager.downloadApk(context, app.apkUrl, fileName, _uiState.value.githubToken).collect { progress ->
+                ApkManager.downloadApk(context, app.apkUrl, fileName).collect { progress ->
                     when (progress) {
                         is DownloadProgress.Downloading -> {
                             _uiState.update { it.copy(downloadProgress = progress.progress) }
@@ -741,7 +715,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
         viewModelScope.launch {
             _uiState.update { it.copy(isSyncing = true, infoMessage = "Syncing with remote registry...") }
-            val result = repository.syncWithRegistry(url, _uiState.value.githubToken)
+            val result = repository.syncWithRegistry(url)
             _uiState.update { it.copy(isSyncing = false) }
             
             result.onSuccess { apps ->

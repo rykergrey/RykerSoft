@@ -1,6 +1,6 @@
 # RykerSoft Application Manager
 
-Current release: **v1.3.1** (`versionCode` 19), package `com.rykersoft.appmanager`, for Android 7.0/API 24 and newer.
+Current release: **v1.3.2** (`versionCode` 20), package `com.rykersoft.appmanager`, for Android 7.0/API 24 and newer.
 
 Personal Android app hub and application manager for RykerSoft applications. Easily check for updates, view changelogs, download, and install latest versions of RykerSoft apps — including self-updating RykerSoft itself!
 
@@ -11,7 +11,7 @@ Personal Android app hub and application manager for RykerSoft applications. Eas
 - **Package Installer Integration**: Seamlessly downloads APKs and invokes system installer.
 - **Shareable APK Links**: Copy an app's exact APK download URL from the share icon beside its version.
 - **Google RykerSoft Account**: Sign in through Android Credential Manager, with a safe link-and-recovery path for legacy password accounts.
-- **Rules-Verified Pro Unlocks**: Atomic Firestore rules validate the code hash against a server-only record and permit only the listed package entitlement.
+- **UID-Based Pro Access**: App-specific Firestore entitlements are managed by an administrator and read only by the matching signed-in Firebase user; free features remain available without a grant.
 
 ---
 
@@ -31,10 +31,21 @@ Run the included PowerShell script to build the release APK and install it direc
 
 ## Deploying Releases & Release Candidates
 
-Releases are published from a locally verified signed APK. The manual GitHub Actions workflow (`.github/workflows/release.yml`) can reproduce that process after its encrypted signing secrets plus `RYKERSOFT_FIREBASE_API_KEY`, `RYKERSOFT_FIREBASE_APP_ID`, `RYKERSOFT_FIREBASE_WEB_CLIENT_ID`, and `FAMILY_GITHUB_TOKEN` are configured.
+Releases are built, signed, and verified locally so the solo maintainer's Android signing key never needs to enter GitHub Actions. The read-only Actions workflow runs unit tests and produces only a debug validation APK without release credentials.
 
-### 1. Tagging & Pushing a Release
-To publish a new release candidate or official release version:
+### 1. Build and Verify Locally
+
+Run the tests and release build from this repository root, then verify the package ID, version, and expected signing certificate before publishing:
+
+```powershell
+.\gradlew.bat testDebugUnitTest assembleRelease
+```
+
+The release signing key stays on the maintainer's machine. GitHub Actions is limited to read-only validation and debug artifacts; it does not receive release signing credentials.
+
+### 2. Tag and Publish
+
+After the locally signed APK passes verification, publish it to the public release location and push the matching tag:
 
 - **Release Candidate Tag**:
   ```bash
@@ -47,15 +58,11 @@ To publish a new release candidate or official release version:
   git push origin v1.0.1
   ```
 
-When its signing secrets are configured, the manual GitHub Actions workflow will:
-1. Restore the release key from encrypted repository secrets and compile the signed APK (`./gradlew assembleRelease`).
-2. Verify the expected RykerSoft certificate, package ID, and version metadata.
-3. Create a GitHub Release under the corresponding tag (marking `-rc` tags as Pre-release).
-4. Attach `app-release.apk` as a release asset.
+Every APK, document, screenshot, or optional Windows artifact referenced by `registry.json` must be available over anonymous HTTPS. Source repositories may remain private, but App Manager never carries a GitHub personal access token or other private-download credential.
 
 > Devices that still have debug-signed v1.1.0 must uninstall that copy before installing v1.1.1 or newer. Android cannot update an app across unrelated signing keys, and uninstalling clears local app data.
 
-### 2. Updating `registry.json`
+### 3. Update `registry.json`
 To make the new version available to all RykerSoft users for automatic in-app update notifications, update `registry.json` in the root repository:
 
 ```json
@@ -76,4 +83,12 @@ Provide an `exeUrl` only when a verified Windows release artifact exists. The An
 shows Windows availability as informational metadata and intentionally does not download or launch Windows builds.
 
 Once committed and pushed to `main`, all installed RykerSoft app instances will detect the update and display the **App Manager Update Available** alert banner on open.
+
+When migrating an older private distribution, publish and verify a clean public artifact location first, release the tokenless manager while the legacy token still works, update every known installation/profile, and only then revoke and delete the old token. Do not expose an unreviewed private release history simply by changing repository visibility.
+
+## Pro Access Administration
+
+Pro access uses exact package fields at `users/{uid}/entitlements/apps`. Client applications can read only the signed-in user's document and cannot write grants. The Firebase Console is the current administration interface; a future Windows/.NET admin application must be a thin authenticated client of callable Functions using the Admin SDK, never a holder of service-account credentials.
+
+See [`firebase/SEED.md`](firebase/SEED.md) for the exact grant/revoke procedure, existing-user preservation rules, provider-key migration, and optional secure one-time invitation design.
 

@@ -1,5 +1,14 @@
 # Release Updates & History
 
+## v1.3.2 (Version Code 20) - August 8th, 2026
+- Remove the embedded family GitHub token and the Settings token override so credentials are never shipped in the Android client or attached to registry, documentation, or APK requests
+- Download current RykerSoft binaries and documentation from anonymously accessible public distribution URLs while keeping private application source repositories private
+- Retire the reusable family unlock-code flow and preserve existing per-application pro grants at `users/{uid}/entitlements/apps`
+- Make Firebase entitlements administrator-managed: signed-in users can read their own grants but cannot create, change, or delete them
+- Replace the unlock-code entry dialog with account-specific Pro Access information and keep all non-pro features available without an entitlement
+- Purge any legacy GitHub token override saved by an earlier App Manager release
+- Replace credential-dependent release automation with secretless GitHub Actions validation; signed production releases remain locally built and certificate-verified
+
 ## v1.3.1 (Version Code 19) - August 8th, 2026
 - Keep an expanded application card open when a download or Android installer session begins
 - Preserve the exact Updates, Description, or User Guide tab selected by the user throughout install and update progress

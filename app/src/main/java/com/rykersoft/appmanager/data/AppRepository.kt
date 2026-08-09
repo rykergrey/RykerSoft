@@ -50,7 +50,7 @@ class AppRepository(
      * Looks in docs/<slug>/ first (shared RykerSoft-APKs distribution repo layout),
      * then falls back to repo-root docs/ and README/CHANGELOG (per-app repo layout).
      */
-    suspend fun enrichAppWithRemoteDocs(app: ManagedApp, githubToken: String = ""): ManagedApp = withContext(Dispatchers.IO) {
+    suspend fun enrichAppWithRemoteDocs(app: ManagedApp): ManagedApp = withContext(Dispatchers.IO) {
         val repoMatch = Regex("""^https?://github\.com/([^/]+)/([^/]+)""", RegexOption.IGNORE_CASE).find(app.apkUrl)
             ?: return@withContext app
 
@@ -59,28 +59,28 @@ class AppRepository(
         val slug = appSlug(app.packageName, app.name)
 
         val desc = app.description.ifBlank {
-            fetcher.fetchTextUrl("$baseUrl/docs/$slug/description.md", githubToken)
-                ?: fetcher.fetchTextUrl("$baseUrl/docs/description.md", githubToken)
-                ?: fetcher.fetchTextUrl("$baseUrl/README.md", githubToken)
+            fetcher.fetchTextUrl("$baseUrl/docs/$slug/description.md")
+                ?: fetcher.fetchTextUrl("$baseUrl/docs/description.md")
+                ?: fetcher.fetchTextUrl("$baseUrl/README.md")
                 ?: ""
         }
 
         val updates = app.updatesHistory.ifBlank {
-            fetcher.fetchTextUrl("$baseUrl/docs/$slug/updates.md", githubToken)
-                ?: fetcher.fetchTextUrl("$baseUrl/docs/updates.md", githubToken)
-                ?: fetcher.fetchTextUrl("$baseUrl/CHANGELOG.md", githubToken)
+            fetcher.fetchTextUrl("$baseUrl/docs/$slug/updates.md")
+                ?: fetcher.fetchTextUrl("$baseUrl/docs/updates.md")
+                ?: fetcher.fetchTextUrl("$baseUrl/CHANGELOG.md")
                 ?: app.changelog
         }
 
         val specs = app.specs.ifBlank {
-            fetcher.fetchTextUrl("$baseUrl/docs/$slug/specs.md", githubToken)
-                ?: fetcher.fetchTextUrl("$baseUrl/docs/specs.md", githubToken)
+            fetcher.fetchTextUrl("$baseUrl/docs/$slug/specs.md")
+                ?: fetcher.fetchTextUrl("$baseUrl/docs/specs.md")
                 ?: ""
         }
 
         val userGuide = app.userGuide.ifBlank {
-            fetcher.fetchTextUrl("$baseUrl/docs/$slug/user_guide.md", githubToken)
-                ?: fetcher.fetchTextUrl("$baseUrl/docs/user_guide.md", githubToken)
+            fetcher.fetchTextUrl("$baseUrl/docs/$slug/user_guide.md")
+                ?: fetcher.fetchTextUrl("$baseUrl/docs/user_guide.md")
                 ?: ""
         }
 
@@ -101,14 +101,14 @@ class AppRepository(
     /**
      * Fetch registry from custom URL and update local database.
      */
-    suspend fun syncWithRegistry(url: String, githubToken: String = ""): Result<List<ManagedApp>> = withContext(Dispatchers.IO) {
+    suspend fun syncWithRegistry(url: String): Result<List<ManagedApp>> = withContext(Dispatchers.IO) {
         if (url.isBlank()) {
             Result.failure(IllegalArgumentException("Registry URL is empty"))
         } else {
             try {
-                val remoteApps = fetcher.fetchRegistry(url, githubToken)
+                val remoteApps = fetcher.fetchRegistry(url)
                 val enrichedApps = remoteApps.map { app ->
-                    enrichAppWithRemoteDocs(app, githubToken)
+                    enrichAppWithRemoteDocs(app)
                 }
                 dao.syncRemoteApps(enrichedApps)
                 Result.success(enrichedApps)

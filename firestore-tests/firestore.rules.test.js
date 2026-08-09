@@ -6,14 +6,7 @@ import {
   assertSucceeds,
   initializeTestEnvironment,
 } from "@firebase/rules-unit-testing";
-import {
-  collection,
-  doc,
-  getDoc,
-  serverTimestamp,
-  setDoc,
-  writeBatch,
-} from "firebase/firestore";
+import { deleteDoc, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 
 const PROJECT_ID = "rykersoft-abe84";
 const USER_ID = "rules-test-user";
@@ -52,56 +45,25 @@ test("unlock-code documents are never client-readable", async () => {
   await assertFails(getDoc(doc(db, "unlockCodes", CODE_HASH)));
 });
 
-test("arbitrary entitlement writes are denied", async () => {
+test("owners cannot create their own entitlements", async () => {
   const db = testEnvironment.authenticatedContext(USER_ID).firestore();
   await assertFails(
     setDoc(doc(db, "users", USER_ID, "entitlements", "apps"), { [INFORMANT]: true }),
   );
 });
 
-test("an atomic valid code and package request grants only that entitlement", async () => {
+test("clients cannot use the retired unlock-request path", async () => {
   const db = testEnvironment.authenticatedContext(USER_ID).firestore();
-  const requestRef = doc(collection(db, "users", USER_ID, "unlockRequests"));
-  const entitlementRef = doc(db, "users", USER_ID, "entitlements", "apps");
-  const batch = writeBatch(db);
-  batch.set(requestRef, {
+  await assertFails(setDoc(doc(db, "users", USER_ID, "unlockRequests", "attempt"), {
     codeHash: CODE_HASH,
     packageName: INFORMANT,
-    createdAt: serverTimestamp(),
-  });
-  batch.set(entitlementRef, {
-    [INFORMANT]: true,
-    lastUnlockRequestId: requestRef.id,
-    lastUnlockPackage: INFORMANT,
-    updatedAt: serverTimestamp(),
-  });
-  await assertSucceeds(batch.commit());
-  await assertSucceeds(getDoc(entitlementRef));
-  await assertFails(getDoc(requestRef));
-});
-
-test("a code cannot grant a package absent from its package list", async () => {
-  const db = testEnvironment.authenticatedContext(USER_ID).firestore();
-  const requestRef = doc(collection(db, "users", USER_ID, "unlockRequests"));
-  const entitlementRef = doc(db, "users", USER_ID, "entitlements", "apps");
-  const batch = writeBatch(db);
-  batch.set(requestRef, {
-    codeHash: CODE_HASH,
-    packageName: SUPERTHINKING,
-    createdAt: serverTimestamp(),
-  });
-  batch.set(entitlementRef, {
-    [SUPERTHINKING]: true,
-    lastUnlockRequestId: requestRef.id,
-    lastUnlockPackage: SUPERTHINKING,
-    updatedAt: serverTimestamp(),
-  });
-  await assertFails(batch.commit());
+  }));
 });
 
 test("entitlements and provider keys stay user- and package-scoped", async () => {
   const ownerDb = testEnvironment.authenticatedContext(USER_ID).firestore();
   const otherDb = testEnvironment.authenticatedContext(OTHER_USER_ID).firestore();
+  const anonymousDb = testEnvironment.unauthenticatedContext().firestore();
   await testEnvironment.withSecurityRulesDisabled(async (context) => {
     await setDoc(doc(context.firestore(), "users", USER_ID, "entitlements", "apps"), {
       [INFORMANT]: true,
@@ -110,6 +72,15 @@ test("entitlements and provider keys stay user- and package-scoped", async () =>
 
   await assertSucceeds(getDoc(doc(ownerDb, "users", USER_ID, "entitlements", "apps")));
   await assertFails(getDoc(doc(otherDb, "users", USER_ID, "entitlements", "apps")));
+  await assertFails(getDoc(doc(anonymousDb, "users", USER_ID, "entitlements", "apps")));
+  await assertFails(setDoc(doc(ownerDb, "users", USER_ID, "entitlements", "apps"), {
+    [SUPERTHINKING]: true,
+  }, { merge: true }));
+  await assertFails(updateDoc(doc(ownerDb, "users", USER_ID, "entitlements", "apps"), {
+    [SUPERTHINKING]: true,
+  }));
+  await assertFails(deleteDoc(doc(ownerDb, "users", USER_ID, "entitlements", "apps")));
   await assertSucceeds(getDoc(doc(ownerDb, "providerKeys", INFORMANT)));
   await assertFails(getDoc(doc(ownerDb, "providerKeys", SUPERTHINKING)));
+  await assertFails(getDoc(doc(anonymousDb, "providerKeys", INFORMANT)));
 });

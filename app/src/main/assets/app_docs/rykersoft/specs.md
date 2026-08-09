@@ -5,7 +5,7 @@
 - **Platform:** Native Android application written in Kotlin
 - **UI:** Jetpack Compose with Material 3
 - **Package ID / namespace:** `com.rykersoft.appmanager`
-- **Version:** 1.3.1 (`versionCode` 19)
+- **Version:** 1.3.2 (`versionCode` 20)
 - **Minimum Android:** Android 7.0 / API 24
 - **Target Android:** API 36
 - **APK architectures:** `arm64-v8a`, `armeabi-v7a`, `x86`, and `x86_64`
@@ -28,22 +28,22 @@
 - Display-only Windows availability derived from verified registry `exeUrl` metadata and the known SuperThink.ing desktop edition
 - Room database for the synchronized managed-app registry
 - Repository layer for registry synchronization and dynamic Markdown documentation
-- OkHttp streaming downloads with progress reporting and authenticated private-release support
+- OkHttp streaming downloads with progress reporting from public, anonymously accessible release assets
 - Pre-install package, signing-certificate, and downgrade validation
 - PackageInstaller status receiver plus a dedicated confirmation activity
 - Firebase Authentication and Firestore for RykerSoft account entitlements
 - Android Credential Manager and Firebase Google Auth for the standard account flow
 - UID-preserving Google credential linking plus migration-only email/password recovery
-- Atomic Firestore unlock request and entitlement batch validated against server-only code documents by security rules
+- Administrator-managed, package-scoped Firestore entitlements keyed by the preserved Firebase UID
 - WorkManager-compatible background update scheduling
 
 ## Distribution and Security
 
 - App Manager APKs are published on the public `rykergrey/RykerSoft` release page.
 - RykerSoft Application Manager has no Windows release target; Windows badges never download or launch desktop binaries from Android.
-- Other RykerSoft APKs and documentation are distributed through the private `rykergrey/RykerSoft-APKs` repository.
+- Other RykerSoft APKs and documentation are distributed through a clean public binary repository; application source repositories may remain private.
 - Gallery screenshots are public assets under `rykergrey/RykerSoft/screenshots/`.
 - Firebase project `rykersoft-abe84` registers the release certificate SHA-1 and SHA-256 fingerprints for Google sign-in.
-- Firestore clients may read only their own entitlement document, cannot read unlock-code records, and may add only the package entitlement validated by the same atomic unlock request.
-- The manual release workflow restores signing material from encrypted GitHub Actions secrets when they are configured, then verifies the expected non-debug certificate, package ID, and version before publication.
+- Firestore clients may read only their own entitlement document and cannot create, change, or delete entitlements. Grants and revocations are trusted administrator operations that merge exact package-ID fields without replacing existing access.
+- Public registry, documentation, APK, and EXE requests never include a long-lived GitHub token. The repository's GitHub Actions workflow performs secretless tests and debug-build validation; signed releases are built locally and verified before publication.
 - Android requires an uninstall before installing v1.1.1 or newer over the debug-signed v1.1.0 release; uninstalling clears local app data.

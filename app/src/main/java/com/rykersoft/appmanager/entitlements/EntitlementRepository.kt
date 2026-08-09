@@ -7,7 +7,6 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.ListenerRegistration
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -149,50 +148,6 @@ class EntitlementRepository(private val context: Context) {
 
     fun signOut() {
         RykerSoftFirebase.auth(context)?.signOut()
-    }
-
-    /**
-     * Atomically submits a server-rules-validated unlock request and entitlement grant.
-     * Clients cannot read unlock-code documents or write unrelated entitlements.
-     */
-    suspend fun unlockWithCode(rawCode: String, packageName: String? = null): List<String> {
-        val auth = requireAuth()
-        val user = auth.currentUser ?: throw IllegalStateException("Sign in to unlock apps.")
-        if (rawCode.isBlank()) throw IllegalArgumentException("Enter an unlock code.")
-        val requestedPackage = packageName
-            ?: throw IllegalArgumentException("Choose an app to unlock.")
-        if (!AiUnlockPackages.isUnlockable(requestedPackage)) {
-            throw IllegalArgumentException("This app does not support RykerSoft pro unlock.")
-        }
-        val db = RykerSoftFirebase.db(context)
-            ?: throw IllegalStateException("Firebase not configured.")
-        val requestRef = db.collection("users").document(user.uid)
-            .collection("unlockRequests").document()
-        val entitlementRef = db.collection("users").document(user.uid)
-            .collection("entitlements").document("apps")
-        db.runBatch { batch ->
-            batch.set(
-                requestRef,
-                mapOf(
-                    "codeHash" to UnlockCodeHasher.sha256Hex(rawCode),
-                    "packageName" to requestedPackage,
-                    "createdAt" to FieldValue.serverTimestamp()
-                )
-            )
-            batch.set(
-                entitlementRef,
-                mapOf(
-                    requestedPackage to true,
-                    "lastUnlockRequestId" to requestRef.id,
-                    "lastUnlockPackage" to requestedPackage,
-                    "updatedAt" to FieldValue.serverTimestamp()
-                ),
-                SetOptions.merge()
-            )
-        }.await()
-
-        ensureUserProfile()
-        return listOf(requestedPackage)
     }
 
     private suspend fun ensureUserProfile() {

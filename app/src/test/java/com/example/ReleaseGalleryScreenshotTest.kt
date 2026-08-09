@@ -30,10 +30,10 @@ import com.rykersoft.appmanager.ui.AppDetailDialog
 import com.rykersoft.appmanager.ui.AppDetailTab
 import com.rykersoft.appmanager.ui.AppItemCard
 import com.rykersoft.appmanager.ui.AppUiItem
+import com.rykersoft.appmanager.ui.ProAccessDialog
 import com.rykersoft.appmanager.ui.RykerSoftTitleHeader
 import com.rykersoft.appmanager.ui.SettingsDialog
 import com.rykersoft.appmanager.ui.TagChip
-import com.rykersoft.appmanager.ui.UnlockProDialog
 import com.rykersoft.appmanager.ui.theme.MyApplicationTheme
 import com.rykersoft.appmanager.ui.theme.NeoBg
 import com.rykersoft.appmanager.ui.theme.NeoCyan
@@ -319,7 +319,7 @@ class ReleaseGalleryScreenshotTest {
                     hubFirebaseConfigured = true,
                     hubGoogleConfigured = true,
                     onDismiss = {},
-                    onSave = { _, _, _ -> },
+                    onSave = { _, _ -> },
                     onLoadSamples = {},
                     onAddAppClick = {},
                     onHubSignOut = {}
@@ -342,7 +342,7 @@ class ReleaseGalleryScreenshotTest {
                     hubFirebaseConfigured = true,
                     hubGoogleConfigured = true,
                     onDismiss = {},
-                    onSave = { _, _, _ -> },
+                    onSave = { _, _ -> },
                     onLoadSamples = {},
                     onAddAppClick = {}
                 )
@@ -352,24 +352,24 @@ class ReleaseGalleryScreenshotTest {
         composeTestRule.onNodeWithText("MIGRATE AN EXISTING PASSWORD ACCOUNT").performClick()
         composeTestRule.onNodeWithContentDescription("Show Legacy password").assertExists().performClick()
         composeTestRule.onNodeWithContentDescription("Hide Legacy password").assertExists()
-        composeTestRule.onNodeWithContentDescription("Show GitHub token (PAT for private repos)").assertExists()
+        composeTestRule.onNodeWithTag("github_token_field").assertDoesNotExist()
     }
 
     @Test
-    fun unlockCodeStartsHiddenAndCanBeRevealed() {
+    fun proAccessExplainsAdministratorManagedEntitlement() {
         composeTestRule.setContent {
             MyApplicationTheme {
-                UnlockProDialog(
+                ProAccessDialog(
                     appName = "INFORMANT",
-                    busy = false,
-                    onDismiss = {},
-                    onUnlock = {}
+                    accountEmail = "authorized@example.com",
+                    onDismiss = {}
                 )
             }
         }
 
-        composeTestRule.onNodeWithContentDescription("Show Unlock code").assertExists().performClick()
-        composeTestRule.onNodeWithContentDescription("Hide Unlock code").assertExists()
+        composeTestRule.onNodeWithTag("pro_access_info_dialog").assertExists()
+        composeTestRule.onNodeWithText("Pro access is assigned by the RykerSoft administrator", substring = true).assertExists()
+        composeTestRule.onNodeWithTag("unlock_code_field").assertDoesNotExist()
     }
 
     private fun sampleApp(

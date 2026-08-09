@@ -333,7 +333,7 @@ fun AppDashboard(
     var showPlatformDropdown by remember { mutableStateOf(false) }
     var showSortDropdown by remember { mutableStateOf(false) }
     var selectedPlatform by remember { mutableStateOf("Android") }
-    var unlockTargetPackage by remember { mutableStateOf<String?>(null) }
+    var proAccessInfoPackage by remember { mutableStateOf<String?>(null) }
 
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -1015,20 +1015,16 @@ fun AppDashboard(
                 downloadProgress = uiState.downloadProgress,
                 hubSignedIn = uiState.hubSignedIn,
                 hubFirebaseConfigured = uiState.hubFirebaseConfigured,
-                onUnlockClick = { unlockTargetPackage = currentApp.packageName },
+                onProAccessInfoClick = { proAccessInfoPackage = currentApp.packageName },
                 onOpenAccountSettings = { showSettingsDialog = true }
             )
         }
 
-        unlockTargetPackage?.let { pkg ->
-            UnlockProDialog(
+        proAccessInfoPackage?.let { pkg ->
+            ProAccessDialog(
                 appName = uiState.apps.find { it.packageName == pkg }?.name ?: pkg,
-                busy = uiState.hubBusy,
-                onDismiss = { unlockTargetPackage = null },
-                onUnlock = { code ->
-                    viewModel.unlockAppWithCode(pkg, code)
-                    unlockTargetPackage = null
-                }
+                accountEmail = uiState.hubAccountEmail,
+                onDismiss = { proAccessInfoPackage = null }
             )
         }
 
@@ -1047,7 +1043,6 @@ fun AppDashboard(
         if (showSettingsDialog) {
             SettingsDialog(
                 currentUrl = uiState.registryUrl,
-                currentGithubToken = uiState.githubToken,
                 notificationsEnabled = uiState.notificationsEnabled,
                 hubFirebaseConfigured = uiState.hubFirebaseConfigured,
                 hubGoogleConfigured = uiState.hubGoogleConfigured,
@@ -1057,8 +1052,8 @@ fun AppDashboard(
                 hubHasPasswordProvider = uiState.hubHasPasswordProvider,
                 hubBusy = uiState.hubBusy,
                 onDismiss = { showSettingsDialog = false },
-                onSave = { url, notify, token ->
-                    viewModel.updateSettings(url, notify, token)
+                onSave = { url, notify ->
+                    viewModel.updateSettings(url, notify)
                     showSettingsDialog = false
                 },
                 onLoadSamples = {
@@ -1533,7 +1528,7 @@ fun AppDetailDialog(
     onShareClick: () -> Unit = {},
     hubSignedIn: Boolean = false,
     hubFirebaseConfigured: Boolean = false,
-    onUnlockClick: () -> Unit = {},
+    onProAccessInfoClick: () -> Unit = {},
     onOpenAccountSettings: () -> Unit = {}
 ) {
     val context = LocalContext.current
@@ -1604,7 +1599,7 @@ fun AppDetailDialog(
                         )
                         if (app.supportsAiUnlock) {
                             TagChip(
-                                text = if (app.aiUnlocked) "PRO UNLOCKED" else "PRO LOCKED",
+                                text = if (app.aiUnlocked) "PRO ENABLED" else "PRO ACCESS REQUIRED",
                                 bgColor = if (app.aiUnlocked) NeoGreenDim else Color(0xFF3F3F46),
                                 textColor = if (app.aiUnlocked) Color(0xFFA7F3C9) else Color(0xFFE4E4E7)
                             )
@@ -1946,7 +1941,7 @@ fun AppDetailDialog(
                                 contentPadding = PaddingValues(horizontal = 8.dp, vertical = 6.dp)
                             ) {
                                 Text(
-                                    "SIGN IN TO UNLOCK PRO",
+                                    "SIGN IN FOR PRO ACCESS",
                                     fontSize = 10.sp,
                                     fontWeight = FontWeight.Black,
                                     fontFamily = FontFamily.Monospace,
@@ -1956,12 +1951,12 @@ fun AppDetailDialog(
                         }
                         app.supportsAiUnlock && hubFirebaseConfigured && hubSignedIn && !app.aiUnlocked -> {
                             NeoButton(
-                                onClick = onUnlockClick,
+                                onClick = onProAccessInfoClick,
                                 style = NeoButtonStyle.ACCENT_CYAN,
                                 contentPadding = PaddingValues(horizontal = 8.dp, vertical = 6.dp)
                             ) {
                                 Text(
-                                    "UNLOCK PRO FEATURES",
+                                    "PRO ACCESS INFO",
                                     fontSize = 10.sp,
                                     fontWeight = FontWeight.Black,
                                     fontFamily = FontFamily.Monospace,
@@ -2278,7 +2273,6 @@ private fun SecureOutlinedTextField(
 @Composable
 fun SettingsDialog(
     currentUrl: String,
-    currentGithubToken: String = "",
     notificationsEnabled: Boolean,
     hubFirebaseConfigured: Boolean = false,
     hubGoogleConfigured: Boolean = false,
@@ -2288,7 +2282,7 @@ fun SettingsDialog(
     hubHasPasswordProvider: Boolean = false,
     hubBusy: Boolean = false,
     onDismiss: () -> Unit,
-    onSave: (url: String, notify: Boolean, token: String) -> Unit,
+    onSave: (url: String, notify: Boolean) -> Unit,
     onLoadSamples: () -> Unit,
     onAddAppClick: () -> Unit,
     onHubGoogleSignIn: () -> Unit = {},
@@ -2298,7 +2292,6 @@ fun SettingsDialog(
     onHubSignOut: () -> Unit = {}
 ) {
     var url by remember { mutableStateOf(currentUrl) }
-    var token by remember { mutableStateOf(TextFieldValue(currentGithubToken)) }
     var notify by remember { mutableStateOf(notificationsEnabled) }
     var hubEmail by remember { mutableStateOf("") }
     var hubPassword by remember { mutableStateOf(TextFieldValue("")) }
@@ -2337,7 +2330,7 @@ fun SettingsDialog(
                     color = NeoText
                 )
 
-                SectionKicker("RYKERSOFT ACCOUNT (PRO UNLOCK)")
+                SectionKicker("RYKERSOFT ACCOUNT (PRO ACCESS)")
                 if (!hubFirebaseConfigured) {
                     Text(
                         text = "Firebase not configured. Add FIREBASE_* keys to .env (firebase/SEED.md).",
@@ -2392,7 +2385,7 @@ fun SettingsDialog(
                     }
                 } else {
                     Text(
-                        text = "Use the same Google account here and inside unlocked RykerSoft apps.",
+                        text = "Use the same Google account here and inside authorized RykerSoft apps.",
                         fontSize = 10.sp,
                         lineHeight = 14.sp,
                         fontFamily = BodyFontFamily,
@@ -2484,15 +2477,6 @@ fun SettingsDialog(
                     modifier = Modifier.fillMaxWidth()
                 )
 
-                SecureOutlinedTextField(
-                    value = token,
-                    onValueChange = { token = it },
-                    label = "GitHub token (PAT for private repos)",
-                    colors = textFieldColors,
-                    modifier = Modifier.fillMaxWidth(),
-                    testTag = "github_token_field"
-                )
-
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
@@ -2537,7 +2521,7 @@ fun SettingsDialog(
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     NeoButton(
-                        onClick = { onSave(url, notify, token.text) },
+                        onClick = { onSave(url, notify) },
                         style = NeoButtonStyle.SECONDARY_YELLOW
                     ) {
                         Text("SAVE SETTINGS", fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace, color = Color.Black)
@@ -2549,23 +2533,18 @@ fun SettingsDialog(
 }
 
 @Composable
-fun UnlockProDialog(
+fun ProAccessDialog(
     appName: String,
-    busy: Boolean,
-    onDismiss: () -> Unit,
-    onUnlock: (code: String) -> Unit
+    accountEmail: String?,
+    onDismiss: () -> Unit
 ) {
-    var code by remember { mutableStateOf(TextFieldValue("")) }
-    val textFieldColors = OutlinedTextFieldDefaults.colors(
-        focusedTextColor = NeoText,
-        unfocusedTextColor = NeoText,
-        focusedBorderColor = NeoCyan,
-        unfocusedBorderColor = NeoBorder,
-        focusedLabelColor = NeoCyan,
-        unfocusedLabelColor = NeoSubtext
-    )
     Dialog(onDismissRequest = onDismiss) {
-        NeoCard(modifier = Modifier.fillMaxWidth(), shadowOffset = 6.dp) {
+        NeoCard(
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag("pro_access_info_dialog"),
+            shadowOffset = 6.dp
+        ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -2573,41 +2552,41 @@ fun UnlockProDialog(
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 Text(
-                    text = "UNLOCK PRO — ${appName.uppercase()}",
+                    text = "PRO ACCESS — ${appName.uppercase()}",
                     fontWeight = FontWeight.Black,
                     fontFamily = FontFamily.Monospace,
                     fontSize = 14.sp,
                     color = NeoText
                 )
                 Text(
-                    text = "Enter the family unlock code. Sign into the same RykerSoft account inside the app to load pro feature keys.",
+                    text = "Pro access is assigned by the RykerSoft administrator to this signed-in Firebase account. Existing access is preserved and updates automatically by account UID.",
                     fontSize = 12.sp,
                     fontFamily = BodyFontFamily,
                     lineHeight = 17.sp,
                     color = NeoSubtext
                 )
-                SecureOutlinedTextField(
-                    value = code,
-                    onValueChange = { code = it },
-                    label = "Unlock code",
-                    colors = textFieldColors,
-                    modifier = Modifier.fillMaxWidth(),
-                    testTag = "unlock_code_field"
+                Text(
+                    text = "SIGNED-IN ACCOUNT\n${accountEmail ?: "Unknown account"}",
+                    fontSize = 11.sp,
+                    fontFamily = FontFamily.Monospace,
+                    color = NeoCyan
+                )
+                Text(
+                    text = "Ask the administrator to enable this package for this account, then sign into the same RykerSoft account inside the target app. Free features remain available without pro access.",
+                    fontSize = 11.sp,
+                    fontFamily = BodyFontFamily,
+                    lineHeight = 16.sp,
+                    color = NeoSubtext
                 )
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.End
                 ) {
-                    TextButton(onClick = onDismiss) {
-                        Text("CANCEL", fontFamily = FontFamily.Monospace, color = NeoSubtext)
-                    }
-                    Spacer(modifier = Modifier.width(8.dp))
                     NeoButton(
-                        onClick = { onUnlock(code.text) },
-                        style = NeoButtonStyle.SECONDARY_YELLOW,
-                        enabled = !busy && code.text.isNotBlank()
+                        onClick = onDismiss,
+                        style = NeoButtonStyle.SECONDARY_YELLOW
                     ) {
-                        Text("UNLOCK", fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace, color = Color.Black)
+                        Text("CLOSE", fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace, color = Color.Black)
                     }
                 }
             }

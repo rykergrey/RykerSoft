@@ -212,73 +212,19 @@ object ApkManager {
         }
     }
 
-    /**
-     * Downloads an APK from a remote URL, yielding percentage progress (0..100) and finally the File on completion.
-     * Supports private GitHub repository release downloads when a Personal Access Token (PAT) is supplied.
-     */
-    fun downloadApk(context: Context, url: String, fileName: String, githubToken: String = ""): Flow<DownloadProgress> = flow {
+    /** Downloads a public APK, yielding percentage progress and then the completed file. */
+    fun downloadApk(context: Context, url: String, fileName: String): Flow<DownloadProgress> = flow {
         emit(DownloadProgress.Downloading(0))
 
-        val trimmedToken = githubToken.trim()
-        val githubReleaseRegex = Regex("""^https?://github\.com/([^/]+)/([^/]+)/releases/download/([^/]+)/(.+)""", RegexOption.IGNORE_CASE)
-        val match = githubReleaseRegex.find(url.trim())
-
-        val (downloadUrl, extraHeaders) = if (match != null && trimmedToken.isNotBlank()) {
-            val (owner, repo, tag, assetFileName) = match.destructured
-            val apiReleaseUrl = "https://api.github.com/repos/$owner/$repo/releases/tags/$tag"
-            val apiRequest = Request.Builder()
-                .url(apiReleaseUrl)
-                .header("Authorization", "Bearer $trimmedToken")
-                .header("Accept", "application/vnd.github+json")
-                .header("User-Agent", "Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36")
-                .build()
-
-            val assetUrl = try {
-                client.newCall(apiRequest).execute().use { response ->
-                    if (!response.isSuccessful) {
-                        throw IOException("GitHub API release check returned HTTP ${response.code}")
-                    }
-                    val jsonStr = response.body?.string() ?: ""
-                    val root = org.json.JSONObject(jsonStr)
-                    val assets = root.optJSONArray("assets") ?: org.json.JSONArray()
-                    var foundUrl: String? = null
-                    for (i in 0 until assets.length()) {
-                        val asset = assets.optJSONObject(i) ?: continue
-                        if (asset.optString("name").equals(assetFileName, ignoreCase = true)) {
-                            foundUrl = asset.optString("url")
-                            break
-                        }
-                    }
-                    foundUrl ?: throw IOException("Asset '$assetFileName' not found in private release $tag")
-                }
-            } catch (e: Exception) {
-                null
-            }
-
-            if (assetUrl != null) {
-                Pair(assetUrl, mapOf("Authorization" to "Bearer $trimmedToken", "Accept" to "application/octet-stream"))
-            } else {
-                Pair(url, mapOf("Authorization" to "Bearer $trimmedToken"))
-            }
-        } else if (trimmedToken.isNotBlank() && url.contains("github")) {
-            Pair(url, mapOf("Authorization" to "Bearer $trimmedToken"))
-        } else {
-            Pair(url, emptyMap())
-        }
-
         val requestBuilder = Request.Builder()
-            .url(downloadUrl)
+            .url(url.trim())
             .header("User-Agent", "Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Mobile Safari/537.36")
-
-        extraHeaders.forEach { (key, value) ->
-            requestBuilder.header(key, value)
-        }
 
         val response = client.newCall(requestBuilder.build()).execute()
 
         if (!response.isSuccessful) {
             val detail = when (response.code) {
-                404 -> "HTTP 404 (Not Found - verify if GitHub repository/release is private or PAT token is missing/invalid)"
+                404 -> "HTTP 404 (Not Found - verify the public release URL)"
                 403 -> "HTTP 403 (Forbidden - access denied or rate limited)"
                 else -> "HTTP ${response.code}: ${response.message}"
             }

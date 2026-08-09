@@ -50,7 +50,7 @@ private val MULTI_SPACE_REGEX = Regex("""\s+""")
 private val INLINE_MARKDOWN_REGEX = Regex("""(\*\*(.+?)\*\*|`(.+?)`|\[(.+?)\]\((.+?)\))""")
 private val HEADING_REGEX = Regex("""^(#{1,3})\s+(.*)$""")
 private val BULLET_REGEX = Regex("""^([-*\u2022])\s+""")
-/** Magenta asterisk marker for PRO / unlock-gated features in hub docs. */
+/** Magenta asterisk marker for entitlement-gated PRO features in hub docs. */
 private val NeoProAsterisk = NeoMagenta
 private val NUMBER_REGEX = Regex("""^\d+\.\s+""")
 
@@ -436,7 +436,7 @@ private sealed class MdBlock {
 
 /**
  * PRO marker rules for hub docs:
- * - `* Feature` → magenta `*` bullet (pro / unlock-gated)
+ * - `* Feature` → magenta `*` bullet (entitlement-gated PRO feature)
  * - `- * Feature` → same (dash list with a leading asterisk in the item text)
  * - `- Feature` → normal `•` bullet
  */
