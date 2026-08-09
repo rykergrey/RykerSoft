@@ -35,6 +35,7 @@ data class AppUiItem(
     val latestVersionCode: Int,
     val latestVersionName: String,
     val apkUrl: String,
+    val windowsAvailable: Boolean = false,
     val icon: String,
     val changelog: String,
     val screenshots: List<String>,
@@ -66,18 +67,13 @@ data class MainUiState(
     val infoMessage: String? = null,
     val filterType: FilterType = FilterType.ALL,
     val sortOption: SortOption = SortOption.RECENTLY_UPDATED,
-    /**
-     * After a successful install/update, UI should open this package's detail dialog.
-     */
+    /** Legacy install-completion marker; the UI consumes it without navigating. */
     val postInstallOpenPackage: String? = null,
-    /**
-     * When [postInstallOpenPackage] is set, open the Updates tab (true) or User Guide (false).
-     * Updates keep the user on changelog; fresh installs land on the User Guide.
-     */
+    /** Legacy completion metadata retained while an in-flight install finishes. */
     val postInstallOpenUpdatesTab: Boolean = false,
     /**
      * True while a PackageInstaller session is waiting on the user / system.
-     * UI dismisses the detail Dialog (Dialog windows bury Play Protect) and shows an in-app banner.
+     * UI keeps the current detail card/tab open and shows an in-app banner.
      */
     val installSessionActive: Boolean = false,
     /** Short status for the in-app install banner. */
@@ -117,10 +113,10 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
     private var cachedDbApps: List<ManagedApp> = emptyList()
 
-    /** Package whose system installer was launched; used to reopen detail after success. */
+    /** Package whose system installer was launched; used to detect completion. */
     private var awaitingInstallPackage: String? = null
 
-    /** True when the in-flight install is an update (reopen Updates tab); false for fresh installs. */
+    /** Legacy completion metadata distinguishing updates from fresh installs. */
     private var preferUpdatesTabAfterInstall: Boolean = false
 
     init {
@@ -524,6 +520,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                 latestVersionCode = app.latestVersionCode,
                 latestVersionName = app.latestVersionName,
                 apkUrl = app.apkUrl,
+                windowsAvailable = app.windowsAvailable,
                 icon = app.icon,
                 changelog = app.changelog.ifBlank {
                     "• Performance improvements and general bug fixes.\n• Enhanced memory management and system stability."
@@ -602,8 +599,8 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private suspend fun beginSessionInstall(file: java.io.File, packageName: String) {
-        // Dismiss the detail Dialog (Compose Dialog windows can bury Play Protect), keep the hub
-        // in the foreground, and show an in-app waiting banner until the system prompts finish.
+        // Keep the hub and its current detail tab in place, and show an in-app waiting banner
+        // underneath the system confirmation UI until the install finishes.
         _uiState.update {
             it.copy(
                 installSessionActive = true,
@@ -641,7 +638,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
             return
         }
 
-        // Updates reopen on the Updates/changelog tab; fresh installs keep User Guide.
+        // Retain update/install completion metadata without changing the current UI location.
         preferUpdatesTabAfterInstall = app.isOutdated
 
         // If a prior install got stuck (Play Protect buried, session orphaned), clear it and retry

@@ -110,6 +110,8 @@ class RegistryFetcher(
             val vCode = item.optInt("latestVersionCode", item.optString("latestVersionCode", "1").toIntOrNull() ?: 1)
             val vName = item.optString("latestVersionName", "1.0.0")
             val apk = item.optString("apkUrl", "")
+            val windowsAvailable = item.optString("exeUrl", "").isNotBlank() ||
+                pkg == "com.rykersoft.superthinking"
             val icon = item.optString("icon", "android")
             val changelog = item.optString("changelog", "")
 
@@ -147,6 +149,7 @@ class RegistryFetcher(
                     latestVersionCode = vCode,
                     latestVersionName = vName,
                     apkUrl = apk,
+                    windowsAvailable = windowsAvailable,
                     icon = icon,
                     changelog = changelog,
                     screenshots = screenshotsVal,

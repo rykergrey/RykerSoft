@@ -1,5 +1,14 @@
 # Release Updates & History
 
+## v1.3.1 (Version Code 19) - August 8th, 2026
+- Keep an expanded application card open when a download or Android installer session begins
+- Preserve the exact Updates, Description, or User Guide tab selected by the user throughout install and update progress
+- Add the APK-link share control beside Install, Update, and Launch actions inside expanded app details
+- Remove the unnecessary `C++ / Engine` and `Kotlin / App` programming labels from catalog cards
+- Show informational Windows badges and a Windows-version property for apps with separate desktop editions
+- Recognize verified registry Windows assets for INFORMANT, WordPlay.ing, and FreeBall.ing, plus the known SuperThink.ing desktop edition
+- Keep Windows availability display-only in the Android hub; no Windows download or launch action is provided
+
 ## v1.3.0 (Version Code 18) - August 8th, 2026
 - Make Google the standard RykerSoft account sign-in through Android Credential Manager
 - Remove new email/password account creation while retaining an explicit legacy sign-in, password-reset, and Google-link migration path

@@ -31,7 +31,9 @@ The detail view chooses a useful starting tab:
 
 Each detail view can include an image gallery, full description, reverse-chronological updates, technical specifications, and a clickable user-guide table of contents.
 
-To share an APK download, tap the share icon beside an app's version number. RykerSoft copies that app's exact registry APK URL to the Android clipboard and confirms the copy at the bottom of the screen. Paste the link into a message or another sharing destination. Access to private distribution links still requires an authorized RykerSoft family token or GitHub account.
+Apps with a separate desktop edition display a **WINDOWS** badge. This badge is informational: the Android hub does not download or launch Windows applications.
+
+To share an APK download, tap the share icon on the home card or beside **INSTALL NOW**, **UPDATE APP**, or **LAUNCH NOW** inside the expanded detail card. RykerSoft copies that app's exact registry APK URL to the Android clipboard and confirms the copy at the bottom of the screen. Paste the link into a message or another sharing destination. Access to private distribution links still requires an authorized RykerSoft family token or GitHub account.
 
 ## 3. Install & Update Apps
 
@@ -42,14 +44,17 @@ To share an APK download, tap the share icon beside an app's version number. Ryk
 5. Approve Android's package installer and Play Protect prompts. Keep RykerSoft in the foreground until confirmation completes.
 6. A yellow waiting banner remains visible while Android is processing the session. Use **CANCEL INSTALL** if a session becomes stuck.
 
+The expanded application card remains open throughout download and installation. You can continue reading the selected Updates, Description, or User Guide tab while Android handles the install.
+
 Unknown-source permission authorizes RykerSoft to request an install. It does not bypass Android's package-signature, version, device-compatibility, policy, or storage checks.
 
 ## 4. After an Install or Update
 
-After success, RykerSoft returns to the foreground and refreshes installed versions.
+After success, RykerSoft returns to the foreground, refreshes installed versions, and keeps your current location.
 
-- An **update** reopens the app's **Updates** tab.
-- A **fresh install** opens the app's **User Guide**.
+- The expanded application card remains open if it was already open.
+- The selected **Updates**, **Description**, or **User Guide** tab remains selected.
+- Starting from the home catalog leaves you on that application card.
 - An installed, current app displays **OPEN**, **PLAY**, or **LAUNCH**.
 
 If Android rejects the operation, RykerSoft presents the most specific available explanation and leaves the app ready to retry.

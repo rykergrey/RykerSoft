@@ -10,12 +10,14 @@ RykerSoft is the Android hub for the RykerSoft app collection. It keeps one cata
 - **Actionable install errors** — Distinguish signing-key conflicts, another-profile copies, corrupt APKs, insufficient storage, and incompatible devices.
 - **Reliable installer flow** — Use `PackageInstaller` sessions and a dedicated confirmation host so Play Protect and system prompts remain visible.
 - **Dynamic documentation** — Read descriptions, complete update history, specifications, user guides, and public screenshot galleries in the app.
+- **In-place install reading** — Keep the open app detail card and its selected documentation tab visible while downloads and Android installation continue.
+- **Platform availability** — See an informational Windows badge when a separate Windows edition exists, without exposing Windows downloads in the Android hub.
 - **Automatic update checks** — Refresh on demand and optionally receive background notifications when newer releases are available.
 - **Google RykerSoft account** — Sign in through Android Credential Manager to manage pro unlocks without creating another password.
 - **Safe legacy migration** — Verify an existing password account, link Google to that same Firebase UID, and retain password reset during migration.
 - **Rules-verified unlocks** — Submit an atomic unlock request whose code hash is checked against a server-only record; Firestore permits only the listed package entitlement.
 - **Neo-brutalist interface** — Use a high-contrast cyber palette, clear status colors, hard shadows, and readable tabbed detail views.
-- **Shareable APK links** — Copy an app's exact APK download URL from the share icon beside its version for quick sharing.
+- **Shareable APK links** — Copy an app's exact APK download URL from either the home card or its expanded detail actions.
 
 ## PRO Features
 

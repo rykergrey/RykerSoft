@@ -368,28 +368,10 @@ fun AppDashboard(
         }
     }
 
-    // Close the detail Dialog while install confirmation runs — Dialog windows can bury Play Protect.
-    // Keep the hub Activity itself in the foreground (no moveTaskToBack / home-screen bounce).
-    LaunchedEffect(uiState.installSessionActive) {
-        if (uiState.installSessionActive) {
-            selectedAppForDetail = null
-        }
-    }
-
-    // After a successful install/update, reopen detail: Updates tab for updates, User Guide for installs.
+    // Installation must never change the user's current card or documentation tab.
+    // Consume the legacy completion signal without using it for navigation.
     LaunchedEffect(uiState.postInstallOpenPackage) {
-        val pkg = uiState.postInstallOpenPackage ?: return@LaunchedEffect
-        val app = uiState.apps.find { it.packageName == pkg }
-        if (app != null) {
-            selectedAppForDetail = app
-            detailOpenedFromScreenshot = false
-            detailInitialTab = if (uiState.postInstallOpenUpdatesTab) {
-                AppDetailTab.UPDATES
-            } else {
-                AppDetailTab.USER_GUIDE
-            }
-            selectedScreenshotIndex = 0
-        }
+        uiState.postInstallOpenPackage ?: return@LaunchedEffect
         viewModel.clearPostInstallOpen()
     }
 
@@ -1020,10 +1002,13 @@ fun AppDashboard(
                 prioritizeScreenshot = detailOpenedFromScreenshot,
                 onDismiss = { selectedAppForDetail = null },
                 onActionClick = {
-                    if (currentApp.isOutdated) {
-                        detailInitialTab = AppDetailTab.UPDATES
-                    }
                     viewModel.downloadAndInstall(currentApp)
+                },
+                onShareClick = {
+                    clipboardManager.setText(AnnotatedString(currentApp.apkUrl))
+                    scope.launch {
+                        snackbarHostState.showSnackbar("Copied ${currentApp.name} APK link to clipboard")
+                    }
                 },
                 onLaunchClick = { ApkManager.launchApp(context, currentApp.packageName) },
                 downloadingPackage = uiState.downloadingPackage,
@@ -1189,19 +1174,6 @@ fun AppItemCard(
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(2.dp))
-
-                    Text(
-                        text = if (app.isGame) "C++ / Engine" else "Kotlin / App",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = NeoSubtext,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        fontFamily = FontFamily.Monospace,
-                        fontSize = 10.5.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-
                     Spacer(modifier = Modifier.height(6.dp))
 
                     // Category Tags Row
@@ -1235,6 +1207,21 @@ fun AppItemCard(
                                 )
                             }
                         )
+                        if (app.windowsAvailable) {
+                            TagChip(
+                                text = "WINDOWS",
+                                bgColor = NeoMutedBg,
+                                textColor = NeoText,
+                                icon = {
+                                    Icon(
+                                        imageVector = Icons.Default.Computer,
+                                        contentDescription = null,
+                                        tint = NeoText,
+                                        modifier = Modifier.size(10.dp)
+                                    )
+                                }
+                            )
+                        }
                     }
                 }
             }
@@ -1543,13 +1530,13 @@ fun AppDetailDialog(
     onLaunchClick: () -> Unit,
     downloadingPackage: String?,
     downloadProgress: Int,
+    onShareClick: () -> Unit = {},
     hubSignedIn: Boolean = false,
     hubFirebaseConfigured: Boolean = false,
     onUnlockClick: () -> Unit = {},
     onOpenAccountSettings: () -> Unit = {}
 ) {
     val context = LocalContext.current
-    val clipboardManager = LocalClipboardManager.current
     val isCurrentDownloading = downloadingPackage == app.packageName
 
     val safeScreenshots = remember(app.screenshots) {
@@ -1622,6 +1609,21 @@ fun AppDetailDialog(
                                 textColor = if (app.aiUnlocked) Color(0xFFA7F3C9) else Color(0xFFE4E4E7)
                             )
                         }
+                        if (app.windowsAvailable) {
+                            TagChip(
+                                text = "WINDOWS",
+                                bgColor = NeoMutedBg,
+                                textColor = NeoText,
+                                icon = {
+                                    Icon(
+                                        imageVector = Icons.Default.Computer,
+                                        contentDescription = null,
+                                        tint = NeoText,
+                                        modifier = Modifier.size(10.dp)
+                                    )
+                                }
+                            )
+                        }
                     }
 
                     NeoButton(
@@ -1643,7 +1645,7 @@ fun AppDetailDialog(
                     )
                 }
 
-                // Tab Selection State — keyed so post-install User Guide focus and reopen defaults apply
+                // Key by package and opening default; install/download recompositions preserve this tab.
                 var selectedTab by remember(app.packageName, initialTab) { mutableStateOf(initialTab) }
                 var activeHighlightAnchor by remember { mutableStateOf<String?>(null) }
                 var highlightNonce by remember { mutableIntStateOf(0) }
@@ -1891,6 +1893,10 @@ fun AppDetailDialog(
                                         DetailRow("LATEST VERSION", "${app.latestVersionName} (code ${app.latestVersionCode})")
                                         DetailRow("INSTALLED VERSION", app.installedVersionName?.let { "$it (code ${app.installedVersionCode})" } ?: "Not Installed")
                                         DetailRow("UPDATE STATUS", app.statusText)
+                                        DetailRow(
+                                            "WINDOWS VERSION",
+                                            if (app.windowsAvailable) "Available separately" else "Not available"
+                                        )
                                         DetailRow("APK DOWNLOAD URL", app.apkUrl)
                                     }
                                 }
@@ -1968,44 +1974,63 @@ fun AppDetailDialog(
                         }
                     }
 
-                    if (isCurrentDownloading) {
-                        Text(
-                            text = "DOWNLOADING... $downloadProgress%",
-                            fontSize = 11.sp,
-                            fontWeight = FontWeight.Black,
-                            fontFamily = FontFamily.Monospace,
-                            color = NeoYellow
-                        )
-                    } else {
-                        when {
-                            !app.isInstalled -> {
-                                NeoButton(
-                                    onClick = onActionClick,
-                                    style = NeoButtonStyle.SECONDARY_YELLOW
-                                ) {
-                                    Icon(Icons.Default.Download, contentDescription = null, tint = Color.Black, modifier = Modifier.size(14.dp))
-                                    Spacer(modifier = Modifier.width(4.dp))
-                                    Text("INSTALL NOW", fontSize = 11.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace, color = Color.Black)
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(6.dp)
+                    ) {
+                        IconButton(
+                            onClick = onShareClick,
+                            modifier = Modifier
+                                .size(36.dp)
+                                .testTag("share_detail_apk_${app.packageName}")
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Share,
+                                contentDescription = "Copy ${app.name} APK link",
+                                tint = NeoCyan,
+                                modifier = Modifier.size(18.dp)
+                            )
+                        }
+
+                        if (isCurrentDownloading) {
+                            Text(
+                                text = "DOWNLOADING... $downloadProgress%",
+                                fontSize = 11.sp,
+                                fontWeight = FontWeight.Black,
+                                fontFamily = FontFamily.Monospace,
+                                color = NeoYellow
+                            )
+                        } else {
+                            when {
+                                !app.isInstalled -> {
+                                    NeoButton(
+                                        onClick = onActionClick,
+                                        style = NeoButtonStyle.SECONDARY_YELLOW
+                                    ) {
+                                        Icon(Icons.Default.Download, contentDescription = null, tint = Color.Black, modifier = Modifier.size(14.dp))
+                                        Spacer(modifier = Modifier.width(4.dp))
+                                        Text("INSTALL NOW", fontSize = 11.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace, color = Color.Black)
+                                    }
                                 }
-                            }
-                            app.isOutdated -> {
-                                NeoButton(
-                                    onClick = onActionClick,
-                                    style = NeoButtonStyle.SECONDARY_YELLOW
-                                ) {
-                                    Icon(Icons.Default.Update, contentDescription = null, tint = Color.Black, modifier = Modifier.size(14.dp))
-                                    Spacer(modifier = Modifier.width(4.dp))
-                                    Text("UPDATE APP", fontSize = 11.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace, color = Color.Black)
+                                app.isOutdated -> {
+                                    NeoButton(
+                                        onClick = onActionClick,
+                                        style = NeoButtonStyle.SECONDARY_YELLOW
+                                    ) {
+                                        Icon(Icons.Default.Update, contentDescription = null, tint = Color.Black, modifier = Modifier.size(14.dp))
+                                        Spacer(modifier = Modifier.width(4.dp))
+                                        Text("UPDATE APP", fontSize = 11.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace, color = Color.Black)
+                                    }
                                 }
-                            }
-                            else -> {
-                                NeoButton(
-                                    onClick = onLaunchClick,
-                                    style = NeoButtonStyle.ACTION_GREEN
-                                ) {
-                                    Icon(Icons.Default.Launch, contentDescription = null, tint = Color.Black, modifier = Modifier.size(14.dp))
-                                    Spacer(modifier = Modifier.width(4.dp))
-                                    Text("LAUNCH NOW", fontSize = 11.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace, color = Color.Black)
+                                else -> {
+                                    NeoButton(
+                                        onClick = onLaunchClick,
+                                        style = NeoButtonStyle.ACTION_GREEN
+                                    ) {
+                                        Icon(Icons.Default.Launch, contentDescription = null, tint = Color.Black, modifier = Modifier.size(14.dp))
+                                        Spacer(modifier = Modifier.width(4.dp))
+                                        Text("LAUNCH NOW", fontSize = 11.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace, color = Color.Black)
+                                    }
                                 }
                             }
                         }

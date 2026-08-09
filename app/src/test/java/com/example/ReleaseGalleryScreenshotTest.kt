@@ -19,6 +19,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -97,6 +98,104 @@ class ReleaseGalleryScreenshotTest {
         composeTestRule.onNodeWithTag("share_apk_${app.packageName}").performClick()
 
         assertTrue(shareClicked)
+    }
+
+    @Test
+    fun detailShareButtonInvokesCallback() {
+        val app = sampleApp(
+            packageName = "com.rykersoft.freeballing",
+            name = "FreeBall.ing",
+            versionName = "1.0.14",
+            installed = true,
+            outdated = false,
+            status = "Installed",
+            supportsPro = false
+        )
+        var shareClicked = false
+
+        composeTestRule.setContent {
+            MyApplicationTheme {
+                AppDetailDialog(
+                    app = app,
+                    onDismiss = {},
+                    onActionClick = {},
+                    onLaunchClick = {},
+                    downloadingPackage = null,
+                    downloadProgress = 0,
+                    onShareClick = { shareClicked = true }
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithTag("share_detail_apk_${app.packageName}").performClick()
+
+        assertTrue(shareClicked)
+    }
+
+    @Test
+    fun detailKeepsSelectedTabWhenDownloadStarts() {
+        val app = sampleApp(
+            packageName = "com.rykersoft.superthinking",
+            name = "SuperThink.ing",
+            versionName = "2.0.119",
+            installed = true,
+            outdated = true,
+            status = "Update Available",
+            supportsPro = false
+        )
+        val downloadingPackage = mutableStateOf<String?>(null)
+
+        composeTestRule.setContent {
+            MyApplicationTheme {
+                AppDetailDialog(
+                    app = app,
+                    initialTab = AppDetailTab.UPDATES,
+                    onDismiss = {},
+                    onActionClick = {},
+                    onLaunchClick = {},
+                    downloadingPackage = downloadingPackage.value,
+                    downloadProgress = 0
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithText("USER GUIDE").performClick()
+        composeTestRule.onNodeWithText("SUPERTHINK.ING USER GUIDE").assertExists()
+
+        composeTestRule.runOnIdle { downloadingPackage.value = app.packageName }
+
+        composeTestRule.onNodeWithText("SUPERTHINK.ING USER GUIDE").assertExists()
+    }
+
+    @Test
+    fun cardShowsWindowsAvailabilityWithoutProgrammingLabels() {
+        val app = sampleApp(
+            packageName = "com.rykersoft.freeballing",
+            name = "FreeBall.ing",
+            versionName = "1.0.14",
+            installed = true,
+            outdated = false,
+            status = "Installed",
+            supportsPro = false
+        ).copy(windowsAvailable = true)
+
+        composeTestRule.setContent {
+            MyApplicationTheme {
+                AppItemCard(
+                    app = app,
+                    onOpenDetail = {},
+                    onLongClick = {},
+                    onActionClick = {},
+                    onLaunchClick = {},
+                    downloadingPackage = null,
+                    downloadProgress = 0
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithText("WINDOWS").assertExists()
+        composeTestRule.onNodeWithText("C++ / Engine").assertDoesNotExist()
+        composeTestRule.onNodeWithText("Kotlin / App").assertDoesNotExist()
     }
 
     @Test
