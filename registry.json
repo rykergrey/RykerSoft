@@ -82,11 +82,12 @@
     {
       "packageName": "com.rykersoft.superthinking",
       "name": "SuperThink.ing",
-      "latestVersionCode": 121,
-      "latestVersionName": "2.0.119",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/superthinking-v2.0.119/app-release.apk",
+      "latestVersionCode": 122,
+      "latestVersionName": "2.1.0",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/superthinking-v2.1.0/superthinking-v2.1.0-android.apk",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/superthinking-v2.1.0/superthinking-v2.1.0-windows-x86_64.exe",
       "icon": "android",
-      "changelog": "- RykerSoft AI unlock: sign in under Settings -> RykerSoft AI unlock to sync Gemini/Groq keys after unlocking in the App Manager\n- AI actions, chat, and transcription are unlock-gated; editing, songs, diagrams, media, and sync remain free\n- Manually entered keys still work and take priority",
+      "changelog": "- Durable Firebase Storage media sync and recovery of signed-in device-local images\n- Google-first sign-in with legacy account linking and secure RykerSoft PRO entitlement access\n- Adaptive JSON/ZIP project imports with safer previews and conflict handling",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/superthinking/01-categories.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/superthinking/02-category-cards.jpg",
