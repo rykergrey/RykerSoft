@@ -157,12 +157,12 @@
     {
       "packageName": "com.rykersoft.freeballing",
       "name": "FreeBall.ing",
-      "latestVersionCode": 16,
-      "latestVersionName": "1.0.15",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.15/freeballing-v1.0.15-android.apk",
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.15/freeballing-v1.0.15-windows-x86_64.exe",
+      "latestVersionCode": 17,
+      "latestVersionName": "1.0.16",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.16/freeballing-v1.0.16-android.apk",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.16/freeballing-v1.0.16-windows-x86_64.exe",
       "icon": "android",
-      "changelog": "- Removed separate drifting title color panels\n- Preserved only the SVG logo's built-in ribbons\n- Shared animated lobby remains visible behind the title\n- Non-unique three-letter arcade initials; no account required",
+      "changelog": "- Experimental launcher recovery with tractor-beam anticipation, eased slow motion, and camera push\n- Smoother mobile launcher presentation\n- Optional Google sign-in on Android and Windows\n- Unique one-to-five-letter public usernames; Google identity stays private\n- Guest gameplay and editor access remain available; cloud submissions require sign-in",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/01-mobile-home.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/02-level-details.png",
