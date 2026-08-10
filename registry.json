@@ -157,12 +157,12 @@
     {
       "packageName": "com.rykersoft.freeballing",
       "name": "FreeBall.ing",
-      "latestVersionCode": 17,
-      "latestVersionName": "1.0.16",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.16/freeballing-v1.0.16-android.apk",
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.16/freeballing-v1.0.16-windows-x86_64.exe",
+      "latestVersionCode": 18,
+      "latestVersionName": "1.0.17",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.17/freeballing-v1.0.17-android.apk",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.17/freeballing-v1.0.17-windows-x86_64.exe",
       "icon": "android",
-      "changelog": "- Experimental launcher recovery with tractor-beam anticipation, eased slow motion, and camera push\n- Smoother mobile launcher presentation\n- Optional Google sign-in on Android and Windows\n- Unique one-to-five-letter public usernames; Google identity stays private\n- Guest gameplay and editor access remain available; cloud submissions require sign-in",
+      "changelog": "- Fixed stored high scores so legacy three-letter initials and current one-to-five-letter usernames display with their corresponding scores\n- Added 100 curated offline campaign boards across ten collections\n- Kept server-owned public username attribution and private Google account identity\n- Added authored gutter payouts/colors and a faster animated title stage",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/01-mobile-home.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/02-level-details.png",
