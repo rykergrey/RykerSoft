@@ -157,12 +157,12 @@
     {
       "packageName": "com.rykersoft.freeballing",
       "name": "FreeBall.ing",
-      "latestVersionCode": 19,
-      "latestVersionName": "1.0.18",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.18/freeballing-v1.0.18-android.apk",
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.18/freeballing-v1.0.18-windows-x86_64.exe",
+      "latestVersionCode": 20,
+      "latestVersionName": "1.0.19",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.19/freeballing-v1.0.19-android.apk",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.19/freeballing-v1.0.19-windows-x86_64.exe",
       "icon": "android",
-      "changelog": "- Replaced the mobile and desktop title with the supplied cyan-and-magenta FreeBall.ing wordmark\n- Made the portrait title stage responsive on short and tall phones\n- Returned the bundled campaign to the 13 established boards and removed the temporary generated library\n- Deferred roaming-bonus morphing until after physics contact callbacks complete",
+      "changelog": "- Removed the separate animated title backdrop from desktop and portrait home screens\n- Replaced the lobby's custom procedural field with the editor's shared HOME ambient preset\n- Centralized the HOME composition so the lobby and editor share bounce, slide, spin, and scale behavior",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/01-mobile-home.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/02-level-details.png",
