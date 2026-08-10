@@ -157,17 +157,18 @@
     {
       "packageName": "com.rykersoft.freeballing",
       "name": "FreeBall.ing",
-      "latestVersionCode": 18,
-      "latestVersionName": "1.0.17",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.17/freeballing-v1.0.17-android.apk",
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.17/freeballing-v1.0.17-windows-x86_64.exe",
+      "latestVersionCode": 19,
+      "latestVersionName": "1.0.18",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.18/freeballing-v1.0.18-android.apk",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.18/freeballing-v1.0.18-windows-x86_64.exe",
       "icon": "android",
-      "changelog": "- Fixed stored high scores so legacy three-letter initials and current one-to-five-letter usernames display with their corresponding scores\n- Added 100 curated offline campaign boards across ten collections\n- Kept server-owned public username attribution and private Google account identity\n- Added authored gutter payouts/colors and a faster animated title stage",
+      "changelog": "- Replaced the mobile and desktop title with the supplied cyan-and-magenta FreeBall.ing wordmark\n- Made the portrait title stage responsive on short and tall phones\n- Returned the bundled campaign to the 13 established boards and removed the temporary generated library\n- Deferred roaming-bonus morphing until after physics contact callbacks complete",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/01-mobile-home.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/02-level-details.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/03-gameplay.jpg",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/04-player-profile.png"
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/04-player-profile.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/05-desktop-home.png"
       ],
       "isGame": true
     }
