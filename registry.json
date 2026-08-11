@@ -157,12 +157,12 @@
     {
       "packageName": "com.rykersoft.freeballing",
       "name": "FreeBall.ing",
-      "latestVersionCode": 20,
-      "latestVersionName": "1.0.19",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.19/freeballing-v1.0.19-android.apk",
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.19/freeballing-v1.0.19-windows-x86_64.exe",
+      "latestVersionCode": 21,
+      "latestVersionName": "1.0.20",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.20/freeballing-v1.0.20-android.apk",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.20/freeballing-v1.0.20-windows-x86_64.exe",
       "icon": "android",
-      "changelog": "- Removed the separate animated title backdrop from desktop and portrait home screens\n- Replaced the lobby's custom procedural field with the editor's shared HOME ambient preset\n- Centralized the HOME composition so the lobby and editor share bounce, slide, spin, and scale behavior",
+      "changelog": "- Smoothed the supplied SVG logo with mipmapped responsive sampling\n- Added native Android Back pause and Home exit-confirmation behavior\n- Refined desktop Motion editing with stable inspectors, selected preview, Spin Each, and Orbit Group\n- Improved small-peg shadow spacing",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/01-mobile-home.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/02-level-details.png",
