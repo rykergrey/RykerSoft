@@ -157,18 +157,19 @@
     {
       "packageName": "com.rykersoft.freeballing",
       "name": "FreeBall.ing",
-      "latestVersionCode": 21,
-      "latestVersionName": "1.0.20",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.20/freeballing-v1.0.20-android.apk",
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.20/freeballing-v1.0.20-windows-x86_64.exe",
+      "latestVersionCode": 22,
+      "latestVersionName": "1.0.21",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.21/freeballing-v1.0.21-android.apk",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.21/freeballing-v1.0.21-windows-x86_64.exe",
       "icon": "android",
-      "changelog": "- Smoothed the supplied SVG logo with mipmapped responsive sampling\n- Added native Android Back pause and Home exit-confirmation behavior\n- Refined desktop Motion editing with stable inspectors, selected preview, Spin Each, and Orbit Group\n- Improved small-peg shadow spacing",
+      "changelog": "- Removed Launcher Ball Recall, tractor-beam effects, recovery slow motion, camera shifting, and related animations\n- Rebuilt the wide desktop editor as a dense dual-rail authoring workspace\n- Added exact foreground/background inspectors plus level music and gutter controls\n- Preserved optional Google sign-in and complete guest/offline play",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/01-mobile-home.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/02-level-details.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/03-gameplay.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/04-player-profile.png",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/05-desktop-home.png"
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/05-desktop-home.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/06-desktop-editor.png"
       ],
       "isGame": true
     }
