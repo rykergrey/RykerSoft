@@ -157,12 +157,12 @@
     {
       "packageName": "com.rykersoft.freeballing",
       "name": "FreeBall.ing",
-      "latestVersionCode": 24,
-      "latestVersionName": "1.0.23",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.23/freeballing-v1.0.23-android.apk",
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.23/freeballing-v1.0.23-windows-x86_64.exe",
+      "latestVersionCode": 25,
+      "latestVersionName": "1.0.24",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.24/freeballing-v1.0.24-android.apk",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.24/freeballing-v1.0.24-windows-x86_64.exe",
       "icon": "android",
-      "changelog": "- Animated authored foreground pieces, rotating components, launcher presentation, and moving shadows in every level-selector preview\n- Rendered each selected level's own ambient background animation while keeping preview gameplay inactive\n- Added focused regression coverage for foreground and background preview animation\n- Preserved optional Google sign-in, private usernames, server-owned cloud writes, and guest play",
+      "changelog": "- Stabilized Android presentation at a consistent 60 FPS with adaptive effect budgets\n- Reduced mobile rendering cost without changing gameplay physics or scoring\n- Added lower-latency preloaded feedback audio and asynchronous music loading\n- Preserved optional Google sign-in, private usernames, server-owned cloud writes, and guest play",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/01-mobile-home.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/02-level-details.png",
