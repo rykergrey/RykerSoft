@@ -66,11 +66,11 @@
     {
       "packageName": "com.rykersoft.synthing",
       "name": "Synthing",
-      "latestVersionCode": 11,
-      "latestVersionName": "1.0.10",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/synthing-v1.0.10/app-release.apk",
+      "latestVersionCode": 12,
+      "latestVersionName": "1.0.11",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/synthing-v1.0.11/app-release.apk",
       "icon": "android",
-      "changelog": "- Record armed Synth A/B performances directly into the active project\n- Start recording from any selected piano-roll playhead position, with pre-roll before punch-in\n- Press Stop once to hold position, then again to return to arrangement start",
+      "changelog": "- Preserve existing notes with non-destructive overdub recording enabled by default\n- Capture held and newly played notes reliably through pre-roll and punch-in\n- Tap or scrub the arrangement overview on PLAY and ROLL, with two-finger measure snapping",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/synthing/01-play-grids.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/synthing/02-play-keys.jpg",
