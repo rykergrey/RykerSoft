@@ -66,11 +66,11 @@
     {
       "packageName": "com.rykersoft.synthing",
       "name": "Synthing",
-      "latestVersionCode": 12,
-      "latestVersionName": "1.0.11",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/synthing-v1.0.11/app-release.apk",
+      "latestVersionCode": 13,
+      "latestVersionName": "1.0.12",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/synthing-v1.0.12/app-release.apk",
       "icon": "android",
-      "changelog": "- Preserve existing notes with non-destructive overdub recording enabled by default\n- Capture held and newly played notes reliably through pre-roll and punch-in\n- Tap or scrub the arrangement overview on PLAY and ROLL, with two-finger measure snapping",
+      "changelog": "- Start ROLL playback at the exact placed playhead without stale clip-length wrapping\n- Use a full-width arrangement overview above the complete piano-roll workspace\n- Package the native Oboe runtime for every supported Android ABI",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/synthing/01-play-grids.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/synthing/02-play-keys.jpg",
