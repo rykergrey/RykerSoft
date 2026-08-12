@@ -66,11 +66,11 @@
     {
       "packageName": "com.rykersoft.synthing",
       "name": "Synthing",
-      "latestVersionCode": 10,
-      "latestVersionName": "1.0.9",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/synthing-v1.0.9/app-release.apk",
+      "latestVersionCode": 11,
+      "latestVersionName": "1.0.10",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/synthing-v1.0.10/app-release.apk",
       "icon": "android",
-      "changelog": "- Reliably auto-save piano-roll and arrangement notes, synth parameters, chords, arps, filters, and workspace state\n- Flush finalized recordings through crash-safe atomic files when the app closes",
+      "changelog": "- Record armed Synth A/B performances directly into the active project\n- Start recording from any selected piano-roll playhead position, with pre-roll before punch-in\n- Press Stop once to hold position, then again to return to arrangement start",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/synthing/01-play-grids.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/synthing/02-play-keys.jpg",
