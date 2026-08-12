@@ -66,11 +66,11 @@
     {
       "packageName": "com.rykersoft.synthing",
       "name": "Synthing",
-      "latestVersionCode": 13,
-      "latestVersionName": "1.0.12",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/synthing-v1.0.12/app-release.apk",
+      "latestVersionCode": 14,
+      "latestVersionName": "1.0.13",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/synthing-v1.0.13/app-release.apk",
       "icon": "android",
-      "changelog": "- Start ROLL playback at the exact placed playhead without stale clip-length wrapping\n- Use a full-width arrangement overview above the complete piano-roll workspace\n- Package the native Oboe runtime for every supported Android ABI",
+      "changelog": "- Tap either arrangement overview to seek absolutely\n- Drag from anywhere to scrub relative to the current playhead, with two-finger measure snapping\n- Start PLAY and ROLL transport from the selected overview position",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/synthing/01-play-grids.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/synthing/02-play-keys.jpg",
