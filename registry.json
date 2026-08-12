@@ -157,12 +157,12 @@
     {
       "packageName": "com.rykersoft.freeballing",
       "name": "FreeBall.ing",
-      "latestVersionCode": 25,
-      "latestVersionName": "1.0.24",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.24/freeballing-v1.0.24-android.apk",
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.24/freeballing-v1.0.24-windows-x86_64.exe",
+      "latestVersionCode": 26,
+      "latestVersionName": "1.0.25",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.25/freeballing-v1.0.25-android.apk",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.25/freeballing-v1.0.25-windows-x86_64.exe",
       "icon": "android",
-      "changelog": "- Stabilized Android presentation at a consistent 60 FPS with adaptive effect budgets\n- Reduced mobile rendering cost without changing gameplay physics or scoring\n- Added lower-latency preloaded feedback audio and asynchronous music loading\n- Preserved optional Google sign-in, private usernames, server-owned cloud writes, and guest play",
+      "changelog": "- Batched dense peg motion and added future-level runtime cost diagnostics\n- Added adaptive Android peg shadows to protect 60 FPS\n- Restored exact authored sound playback and removed haptic feedback\n- Preserved Google sign-in, private identity, public usernames, and guest play",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/01-mobile-home.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/02-level-details.png",
