@@ -82,12 +82,12 @@
     {
       "packageName": "com.rykersoft.superthinking",
       "name": "SuperThink.ing",
-      "latestVersionCode": 122,
-      "latestVersionName": "2.1.0",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/superthinking-v2.1.0/superthinking-v2.1.0-android.apk",
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/superthinking-v2.1.0/superthinking-v2.1.0-windows-x86_64.exe",
+      "latestVersionCode": 123,
+      "latestVersionName": "2.2.0",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/superthinking-v2.2.0/superthinking-v2.2.0-android.apk",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/superthinking-v2.2.0/superthinking-v2.2.0-windows-x86_64.exe",
       "icon": "android",
-      "changelog": "- Durable Firebase Storage media sync and recovery of signed-in device-local images\n- Google-first sign-in with legacy account linking and secure RykerSoft PRO entitlement access\n- Adaptive JSON/ZIP project imports with safer previews and conflict handling",
+      "changelog": "- Responsive interface, safer actions, and more reliable save behavior\n- Improved media workflows, local video transcription, and FFmpeg runtime handling\n- Google-first desktop authentication and RykerSoft Pro credential delivery with BYOK fallback\n- Hardened Android sharing, downloads, microphone routing, and signed-package authentication",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/superthinking/01-categories.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/superthinking/02-category-cards.jpg",
