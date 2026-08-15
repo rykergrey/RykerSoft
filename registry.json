@@ -157,12 +157,12 @@
     {
       "packageName": "com.rykersoft.freeballing",
       "name": "FreeBall.ing",
-      "latestVersionCode": 27,
-      "latestVersionName": "1.0.26",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.26/freeballing-v1.0.26-android.apk",
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.26/freeballing-v1.0.26-windows-x86_64.exe",
+      "latestVersionCode": 28,
+      "latestVersionName": "1.0.27",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.27/freeballing-v1.0.27-android.apk",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.27/freeballing-v1.0.27-windows-x86_64.exe",
       "icon": "android",
-      "changelog": "- Fixed Windows Google sign-in with the authorized localhost browser flow\n- Added universal SOLID contact escape behavior\n- Kept authored peg silhouettes inside level rails\n- Confined rendering and final-ball tracking to the cabinet frame",
+      "changelog": "- Overhauled desktop editor into a professional creative suite with personas and studio docks\n- Added deterministic flow path placement tools and layers search\n- Strengthened weekly scoreboard revalidation against authoritative server time windows",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/01-mobile-home.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/02-level-details.png",
