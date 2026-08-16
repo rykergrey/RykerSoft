@@ -126,12 +126,12 @@
     {
       "packageName": "com.rykersoft.wordplaying",
       "name": "WordPlay.ing",
-      "latestVersionCode": 13,
-      "latestVersionName": "1.3.7",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.7/wordplaying-v1.3.7-android.apk",
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.7/wordplaying-v1.3.7-windows-x64.exe",
+      "latestVersionCode": 14,
+      "latestVersionName": "1.3.8",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.8/wordplaying-v1.3.8-android.apk",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.8/wordplaying-v1.3.8-windows-x64.exe",
       "icon": "android",
-      "changelog": "- Daily Boards Hub: 5 curated daily challenges each day with dynamic modifier presets and completion tracking\n- Competitive Standings Lock: Leaderboards and scores remain obscured until round completion for fair competitive play\n- Cloud Parity: Server-authoritative daily board configuration resolution on Firebase Cloud Functions",
+      "changelog": "- Match Updates Reliability: Filtered out self-activity and single-play creator challenges from the match updates notifications feed\n- Modal Error Boundaries: Dedicated React Suspense and ErrorBoundary guards around dynamic modal lazy loads to prevent crash propagation\n- Competitive Server Polish: Seamless acceptance and resolution of daily board identifiers in backend attempt validation",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/01-home-v1.2.0.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/02-player-settings-v1.2.0.jpg",
