@@ -126,12 +126,12 @@
     {
       "packageName": "com.rykersoft.wordplaying",
       "name": "WordPlay.ing",
-      "latestVersionCode": 11,
-      "latestVersionName": "1.3.5",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.5/wordplaying-v1.3.5-android.apk",
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.5/wordplaying-v1.3.5-windows-x64.exe",
+      "latestVersionCode": 12,
+      "latestVersionName": "1.3.6",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.6/wordplaying-v1.3.6-android.apk",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.6/wordplaying-v1.3.6-windows-x64.exe",
       "icon": "android",
-      "changelog": "- Expanded Career & Achievement Tracking: Granular metrics across total games, letters, high-scoring words, 7+ and 8+ letter feats, clean sweeps, modifier mastery, and multiplayer\n- 5 Award Categories: Filterable Milestones, Skill & Feats, Streaks, Modes & Modifiers, and Multiplayer awards\n- Streamlined Cloud Progression: Lightweight cloud summaries and idempotent per-match receipts",
+      "changelog": "- Modifier Parity & Deterministic Engine: Full client and Cloud Functions server-authoritative parity across Gravity, Reroll, Full Reroll, Hide & Seek, and Tap Out\n- Deterministic Spawning: Column-based gravity board advancement ensuring identical score verification for live matches and community challenges\n- Verified Compatibility: Automated test suites verifying dynamic modifier scoring across all competitive board types",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/01-home-v1.2.0.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/02-player-settings-v1.2.0.jpg",
