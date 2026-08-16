@@ -126,12 +126,12 @@
     {
       "packageName": "com.rykersoft.wordplaying",
       "name": "WordPlay.ing",
-      "latestVersionCode": 15,
-      "latestVersionName": "1.3.9",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.9/wordplaying-v1.3.9-android.apk",
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.9/wordplaying-v1.3.9-windows-x64.exe",
+      "latestVersionCode": 16,
+      "latestVersionName": "1.3.10",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.10/wordplaying-v1.3.10-android.apk",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.10/wordplaying-v1.3.10-windows-x64.exe",
       "icon": "android",
-      "changelog": "- Electron Custom Protocol: Modernized production desktop app to load via secure, high-performance app://wordplaying custom protocol\n- Auth Concurrency Hardening: Integrated authStateReady synchronization and deduplicated anonymous authentication session requests\n- Profile Offline Resilience: Added resilient offline fallbacks for player public profile validation during active user sessions",
+      "changelog": "- Fixed competitive config hash validation to accept both raw and canonicalized configurations, resolving intermittent daily board validation failures\n- Updated competitive attempt verification to gracefully handle legacy stored attempts\n- Extended parity test suite with raw vs canonical config hash cross-validation",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/01-home-v1.2.0.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/02-player-settings-v1.2.0.jpg",
