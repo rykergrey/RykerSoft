@@ -133,6 +133,35 @@ class ReleaseGalleryScreenshotTest {
     }
 
     @Test
+    fun detailFooterShowsInstalledAndLatestVersionsWhenUpdateIsAvailable() {
+        val app = sampleApp(
+            packageName = "com.rykersoft.informant",
+            name = "INFORMANT",
+            versionName = "1.2.6",
+            installed = true,
+            outdated = true,
+            status = "Update Available",
+            supportsPro = false
+        )
+
+        composeTestRule.setContent {
+            MyApplicationTheme {
+                AppDetailDialog(
+                    app = app,
+                    onDismiss = {},
+                    onActionClick = {},
+                    onLaunchClick = {},
+                    downloadingPackage = null,
+                    downloadProgress = 0
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithTag("detail_version_${app.packageName}").assertExists()
+        composeTestRule.onNodeWithText("v1.2.5 → v1.2.6").assertExists()
+    }
+
+    @Test
     fun detailKeepsSelectedTabWhenDownloadStarts() {
         val app = sampleApp(
             packageName = "com.rykersoft.superthinking",

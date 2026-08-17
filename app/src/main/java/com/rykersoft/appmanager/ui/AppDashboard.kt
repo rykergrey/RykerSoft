@@ -1268,27 +1268,7 @@ fun AppItemCard(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                // Stats line (Version tag)
-                val hasDifferentVersion = app.isInstalled && !app.installedVersionName.isNullOrEmpty() && app.installedVersionName != app.latestVersionName
-                val versionDisplay = if (hasDifferentVersion) {
-                    "v${app.installedVersionName} → v${app.latestVersionName}"
-                } else {
-                    "v${app.latestVersionName}"
-                }
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    Text("🕒", fontSize = 10.sp)
-                    Text(
-                        text = versionDisplay,
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = FontFamily.Monospace,
-                        color = if (hasDifferentVersion) NeoYellow else NeoText
-                    )
-                }
+                AppVersionIndicator(app = app)
 
                 // Share control + main action (INSTALL / UPDATE / PLAY)
                 Row(
@@ -1367,6 +1347,36 @@ fun AppItemCard(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun AppVersionIndicator(
+    app: AppUiItem,
+    modifier: Modifier = Modifier
+) {
+    val hasDifferentVersion = app.isInstalled &&
+        !app.installedVersionName.isNullOrEmpty() &&
+        app.installedVersionName != app.latestVersionName
+    val versionDisplay = if (hasDifferentVersion) {
+        "v${app.installedVersionName} → v${app.latestVersionName}"
+    } else {
+        "v${app.latestVersionName}"
+    }
+
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        Text("🕒", fontSize = 10.sp)
+        Text(
+            text = versionDisplay,
+            fontSize = 10.sp,
+            fontWeight = FontWeight.Bold,
+            fontFamily = FontFamily.Monospace,
+            color = if (hasDifferentVersion) NeoYellow else NeoText
+        )
     }
 }
 
@@ -1933,39 +1943,46 @@ fun AppDetailDialog(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    when {
-                        app.supportsAiUnlock && hubFirebaseConfigured && !hubSignedIn -> {
-                            NeoButton(
-                                onClick = onOpenAccountSettings,
-                                style = NeoButtonStyle.SECONDARY_YELLOW,
-                                contentPadding = PaddingValues(horizontal = 8.dp, vertical = 6.dp)
-                            ) {
-                                Text(
-                                    "SIGN IN FOR PRO ACCESS",
-                                    fontSize = 10.sp,
-                                    fontWeight = FontWeight.Black,
-                                    fontFamily = FontFamily.Monospace,
-                                    color = Color.Black
-                                )
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(6.dp),
+                        horizontalAlignment = Alignment.Start
+                    ) {
+                        AppVersionIndicator(
+                            app = app,
+                            modifier = Modifier.testTag("detail_version_${app.packageName}")
+                        )
+
+                        when {
+                            app.supportsAiUnlock && hubFirebaseConfigured && !hubSignedIn -> {
+                                NeoButton(
+                                    onClick = onOpenAccountSettings,
+                                    style = NeoButtonStyle.SECONDARY_YELLOW,
+                                    contentPadding = PaddingValues(horizontal = 8.dp, vertical = 6.dp)
+                                ) {
+                                    Text(
+                                        "SIGN IN FOR PRO ACCESS",
+                                        fontSize = 10.sp,
+                                        fontWeight = FontWeight.Black,
+                                        fontFamily = FontFamily.Monospace,
+                                        color = Color.Black
+                                    )
+                                }
                             }
-                        }
-                        app.supportsAiUnlock && hubFirebaseConfigured && hubSignedIn && !app.aiUnlocked -> {
-                            NeoButton(
-                                onClick = onProAccessInfoClick,
-                                style = NeoButtonStyle.ACCENT_CYAN,
-                                contentPadding = PaddingValues(horizontal = 8.dp, vertical = 6.dp)
-                            ) {
-                                Text(
-                                    "PRO ACCESS INFO",
-                                    fontSize = 10.sp,
-                                    fontWeight = FontWeight.Black,
-                                    fontFamily = FontFamily.Monospace,
-                                    color = Color.Black
-                                )
+                            app.supportsAiUnlock && hubFirebaseConfigured && hubSignedIn && !app.aiUnlocked -> {
+                                NeoButton(
+                                    onClick = onProAccessInfoClick,
+                                    style = NeoButtonStyle.ACCENT_CYAN,
+                                    contentPadding = PaddingValues(horizontal = 8.dp, vertical = 6.dp)
+                                ) {
+                                    Text(
+                                        "PRO ACCESS INFO",
+                                        fontSize = 10.sp,
+                                        fontWeight = FontWeight.Black,
+                                        fontFamily = FontFamily.Monospace,
+                                        color = Color.Black
+                                    )
+                                }
                             }
-                        }
-                        else -> {
-                            Spacer(modifier = Modifier.width(1.dp))
                         }
                     }
 
