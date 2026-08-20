@@ -172,6 +172,22 @@
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/06-desktop-editor.png"
       ],
       "isGame": true
+    },
+    {
+      "packageName": "com.superstorycraft.ing",
+      "name": "Storytime",
+      "latestVersionCode": 1,
+      "latestVersionName": "1.0.0",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/storytime-v1.0.0/storytime-v1.0.0-android.apk",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/storytime-v1.0.0/storytime-v1.0.0-windows-x86_64.exe",
+      "icon": "android",
+      "changelog": "First RykerSoft release | Standard local-first storytelling, library tools, reading, and pass-and-play modes require no API key | Administrator-granted Pro access enables AI writing, artwork, Story Party hosting, and cloud narration through package-scoped runtime credentials",
+      "screenshots": [
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/storytime/01-home.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/storytime/02-pro-access.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/storytime/03-anonymous-author.png"
+      ],
+      "isGame": true
     }
   ]
 }
