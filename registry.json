@@ -3,11 +3,11 @@
     {
       "packageName": "com.rykersoft.appmanager",
       "name": "RykerSoft",
-      "latestVersionCode": 20,
-      "latestVersionName": "1.3.2",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft/releases/download/v1.3.2/app-release.apk",
+      "latestVersionCode": 21,
+      "latestVersionName": "1.4.0",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/rykersoft-v1.4.0/app-release.apk",
       "icon": "android",
-      "changelog": "- Remove the embedded family GitHub token and use anonymous public downloads and documentation\n- Preserve existing UID-based per-app Pro access while making all entitlement writes administrator-only\n- Replace reusable unlock codes with clear account-specific Pro Access guidance",
+      "changelog": "Administrator-only user management for RykerSoft accounts | Search users and grant or revoke Pro access per application | Masked provider credential administration for declared Pro app capabilities | New-account notifications for the administrator | Administrative access restricted to the verified heavensounds@gmail.com account",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rykersoft/01-dashboard.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rykersoft/02-documentation.png",
