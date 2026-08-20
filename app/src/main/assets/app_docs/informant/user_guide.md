@@ -6,9 +6,10 @@
 - [3. Importing Content](#3-importing-content)
 - [4. AI Chat & Actions](#4-ai-chat--actions)
 - [5. Bookmarks & Notes](#5-bookmarks--notes)
+- [PRO Features](#pro-features)
 
 ## 1. Getting Started
-Launch INFORMANT to start organizing your research. Provide your Gemini API key in Settings to unlock AI summaries, automated transcript analysis, and project chat.
+Launch INFORMANT to start organizing your research. Add a Gemini or OpenAI key under Settings → Keys, or sign in with an administrator-entitled RykerSoft Pro account.
 
 ## 2. Managing Projects
 - Tap **+ New Project** to create a fresh workspace.
@@ -27,3 +28,9 @@ Launch INFORMANT to start organizing your research. Provide your Gemini API key 
 ## 5. Bookmarks & Notes
 - Highlight article passages or click transcript timestamps to create instant quote bookmarks.
 - Click any video timestamp bookmark to seek the YouTube player directly to that segment.
+
+## PRO Features
+Items marked * require administrator-granted RykerSoft Pro access for INFORMANT, followed by Google sign-in to the same RykerSoft account inside the app.
+
+* **AI chat and actions** — Use a model assigned under Settings → Models.
+* **Package provider access** — Retrieve INFORMANT's exact package credential record only while entitled and signed in.

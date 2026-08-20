@@ -70,7 +70,8 @@ Deploy each Pro-capable app with `appCapabilities/{packageId}`:
   "proEnabled": true,
   "providerModel": "trusted-family",
   "credentialFields": [
-    { "field": "gemini", "label": "Gemini API key", "provider": "gemini", "required": true }
+    { "field": "gemini", "label": "Gemini API key", "provider": "gemini", "required": false },
+    { "field": "openai", "label": "OpenAI API key", "provider": "openai", "required": false }
   ]
 }
 ```
@@ -149,7 +150,7 @@ Prefer linking Google credentials to the existing Firebase user so the UID is pr
 Existing app versions currently read provider keys from documents such as:
 
 - Path: `providerKeys/{packageName}`
-- Fields: `gemini` (string), `groq` (string, optional), and only the other providers that app needs
+- Fields: `gemini` (string), `openai` (string, optional), `groq` (string, optional), and only the other providers that app needs
 
 Known current documents include:
 

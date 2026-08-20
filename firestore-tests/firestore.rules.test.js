@@ -39,7 +39,10 @@ beforeEach(async () => {
       displayName: "INFORMANT",
       proEnabled: true,
       providerModel: "trusted-family",
-      credentialFields: [{ field: "gemini", label: "Gemini API key", provider: "gemini", required: true }],
+      credentialFields: [
+        { field: "gemini", label: "Gemini API key", provider: "gemini", required: false },
+        { field: "openai", label: "OpenAI API key", provider: "openai", required: false },
+      ],
     });
   });
 });
@@ -61,6 +64,7 @@ test("only the verified administrator can manage catalog, keys, and grants", asy
   }, { merge: true }));
   await assertSucceeds(setDoc(doc(adminDb, "providerKeys", INFORMANT), {
     gemini: "replacement-key",
+    openai: "replacement-openai-key",
   }, { merge: true }));
   await assertFails(setDoc(doc(spoofedDb, "providerKeys", INFORMANT), {
     gemini: "spoofed-key",

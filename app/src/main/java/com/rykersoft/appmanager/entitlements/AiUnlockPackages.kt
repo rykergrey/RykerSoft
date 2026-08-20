@@ -9,6 +9,15 @@ object AiUnlockPackages {
     val ORDERED: List<String> = listOf(SUPERTHINKING, BETTERTRACKING, INFORMANT, PHOTOCRAFTING)
     val ALL: Set<String> = ORDERED.toSet()
 
+    val INFORMANT_CREDENTIAL_FIELDS: List<AdminCredentialField> = listOf(
+        AdminCredentialField("gemini", "Google Gemini API key", "gemini", required = false),
+        AdminCredentialField("openai", "OpenAI API key", "openai", required = false),
+        AdminCredentialField("youtube", "YouTube Data API key", "youtube", required = false),
+        AdminCredentialField("transcript", "YouTube Transcript API key", "transcript", required = false),
+        AdminCredentialField("webshare", "Webshare proxy key", "webshare", required = false),
+        AdminCredentialField("elevenLabs", "ElevenLabs API key", "elevenlabs", required = false)
+    )
+
     fun displayName(packageId: String): String = when (packageId) {
         SUPERTHINKING -> "SuperThink.ing"
         BETTERTRACKING -> "bettertracking"

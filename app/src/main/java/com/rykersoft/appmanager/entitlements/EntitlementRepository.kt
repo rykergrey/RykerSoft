@@ -204,6 +204,7 @@ class EntitlementRepository(private val context: Context) {
     suspend fun listAppsForAdmin(): List<AdminManagedApp> {
         requireAdmin()
         val db = RykerSoftFirebase.db(context) ?: throw IllegalStateException("Firestore unavailable.")
+        ensureInformantCapabilityManifest()
         val capabilityDocs = db.collection("appCapabilities").get().await().documents
         val apps = capabilityDocs.mapNotNull { document ->
             if (document.getBoolean("proEnabled") != true) return@mapNotNull null
@@ -236,6 +237,55 @@ class EntitlementRepository(private val context: Context) {
         return AiUnlockPackages.ORDERED.map {
             AdminManagedApp(packageId = it, displayName = AiUnlockPackages.displayName(it))
         }
+    }
+
+    /**
+     * Keep INFORMANT's provider declaration current without replacing secrets or
+     * unrelated manifest fields. The verified administrator is the only client
+     * permitted by hub rules to perform this merge.
+     */
+    private suspend fun ensureInformantCapabilityManifest() {
+        requireAdmin()
+        val db = RykerSoftFirebase.db(context) ?: throw IllegalStateException("Firestore unavailable.")
+        val ref = db.collection("appCapabilities").document(AiUnlockPackages.INFORMANT)
+        val current = ref.get().await()
+        val existingFields = (current.get("credentialFields") as? List<*>)
+            .orEmpty()
+            .mapNotNull { raw ->
+                val entry = raw as? Map<*, *> ?: return@mapNotNull null
+                val field = entry["field"] as? String ?: return@mapNotNull null
+                AdminCredentialField(
+                    field = field,
+                    label = (entry["label"] as? String).orEmpty().ifBlank { field },
+                    provider = (entry["provider"] as? String).orEmpty().ifBlank { field },
+                    required = entry["required"] as? Boolean ?: true
+                )
+            }
+        val mergedFields = (existingFields + AiUnlockPackages.INFORMANT_CREDENTIAL_FIELDS)
+            .associateBy { it.field }
+            .values
+            .map { field ->
+                mapOf(
+                    "field" to field.field,
+                    "label" to field.label,
+                    "provider" to field.provider,
+                    "required" to field.required
+                )
+            }
+        val openAiAlreadyDeclared = existingFields.any { it.field == "openai" }
+        if (current.exists() && openAiAlreadyDeclared) return
+
+        ref.set(
+            mapOf(
+                "packageName" to AiUnlockPackages.INFORMANT,
+                "displayName" to AiUnlockPackages.displayName(AiUnlockPackages.INFORMANT),
+                "proEnabled" to true,
+                "providerModel" to "trusted-family",
+                "credentialFields" to mergedFields,
+                "updatedAt" to FieldValue.serverTimestamp()
+            ),
+            SetOptions.merge()
+        ).await()
     }
 
     suspend fun setProviderKeys(packageId: String, values: Map<String, String>) {

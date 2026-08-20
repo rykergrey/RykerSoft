@@ -32,5 +32,12 @@
 
 ## Settings
 - Dark mode, resume-at-furthest-bookmark, and default tabs
-- Custom AI actions and model list
+- Gemini/OpenAI model catalog, custom model list, and assignments for chat, app functions, and each action
+- Local Gemini/OpenAI BYOK values or RykerSoft Pro Google sign-in and entitlement refresh
 - External search engines for highlighted text
+
+## PRO Features
+Items marked * require administrator-granted RykerSoft Pro access for INFORMANT, followed by Google sign-in to the same RykerSoft account inside the app.
+
+* **AI chat and actions** — Use assigned Gemini or OpenAI models on item/project context
+* **Package provider access** — Load only `providerKeys/com.rykersoft.informant` after exact entitlement verification

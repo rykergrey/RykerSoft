@@ -14,6 +14,7 @@ Local workspace for researching YouTube videos, articles, and Reddit posts. Orga
 - From expanded view, PiP fullscreenes the tabs so you can keep reading while the mini-player plays
 - Export/import project JSON with selectable artifacts
 - External search from highlighted text (Perplexity, Google, ChatGPT, and more)
+- Retrieve current Gemini/OpenAI model catalogs and assign any saved model to chat, app functions, or individual built-in/custom actions
 
 ## Content & tools
 Open a card for tabs that match the content type:
@@ -23,9 +24,15 @@ Open a card for tabs that match the content type:
 
 Built-in AI actions include summary, analysis, key takeaways, and lists. You can add your own. Outputs can include mind maps when relevant.
 
+## PRO Features
+Items marked * require administrator-granted RykerSoft Pro access for this package, followed by Google sign-in to the same RykerSoft account inside this app.
+
+* **AI chat and actions** — Analyze the current item or selected project material with an assigned Gemini or OpenAI model
+* **Family-and-friends provider access** — Load package-scoped Gemini, OpenAI, YouTube, transcript, Webshare, and ElevenLabs credentials after exact UID/package entitlement verification
+
 ## Platforms
 - **Android** — Capacitor build; IndexedDB on device; native share import
 - **Desktop** — Windows portable / local server; projects as JSON; artifacts in SQLite (`informant.db`)
 
 ## Requirements
-Optional keys in Settings (or `.env` on desktop): Gemini, YouTube Data API, YouTube Transcript API, Webshare for scraping/transcripts.
+Optional keys in Settings (or `.env` on desktop): Gemini, OpenAI, YouTube Data API, YouTube Transcript API, Webshare for scraping/transcripts, and ElevenLabs.

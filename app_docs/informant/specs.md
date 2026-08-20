@@ -15,7 +15,7 @@
 ## Requirements
 - **Android:** minSdk from Capacitor project defaults; release builds need `android/keystore.properties`
 - **Desktop:** Node.js for `npm run dev` / portable builds
-- **Optional APIs:** Gemini, YouTube Data API, YouTube Transcript API, Webshare proxy
+- **Optional APIs:** Gemini, OpenAI Responses/Models APIs, YouTube Data API, YouTube Transcript API, Webshare proxy, ElevenLabs
 
 ## Architecture notes
 - Project-centric navigation: `ProjectHome` → `Workspace` (no React Router)
