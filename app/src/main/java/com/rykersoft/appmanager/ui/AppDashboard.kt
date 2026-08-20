@@ -67,6 +67,9 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.size.Size
 import coil.size.Precision
+import com.rykersoft.appmanager.entitlements.AdminManagedUser
+import com.rykersoft.appmanager.entitlements.AdminManagedApp
+import com.rykersoft.appmanager.entitlements.AiUnlockPackages
 import com.rykersoft.appmanager.ui.theme.*
 import com.rykersoft.appmanager.util.ApkManager
 import kotlinx.coroutines.flow.first
@@ -1016,7 +1019,10 @@ fun AppDashboard(
                 hubSignedIn = uiState.hubSignedIn,
                 hubFirebaseConfigured = uiState.hubFirebaseConfigured,
                 onProAccessInfoClick = { proAccessInfoPackage = currentApp.packageName },
-                onOpenAccountSettings = { showSettingsDialog = true }
+                onOpenAccountSettings = {
+                    viewModel.refreshAdminUsers(forceRefresh = false)
+                    showSettingsDialog = true
+                }
             )
         }
 
@@ -1051,6 +1057,10 @@ fun AppDashboard(
                 hubHasGoogleProvider = uiState.hubHasGoogleProvider,
                 hubHasPasswordProvider = uiState.hubHasPasswordProvider,
                 hubBusy = uiState.hubBusy,
+                hubAdmin = uiState.hubAdmin,
+                hubAdminUsers = uiState.hubAdminUsers,
+                hubAdminApps = uiState.hubAdminApps,
+                hubAdminBusy = uiState.hubAdminBusy,
                 onDismiss = { showSettingsDialog = false },
                 onSave = { url, notify ->
                     viewModel.updateSettings(url, notify)
@@ -1068,7 +1078,14 @@ fun AppDashboard(
                 onHubLinkGoogle = { viewModel.hubGoogleSignIn(context, linkLegacyAccount = true) },
                 onHubLegacySignIn = { email, password -> viewModel.hubLegacySignIn(email, password) },
                 onHubPasswordReset = { email -> viewModel.hubSendPasswordReset(email) },
-                onHubSignOut = { viewModel.hubSignOut(context) }
+                onHubSignOut = { viewModel.hubSignOut(context) },
+                onAdminRefreshUsers = { viewModel.refreshAdminUsers(forceRefresh = true) },
+                onAdminSetProAccess = { uid, packageId, enabled ->
+                    viewModel.setAdminUserProAccess(uid, packageId, enabled)
+                },
+                onAdminSetProviderKeys = { packageId, values ->
+                    viewModel.setAdminProviderKeys(packageId, values)
+                }
             )
         }
     }
@@ -2306,13 +2323,22 @@ fun SettingsDialog(
     onHubLinkGoogle: () -> Unit = {},
     onHubLegacySignIn: (email: String, password: String) -> Unit = { _, _ -> },
     onHubPasswordReset: (email: String) -> Unit = {},
-    onHubSignOut: () -> Unit = {}
+    onHubSignOut: () -> Unit = {},
+    hubAdmin: Boolean = false,
+    hubAdminUsers: List<AdminManagedUser> = emptyList(),
+    hubAdminApps: List<AdminManagedApp> = emptyList(),
+    hubAdminBusy: Boolean = false,
+    onAdminRefreshUsers: () -> Unit = {},
+    onAdminSetProAccess: (targetUid: String, packageId: String, enabled: Boolean) -> Unit = { _, _, _ -> },
+    onAdminSetProviderKeys: (packageId: String, values: Map<String, String>) -> Unit = { _, _ -> }
 ) {
     var url by remember { mutableStateOf(currentUrl) }
     var notify by remember { mutableStateOf(notificationsEnabled) }
     var hubEmail by remember { mutableStateOf("") }
     var hubPassword by remember { mutableStateOf(TextFieldValue("")) }
     var showLegacyMigration by remember { mutableStateOf(false) }
+    var adminUserSearch by remember { mutableStateOf("") }
+    var adminCredentialValues by remember { mutableStateOf<Map<String, TextFieldValue>>(emptyMap()) }
 
     val textFieldColors = OutlinedTextFieldDefaults.colors(
         focusedTextColor = NeoText,
@@ -2480,6 +2506,198 @@ fun SettingsDialog(
                                 enabled = !hubBusy && hubEmail.isNotBlank()
                             ) {
                                 Text("RESET PASSWORD", fontSize = 9.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace, color = NeoText)
+                            }
+                        }
+                    }
+                }
+                if (hubAdmin) {
+                    SectionKicker("ADMIN USER MANAGEMENT")
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = "Grant/revoke pro access for users with RykerSoft accounts.",
+                            fontSize = 10.sp,
+                            lineHeight = 14.sp,
+                            fontFamily = BodyFontFamily,
+                            color = NeoSubtext,
+                            modifier = Modifier.weight(1f)
+                        )
+                        NeoButton(
+                            onClick = onAdminRefreshUsers,
+                            style = NeoButtonStyle.ACCENT_CYAN,
+                            enabled = !hubAdminBusy
+                        ) {
+                            Text(
+                                "REFRESH USERS",
+                                fontSize = 9.sp,
+                                fontWeight = FontWeight.Black,
+                                fontFamily = FontFamily.Monospace,
+                                color = Color.Black
+                            )
+                        }
+                    }
+
+                    OutlinedTextField(
+                        value = adminUserSearch,
+                        onValueChange = { adminUserSearch = it },
+                        label = { Text("Search by email or UID", fontSize = 10.sp, fontFamily = FontFamily.Monospace) },
+                        singleLine = true,
+                        shape = RectangleShape,
+                        colors = textFieldColors,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    val adminSearch = adminUserSearch.trim().lowercase()
+                    val usersToShow = remember(hubAdminUsers, adminSearch) {
+                        if (adminSearch.isBlank()) {
+                            hubAdminUsers
+                        } else {
+                            hubAdminUsers.filter { user ->
+                                user.uid.lowercase().contains(adminSearch) ||
+                                    user.email.lowercase().contains(adminSearch)
+                            }
+                        }
+                    }
+
+                    if (usersToShow.isEmpty()) {
+                        Text(
+                            text = if (hubAdminBusy) {
+                                "Loading users..."
+                            } else if (hubAdminUsers.isEmpty()) {
+                                "No RykerSoft accounts found."
+                            } else {
+                                "No matches for this search."
+                            },
+                            fontSize = 10.sp,
+                            fontFamily = BodyFontFamily,
+                            color = NeoSubtext
+                        )
+                    } else {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .heightIn(max = 240.dp)
+                                .verticalScroll(rememberScrollState())
+                                .padding(top = 2.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            usersToShow.forEach { user ->
+                                NeoCard(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    backgroundColor = NeoPanel
+                                ) {
+                                    Column(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(8.dp),
+                                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                                    ) {
+                                        Text(
+                                            text = user.email,
+                                            fontWeight = FontWeight.Black,
+                                            fontFamily = FontFamily.Monospace,
+                                            fontSize = 11.sp,
+                                            color = NeoText
+                                        )
+                                        Text(
+                                            text = "UID: ${user.uid}",
+                                            fontSize = 9.sp,
+                                            fontFamily = BodyFontFamily,
+                                            color = NeoSubtext
+                                        )
+                                        Text(
+                                            text = "PRO APP ACCESS",
+                                            fontSize = 9.sp,
+                                            fontFamily = FontFamily.Monospace,
+                                            color = NeoCyan
+                                        )
+                                        Column(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            verticalArrangement = Arrangement.spacedBy(6.dp)
+                                        ) {
+                                            val proApps = hubAdminApps.ifEmpty {
+                                                AiUnlockPackages.ORDERED.map { AdminManagedApp(it, AiUnlockPackages.displayName(it)) }
+                                            }
+                                            proApps.forEach { app ->
+                                                val packageId = app.packageId
+                                                val enabled = user.entitlements[packageId] == true
+                                                Row(
+                                                    modifier = Modifier.fillMaxWidth(),
+                                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                                    verticalAlignment = Alignment.CenterVertically
+                                                ) {
+                                                    Text(
+                                                        text = app.displayName,
+                                                        fontSize = 10.sp,
+                                                        fontFamily = FontFamily.Monospace,
+                                                        color = NeoText
+                                                    )
+                                                    Switch(
+                                                        checked = enabled,
+                                                        enabled = !hubAdminBusy,
+                                                        onCheckedChange = { targetValue ->
+                                                            onAdminSetProAccess(
+                                                                user.uid,
+                                                                packageId,
+                                                                targetValue
+                                                            )
+                                                        }
+                                                    )
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    SectionKicker("ADMIN APP CREDENTIALS")
+                    Text(
+                        text = "Credential fields come from each deployed app's capability manifest. Blank fields leave existing values unchanged.",
+                        fontSize = 10.sp,
+                        lineHeight = 14.sp,
+                        fontFamily = BodyFontFamily,
+                        color = NeoSubtext
+                    )
+                    hubAdminApps.forEach { app ->
+                        NeoCard(modifier = Modifier.fillMaxWidth(), backgroundColor = NeoPanel) {
+                            Column(
+                                modifier = Modifier.fillMaxWidth().padding(8.dp),
+                                verticalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                Text(app.displayName, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace, color = NeoText)
+                                Text(app.packageId, fontSize = 9.sp, fontFamily = BodyFontFamily, color = NeoSubtext)
+                                if (app.credentialFields.isEmpty()) {
+                                    Text("No provider API credentials required.", fontSize = 10.sp, color = NeoGreen)
+                                } else {
+                                    app.credentialFields.forEach { credential ->
+                                        val key = "${app.packageId}:${credential.field}"
+                                        SecureOutlinedTextField(
+                                            value = adminCredentialValues[key] ?: TextFieldValue(""),
+                                            onValueChange = { value -> adminCredentialValues = adminCredentialValues + (key to value) },
+                                            label = "${credential.label}${if (credential.field in app.configuredFields) " (configured)" else " (missing)"}",
+                                            colors = textFieldColors,
+                                            modifier = Modifier.fillMaxWidth()
+                                        )
+                                    }
+                                    NeoButton(
+                                        onClick = {
+                                            val values = app.credentialFields.associate { credential ->
+                                                credential.field to (adminCredentialValues["${app.packageId}:${credential.field}"]?.text ?: "")
+                                            }
+                                            onAdminSetProviderKeys(app.packageId, values)
+                                            adminCredentialValues = adminCredentialValues.filterKeys { !it.startsWith("${app.packageId}:") }
+                                        },
+                                        style = NeoButtonStyle.ACCENT_CYAN,
+                                        enabled = !hubAdminBusy
+                                    ) {
+                                        Text("SAVE / ROTATE KEYS", fontSize = 9.sp, fontWeight = FontWeight.Black, color = Color.Black)
+                                    }
+                                }
                             }
                         }
                     }

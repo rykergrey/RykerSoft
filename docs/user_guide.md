@@ -84,6 +84,8 @@ The App Manager itself is free. A magenta `*` marks optional features in connect
 
 Ordinary unstarred catalog, documentation, update, download, and installation features remain available without Pro access.
 
+When the verified administrator account `heavensounds@gmail.com` is signed in, Store Settings includes user and application management. New hub profiles generate an Android notification after the account directory has been initialized. The administrator can search users, grant or revoke each deployed Pro app independently, see which provider fields are missing, and enter or rotate those values through masked controls. Apps that declare no external APIs appear with no credential fields.
+
 ## 6. Troubleshooting
 
 - **“App not installed” after previously using v1.1.0:** v1.1.0 was signed with an Android debug key, while v1.1.1 and newer use the RykerSoft release key. Android cannot update across those keys. Uninstall RykerSoft from every profile, then install the current release. Uninstalling clears RykerSoft's local data.

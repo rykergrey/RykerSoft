@@ -9,6 +9,12 @@ service cloud.firestore {
       return signedIn() && request.auth.uid == uid;
     }
 
+    function isAdminEmail() {
+      return request.auth != null
+        && request.auth.token.email == "heavensounds@gmail.com"
+        && request.auth.token.email_verified == true;
+    }
+
     function entitlementsPath(uid) {
       return /databases/$(database)/documents/users/$(uid)/entitlements/apps;
     }
@@ -20,23 +26,39 @@ service cloud.firestore {
     }
 
     match /users/{uid} {
-      allow read: if isOwner(uid);
+      allow read: if isOwner(uid) || isAdminEmail();
       allow create: if isOwner(uid)
-        && request.resource.data.keys().hasOnly(['email', 'updatedAt']);
+        && request.resource.data.keys().hasOnly(['email', 'displayName', 'createdAt', 'updatedAt'])
+        && request.resource.data.email == request.auth.token.email;
       allow update: if isOwner(uid)
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['email', 'updatedAt']);
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['email', 'displayName', 'updatedAt'])
+        && request.resource.data.email == request.auth.token.email;
       allow delete: if false;
 
       match /entitlements/apps {
-        allow read: if isOwner(uid);
-        // Firebase Console, Admin SDK, and trusted backend functions manage grants.
-        allow create, update, delete: if false;
+        allow read: if isOwner(uid) || isAdminEmail();
+        // Firebase Console, admin credentials, and trusted backend functions manage grants.
+        allow create, update: if isAdminEmail();
+        allow delete: if false;
       }
 
       match /unlockRequests/{requestId} {
         // Legacy reusable-code flow is retired. Existing records remain server-only.
         allow read, write: if false;
       }
+    }
+
+    match /appCapabilities/{packageId} {
+      allow read: if signedIn();
+      allow create, update: if isAdminEmail()
+        && request.resource.data.keys().hasOnly([
+          'packageName', 'displayName', 'proEnabled', 'providerModel',
+          'credentialFields', 'updatedAt'
+        ])
+        && request.resource.data.packageName == packageId
+        && request.resource.data.proEnabled is bool
+        && request.resource.data.credentialFields is list;
+      allow delete: if false;
     }
 
     match /unlockCodes/{codeHash} {
@@ -46,8 +68,11 @@ service cloud.firestore {
 
     // Per-app AI provider keys (document ID = Android package name)
     match /providerKeys/{packageId} {
-      allow read: if hasPackageUnlock(packageId);
-      allow write: if false;
+      allow read: if isAdminEmail() || hasPackageUnlock(packageId);
+      allow create, update: if isAdminEmail()
+        && exists(/databases/$(database)/documents/appCapabilities/$(packageId))
+        && get(/databases/$(database)/documents/appCapabilities/$(packageId)).data.proEnabled == true;
+      allow delete: if false;
     }
 
     // Legacy single-doc path (unused; deny)

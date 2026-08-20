@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.rykersoft.appmanager.data.AppDatabase
 import com.rykersoft.appmanager.data.AppRepository
 import com.rykersoft.appmanager.data.ManagedApp
+import com.rykersoft.appmanager.entitlements.AdminManagedUser
+import com.rykersoft.appmanager.entitlements.AdminManagedApp
 import com.rykersoft.appmanager.entitlements.AiUnlockPackages
 import com.rykersoft.appmanager.entitlements.EntitlementRepository
 import com.rykersoft.appmanager.entitlements.GoogleSignInManager
@@ -17,12 +19,14 @@ import com.rykersoft.appmanager.install.InstallStatusReceiver
 import com.rykersoft.appmanager.util.ApkManager
 import com.rykersoft.appmanager.util.DownloadProgress
 import com.rykersoft.appmanager.util.SchedulerHelper
+import com.rykersoft.appmanager.util.NotificationHelper
 import com.rykersoft.appmanager.ui.theme.TitleFontPreset
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -84,6 +88,10 @@ data class MainUiState(
     val hubHasGoogleProvider: Boolean = false,
     val hubHasPasswordProvider: Boolean = false,
     val hubEntitlements: Map<String, Boolean> = emptyMap(),
+    val hubAdmin: Boolean = false,
+    val hubAdminUsers: List<AdminManagedUser> = emptyList(),
+    val hubAdminApps: List<AdminManagedApp> = emptyList(),
+    val hubAdminBusy: Boolean = false,
     val hubBusy: Boolean = false
 )
 
@@ -110,6 +118,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     val uiState: StateFlow<MainUiState> = _uiState.asStateFlow()
 
     private var cachedDbApps: List<ManagedApp> = emptyList()
+    private var adminDirectoryJob: Job? = null
 
     /** Package whose system installer was launched; used to detect completion. */
     private var awaitingInstallPackage: String? = null
@@ -132,9 +141,9 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         val savedPreset = try { TitleFontPreset.valueOf(savedPresetName ?: "") } catch (e: Exception) { TitleFontPreset.ARCADE_3D }
         val savedSortName = sharedPrefs.getString("sort_option", SortOption.RECENTLY_UPDATED.name)
         val savedSortOption = try { SortOption.valueOf(savedSortName ?: "") } catch (e: Exception) { SortOption.RECENTLY_UPDATED }
-        _uiState.update { 
-            it.copy(
-                registryUrl = sanitizedUrl,
+                _uiState.update {
+                    it.copy(
+                        registryUrl = sanitizedUrl,
                 notificationsEnabled = savedNotify, 
                 titleFontPreset = savedPreset,
                 sortOption = savedSortOption,
@@ -194,7 +203,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun observeHubAccount() {
         viewModelScope.launch {
-            entitlementRepository.accountState().collect { account ->
+        entitlementRepository.accountState().collect { account ->
                 _uiState.update {
                     it.copy(
                         hubFirebaseConfigured = account.configured,
@@ -203,8 +212,17 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                         hubAccountEmail = account.email,
                         hubHasGoogleProvider = account.hasGoogleProvider,
                         hubHasPasswordProvider = account.hasPasswordProvider,
-                        hubEntitlements = account.entitlements
+                        hubAdmin = account.isAdmin,
+                        hubEntitlements = account.entitlements,
+                        hubAdminUsers = if (account.isAdmin) it.hubAdminUsers else emptyList()
                     )
+                }
+                if (account.isAdmin) {
+                    observeAdminDirectory()
+                } else {
+                    adminDirectoryJob?.cancel()
+                    adminDirectoryJob = null
+                    _uiState.update { it.copy(hubAdminUsers = emptyList(), hubAdminApps = emptyList(), hubAdminBusy = false) }
                 }
                 if (cachedDbApps.isNotEmpty()) {
                     mapAppsToUi(cachedDbApps)
@@ -365,6 +383,98 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
     fun clearInfo() {
         _uiState.update { it.copy(infoMessage = null) }
+    }
+
+    fun refreshAdminUsers(forceRefresh: Boolean = false, isAdmin: Boolean = _uiState.value.hubAdmin) {
+        val shouldUseCurrentAdminState = isAdmin || _uiState.value.hubAdmin
+        val isAdminUser = shouldUseCurrentAdminState
+        if (!isAdminUser) {
+            _uiState.update { it.copy(hubAdminUsers = emptyList(), hubAdminBusy = false) }
+            return
+        }
+        viewModelScope.launch {
+            if (!forceRefresh && _uiState.value.hubAdminUsers.isNotEmpty()) return@launch
+            _uiState.update { it.copy(hubAdminBusy = true) }
+            try {
+                val users = entitlementRepository.listUsersForAdmin()
+                val apps = entitlementRepository.listAppsForAdmin()
+                _uiState.update {
+                    it.copy(
+                        hubAdminUsers = users,
+                        hubAdminApps = apps,
+                        hubAdminBusy = false
+                    )
+                }
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(
+                        hubAdminBusy = false,
+                        errorMessage = e.localizedMessage ?: "Failed to load admin user list."
+                    )
+                }
+            }
+        }
+    }
+
+    private fun observeAdminDirectory() {
+        if (adminDirectoryJob?.isActive == true) return
+        adminDirectoryJob = viewModelScope.launch {
+            entitlementRepository.observeAdminUserDirectory().collect { directory ->
+                val currentIds = directory.map { it.uid }.toSet()
+                val preferenceKey = "admin_known_user_ids"
+                val knownIds = sharedPrefs.getStringSet(preferenceKey, emptySet()).orEmpty().toSet()
+                if (knownIds.isNotEmpty()) {
+                    val newUsers = directory.filter { it.uid !in knownIds }
+                    if (newUsers.isNotEmpty()) {
+                        NotificationHelper.showNewAccountNotification(context, newUsers.map { it.email })
+                    }
+                }
+                sharedPrefs.edit().putStringSet(preferenceKey, knownIds + currentIds).apply()
+                refreshAdminUsers(forceRefresh = true, isAdmin = true)
+            }
+        }
+    }
+
+    fun setAdminUserProAccess(targetUid: String, packageId: String, enabled: Boolean) {
+        if (!_uiState.value.hubAdmin) {
+            _uiState.update {
+                it.copy(errorMessage = "Only the designated RykerSoft administrator can change pro access.")
+            }
+            return
+        }
+        viewModelScope.launch {
+            _uiState.update { it.copy(hubAdminBusy = true) }
+            try {
+                entitlementRepository.setUserAppProAccess(
+                    targetUid = targetUid,
+                    packageId = packageId,
+                    enabled = enabled
+                )
+                refreshAdminUsers(forceRefresh = true)
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(errorMessage = e.localizedMessage ?: "Failed to update pro access.")
+                }
+            } finally {
+                _uiState.update { it.copy(hubAdminBusy = false) }
+            }
+        }
+    }
+
+    fun setAdminProviderKeys(packageId: String, values: Map<String, String>) {
+        if (!_uiState.value.hubAdmin) return
+        viewModelScope.launch {
+            _uiState.update { it.copy(hubAdminBusy = true) }
+            try {
+                entitlementRepository.setProviderKeys(packageId, values)
+                _uiState.update { it.copy(infoMessage = "Provider credentials updated for $packageId.") }
+                refreshAdminUsers(forceRefresh = true)
+            } catch (e: Exception) {
+                _uiState.update { it.copy(errorMessage = e.localizedMessage ?: "Failed to update provider credentials.") }
+            } finally {
+                _uiState.update { it.copy(hubAdminBusy = false) }
+            }
+        }
     }
 
     /**

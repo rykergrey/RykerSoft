@@ -16,9 +16,10 @@ description: >-
 | Install and updates | RykerSoft App Manager + `registry.json` + anonymous public artifact URLs |
 | Authentication | Firebase Auth in hub project `rykersoft-abe84` |
 | Per-app pro access | `users/{hubUid}/entitlements/apps` Boolean package fields |
-| Administrative writes | Firebase Console today; authenticated callable Functions/Admin SDK later |
+| Administrative writes | Verified `heavensounds@gmail.com` token through the hub admin page; Firebase Console for recovery |
 | App-specific user data | The app's own Firebase project, when applicable |
-| Provider secrets | Transitional `providerKeys/{packageId}` for existing apps; trusted backend end state |
+| App capability schema | `appCapabilities/{packageId}` with provider model and declared credential fields |
+| Provider secrets | Entitlement-scoped `providerKeys/{packageId}` for trusted-family delivery, or backend secret storage for proxy mode |
 
 The Firebase Auth UID is authoritative. Email is allowed only as a trusted administrator lookup input that a backend resolves through Firebase Auth. Never authorize from a client-provided email or profile field.
 
@@ -94,7 +95,7 @@ Items marked * require app-specific RykerSoft pro access for your signed-in acco
 
 1. Keep the schema `users/{uid}/entitlements/apps` with exact package Boolean fields.
 2. Deny all client writes to the entitlement document; owners may read only their own document.
-3. Grant or revoke by merging one exact field through Firebase Console or a trusted Admin SDK backend.
+3. Grant or revoke by merging one exact field through the hub admin page. Use Firebase Console only for recovery.
 4. Do not delete or rewrite existing records during deployment.
 5. Test signed-out, unentitled, entitled, revoked, offline, and backend-error states. Core free behavior must work in every non-entitled state.
 6. Test that an entitlement for one package cannot read or activate another package's protected capability.
@@ -103,7 +104,9 @@ Items marked * require app-specific RykerSoft pro access for your signed-in acco
 
 Current released apps may still read an entitlement-scoped document at `providerKeys/{packageId}`. Keep this route working until all supported versions of that app migrate; do not remove it globally during an unrelated deployment.
 
-For every future app deployment:
+For every future app deployment, inspect provider use and publish `appCapabilities/{packageId}` before registry activation. Declare every required credential field, or an empty list when no provider API is used. The hub then renders the exact admin fields and writes values only to the matching package document.
+
+For applications requiring stronger secret custody:
 
 1. Prefer an authenticated callable Function or equivalent trusted backend for provider-backed operations.
 2. Verify the caller's UID and exact package entitlement on the server.

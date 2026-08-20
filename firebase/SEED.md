@@ -55,7 +55,31 @@ Register an Android app with package `com.rykersoft.appmanager` if `google-servi
 
 Do not add a GitHub personal access token, family token, service-account JSON, Firebase Admin credential, or provider secret to an Android, web, or Windows client.
 
-## 4. Grant or revoke pro access manually
+## 4. Admin user and application management
+
+The signed-in Google account `heavensounds@gmail.com` is the only client recognized as the RykerSoft administrator. Its verified Firebase token may read the account directory, merge exact package grants, maintain app capability manifests, and create or rotate package-scoped provider values. No other client may perform those operations.
+
+Each successful hub sign-in maintains `users/{uid}` with `email`, `displayName`, `createdAt`, and `updatedAt`. The admin page watches this directory and raises a local Android notification when a UID appears after the initial baseline. This covers accounts that have actually signed into the Application Manager; Firebase Auth users that have never completed a hub sign-in do not yet have a directory profile.
+
+Deploy each Pro-capable app with `appCapabilities/{packageId}`:
+
+```json
+{
+  "packageName": "com.rykersoft.example",
+  "displayName": "Example",
+  "proEnabled": true,
+  "providerModel": "trusted-family",
+  "credentialFields": [
+    { "field": "gemini", "label": "Gemini API key", "provider": "gemini", "required": true }
+  ]
+}
+```
+
+Use `credentialFields: []` and `providerModel: "none"` when Pro features require no external API. The admin page uses this manifest to render grant toggles and masked credential-entry fields. It reports only whether a value exists; it does not prefill or display stored secrets.
+
+Grant/revoke and provider-key entry should normally be performed in the Application Manager admin page. Firebase Console remains the recovery surface.
+
+## 5. Grant or revoke pro access manually
 
 Manual Firebase Console administration is the safest default for the current solo-maintainer workflow.
 
@@ -102,7 +126,7 @@ Each field is independent. Adding or updating one field must preserve every othe
 
 Free features and public APK access must work for signed-out, unentitled, revoked, and temporarily offline users. An entitlement controls only that package's pro capabilities.
 
-## 5. Preserve and reconcile existing users
+## 6. Preserve and reconcile existing users
 
 No bulk entitlement migration is required. For the two current pro users:
 
@@ -120,7 +144,7 @@ If one person accidentally has multiple Firebase Auth UIDs (for example, an unli
 
 Prefer linking Google credentials to the existing Firebase user so the UID is preserved instead of creating a replacement user.
 
-## 6. Transitional provider keys
+## 7. Package-scoped provider keys
 
 Existing app versions currently read provider keys from documents such as:
 
@@ -136,11 +160,11 @@ Known current documents include:
 | `com.rykersoft.informant` | INFORMANT |
 | `com.rykersoft.photocrafting` | Photocraft.ing |
 
-This is a transitional compatibility path, not the end-state secret architecture. Keep its entitlement-scoped read rule until every consuming app version has migrated; removing it now would break current pro users.
+The admin page writes only nonblank replacement values declared by the app's capability manifest. Existing values are preserved when a field is left blank. Entitled clients can read only their exact package document.
 
 On each future app deployment, move provider-backed operations into an authenticated callable Cloud Function or equivalent trusted backend. The backend verifies the caller's UID and package entitlement, uses secrets stored only server-side, and returns the operation result rather than the provider key. After all supported versions of every consuming app have migrated and been verified, remove client access to `providerKeys` and retire the documents.
 
-## 7. Optional one-time invitations (future, not implemented)
+## 8. Optional one-time invitations (future, not implemented)
 
 Manual UID grants are sufficient today. If invitation convenience becomes worthwhile, implement it only as a trusted backend feature; do not restore reusable family codes or rules-only client redemption.
 
@@ -154,7 +178,7 @@ A secure design uses:
 
 If an administrator enters an email when creating an invitation, the callable backend must resolve it through Firebase Auth and bind the invitation to the resulting UID. Never trust a client-provided email as entitlement proof. Invitations must not grant wildcard access to apps added in the future.
 
-## 8. Future Windows/.NET administration app
+## 9. Future Windows/.NET administration app
 
 A future Microsoft/.NET user-management application should be a thin authenticated client:
 
@@ -168,7 +192,7 @@ Windows admin UI → authenticated callable Functions → Firebase Admin SDK →
 - Preserve merge semantics and write an audit event with actor UID, target UID, package, previous value, new value, and timestamp.
 - Never bundle a Firebase service-account file, Admin SDK private key, GitHub token, or provider key in the Windows executable.
 
-## 9. Public, tokenless application distribution
+## 10. Public, tokenless application distribution
 
 Free binaries and documentation consumed by App Manager must be reachable over anonymous HTTPS. Source repositories may remain private, but the release assets referenced by `registry.json` must not require a GitHub token in the client.
 

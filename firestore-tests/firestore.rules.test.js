@@ -14,6 +14,7 @@ const OTHER_USER_ID = "other-rules-test-user";
 const CODE_HASH = "a".repeat(64);
 const INFORMANT = "com.rykersoft.informant";
 const SUPERTHINKING = "com.rykersoft.superthinking";
+const ADMIN_EMAIL = "heavensounds@gmail.com";
 
 let testEnvironment;
 
@@ -33,7 +34,37 @@ beforeEach(async () => {
     await setDoc(doc(db, "unlockCodes", CODE_HASH), { packages: [INFORMANT] });
     await setDoc(doc(db, "providerKeys", INFORMANT), { gemini: "test-only-key" });
     await setDoc(doc(db, "providerKeys", SUPERTHINKING), { gemini: "other-test-key" });
+    await setDoc(doc(db, "appCapabilities", INFORMANT), {
+      packageName: INFORMANT,
+      displayName: "INFORMANT",
+      proEnabled: true,
+      providerModel: "trusted-family",
+      credentialFields: [{ field: "gemini", label: "Gemini API key", provider: "gemini", required: true }],
+    });
   });
+});
+
+test("only the verified administrator can manage catalog, keys, and grants", async () => {
+  const adminDb = testEnvironment.authenticatedContext("admin", {
+    email: ADMIN_EMAIL,
+    email_verified: true,
+  }).firestore();
+  const spoofedDb = testEnvironment.authenticatedContext("spoofed", {
+    email: ADMIN_EMAIL,
+    email_verified: false,
+  }).firestore();
+  await testEnvironment.withSecurityRulesDisabled(async (context) => {
+    await setDoc(doc(context.firestore(), "users", USER_ID), { email: "user@example.com" });
+  });
+  await assertSucceeds(setDoc(doc(adminDb, "users", USER_ID, "entitlements", "apps"), {
+    [INFORMANT]: true,
+  }, { merge: true }));
+  await assertSucceeds(setDoc(doc(adminDb, "providerKeys", INFORMANT), {
+    gemini: "replacement-key",
+  }, { merge: true }));
+  await assertFails(setDoc(doc(spoofedDb, "providerKeys", INFORMANT), {
+    gemini: "spoofed-key",
+  }, { merge: true }));
 });
 
 after(async () => {
