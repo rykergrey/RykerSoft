@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "packageName": "com.rykersoft.appmanager",
+  "displayName": "RykerSoft",
+  "proEnabled": false,
+  "providerModel": "none",
+  "credentialFields": [],
+  "backendRequirements": [],
+  "firebase": {
+    "projectId": "rykersoft-abe84",
+    "googleSignIn": true,
+    "firestoreRules": true,
+    "firestoreIndexes": true
+  },
+  "evidence": [
+    "app/src/main/java/com/rykersoft/appmanager/auth/FirebaseAuthManager.kt",
+    "app/src/main/java/com/rykersoft/appmanager/data/FirebaseAppRepository.kt",
+    "app/src/main/java/com/rykersoft/appmanager/ui/AppDashboard.kt"
+  ]
+}

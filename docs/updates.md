@@ -1,5 +1,14 @@
 # Release Updates & History
 
+## v1.4.0
+Version Code 21 - August 20th, 2026
+- Added an administrator-only User Management section for managing RykerSoft accounts directly in the application
+- Added searchable account listings and per-application controls for granting or revoking Pro access
+- Added secure, masked provider credential controls for Pro-enabled applications that declare required API services
+- Added administrator notifications when new RykerSoft account profiles are created
+- Restricted administrative controls to the verified `heavensounds@gmail.com` account
+- Improved entitlement security by using exact application package grants without exposing provider credentials to unauthorized users
+
 ## v1.3.2 (Version Code 20) - August 8th, 2026
 - Remove the embedded family GitHub token and the Settings token override so credentials are never shipped in the Android client or attached to registry, documentation, or APK requests
 - Download current RykerSoft binaries and documentation from anonymously accessible public distribution URLs while keeping private application source repositories private

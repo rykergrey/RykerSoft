@@ -2587,7 +2587,7 @@ fun SettingsDialog(
                             usersToShow.forEach { user ->
                                 NeoCard(
                                     modifier = Modifier.fillMaxWidth(),
-                                    backgroundColor = NeoPanel
+                                    backgroundColor = NeoMutedBg
                                 ) {
                                     Column(
                                         modifier = Modifier
@@ -2664,7 +2664,7 @@ fun SettingsDialog(
                         color = NeoSubtext
                     )
                     hubAdminApps.forEach { app ->
-                        NeoCard(modifier = Modifier.fillMaxWidth(), backgroundColor = NeoPanel) {
+                        NeoCard(modifier = Modifier.fillMaxWidth(), backgroundColor = NeoMutedBg) {
                             Column(
                                 modifier = Modifier.fillMaxWidth().padding(8.dp),
                                 verticalArrangement = Arrangement.spacedBy(8.dp)
