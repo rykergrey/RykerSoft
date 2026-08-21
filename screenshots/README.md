@@ -21,6 +21,7 @@ screenshots/
 | `synthing` | `com.rykersoft.synthing` |
 | `superthinking` | `com.rykersoft.superthinking` |
 | `bettertracking` | `com.rykersoft.bettertracking` |
+| `roadtripper` | `com.rykersoft.roadtripper` |
 
 ## Naming
 
