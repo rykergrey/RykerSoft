@@ -31,9 +31,9 @@ The detail view chooses a useful starting tab:
 
 Each detail view can include an image gallery, full description, reverse-chronological updates, technical specifications, and a clickable user-guide table of contents.
 
-Apps with a separate desktop edition display a **WINDOWS** badge. This badge is informational: the Android hub does not download or launch Windows applications.
+Choose **Android** or **Desktop** from the platform selector. Windows-capable entries display a **WINDOWS** badge. For a Windows-only product, tap **DOWNLOAD** or **GET WINDOWS APP** to open its verified public EXE release in the browser; Android does not attempt to install the EXE.
 
-To share an APK download, tap the share icon on the home card or beside **INSTALL NOW**, **UPDATE APP**, or **LAUNCH NOW** inside the expanded detail card. RykerSoft copies that app's exact public registry APK URL to the Android clipboard and confirms the copy at the bottom of the screen. Paste the link into a message or another sharing destination; no family GitHub credential is required.
+To share a download, tap the share icon on the home card or inside the expanded detail card. RykerSoft copies that entry's exact public APK or Windows release URL to the Android clipboard and confirms the copy at the bottom of the screen. Paste the link into a message or another sharing destination; no family GitHub credential is required.
 
 ## 3. Install & Update Apps
 
@@ -107,6 +107,6 @@ When the verified administrator account `heavensounds@gmail.com` is signed in, S
 
 ## 7. Privacy and Security
 
-RykerSoft reads package metadata to determine installation status and versions. It downloads registry data, documentation, screenshots, and APK assets from RykerSoft-controlled GitHub repositories. Android always presents the final installation confirmation.
+RykerSoft reads package metadata to determine Android installation status and versions. It downloads registry data, documentation, screenshots, and APK assets from RykerSoft-controlled GitHub repositories, and opens verified Windows release links in the browser. Android always presents the final APK installation confirmation.
 
 Release APKs are cryptographically signed. RykerSoft validates downloaded package identity and signing compatibility locally before starting an installation. Pro authorization is stored as package-specific booleans under the account's Firebase UID; email addresses are used only by a trusted administrator to locate that UID and are never authorization proof by themselves.

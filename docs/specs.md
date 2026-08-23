@@ -5,7 +5,7 @@
 - **Platform:** Native Android application written in Kotlin
 - **UI:** Jetpack Compose with Material 3
 - **Package ID / namespace:** `com.rykersoft.appmanager`
-- **Version:** 1.4.0 (`versionCode` 21)
+- **Version:** 1.4.1 (`versionCode` 22)
 - **Minimum Android:** Android 7.0 / API 24
 - **Target Android:** API 36
 - **APK architectures:** `arm64-v8a`, `armeabi-v7a`, `x86`, and `x86_64`

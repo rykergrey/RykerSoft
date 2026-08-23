@@ -340,6 +340,35 @@ fun AppDashboard(
 
     val snackbarHostState = remember { SnackbarHostState() }
 
+    fun copyDownloadLink(app: AppUiItem) {
+        clipboardManager.setText(AnnotatedString(app.primaryDownloadUrl))
+        scope.launch {
+            val platform = if (app.isDesktopOnly) "Windows download" else "APK"
+            snackbarHostState.showSnackbar("Copied ${app.name} $platform link to clipboard")
+        }
+    }
+
+    fun runPrimaryAction(app: AppUiItem) {
+        if (!app.isDesktopOnly) {
+            viewModel.downloadAndInstall(app)
+            return
+        }
+
+        try {
+            val intent = android.content.Intent(
+                android.content.Intent.ACTION_VIEW,
+                android.net.Uri.parse(app.exeUrl)
+            ).addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)
+            context.startActivity(intent)
+        } catch (error: Exception) {
+            scope.launch {
+                snackbarHostState.showSnackbar(
+                    ERROR_SNACKBAR_SENTINEL + "Could not open the Windows download: ${error.localizedMessage ?: "unknown error"}"
+                )
+            }
+        }
+    }
+
     val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
     val activity = context as? androidx.activity.ComponentActivity
 
@@ -407,10 +436,12 @@ fun AppDashboard(
 
     // Filter and sort apps based on search query, selected filter type, and sort option
     val filteredApps = remember(uiState.apps, searchQuery, uiState.filterType, uiState.sortOption, selectedPlatform) {
-        if (selectedPlatform == "Desktop") {
-            emptyList()
-        } else {
-            val list = uiState.apps.filter { app ->
+        val list = uiState.apps.filter { app ->
+                val matchesPlatform = if (selectedPlatform == "Desktop") {
+                    app.windowsAvailable
+                } else {
+                    app.apkUrl.isNotBlank()
+                }
                 val matchesSearch = app.name.contains(searchQuery, ignoreCase = true) || 
                         app.packageName.contains(searchQuery, ignoreCase = true)
                 
@@ -422,31 +453,33 @@ fun AppDashboard(
                     FilterType.INSTALLED -> app.isInstalled
                     FilterType.NOT_INSTALLED -> !app.isInstalled
                 }
-                matchesSearch && matchesFilter
+                matchesPlatform && matchesSearch && matchesFilter
             }
-            when (uiState.sortOption) {
-                SortOption.RECENTLY_UPDATED -> list.sortedWith(compareByDescending<AppUiItem> { it.latestVersionCode }.thenBy { it.name })
-                SortOption.NAME_ASC -> list.sortedBy { it.name.lowercase() }
-                SortOption.NAME_DESC -> list.sortedByDescending { it.name.lowercase() }
-                SortOption.VERSION_CODE_DESC -> list.sortedByDescending { it.latestVersionCode }
-                SortOption.STATUS -> list.sortedWith(compareBy<AppUiItem> { 
-                    when {
-                        it.isOutdated -> 0
-                        it.isInstalled -> 1
-                        else -> 2
-                    }
-                }.thenByDescending { it.latestVersionCode })
-            }
+        when (uiState.sortOption) {
+            SortOption.RECENTLY_UPDATED -> list.sortedWith(compareByDescending<AppUiItem> { it.latestVersionCode }.thenBy { it.name })
+            SortOption.NAME_ASC -> list.sortedBy { it.name.lowercase() }
+            SortOption.NAME_DESC -> list.sortedByDescending { it.name.lowercase() }
+            SortOption.VERSION_CODE_DESC -> list.sortedByDescending { it.latestVersionCode }
+            SortOption.STATUS -> list.sortedWith(compareBy<AppUiItem> {
+                when {
+                    it.isOutdated -> 0
+                    it.isInstalled -> 1
+                    else -> 2
+                }
+            }.thenByDescending { it.latestVersionCode })
         }
     }
 
-    val (totalCount, gamesCount, appsCount, updatesCount, installedCount) = remember(uiState.apps) {
-        val total = uiState.apps.size
+    val (totalCount, gamesCount, appsCount, updatesCount, installedCount) = remember(uiState.apps, selectedPlatform) {
+        val platformApps = uiState.apps.filter { app ->
+            if (selectedPlatform == "Desktop") app.windowsAvailable else app.apkUrl.isNotBlank()
+        }
+        val total = platformApps.size
         var games = 0
         var apps = 0
         var updates = 0
         var installed = 0
-        for (app in uiState.apps) {
+        for (app in platformApps) {
             if (app.isGame) games++ else apps++
             if (app.isOutdated) updates++
             if (app.isInstalled) installed++
@@ -968,12 +1001,7 @@ fun AppDashboard(
                                         snackbarHostState.showSnackbar("Copied package ID to clipboard")
                                     }
                                 },
-                                onShareClick = {
-                                    clipboardManager.setText(AnnotatedString(app.apkUrl))
-                                    scope.launch {
-                                        snackbarHostState.showSnackbar("Copied ${app.name} APK link to clipboard")
-                                    }
-                                },
+                                onShareClick = { copyDownloadLink(app) },
                                 onActionClick = {
                                     // UPDATE from collapsed card: open Updates/changelog first, then download.
                                     // INSTALL still starts immediately without forcing a tab change.
@@ -983,7 +1011,7 @@ fun AppDashboard(
                                         detailInitialTab = AppDetailTab.UPDATES
                                         selectedScreenshotIndex = 0
                                     }
-                                    viewModel.downloadAndInstall(app)
+                                    runPrimaryAction(app)
                                 },
                                 onLaunchClick = { ApkManager.launchApp(context, app.packageName) },
                                 downloadingPackage = uiState.downloadingPackage,
@@ -1005,14 +1033,9 @@ fun AppDashboard(
                 prioritizeScreenshot = detailOpenedFromScreenshot,
                 onDismiss = { selectedAppForDetail = null },
                 onActionClick = {
-                    viewModel.downloadAndInstall(currentApp)
+                    runPrimaryAction(currentApp)
                 },
-                onShareClick = {
-                    clipboardManager.setText(AnnotatedString(currentApp.apkUrl))
-                    scope.launch {
-                        snackbarHostState.showSnackbar("Copied ${currentApp.name} APK link to clipboard")
-                    }
-                },
+                onShareClick = { copyDownloadLink(currentApp) },
                 onLaunchClick = { ApkManager.launchApp(context, currentApp.packageName) },
                 downloadingPackage = uiState.downloadingPackage,
                 downloadProgress = uiState.downloadProgress,
@@ -1170,6 +1193,7 @@ fun AppItemCard(
                         // Tilted Status Sticker Tag (magenta = new/brand, yellow = update
                         // pending CTA, green = installed success)
                         val (statusText, statusBg, statusTextClr, rotation) = when {
+                            app.isDesktopOnly -> Quadruple("WINDOWS", NeoCyan, Color.Black, -2f)
                             !app.isInstalled -> Quadruple("NEW RELEASE", NeoMagenta, Color.White, -2f)
                             app.isOutdated -> Quadruple("UPDATE READY", NeoYellow, Color.Black, 3f)
                             else -> Quadruple("INSTALLED", NeoGreen, Color.Black, 0f)
@@ -1206,19 +1230,21 @@ fun AppItemCard(
                             )
                         }
 
-                        TagChip(
-                            text = "ANDROID",
-                            bgColor = NeoMutedBg,
-                            textColor = NeoText,
-                            icon = {
-                                Icon(
-                                    imageVector = Icons.Default.Android,
-                                    contentDescription = null,
-                                    tint = NeoText,
-                                    modifier = Modifier.size(10.dp)
-                                )
-                            }
-                        )
+                        if (!app.isDesktopOnly) {
+                            TagChip(
+                                text = "ANDROID",
+                                bgColor = NeoMutedBg,
+                                textColor = NeoText,
+                                icon = {
+                                    Icon(
+                                        imageVector = Icons.Default.Android,
+                                        contentDescription = null,
+                                        tint = NeoText,
+                                        modifier = Modifier.size(10.dp)
+                                    )
+                                }
+                            )
+                        }
                         if (app.windowsAvailable) {
                             TagChip(
                                 text = "WINDOWS",
@@ -1328,6 +1354,16 @@ fun AppItemCard(
                             }
                         } else {
                             when {
+                                app.isDesktopOnly -> {
+                                    NeoButton(
+                                        onClick = onActionClick,
+                                        style = NeoButtonStyle.ACCENT_CYAN,
+                                        shadowOffset = 2.dp,
+                                        contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)
+                                    ) {
+                                        Text("DOWNLOAD >", fontSize = 10.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace)
+                                    }
+                                }
                                 !app.isInstalled -> {
                                     NeoButton(
                                         onClick = onActionClick,
@@ -1913,13 +1949,21 @@ fun AppDetailDialog(
                                         DetailRow("PACKAGE ID", app.packageName)
                                         DetailRow("CATEGORY", if (app.isGame) "Game" else "Application")
                                         DetailRow("LATEST VERSION", "${app.latestVersionName} (code ${app.latestVersionCode})")
-                                        DetailRow("INSTALLED VERSION", app.installedVersionName?.let { "$it (code ${app.installedVersionCode})" } ?: "Not Installed")
+                                        DetailRow(
+                                            "INSTALLED VERSION",
+                                            if (app.isDesktopOnly) "Managed on Windows" else app.installedVersionName?.let { "$it (code ${app.installedVersionCode})" } ?: "Not Installed"
+                                        )
                                         DetailRow("UPDATE STATUS", app.statusText)
                                         DetailRow(
                                             "WINDOWS VERSION",
                                             if (app.windowsAvailable) "Available separately" else "Not available"
                                         )
-                                        DetailRow("APK DOWNLOAD URL", app.apkUrl)
+                                        if (app.apkUrl.isNotBlank()) {
+                                            DetailRow("APK DOWNLOAD URL", app.apkUrl)
+                                        }
+                                        if (app.exeUrl.isNotBlank()) {
+                                            DetailRow("WINDOWS DOWNLOAD URL", app.exeUrl)
+                                        }
                                     }
                                 }
 
@@ -2031,6 +2075,16 @@ fun AppDetailDialog(
                             )
                         } else {
                             when {
+                                app.isDesktopOnly -> {
+                                    NeoButton(
+                                        onClick = onActionClick,
+                                        style = NeoButtonStyle.ACCENT_CYAN
+                                    ) {
+                                        Icon(Icons.Default.Computer, contentDescription = null, tint = Color.Black, modifier = Modifier.size(14.dp))
+                                        Spacer(modifier = Modifier.width(4.dp))
+                                        Text("GET WINDOWS APP", fontSize = 11.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace, color = Color.Black)
+                                    }
+                                }
                                 !app.isInstalled -> {
                                     NeoButton(
                                         onClick = onActionClick,

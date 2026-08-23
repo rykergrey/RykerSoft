@@ -205,6 +205,7 @@ class EntitlementRepository(private val context: Context) {
         requireAdmin()
         val db = RykerSoftFirebase.db(context) ?: throw IllegalStateException("Firestore unavailable.")
         ensureInformantCapabilityManifest()
+        ensureHyperscribeCapabilityManifests()
         val capabilityDocs = db.collection("appCapabilities").get().await().documents
         val apps = capabilityDocs.mapNotNull { document ->
             if (document.getBoolean("proEnabled") != true) return@mapNotNull null
@@ -286,6 +287,43 @@ class EntitlementRepository(private val context: Context) {
             ),
             SetOptions.merge()
         ).await()
+    }
+
+    /**
+     * Publish the two Hyperscribe catalog products as distinct, non-Pro capability records.
+     * These merge-only writes never touch provider keys or user entitlements.
+     */
+    private suspend fun ensureHyperscribeCapabilityManifests() {
+        requireAdmin()
+        val db = RykerSoftFirebase.db(context) ?: throw IllegalStateException("Firestore unavailable.")
+        val manifests = listOf(
+            "com.rykersoft.hyperscribemobile" to "Hyperscribe Mobile",
+            "com.rykersoft.hyperscribedesktop" to "Hyperscribe Desktop"
+        )
+
+        for ((packageId, displayName) in manifests) {
+            val ref = db.collection("appCapabilities").document(packageId)
+            val current = ref.get().await()
+            val alreadyCurrent = current.exists() &&
+                current.getString("packageName") == packageId &&
+                current.getString("displayName") == displayName &&
+                current.getBoolean("proEnabled") == false &&
+                current.getString("providerModel") == "none" &&
+                (current.get("credentialFields") as? List<*>)?.isEmpty() == true
+            if (alreadyCurrent) continue
+
+            ref.set(
+                mapOf(
+                    "packageName" to packageId,
+                    "displayName" to displayName,
+                    "proEnabled" to false,
+                    "providerModel" to "none",
+                    "credentialFields" to emptyList<Map<String, Any>>(),
+                    "updatedAt" to FieldValue.serverTimestamp()
+                ),
+                SetOptions.merge()
+            ).await()
+        }
     }
 
     suspend fun setProviderKeys(packageId: String, values: Map<String, String>) {

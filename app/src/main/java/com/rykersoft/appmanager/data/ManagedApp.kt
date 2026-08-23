@@ -12,6 +12,7 @@ data class ManagedApp(
     val latestVersionCode: Int,
     val latestVersionName: String,
     val apkUrl: String,
+    @ColumnInfo(defaultValue = "") val exeUrl: String = "",
     @ColumnInfo(defaultValue = "0") val windowsAvailable: Boolean = false,
     val icon: String = "android", // Default icon keyword
     val changelog: String = "",

@@ -18,6 +18,7 @@ import com.rykersoft.appmanager.install.InstallSessionTracker
 import com.rykersoft.appmanager.install.InstallStatusReceiver
 import com.rykersoft.appmanager.util.ApkManager
 import com.rykersoft.appmanager.util.DownloadProgress
+import com.rykersoft.appmanager.util.InstalledAppInfo
 import com.rykersoft.appmanager.util.SchedulerHelper
 import com.rykersoft.appmanager.util.NotificationHelper
 import com.rykersoft.appmanager.ui.theme.TitleFontPreset
@@ -38,6 +39,7 @@ data class AppUiItem(
     val latestVersionCode: Int,
     val latestVersionName: String,
     val apkUrl: String,
+    val exeUrl: String = "",
     val windowsAvailable: Boolean = false,
     val icon: String,
     val changelog: String,
@@ -54,7 +56,13 @@ data class AppUiItem(
     /** True when this package supports pro access and the signed-in hub account is entitled to it. */
     val supportsAiUnlock: Boolean = false,
     val aiUnlocked: Boolean = false
-)
+) {
+    val isDesktopOnly: Boolean
+        get() = apkUrl.isBlank() && exeUrl.isNotBlank()
+
+    val primaryDownloadUrl: String
+        get() = if (isDesktopOnly) exeUrl else apkUrl
+}
 
 data class MainUiState(
     val apps: List<AppUiItem> = emptyList(),
@@ -542,6 +550,8 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
             pkg.contains("synthing") || n.contains("synthing") -> "synthing"
             pkg.contains("superthinking") || n.contains("superthink") -> "superthinking"
             pkg.contains("bettertracking") || n.contains("bettertracking") -> "bettertracking"
+            pkg.contains("hyperscribemobile") -> "hyperscribe-mobile"
+            pkg.contains("hyperscribedesktop") -> "hyperscribe-desktop"
             else -> name.lowercase().replace(Regex("[^a-z0-9]"), "")
         }
     }
@@ -552,13 +562,19 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     private fun mapAppsToUi(dbApps: List<ManagedApp>) {
         val entitlements = _uiState.value.hubEntitlements
         val uiItems = dbApps.map { app ->
-            val info = ApkManager.getInstalledAppInfo(context, app.packageName)
+            val isDesktopOnly = app.apkUrl.isBlank() && app.exeUrl.isNotBlank()
+            val info = if (isDesktopOnly) {
+                InstalledAppInfo(false, null, null)
+            } else {
+                ApkManager.getInstalledAppInfo(context, app.packageName)
+            }
             val currentCode = info.versionCode ?: 0L
             val isOutdated = info.isInstalled && (app.latestVersionCode > currentCode)
             val supportsAi = AiUnlockPackages.isUnlockable(app.packageName)
             val aiUnlocked = supportsAi && entitlements[app.packageName] == true
             
             val statusText = when {
+                isDesktopOnly -> "Windows Download"
                 !info.isInstalled -> "Not Installed"
                 isOutdated -> "Update Available"
                 else -> "Up to Date"
@@ -604,6 +620,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                 latestVersionCode = app.latestVersionCode,
                 latestVersionName = app.latestVersionName,
                 apkUrl = app.apkUrl,
+                exeUrl = app.exeUrl,
                 windowsAvailable = app.windowsAvailable,
                 icon = app.icon,
                 changelog = app.changelog.ifBlank {
@@ -710,6 +727,10 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
      * Downloads APK from registry URL and installs via PackageInstaller session API.
      */
     fun downloadAndInstall(app: AppUiItem) {
+        if (app.apkUrl.isBlank()) {
+            _uiState.update { it.copy(errorMessage = "${app.name} is a Windows download and cannot be installed on Android.") }
+            return
+        }
         if (_uiState.value.downloadingPackage != null) {
             _uiState.update { it.copy(errorMessage = "A download is already in progress.") }
             return

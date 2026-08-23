@@ -1,6 +1,6 @@
 # RykerSoft Application Manager
 
-RykerSoft is the Android hub for the RykerSoft app collection. It keeps one catalog of available apps, compares installed versions with current releases, downloads signed APKs, guides Android's installer flow, and presents each app's documentation and screenshots.
+RykerSoft is the Android hub for the RykerSoft app collection. It keeps one catalog of available Android and Windows apps, compares installed Android versions with current releases, downloads signed APKs, opens Windows release downloads, guides Android's installer flow, and presents each app's documentation and screenshots.
 
 ## Key Features
 
@@ -11,13 +11,13 @@ RykerSoft is the Android hub for the RykerSoft app collection. It keeps one cata
 - **Reliable installer flow** — Use `PackageInstaller` sessions and a dedicated confirmation host so Play Protect and system prompts remain visible.
 - **Dynamic documentation** — Read descriptions, complete update history, specifications, user guides, and public screenshot galleries in the app.
 - **In-place install reading** — Keep the open app detail card and its selected documentation tab visible while downloads and Android installation continue.
-- **Platform availability** — See an informational Windows badge when a separate Windows edition exists, without exposing Windows downloads in the Android hub.
+- **Platform downloads** — Browse the Desktop catalog and open verified Windows release downloads without treating EXE-only products as Android packages.
 - **Automatic update checks** — Refresh on demand and optionally receive background notifications when newer releases are available.
 - **Google RykerSoft account** — Sign in through Android Credential Manager to receive account-specific pro access without creating another password.
 - **Safe legacy migration** — Verify an existing password account, link Google to that same Firebase UID, and retain password reset during migration.
 - **Administrator-managed access** — Preserve per-application pro access on each Firebase UID while denying entitlement changes from untrusted clients.
 - **Neo-brutalist interface** — Use a high-contrast cyber palette, clear status colors, hard shadows, and readable tabbed detail views.
-- **Shareable APK links** — Copy an app's exact APK download URL from either the home card or its expanded detail actions.
+- **Shareable download links** — Copy an app's exact APK or Windows download URL from either the home card or its expanded detail actions.
 
 ## PRO Features
 

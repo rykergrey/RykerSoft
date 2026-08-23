@@ -40,18 +40,21 @@ class AppRepository(
             pkg.contains("synthing") || n.contains("synthing") -> "synthing"
             pkg.contains("superthinking") || n.contains("superthink") -> "superthinking"
             pkg.contains("bettertracking") || n.contains("bettertracking") -> "bettertracking"
+            pkg.contains("hyperscribemobile") -> "hyperscribe-mobile"
+            pkg.contains("hyperscribedesktop") -> "hyperscribe-desktop"
             else -> name.lowercase().replace(Regex("[^a-z0-9]"), "")
         }
     }
 
     /**
      * Dynamically fetches description, updates history, specs, and user guide markdown files
-     * from the repo referenced by apkUrl if missing in registry.json.
+     * from the distribution repo referenced by apkUrl or exeUrl if missing in registry.json.
      * Looks in docs/<slug>/ first (shared RykerSoft-APKs distribution repo layout),
      * then falls back to repo-root docs/ and README/CHANGELOG (per-app repo layout).
      */
     suspend fun enrichAppWithRemoteDocs(app: ManagedApp): ManagedApp = withContext(Dispatchers.IO) {
-        val repoMatch = Regex("""^https?://github\.com/([^/]+)/([^/]+)""", RegexOption.IGNORE_CASE).find(app.apkUrl)
+        val distributionUrl = app.apkUrl.ifBlank { app.exeUrl }
+        val repoMatch = Regex("""^https?://github\.com/([^/]+)/([^/]+)""", RegexOption.IGNORE_CASE).find(distributionUrl)
             ?: return@withContext app
 
         val (owner, repo) = repoMatch.destructured

@@ -1,5 +1,14 @@
 # Release Updates & History
 
+## v1.4.1
+Version Code 22 - August 23rd, 2026
+- Added real Windows catalog browsing through the Desktop platform filter
+- Added EXE-only application records with independent Windows download and share actions
+- Kept Android APK install, update, validation, and launch behavior unchanged
+- Added separate Hyperscribe Mobile and Hyperscribe Desktop catalog support
+- Added merge-only non-Pro capability manifests for both Hyperscribe products
+- Added a Room migration that preserves the Windows download URL locally
+
 ## v1.4.0
 Version Code 21 - August 20th, 2026
 - Added an administrator-only User Management section for managing RykerSoft accounts directly in the application
