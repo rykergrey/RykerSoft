@@ -3,15 +3,45 @@
     {
       "packageName": "com.rykersoft.appmanager",
       "name": "RykerSoft",
-      "latestVersionCode": 21,
-      "latestVersionName": "1.4.0",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/rykersoft-v1.4.0/app-release.apk",
+      "latestVersionCode": 23,
+      "latestVersionName": "1.4.2",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/rykersoft-v1.4.2/app-release.apk",
       "icon": "android",
-      "changelog": "Administrator-only user management for RykerSoft accounts | Search users and grant or revoke Pro access per application | Masked provider credential administration for declared Pro app capabilities | New-account notifications for the administrator | Administrative access restricted to the verified heavensounds@gmail.com account",
+      "changelog": "Enable optional RykerSoft Pro Access for Hyperscribe Mobile | Declare package-scoped Gemini, OpenAI, Groq, and ElevenLabs family credentials | Keep Hyperscribe Desktop separate and BYOK-only",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rykersoft/01-dashboard.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rykersoft/02-documentation.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rykersoft/03-settings.png"
+      ],
+      "isGame": false
+    },
+    {
+      "packageName": "com.rykersoft.hyperscribemobile",
+      "name": "Hyperscribe Mobile",
+      "latestVersionCode": 2,
+      "latestVersionName": "2.1.1",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.1.1/HyperscribeMobile-v2.1.1.apk",
+      "icon": "android",
+      "changelog": "Fix package-scoped RykerSoft Pro entitlement lookup | Native Android recording and transcription | Unified Inbox, actions, chat, TTS, sharing, and portable backups | Optional RykerSoft Pro Access plus Keystore-backed personal provider keys",
+      "screenshots": [
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-mobile/01-inbox.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-mobile/02-actions.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-mobile/03-chat.png"
+      ],
+      "isGame": false
+    },
+    {
+      "packageName": "com.rykersoft.hyperscribedesktop",
+      "name": "Hyperscribe Desktop",
+      "latestVersionCode": 1,
+      "latestVersionName": "2.1.0",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-desktop-v2.1.0/HyperscribeDesktop-v2.1.0.exe",
+      "icon": "desktop",
+      "changelog": "First standalone RykerSoft Desktop release | Portable Python and PySide6 Windows executable | Clipboard palette, Inbox, actions, chat, transcription, screenshots, reminders, and TTS | Bring-your-own provider keys",
+      "screenshots": [
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-desktop/01-inbox.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-desktop/02-actions.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-desktop/03-chat.png"
       ],
       "isGame": false
     },
