@@ -18,11 +18,11 @@
     {
       "packageName": "com.rykersoft.hyperscribemobile",
       "name": "Hyperscribe Mobile",
-      "latestVersionCode": 2,
-      "latestVersionName": "2.1.1",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.1.1/HyperscribeMobile-v2.1.1.apk",
+      "latestVersionCode": 3,
+      "latestVersionName": "2.1.2",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.1.2/HyperscribeMobile-v2.1.2.apk",
       "icon": "android",
-      "changelog": "Fix package-scoped RykerSoft Pro entitlement lookup | Native Android recording and transcription | Unified Inbox, actions, chat, TTS, sharing, and portable backups | Optional RykerSoft Pro Access plus Keystore-backed personal provider keys",
+      "changelog": "Make the central recording control the main Inbox add-content button | Move clipboard text, blank text, and audio import into its drag-up menu | Keep imported audio untranscribed until requested",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-mobile/01-inbox.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-mobile/02-actions.png",
