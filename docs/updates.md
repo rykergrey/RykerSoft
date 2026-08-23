@@ -1,5 +1,12 @@
 # Release Updates & History
 
+## v1.4.2
+Version Code 23 - August 23rd, 2026
+- Declared Hyperscribe Mobile as an optional RykerSoft Pro Access application
+- Added package-scoped Gemini, OpenAI, Groq, and ElevenLabs credential fields for trusted family use
+- Kept Hyperscribe Desktop as a separate non-Pro, bring-your-own-key catalog application
+- Preserved all existing provider keys and user entitlements through merge-only capability updates
+
 ## v1.4.1
 Version Code 22 - August 23rd, 2026
 - Added real Windows catalog browsing through the Desktop platform filter

@@ -1,6 +1,6 @@
 # RykerSoft Application Manager
 
-Current release: **v1.4.1** (`versionCode` 22), package `com.rykersoft.appmanager`, for Android 7.0/API 24 and newer.
+Current release: **v1.4.2** (`versionCode` 23), package `com.rykersoft.appmanager`, for Android 7.0/API 24 and newer.
 
 Personal Android app hub and application manager for RykerSoft applications. Easily check for updates, view changelogs, download, and install latest versions of RykerSoft apps — including self-updating RykerSoft itself!
 

@@ -289,36 +289,53 @@ class EntitlementRepository(private val context: Context) {
         ).await()
     }
 
-    /**
-     * Publish the two Hyperscribe catalog products as distinct, non-Pro capability records.
-     * These merge-only writes never touch provider keys or user entitlements.
-     */
+    /** Publish distinct Mobile (optional Pro) and Desktop (BYOK) capability records. */
     private suspend fun ensureHyperscribeCapabilityManifests() {
         requireAdmin()
         val db = RykerSoftFirebase.db(context) ?: throw IllegalStateException("Firestore unavailable.")
+        val mobileFields = listOf(
+            AdminCredentialField("gemini", "Google Gemini API key", "gemini", required = false),
+            AdminCredentialField("openai", "OpenAI API key", "openai", required = false),
+            AdminCredentialField("groq", "Groq API key", "groq", required = false),
+            AdminCredentialField("elevenlabs", "ElevenLabs API key", "elevenlabs", required = false)
+        )
         val manifests = listOf(
-            "com.rykersoft.hyperscribemobile" to "Hyperscribe Mobile",
-            "com.rykersoft.hyperscribedesktop" to "Hyperscribe Desktop"
+            Triple("com.rykersoft.hyperscribemobile", "Hyperscribe Mobile", mobileFields),
+            Triple("com.rykersoft.hyperscribedesktop", "Hyperscribe Desktop", emptyList())
         )
 
-        for ((packageId, displayName) in manifests) {
+        for ((packageId, displayName, fields) in manifests) {
+            val proEnabled = fields.isNotEmpty()
+            val providerModel = if (proEnabled) "trusted-family" else "none"
+            val fieldMaps = fields.map { field ->
+                mapOf(
+                    "field" to field.field,
+                    "label" to field.label,
+                    "provider" to field.provider,
+                    "required" to field.required
+                )
+            }
             val ref = db.collection("appCapabilities").document(packageId)
             val current = ref.get().await()
+            val currentFieldNames = (current.get("credentialFields") as? List<*>)
+                .orEmpty()
+                .mapNotNull { (it as? Map<*, *>)?.get("field") as? String }
+                .toSet()
             val alreadyCurrent = current.exists() &&
                 current.getString("packageName") == packageId &&
                 current.getString("displayName") == displayName &&
-                current.getBoolean("proEnabled") == false &&
-                current.getString("providerModel") == "none" &&
-                (current.get("credentialFields") as? List<*>)?.isEmpty() == true
+                current.getBoolean("proEnabled") == proEnabled &&
+                current.getString("providerModel") == providerModel &&
+                currentFieldNames == fields.map(AdminCredentialField::field).toSet()
             if (alreadyCurrent) continue
 
             ref.set(
                 mapOf(
                     "packageName" to packageId,
                     "displayName" to displayName,
-                    "proEnabled" to false,
-                    "providerModel" to "none",
-                    "credentialFields" to emptyList<Map<String, Any>>(),
+                    "proEnabled" to proEnabled,
+                    "providerModel" to providerModel,
+                    "credentialFields" to fieldMaps,
                     "updatedAt" to FieldValue.serverTimestamp()
                 ),
                 SetOptions.merge()
