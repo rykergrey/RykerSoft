@@ -18,13 +18,13 @@
     {
       "packageName": "com.rykersoft.hyperscribemobile",
       "name": "Hyperscribe Mobile",
-      "latestVersionCode": 3,
-      "latestVersionName": "2.1.2",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.1.2/HyperscribeMobile-v2.1.2.apk",
+      "latestVersionCode": 4,
+      "latestVersionName": "2.1.3",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.1.3/HyperscribeMobile-v2.1.3.apk",
       "icon": "android",
-      "changelog": "Make the central recording control the main Inbox add-content button | Move clipboard text, blank text, and audio import into its drag-up menu | Keep imported audio untranscribed until requested",
+      "changelog": "Anchor Inbox and Actions menus beside their right-side buttons | Run actions from selected Inbox content or the clipboard and copy text results back | Move text import into the recording-button creation menu | Auto-tag combined-copy entries",
       "screenshots": [
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/2d8b9469e772345b5ca9a30c2115042b255cefe8/screenshots/hyperscribe-mobile/01-inbox.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/29c23bee375465cbc4d843a0e4b1d6730bc7b4a2/screenshots/hyperscribe-mobile/01-inbox.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-mobile/02-actions.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-mobile/03-chat.png"
       ],
