@@ -24,7 +24,7 @@
       "icon": "android",
       "changelog": "Make the central recording control the main Inbox add-content button | Move clipboard text, blank text, and audio import into its drag-up menu | Keep imported audio untranscribed until requested",
       "screenshots": [
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-mobile/01-inbox.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/2d8b9469e772345b5ca9a30c2115042b255cefe8/screenshots/hyperscribe-mobile/01-inbox.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-mobile/02-actions.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-mobile/03-chat.png"
       ],
