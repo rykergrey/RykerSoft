@@ -208,16 +208,16 @@
     {
       "packageName": "com.superstorycraft.ing",
       "name": "Storytime",
-      "latestVersionCode": 3,
-      "latestVersionName": "1.0.2",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/storytime-v1.0.2/app-release.apk",
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/storytime-v1.0.2/Storytime.1.0.2.exe",
+      "latestVersionCode": 4,
+      "latestVersionName": "1.1.0",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/storytime-v1.1.0/app-release.apk",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/storytime-v1.1.0/Storytime.1.1.0.exe",
       "icon": "android",
-      "changelog": "Source-backed continuity repair above the unreleased 1.0.1 device build, using the recovered original Android signer for normal in-place updates.",
+      "changelog": "Adds Director and Listener Story Party roles, a single leased car-speaker phone, queued locally cached narration, and shared playback progress.",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/storytime/01-home.png",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/storytime/02-pro-access.png",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/storytime/03-anonymous-author.png"
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/storytime/02-online-road-trip.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/storytime/03-anonymous-author-online.png"
       ],
       "isGame": true
     },
