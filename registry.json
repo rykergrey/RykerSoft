@@ -224,15 +224,16 @@
     {
       "packageName": "com.rykersoft.roadtripper",
       "name": "Roadtrip Copilot",
-      "latestVersionCode": 1,
-      "latestVersionName": "1.0.0",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/roadtripper-v1.0.0/Roadtrip-Copilot-v1.0.0.apk",
+      "latestVersionCode": 2,
+      "latestVersionName": "1.1.0",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/roadtripper-v1.1.0/Roadtrip-Copilot-v1.1.0.apk",
       "icon": "android",
-      "changelog": "First Android release | Download complete trips, stops, comments, addresses, route progress, and saved research for offline use | Queue stop, priority, mileage, and note changes until connectivity returns | Package-scoped RykerSoft family Pro access for live Places, YouTube, and AI research",
+      "changelog": "Google Maps turn-by-turn navigation for the selected trip, including upcoming planned stops | Clear trip selection with trip-scoped routes, stops, research, and conversations | Full Stops search, route-window filtering, sorting, editing, comments, and discovery parity | Live Pro Places refresh, videos, AI research, route calculation, and enrichment | Editor invitations and shared trip collaboration",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/roadtripper/01-route.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/roadtripper/02-stop-details.png",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/roadtripper/03-offline-library.png"
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/roadtripper/03-collaboration.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/roadtripper/04-offline-library.png"
       ],
       "isGame": false
     }
