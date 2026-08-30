@@ -18,11 +18,11 @@
     {
       "packageName": "com.rykersoft.hyperscribemobile",
       "name": "Hyperscribe Mobile",
-      "latestVersionCode": 5,
-      "latestVersionName": "2.1.4",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.1.4/HyperscribeMobile-v2.1.4.apk",
+      "latestVersionCode": 6,
+      "latestVersionName": "2.2.0",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.2.0/HyperscribeMobile-v2.2.0.apk",
       "icon": "android",
-      "changelog": "Restore snippet, LLM, TTS, search, and pipeline action execution on Android | Use selected Inbox content or clipboard fallback correctly | Add catalog-backed LLM model, thinking-level, speech-provider, voice, and speech-model selectors",
+      "changelog": "Add opt-in tag, Inbox, chat, and action synchronization | Separate Hyperscribe data Firebase from RykerSoft Pro entitlements | Standardize Google sign-in and current debug/release certificates | Add automatic tag rules, action tags, recording profiles, and input-gain controls",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/29c23bee375465cbc4d843a0e4b1d6730bc7b4a2/screenshots/hyperscribe-mobile/01-inbox.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-mobile/02-actions.png",
@@ -33,11 +33,11 @@
     {
       "packageName": "com.rykersoft.hyperscribedesktop",
       "name": "Hyperscribe Desktop",
-      "latestVersionCode": 1,
-      "latestVersionName": "2.1.0",
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-desktop-v2.1.0/HyperscribeDesktop-v2.1.0.exe",
+      "latestVersionCode": 2,
+      "latestVersionName": "2.2.0",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-desktop-v2.2.0/HyperscribeDesktop-v2.2.0.exe",
       "icon": "desktop",
-      "changelog": "First standalone RykerSoft Desktop release | Portable Python and PySide6 Windows executable | Clipboard palette, Inbox, actions, chat, transcription, screenshots, reminders, and TTS | Bring-your-own provider keys",
+      "changelog": "Add Firebase tag and selected Inbox synchronization | Add global Inbox search | Reconcile current desktop search, tag, and action-library work into one source tree | Add compact backward-compatible action tag editing",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-desktop/01-inbox.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-desktop/02-actions.png",
