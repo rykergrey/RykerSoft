@@ -1,5 +1,11 @@
 # Release Updates & History
 
+## v1.4.3
+Version Code 24 - August 31st, 2026
+- Ship the canonical public RykerSoft Firebase configuration in clean builds
+- Keep Google account sign-in available without a private local environment file
+- Preserve administrator-managed package entitlements and existing account UIDs
+
 ## v1.4.1
 Version Code 22 - August 23rd, 2026
 - Added real Windows catalog browsing through the Desktop platform filter

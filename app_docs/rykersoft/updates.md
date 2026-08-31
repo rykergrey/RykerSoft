@@ -1,5 +1,10 @@
 # Release Updates & History
 
+## v1.4.3 (Version Code 24) - August 31st, 2026
+- Ship the canonical public RykerSoft Firebase configuration in clean builds
+- Keep Google account sign-in available without a private local environment file
+- Preserve administrator-managed package entitlements and existing account UIDs
+
 ## v1.3.2 (Version Code 20) - August 8th, 2026
 - Remove the embedded family GitHub token and the Settings token override so credentials are never shipped in the Android client or attached to registry, documentation, or APK requests
 - Download current RykerSoft binaries and documentation from anonymously accessible public distribution URLs while keeping private application source repositories private

@@ -1,5 +1,11 @@
 # Release Updates & History
 
+## v1.4.3
+Version Code 24 - August 31st, 2026
+- Added the canonical public RykerSoft Firebase application configuration to clean release builds
+- Kept Google account sign-in available when no private local `.env` file is present
+- Preserved administrator-managed, package-scoped Pro entitlements and existing accounts
+
 ## v1.4.2
 Version Code 23 - August 23rd, 2026
 - Declared Hyperscribe Mobile as an optional RykerSoft Pro Access application

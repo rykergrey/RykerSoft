@@ -1,6 +1,6 @@
 # RykerSoft Application Manager
 
-Current release: **v1.4.2** (`versionCode` 23), package `com.rykersoft.appmanager`, for Android 7.0/API 24 and newer.
+Current release: **v1.4.3** (`versionCode` 24), package `com.rykersoft.appmanager`, for Android 7.0/API 24 and newer.
 
 Personal Android app hub and application manager for RykerSoft applications. Easily check for updates, view changelogs, download, and install latest versions of RykerSoft apps — including self-updating RykerSoft itself!
 
@@ -91,4 +91,3 @@ When migrating an older private distribution, publish and verify a clean public 
 Pro access uses exact package fields at `users/{uid}/entitlements/apps`. Client applications can read only the signed-in user's document and cannot write grants. The Firebase Console is the current administration interface; a future Windows/.NET admin application must be a thin authenticated client of callable Functions using the Admin SDK, never a holder of service-account credentials.
 
 See [`firebase/SEED.md`](firebase/SEED.md) for the exact grant/revoke procedure, existing-user preservation rules, provider-key migration, and optional secure one-time invitation design.
-
