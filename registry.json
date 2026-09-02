@@ -18,11 +18,11 @@
     {
       "packageName": "com.rykersoft.hyperscribemobile",
       "name": "Hyperscribe Mobile",
-      "latestVersionCode": 7,
-      "latestVersionName": "2.3.0",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.3.0/HyperscribeMobile-v2.3.0.apk",
+      "latestVersionCode": 8,
+      "latestVersionName": "2.4.0",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.4.0/HyperscribeMobile-v2.4.0.apk",
       "icon": "android",
-      "changelog": "Add tag-defined Inbox views, custom capture modes, archive workflows, and durable organization | Open Inbox items in the editor, add timestamps and sorting, and support multi-item Chat context | Add cancellable Chat responses, background completion notifications, working action stacks, and list-aware TTS segmentation",
+      "changelog": "Make Pin and Reminder modular behavior tags and move custom capture modes into the central recording menu | Show and edit tags directly beneath the Inbox editor, including type-to-create tags | Improve large-Inbox scrolling and repair RykerSoft Pro Google sign-in configuration",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/29c23bee375465cbc4d843a0e4b1d6730bc7b4a2/screenshots/hyperscribe-mobile/01-inbox.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-mobile/02-actions.png",
