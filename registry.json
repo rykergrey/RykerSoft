@@ -18,11 +18,11 @@
     {
       "packageName": "com.rykersoft.hyperscribemobile",
       "name": "Hyperscribe Mobile",
-      "latestVersionCode": 9,
-      "latestVersionName": "2.4.1",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.4.1/HyperscribeMobile-v2.4.1.apk",
+      "latestVersionCode": 10,
+      "latestVersionName": "2.4.2",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.4.2/app-release.apk",
       "icon": "android",
-      "changelog": "Reconcile synced tag names case-insensitively to prevent duplicate-name failures across devices | Show available sync tags with item counts and identify tags already present locally | Add explicit per-item Inbox sync controls and improve Google sign-in and sync status handling | Add a compact badged Chat context control with ordered review",
+      "changelog": "Add automatic transcription replacement rules with one canonical result and unlimited spelling or phrase variants | Apply replacements before transcripts are stored or routed to clipboard, Chat, tags, and automatic actions | Support dynamic date and time tokens, per-rule enable controls, and portable backup and restore",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/29c23bee375465cbc4d843a0e4b1d6730bc7b4a2/screenshots/hyperscribe-mobile/01-inbox.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-mobile/02-actions.png",
