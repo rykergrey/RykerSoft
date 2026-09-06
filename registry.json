@@ -18,11 +18,11 @@
     {
       "packageName": "com.rykersoft.hyperscribemobile",
       "name": "Hyperscribe Mobile",
-      "latestVersionCode": 10,
-      "latestVersionName": "2.4.2",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.4.2/app-release.apk",
+      "latestVersionCode": 11,
+      "latestVersionName": "2.5.0",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.5.0/app-release.apk",
       "icon": "android",
-      "changelog": "Add automatic transcription replacement rules with one canonical result and unlimited spelling or phrase variants | Apply replacements before transcripts are stored or routed to clipboard, Chat, tags, and automatic actions | Support dynamic date and time tokens, per-rule enable controls, and portable backup and restore",
+      "changelog": "Add Markdown-editor dictation controls and keyboard-aware layout | Import multiple images together, extract their text, or attach them to notes without OCR | Create editable recording profiles with retention and input-processing options | Override text and audio retention by tag, show upcoming expiry, and sort by retention date",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/29c23bee375465cbc4d843a0e4b1d6730bc7b4a2/screenshots/hyperscribe-mobile/01-inbox.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-mobile/02-actions.png",
