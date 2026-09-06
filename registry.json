@@ -18,11 +18,11 @@
     {
       "packageName": "com.rykersoft.hyperscribemobile",
       "name": "Hyperscribe Mobile",
-      "latestVersionCode": 11,
-      "latestVersionName": "2.5.0",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.5.0/app-release.apk",
+      "latestVersionCode": 12,
+      "latestVersionName": "2.5.1",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.5.1/app-release.apk",
       "icon": "android",
-      "changelog": "Add Markdown-editor dictation controls and keyboard-aware layout | Import multiple images together, extract their text, or attach them to notes without OCR | Create editable recording profiles with retention and input-processing options | Override text and audio retention by tag, show upcoming expiry, and sort by retention date",
+      "changelog": "Automatically tag recordings by their configurable recording-profile tag for Inbox filtering | Reclaim Markdown editor space with compact keyboard-aware controls and toolbar-based image attachments | Add swipeable attached-image previews and show recording cancellation only during active recording | Add a compact creation menu with an All options sheet",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/29c23bee375465cbc4d843a0e4b1d6730bc7b4a2/screenshots/hyperscribe-mobile/01-inbox.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-mobile/02-actions.png",
