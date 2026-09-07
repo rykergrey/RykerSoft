@@ -201,6 +201,26 @@ class EntitlementRepository(private val context: Context) {
         awaitClose { registration.remove() }
     }.distinctUntilChanged()
 
+    /** Observe deployed capability metadata, independent of user-directory changes. */
+    fun observeProCapabilities(): Flow<Map<String, Boolean>> = callbackFlow {
+        val db = RykerSoftFirebase.db(context)
+        if (db == null) {
+            trySend(emptyMap())
+            awaitClose { }
+            return@callbackFlow
+        }
+        val registration = db.collection("appCapabilities").addSnapshotListener { snapshot, error ->
+            if (error != null) {
+                trySend(emptyMap())
+            } else {
+                trySend(snapshot?.documents.orEmpty().associate { document ->
+                    document.id to (document.get("proEnabled") == true)
+                })
+            }
+        }
+        awaitClose { registration.remove() }
+    }.distinctUntilChanged()
+
     suspend fun listAppsForAdmin(): List<AdminManagedApp> {
         requireAdmin()
         val db = RykerSoftFirebase.db(context) ?: throw IllegalStateException("Firestore unavailable.")

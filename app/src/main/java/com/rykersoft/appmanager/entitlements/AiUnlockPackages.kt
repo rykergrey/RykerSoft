@@ -6,7 +6,9 @@ object AiUnlockPackages {
     const val INFORMANT = "com.rykersoft.informant"
     const val PHOTOCRAFTING = "com.rykersoft.photocrafting"
 
-    val ORDERED: List<String> = listOf(SUPERTHINKING, BETTERTRACKING, INFORMANT, PHOTOCRAFTING)
+    const val COMICCRAFTING = "com.rykersoft.comiccrafting"
+
+    val ORDERED: List<String> = listOf(SUPERTHINKING, BETTERTRACKING, INFORMANT, PHOTOCRAFTING, COMICCRAFTING)
     val ALL: Set<String> = ORDERED.toSet()
 
     val INFORMANT_CREDENTIAL_FIELDS: List<AdminCredentialField> = listOf(
@@ -23,8 +25,10 @@ object AiUnlockPackages {
         BETTERTRACKING -> "bettertracking"
         INFORMANT -> "INFORMANT"
         PHOTOCRAFTING -> "Photocraft.ing"
+        COMICCRAFTING -> "ComicCraft.ing"
         else -> packageId
     }
 
-    fun isUnlockable(packageName: String): Boolean = packageName in ALL
+    fun isUnlockable(packageName: String, capabilities: Map<String, Boolean> = emptyMap()): Boolean =
+        capabilities[packageName] ?: (packageName in ALL)
 }

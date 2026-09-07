@@ -127,6 +127,9 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
     private var cachedDbApps: List<ManagedApp> = emptyList()
     private var adminDirectoryJob: Job? = null
+    private var capabilityJob: Job? = null
+    private var capabilityAccountUid: String? = null
+    private var proCapabilities: Map<String, Boolean> = emptyMap()
 
     /** Package whose system installer was launched; used to detect completion. */
     private var awaitingInstallPackage: String? = null
@@ -224,6 +227,20 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                         hubEntitlements = account.entitlements,
                         hubAdminUsers = if (account.isAdmin) it.hubAdminUsers else emptyList()
                     )
+                }
+                if (capabilityAccountUid != account.user?.uid) {
+                    capabilityJob?.cancel()
+                    capabilityAccountUid = account.user?.uid
+                    proCapabilities = emptyMap()
+                    if (account.user != null) {
+                        capabilityJob = viewModelScope.launch {
+                            entitlementRepository.observeProCapabilities().collect { capabilities ->
+                                proCapabilities = capabilities
+                                mapAppsToUi(cachedDbApps)
+                                if (_uiState.value.hubAdmin) refreshAdminUsers(forceRefresh = true)
+                            }
+                        }
+                    }
                 }
                 if (account.isAdmin) {
                     observeAdminDirectory()
@@ -570,7 +587,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
             }
             val currentCode = info.versionCode ?: 0L
             val isOutdated = info.isInstalled && (app.latestVersionCode > currentCode)
-            val supportsAi = AiUnlockPackages.isUnlockable(app.packageName)
+            val supportsAi = AiUnlockPackages.isUnlockable(app.packageName, proCapabilities)
             val aiUnlocked = supportsAi && entitlements[app.packageName] == true
             
             val statusText = when {

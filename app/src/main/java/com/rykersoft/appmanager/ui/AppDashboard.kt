@@ -1043,7 +1043,7 @@ fun AppDashboard(
                 hubFirebaseConfigured = uiState.hubFirebaseConfigured,
                 onProAccessInfoClick = { proAccessInfoPackage = currentApp.packageName },
                 onOpenAccountSettings = {
-                    viewModel.refreshAdminUsers(forceRefresh = false)
+                    viewModel.refreshAdminUsers(forceRefresh = true)
                     showSettingsDialog = true
                 }
             )
@@ -1070,6 +1070,9 @@ fun AppDashboard(
 
         // Settings Dialog
         if (showSettingsDialog) {
+            LaunchedEffect(uiState.hubAdmin) {
+                if (uiState.hubAdmin) viewModel.refreshAdminUsers(forceRefresh = true)
+            }
             SettingsDialog(
                 currentUrl = uiState.registryUrl,
                 notificationsEnabled = uiState.notificationsEnabled,
@@ -2585,7 +2588,7 @@ fun SettingsDialog(
                             enabled = !hubAdminBusy
                         ) {
                             Text(
-                                "REFRESH USERS",
+                                "REFRESH USERS & APPS",
                                 fontSize = 9.sp,
                                 fontWeight = FontWeight.Black,
                                 fontFamily = FontFamily.Monospace,

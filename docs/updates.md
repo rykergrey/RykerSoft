@@ -1,5 +1,13 @@
 # Release Updates & History
 
+## v1.4.4
+Version Code 25 - September 7th, 2026
+- Added ComicCraft.ing to the built-in Pro access catalog and user grant controls
+- Observe deployed capability records so newly added Pro apps update without a user-directory change
+- Refresh both users and apps whenever the administrator opens account settings
+- Use deployed capability flags for app-card Pro status, including explicit disabled flags
+- Preserve existing account UIDs, grants, credentials, and administrator-only writes
+
 ## v1.4.3
 Version Code 24 - August 31st, 2026
 - Added the canonical public RykerSoft Firebase application configuration to clean release builds
