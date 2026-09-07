@@ -236,6 +236,17 @@
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/roadtripper/04-offline-library.png"
       ],
       "isGame": false
+    },
+    {
+      "packageName": "com.rykersoft.comiccrafting",
+      "name": "ComicCraft.ing",
+      "latestVersionCode": 1,
+      "latestVersionName": "1.0.0",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/comiccrafting-v1.0.0/ComicCraft.ing-1.0.0.apk",
+      "icon": "android",
+      "changelog": "First Android release | RykerSoft Google sign-in and app-specific Pro access | Native image and ZIP sharing | Bundled fonts and styles | Improved mobile layout, help, accessibility, and generation feedback",
+      "screenshots": [],
+      "isGame": false
     }
   ]
 }
