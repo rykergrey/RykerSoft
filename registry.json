@@ -18,11 +18,11 @@
     {
       "packageName": "com.rykersoft.hyperscribemobile",
       "name": "Hyperscribe Mobile",
-      "latestVersionCode": 12,
-      "latestVersionName": "2.5.1",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.5.1/app-release.apk",
+      "latestVersionCode": 13,
+      "latestVersionName": "2.6.0",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.6.0/app-release.apk",
       "icon": "android",
-      "changelog": "Automatically tag recordings by their configurable recording-profile tag for Inbox filtering | Reclaim Markdown editor space with compact keyboard-aware controls and toolbar-based image attachments | Add swipeable attached-image previews and show recording cancellation only during active recording | Add a compact creation menu with an All options sheet",
+      "changelog": "Powerful saved Inbox views with nested tag rules, media filters, retention windows, and date dividers | Ordered Inbox input across Actions, Custom, and Chat with combined-copy notes preserved | Explicit text, image, and audio Chat attachment review | Responsive TTS section navigation and upward playlist with cached replay | Capture history and Settings search/draft improvements | Preserve v2.5.1 profile tags and compact editor controls",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/29c23bee375465cbc4d843a0e4b1d6730bc7b4a2/screenshots/hyperscribe-mobile/01-inbox.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-mobile/02-actions.png",
