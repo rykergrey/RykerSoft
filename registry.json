@@ -112,12 +112,12 @@
     {
       "packageName": "com.rykersoft.superthinking",
       "name": "SuperThink.ing",
-      "latestVersionCode": 130,
-      "latestVersionName": "2.2.7",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/superthinking-v2.2.7/superthinking-v2.2.7-android.apk",
+      "latestVersionCode": 131,
+      "latestVersionName": "2.2.8",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/superthinking-v2.2.8/superthinking-v2.2.8-android.apk",
       "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/superthinking-v2.2.6/superthinking-v2.2.6-windows-x86_64.exe",
       "icon": "android",
-      "changelog": "Fix RykerSoft Pro Google sign-in on Android by requesting a Hub-project ID token through Credential Manager | Preserve the independent SuperThink.ing data-account sign-in and its Firebase project",
+      "changelog": "Improve navigation and compact layouts | Remember scroll positions per tab | Improve song variation editing and rendering",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/superthinking/01-categories.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/superthinking/02-category-cards.jpg",
