@@ -1,101 +1,112 @@
-# bettertracking User Guide
+# RykerSoft User Guide
 
-Holistic tracking for food, supplements, exercise, measurements, lifestyle, and notes — with adaptive calorie targets, AI logging, and coaching.
+RykerSoft is the Android hub for installing, updating, launching, and learning about the RykerSoft app collection.
 
 ## Table of Contents
 
-- [1. Getting started](#1-getting-started)
-- [2. The Journal](#2-the-journal)
-- [3. Library & Composer](#3-library--composer)
-- [4. Staging tray & Quick Log](#4-staging-tray--quick-log)
-- [5. Adaptive targets & Energy Bank](#5-adaptive-targets--energy-bank)
-- [6. AI chat & Health Coach](#6-ai-chat--health-coach)
-- [7. Alerts & reminders](#7-alerts--reminders)
+- [1. Overview](#1-overview)
+- [2. Browse Apps & Documentation](#2-browse-apps--documentation)
+- [3. Install & Update Apps](#3-install--update-apps)
+- [4. After an Install or Update](#4-after-an-install-or-update)
+- [5. Settings & RykerSoft Account](#5-settings--rykersoft-account)
 - [PRO Features](#pro-features)
-- [9. Profile, keys & preferences](#9-profile-keys--preferences)
-- [10. Export & import](#10-export--import)
+- [6. Troubleshooting](#6-troubleshooting)
+- [7. Privacy and Security](#7-privacy-and-security)
 
-## 1. Getting started
+## 1. Overview
 
-1. Create an account or sign in (email/password). Your library, logs, and profile sync through the cloud and keep working offline.
-2. Fill in **Profile → Goals & biometrics** (weight goal, gender, height, date of birth, wake/bed times) so calorie targets can be calculated.
-3. New accounts come seeded with builtin items (Weight, Water, Sleep, bodyweight exercises, and more) so you can log immediately.
-4. To use PRO features, ask the RykerSoft administrator to enable bettertracking for your account and sign in under **Profile → API Keys** (see PRO Features).
+The home dashboard synchronizes the RykerSoft registry and compares every catalog entry with packages visible to Android. Status labels show whether an app is a new release, installed, or ready for an update.
 
-## 2. The Journal
+Colors carry consistent meaning: yellow marks primary actions and active tabs, green means installed or successful, red identifies errors or destructive actions, cyan marks links and interactive focus, and magenta marks pro capabilities.
 
-- Switch between **day, week, and month** views with the date navigator.
-- Filter by domain (Food / Supplement / Exercise / Measurement / Lifestyle / Note), search, and filter by tags.
-- Sort by time, calories, burn, macros, or name; group by time, category, or item.
-- Day dashboards summarize nutrition, supplements, exercise, measurements, lifestyle, and notes.
-- Week/month views add trend charts (calories, macros, burn, weight) with totals, averages, and min/max.
-- Tap a log to edit its quantity, unit, date, or custom values. Multi-select for batch delete/update or export.
-- A yesterday catch-up banner appears when food logging looked thin, which keeps Energy Bank math honest.
+## 2. Browse Apps & Documentation
 
-## 3. Library & Composer
+Use the platform, status, sorting, and search controls above the catalog to find an app. Tap a card to open its detail view.
 
-- The Library holds reusable items across all six domains: simple **ingredients** and **combos** that compose child items with quantities.
-- Items carry macros, optional micros (fiber, vitamins, minerals, etc.), units, serving size, tags, categories, icons, and custom fields.
-- Build exercise **routines** with rest periods, and attach structured **reminders** to any item.
-- **AI Architect**: describe an item in plain language (optionally with photos) and let the model draft the entry; nutrition AI can estimate macros and exercise burn from your biometrics.
-- Tap behavior is configurable: stage the item to the tray or open its details.
-- Your Library search, scroll position, and open groups are kept when you leave for the staging tray and return.
+The detail view chooses a useful starting tab:
 
-## 4. Staging tray & Quick Log
+- **Update available** — Opens **Updates** so you can review the new release notes.
+- **Not installed** — Opens **Description** so you can understand the app before installing.
+- **Installed and current** — Opens **User Guide**.
 
-- Stage several items with quantities, units, and custom values before committing them as logs.
-- Pick the log date/time and watch staged vs remaining nutrition against your day targets.
-- Use voice or text quick-add inside the tray, create a combo from the current tray, or open chat with the staged items as context.
-- When you add from the library with a phrase like “three whole eggs,” the quantity uses that item’s library unit (pcs, g, srv, etc.), not adjectives from the phrase.
-- **Quick Log**: type free text and/or attach a photo → AI estimates the macros. Refine with feedback before saving; one-off hidden items can be created automatically.
+Each detail view can include an image gallery, full description, reverse-chronological updates, technical specifications, and a clickable user-guide table of contents.
 
-## 5. Adaptive targets & Energy Bank
+Choose **Android** or **Desktop** from the platform selector. Windows-capable entries display a **WINDOWS** badge. For a Windows-only product, tap **DOWNLOAD** or **GET WINDOWS APP** to open its verified public EXE release in the browser; Android does not attempt to install the EXE.
 
-- Daily calorie targets start from Mifflin–St Jeor BMR using your biometrics.
-- After about 14 days of weight history, targets shift from calibrating to **adaptive**, driven by your actual weight trend.
-- Logged exercise burn is trusted at 0.8× to stay conservative. You can override calories, macros, and micros manually.
-- The optional **Energy Bank** carries surplus/deficit across days with configurable window length, recovery days, and pacing.
-- In-app **Help** explains the engine, the burn trust factor, and the BMR floor in detail.
+To share a download, tap the share icon on the home card or inside the expanded detail card. RykerSoft copies that entry's exact public APK or Windows release URL to the Android clipboard and confirms the copy at the bottom of the screen. Paste the link into a message or another sharing destination; no family GitHub credential is required.
 
-## 6. AI chat & Health Coach
+## 3. Install & Update Apps
 
-- Chat streams replies with markdown and item cards; conversations persist to your account.
-- The assistant can use tools: navigate the app, query your library and logs, create or update items, adjust your profile, set reminders, and propose batch updates.
-- Attach day logs or a saved analysis by calendar date as chat context.
-- **Health Coach Analysis** builds a detailed day/week/month prompt locally from your profile, targets, notes, and logs. Choose Perplexity (default), ChatGPT, Google Gemini, or copy it into any chatbot. Long prompts are copied for manual paste when direct prefill is unreliable; previously saved reports remain readable.
-- Voice input works in chat (Groq or OpenAI Whisper).
+1. Tap the sync button to fetch the newest registry.
+2. Tap **INSTALL** for a new app or **UPDATE** for an installed app.
+3. RykerSoft downloads the APK and verifies its package name, signing certificate, and version code.
+4. If Android has not granted install permission to RykerSoft, enable **Allow from this source** when Settings opens, then return to the app.
+5. Approve Android's package installer and Play Protect prompts. Keep RykerSoft in the foreground until confirmation completes.
+6. A yellow waiting banner remains visible while Android is processing the session. Use **CANCEL INSTALL** if a session becomes stuck.
 
-## 7. Alerts & reminders
+The expanded application card remains open throughout download and installation. You can continue reading the selected Updates, Description, or User Guide tab while Android handles the install.
 
-- Attach schedules to library items: once, daily, weekdays, weekly, biweekly, or monthly.
-- The Alerts view shows Active (today) and Scheduled reminders; log, edit, duplicate, or delete from there.
-- Profile wake/sleep alarms and per-domain notification toggles control local notifications.
-- On Android, notifications reschedule automatically after a reboot.
+Unknown-source permission authorizes RykerSoft to request an install. It does not bypass Android's package-signature, version, device-compatibility, policy, or storage checks.
+
+## 4. After an Install or Update
+
+After success, RykerSoft returns to the foreground, refreshes installed versions, and keeps your current location.
+
+- The expanded application card remains open if it was already open.
+- The selected **Updates**, **Description**, or **User Guide** tab remains selected.
+- Starting from the home catalog leaves you on that application card.
+- An installed, current app displays **OPEN**, **PLAY**, or **LAUNCH**.
+
+If Android rejects the operation, RykerSoft presents the most specific available explanation and leaves the app ready to retry.
+
+## 5. Settings & RykerSoft Account
+
+Open the gear control to:
+
+- Sign in to RykerSoft with Google through Android's account chooser.
+- Change the registry URL for development or recovery.
+- Enable or disable periodic update notifications.
+- Select a title-font preset.
+- Add a custom app entry or load sample catalog entries.
+
+The RykerSoft account is separate from any product-specific account an individual app may use.
+
+New RykerSoft accounts use Google and do not require another password. If you already have a password-based RykerSoft account, choose **MIGRATE AN EXISTING PASSWORD ACCOUNT**, verify the old account, then choose **LINK GOOGLE & PRESERVE ACCOUNT**. Linking keeps the original Firebase UID, data ownership, and entitlements. The migration panel also provides password reset; it cannot create new password accounts.
+
+The legacy password field starts hidden. Use its accessible eye button to reveal or hide the value without clearing the field.
 
 ## PRO Features
 
-Items marked *—Quick Log, AI Architect, chat, and voice transcription—require Pro access. Coach Analysis builds a prompt locally and uses the user's selected external chatbot account. All tracking, journaling, library, and reminder features work without Pro access.
+The App Manager itself is free. A magenta `*` marks optional features in connected apps that require RykerSoft Pro access.
 
-1. In the **RykerSoft App Manager**, sign in to your RykerSoft account with Google.
-2. Open bettertracking's page and use **PRO ACCESS INFO** to confirm the account the administrator should authorize.
-3. After the administrator enables `com.rykersoft.bettertracking` for that account's Firebase UID, go to **Profile → API Keys** and sign in with the **same** RykerSoft account.
-4. Provider access syncs automatically. Use **Refresh keys** if PRO features do not appear right away.
+* Request access — Sign in with Google and open a pro-capable app's detail page. **PRO ACCESS INFO** shows the account the administrator must authorize. The administrator grants only the requested package to that account's Firebase UID.
+* Activate inside the app — Install or open the app, then sign in with the same Google account inside that app so its entitlement and provider configuration can synchronize. Existing grants remain attached to the preserved UID.
 
-Notes:
-- Pro access is the package entitlement on your Firebase UID; no reusable family code is required.
-- This RykerSoft sign-in is separate from your bettertracking account (which syncs your data).
-- Keys you enter manually under Profile → API Keys take priority over synced keys.
+Ordinary unstarred catalog, documentation, update, download, and installation features remain available without Pro access.
 
-## 9. Profile, keys & preferences
+When the verified administrator account `heavensounds@gmail.com` is signed in, Store Settings includes user and application management. New hub profiles generate an Android notification after the account directory has been initialized. The administrator can search users, grant or revoke each deployed Pro app independently, see which provider fields are missing, and enter or rotate those values through masked controls. Apps that declare no external APIs appear with no credential fields.
 
-- **Goals & biometrics**: weight goal, body-composition goal (lose / maintain / gain), dietary preferences, and coach context.
-- **Custom targets**: manual calorie/macro/micro overrides and an adaptive-target preview.
-- **Energy Bank settings**: enable/disable, window, recovery, pacing.
-- **API Keys**: RykerSoft AI unlock sign-in, plus optional manual Gemini / Groq / OpenAI keys and model picks.
-- **Transcription provider**: Groq (default) or OpenAI.
-- **Library tap** preference: stage to tray or open details.
+## 6. Troubleshooting
 
-## 10. Export & import
+- **“App not installed” after previously using v1.1.0:** v1.1.0 was signed with an Android debug key, while v1.1.1 and newer use the RykerSoft release key. Android cannot update across those keys. Uninstall RykerSoft from every profile, then install the current release. Uninstalling clears RykerSoft's local data.
+- **Signing-key conflict for another app:** The installed copy and downloaded release do not share a signing certificate. Uninstall every copy only if you accept losing that app's local data, then install again.
+- **Hub says Not Installed but Android reports a conflict:** Check Island, Secure Folder, Work Profile, secondary users, and archived apps. Remove the hidden copy from its profile before retrying.
+- **Install permission required:** Open Android Settings for RykerSoft and enable **Allow from this source**.
+- **APK is invalid or has the wrong package:** Sync the registry again. If the error persists, the published asset or registry URL needs correction.
+- **Older version blocked:** Install a release with an equal or greater Android version code, or uninstall the newer copy first.
+- **Incompatible device:** RykerSoft requires Android 7.0 or newer and the target app may have additional requirements.
+- **Not enough storage:** Free internal storage and retry the download and installation.
+- **Play Protect prompt is hidden or stalled:** Return to RykerSoft, tap **CANCEL INSTALL**, and retry with the app left in the foreground.
+- **Download or documentation fails:** Confirm the device has internet access, then sync the registry again. Official RykerSoft distribution links are public and do not require a GitHub token.
+- **Pro access is not active:** Confirm you are signed in to the account the administrator authorized, then reopen or refresh the target app. If needed, send the administrator the signed-in email so they can locate the authoritative Firebase UID.
+- **Google sign-in does not show an account:** Confirm Google Play services is available and that the device has a Google account, then retry the persistent **SIGN IN WITH GOOGLE** button.
+- **Google says the email belongs to a legacy account:** Open the migration panel, sign in with the existing password, and link Google from the signed-in account screen. Do not create or merge accounts manually.
+- **Legacy password is forgotten:** Enter the legacy email in the migration panel and choose **RESET PASSWORD**.
+- **Google is already linked elsewhere:** No automatic merge occurs. Contact support so ownership can be verified without choosing a data winner or changing a UID.
+- **App remains locked:** Sign in to the same RykerSoft account inside the target app and refresh its keys.
 
-- Multi-select journal logs → export **CSV**, **Markdown**, or copy to clipboard.
-- Export library items (including combo dependencies) as a JSON file; import that JSON on another device or account.
+## 7. Privacy and Security
+
+RykerSoft reads package metadata to determine Android installation status and versions. It downloads registry data, documentation, screenshots, and APK assets from RykerSoft-controlled GitHub repositories, and opens verified Windows release links in the browser. Android always presents the final APK installation confirmation.
+
+Release APKs are cryptographically signed. RykerSoft validates downloaded package identity and signing compatibility locally before starting an installation. Pro authorization is stored as package-specific booleans under the account's Firebase UID; email addresses are used only by a trusted administrator to locate that UID and are never authorization proof by themselves.

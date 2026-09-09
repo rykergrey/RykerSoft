@@ -1,30 +1,27 @@
-Holistic personal tracking for food, supplements, exercise, measurements, lifestyle, and notes — with an adaptive calorie engine, AI logging and coaching, reminders, cloud sync, and offline support.
+# RykerSoft Application Manager
 
-bettertracking is a full journal + library system, not a simple calorie counter. Track what you eat and do, build a personal library of ingredients and combos, stage batches into your journal, and let targets adapt from your weight trend and activity.
+RykerSoft is the Android hub for the RykerSoft app collection. It keeps one catalog of available Android and Windows apps, compares installed Android versions with current releases, downloads signed APKs, opens Windows release downloads, guides Android's installer flow, and presents each app's documentation and screenshots.
 
-## Features
+## Key Features
 
-- **Six domains** in one place: Food, Supplement, Exercise, Measurement, Lifestyle, and Note
-- **Journal** with day/week/month views, domain filters, tag search, trend charts, and multi-select export (CSV / Markdown / clipboard)
-- **Personal library** of reusable ingredients and combos with macros, micros, custom fields, exercise routines, and attached reminders
-- **Staging tray** for multi-item logging with quantities, units, voice quick-add (uses each library item’s defined unit), and day-target awareness
-- **Library panel** remembers search, scroll, and expanded groups across tray switches
-* **Quick Log**: free text and/or a photo → AI-estimated macros, refine with feedback
-- **Adaptive nutrition engine**: Mifflin–St Jeor BMR, weight-trend adaptation after ~14 days, conservative 0.8× trust on exercise burn, manual overrides
-- **Optional Energy Bank** that carries surplus/deficit across days with lookback, recovery, and pacing controls
-- **AI assistant & coaching**: tool-using chat (navigate, query logs, create/update items, set reminders), plus local day/week/month Health Coach prompts that open in the user's selected chatbot (Perplexity by default)
-* **AI Architect**: describe an item (optionally with images) and let the model draft the library entry
-* **Speech-to-text** via Groq Whisper (default) or OpenAI Whisper, plus on-device voice capture on Android
-- **Alerts & reminders**: per-item schedules (daily/weekly/monthly/etc.), wake/sleep alarms, Capacitor local notifications with reboot rescheduling
-- **Firebase Auth + Firestore** account sync with IndexedDB offline persistence
-- **Library JSON export/import** including combo dependencies
+- **Unified app catalog** — Browse RykerSoft apps and games from one dashboard with installed, update-ready, and new-release states.
+- **Version-aware updates** — Compare Android version codes and open the newest release notes before updating.
+- **Safer APK validation** — Check the downloaded package name, signing certificate, and version code before starting Android's installer.
+- **Actionable install errors** — Distinguish signing-key conflicts, another-profile copies, corrupt APKs, insufficient storage, and incompatible devices.
+- **Reliable installer flow** — Use `PackageInstaller` sessions and a dedicated confirmation host so Play Protect and system prompts remain visible.
+- **Dynamic documentation** — Read descriptions, complete update history, specifications, user guides, and public screenshot galleries in the app.
+- **In-place install reading** — Keep the open app detail card and its selected documentation tab visible while downloads and Android installation continue.
+- **Platform downloads** — Browse the Desktop catalog and open verified Windows release downloads without treating EXE-only products as Android packages.
+- **Automatic update checks** — Refresh on demand and optionally receive background notifications when newer releases are available.
+- **Google RykerSoft account** — Sign in through Android Credential Manager to receive account-specific pro access without creating another password.
+- **Safe legacy migration** — Verify an existing password account, link Google to that same Firebase UID, and retain password reset during migration.
+- **Administrator-managed access** — Preserve per-application pro access on each Firebase UID while denying entitlement changes from untrusted clients.
+- **Neo-brutalist interface** — Use a high-contrast cyber palette, clear status colors, hard shadows, and readable tabbed detail views.
+- **Shareable download links** — Copy an app's exact APK or Windows download URL from either the home card or its expanded detail actions.
 
 ## PRO Features
 
-Items marked * require an administrator-granted entitlement for `com.rykersoft.bettertracking`, followed by sign-in to the same RykerSoft account inside the app under **Profile → API Keys → RykerSoft AI unlock**. Health Coach prompts use the user's selected external chatbot and do not consume BetterTracking API credits. All tracking, journaling, library, and reminder features work without Pro access. You can also supply your own Gemini/Groq/OpenAI keys manually.
+The App Manager itself remains free. A magenta `*` identifies optional capabilities inside connected apps that require RykerSoft Pro access.
 
-## Platforms
-
-- **Android** — Capacitor APK via the RykerSoft hub (`com.rykersoft.bettertracking`)
-- **Web** — Vite PWA with service worker
-- **Windows** — Electron portable build
+* Connected-app pro features — Ask the RykerSoft administrator to enable an eligible app for your account, then sign in with the same Google account inside that app.
+* Provider-backed tools — Supported apps can receive their entitled provider configuration after account sign-in and authorization.
