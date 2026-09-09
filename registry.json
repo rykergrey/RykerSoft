@@ -136,12 +136,12 @@
     {
       "packageName": "com.rykersoft.bettertracking",
       "name": "bettertracking",
-      "latestVersionCode": 11,
-      "latestVersionName": "1.3.0",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.3.0/app-release.apk",
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.3.0/bettertracking-v1.3.0-win-x64.exe",
+      "latestVersionCode": 12,
+      "latestVersionName": "1.4.0",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.4.0/app-release.apk",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.4.0/bettertracking-v1.4.0-win-x64.exe",
       "icon": "android",
-      "changelog": "Rolling calorie balance works from the first logged day | Daily what-if plans for balancing now, spreading the difference or entering a custom intake | Clear goal-versus-maintenance context and missing-log warnings | Improved alerts, reporting periods, reminders and library handling | Updated Android, Windows and Linux builds",
+      "changelog": "Today and rolling-average macro views | Clear goal, minimum, maximum and range lines with a selected-day marker | Period averages, cumulative variance and daily overage counts | Reliable coverage for missing nutrition | Updated Android, Windows and Linux builds",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/bettertracking/01-journal.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/bettertracking/02-logs.jpg",
@@ -153,8 +153,8 @@
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/bettertracking/08-item-detail.jpg"
       ],
       "isGame": false,
-      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.3.0/bettertracking-v1.3.0-linux-x86_64.AppImage",
-      "linuxDebUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.3.0/bettertracking-v1.3.0-linux-amd64.deb"
+      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.4.0/bettertracking-v1.4.0-linux-x86_64.AppImage",
+      "linuxDebUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.4.0/bettertracking-v1.4.0-linux-amd64.deb"
     },
     {
       "packageName": "com.rykersoft.wordplaying",
