@@ -2,12 +2,12 @@ Holistic personal tracking for food, supplements, exercise, measurements, lifest
 
 bettertracking is a full journal + library system, not a simple calorie counter. Track what you eat and do, build a personal library of ingredients and combos, stage batches into your journal, and let targets adapt from your weight trend and activity.
 
-## New in 1.4.0
+## New in 1.4.1
 
-- Today and rolling-average views for macros and nutrients, using the same configurable lookback as the calorie balance
-- Clear goal, minimum, maximum, and range lines with a selected-day marker and visible overage segments
-- Period averages, cumulative variance, daily overage counts, and data coverage in one glanceable widget
-- Goal-aware guidance that recognizes protein adequacy without treating it as an overage and keeps nutrient trends separate from calorie credit
+- Today and rolling-average views directly inside both calorie and nutrient widgets
+- A compact calorie-period summary with average intake, combined balance, usable-day coverage, and the selected-day marker
+- On-demand Plans & details modal for what-if planning, maintenance context, and daily history
+- Clear goal, minimum, maximum, and range lines plus cumulative nutrient variance and overage-day counts
 
 ## Features
 
@@ -39,9 +39,9 @@ In-app AI features (Quick Log, AI Architect, chat, and voice transcription) are 
 
 - **Linux** — x64 AppImage and Debian package
 
-## Download version 1.4.0
+## Download version 1.4.1
 
-- [Android APK](https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.4.0/app-release.apk)
-- [Windows x64 portable](https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.4.0/bettertracking-v1.4.0-win-x64.exe)
-- [Linux x64 AppImage](https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.4.0/bettertracking-v1.4.0-linux-x86_64.AppImage)
-- [Linux x64 Debian package](https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.4.0/bettertracking-v1.4.0-linux-amd64.deb)
+- [Android APK](https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.4.1/app-release.apk)
+- [Windows x64 portable](https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.4.1/bettertracking-v1.4.1-win-x64.exe)
+- [Linux x64 AppImage](https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.4.1/bettertracking-v1.4.1-linux-x86_64.AppImage)
+- [Linux x64 Debian package](https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.4.1/bettertracking-v1.4.1-linux-amd64.deb)

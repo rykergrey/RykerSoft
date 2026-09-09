@@ -1,5 +1,11 @@
 # Release notes
 
+## v1.4.1
+- Moved rolling calorie progress into a Today / rolling-average switch on the calorie widget
+- Replaced the always-visible full-width planner with a compact period summary showing average intake, combined balance, coverage, and the selected day
+- Moved what-if plans, maintenance context, and daily history into an on-demand Plans & details modal
+- Kept partial-window warnings prominent and avoided treating incomplete shortfalls as success
+
 ## v1.4.0
 - Added a Today / rolling-average switch to the Macros & Nutrients widget so period trends are useful before the window is complete
 - Added fixed goal, minimum, limit, and range lines, plus a cyan selected-day marker and bright overage segments
