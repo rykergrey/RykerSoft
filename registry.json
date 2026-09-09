@@ -75,7 +75,7 @@
     {
       "packageName": "com.rykersoft.rush",
       "name": "Rush",
-      "description": "Unofficial Rush companion for Android \u2014 browse the discography, read lyrics and album notes, explore the band, and build a personal collection of pins, ratings, lyric quotes, and YouTube links.\n\n## Features\n- Home with explore shortcuts, featured content, and spotlight into the catalog\n- Discography with artwork, decade grouping, and studio / live / solo filters\n- Album pages with About, Tracks, Videos, Credits, Liner Notes, and Awards\n- Track list shows per-track YouTube video counts when videos are present\n- Album Videos tab aggregates official and user-added YouTube links by track\n- Song pages with Lyrics, Appears On, and Videos tabs\n- My Collection for pins, ratings, lyric quotes, notes, and custom YouTube links\n- Export and import your collection as JSON, with merge or replace on import\n- The Band history and member pages, studio Timeline, search, random song/video\n- Offline bundled catalog; collection data stored on device\n\n## Platforms\n- Android (Jetpack Compose), minSdk 26\n- Package ID: com.rykersoft.rush\n\n## Requirements\n- Android 8.0+",
+      "description": "Unofficial Rush companion for Android — browse the discography, read lyrics and album notes, explore the band, and build a personal collection of pins, ratings, lyric quotes, and YouTube links.\n\n## Features\n- Home with explore shortcuts, featured content, and spotlight into the catalog\n- Discography with artwork, decade grouping, and studio / live / solo filters\n- Album pages with About, Tracks, Videos, Credits, Liner Notes, and Awards\n- Track list shows per-track YouTube video counts when videos are present\n- Album Videos tab aggregates official and user-added YouTube links by track\n- Song pages with Lyrics, Appears On, and Videos tabs\n- My Collection for pins, ratings, lyric quotes, notes, and custom YouTube links\n- Export and import your collection as JSON, with merge or replace on import\n- The Band history and member pages, studio Timeline, search, random song/video\n- Offline bundled catalog; collection data stored on device\n\n## Platforms\n- Android (Jetpack Compose), minSdk 26\n- Package ID: com.rykersoft.rush\n\n## Requirements\n- Android 8.0+",
       "latestVersionCode": 3,
       "latestVersionName": "1.0.2",
       "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/rush-v1.0.2/app-release.apk",
@@ -243,13 +243,15 @@
     {
       "packageName": "com.rykersoft.comiccrafting",
       "name": "ComicCraft.ing",
-      "latestVersionCode": 1,
-      "latestVersionName": "1.0.0",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/comiccrafting-v1.0.0/ComicCraft.ing-1.0.0.apk",
+      "latestVersionCode": 2,
+      "latestVersionName": "1.1.0",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/comiccrafting-v1.1.0/ComicCraft.ing-1.1.0.apk",
       "icon": "android",
-      "changelog": "First Android release | RykerSoft Google sign-in and app-specific Pro access | Native image and ZIP sharing | Bundled fonts and styles | Improved mobile layout, help, accessibility, and generation feedback",
+      "changelog": "New Windows and Linux builds | Idea-first creation and comic-first workbench | Draft autosave and in-app background generation | Individual panel retry | Persistent Undo and Trash | Library search, sorting and names | Clear editing and export controls",
       "screenshots": [],
-      "isGame": false
+      "isGame": false,
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/comiccrafting-v1.1.0/ComicCraft.ing-1.1.0-windows-x64.exe",
+      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/comiccrafting-v1.1.0/ComicCraft.ing-1.1.0-linux-x86_64.AppImage"
     }
   ]
 }
