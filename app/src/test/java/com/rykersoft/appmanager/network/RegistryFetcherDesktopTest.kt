@@ -56,4 +56,27 @@ class RegistryFetcherDesktopTest {
             client.connectionPool.evictAll()
         }
     }
+    @Test
+    fun `linux-only and dual-platform entries preserve download choices`() = runTest {
+        val json = """{"apps":[
+            {"packageName":"linux.only","name":"Linux","linuxUrl":"https://example.test/linux.tar.gz"},
+            {"packageName":"dual.app","name":"Dual","exeUrl":"https://example.test/windows.exe","linuxUrl":"https://example.test/linux.tar.gz"}
+        ]}"""
+        val client = OkHttpClient.Builder().addInterceptor { chain ->
+            Response.Builder().request(chain.request()).protocol(Protocol.HTTP_1_1)
+                .code(200).message("OK").body(json.toResponseBody("application/json".toMediaType())).build()
+        }.build()
+        try {
+            val apps = RegistryFetcher(client).fetchRegistry("https://example.invalid/registry.json")
+            assertEquals(2, apps.size)
+            assertTrue(apps[0].exeUrl.isBlank())
+            assertTrue(apps[0].linuxUrl.endsWith("linux.tar.gz"))
+            assertTrue(apps[1].exeUrl.endsWith("windows.exe"))
+            assertTrue(apps[1].linuxUrl.endsWith("linux.tar.gz"))
+        } finally {
+            client.dispatcher.executorService.shutdown()
+            client.connectionPool.evictAll()
+        }
+    }
+
 }

@@ -53,7 +53,7 @@ class AppRepository(
      * then falls back to repo-root docs/ and README/CHANGELOG (per-app repo layout).
      */
     suspend fun enrichAppWithRemoteDocs(app: ManagedApp): ManagedApp = withContext(Dispatchers.IO) {
-        val distributionUrl = app.apkUrl.ifBlank { app.exeUrl }
+        val distributionUrl = app.apkUrl.ifBlank { app.exeUrl.ifBlank { app.linuxUrl } }
         val repoMatch = Regex("""^https?://github\.com/([^/]+)/([^/]+)""", RegexOption.IGNORE_CASE).find(distributionUrl)
             ?: return@withContext app
 

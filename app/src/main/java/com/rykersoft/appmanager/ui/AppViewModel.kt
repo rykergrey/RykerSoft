@@ -40,6 +40,7 @@ data class AppUiItem(
     val latestVersionName: String,
     val apkUrl: String,
     val exeUrl: String = "",
+    val linuxUrl: String = "",
     val windowsAvailable: Boolean = false,
     val icon: String,
     val changelog: String,
@@ -58,10 +59,10 @@ data class AppUiItem(
     val aiUnlocked: Boolean = false
 ) {
     val isDesktopOnly: Boolean
-        get() = apkUrl.isBlank() && exeUrl.isNotBlank()
+        get() = apkUrl.isBlank() && (exeUrl.isNotBlank() || linuxUrl.isNotBlank())
 
     val primaryDownloadUrl: String
-        get() = if (isDesktopOnly) exeUrl else apkUrl
+        get() = if (isDesktopOnly) exeUrl.ifBlank { linuxUrl } else apkUrl
 }
 
 data class MainUiState(
@@ -579,7 +580,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     private fun mapAppsToUi(dbApps: List<ManagedApp>) {
         val entitlements = _uiState.value.hubEntitlements
         val uiItems = dbApps.map { app ->
-            val isDesktopOnly = app.apkUrl.isBlank() && app.exeUrl.isNotBlank()
+            val isDesktopOnly = app.apkUrl.isBlank() && (app.exeUrl.isNotBlank() || app.linuxUrl.isNotBlank())
             val info = if (isDesktopOnly) {
                 InstalledAppInfo(false, null, null)
             } else {
@@ -591,7 +592,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
             val aiUnlocked = supportsAi && entitlements[app.packageName] == true
             
             val statusText = when {
-                isDesktopOnly -> "Windows Download"
+                isDesktopOnly -> "Desktop Downloads"
                 !info.isInstalled -> "Not Installed"
                 isOutdated -> "Update Available"
                 else -> "Up to Date"
@@ -638,6 +639,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                 latestVersionName = app.latestVersionName,
                 apkUrl = app.apkUrl,
                 exeUrl = app.exeUrl,
+                linuxUrl = app.linuxUrl,
                 windowsAvailable = app.windowsAvailable,
                 icon = app.icon,
                 changelog = app.changelog.ifBlank {

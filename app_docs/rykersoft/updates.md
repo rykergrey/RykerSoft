@@ -1,5 +1,10 @@
 # Release Updates & History
 
+## v1.4.5 (Version Code 26) - September 10th, 2026
+- Choose or copy Windows and Linux download links for desktop-only applications.
+- Register Hyperscribe Desktop Pro with its shared Gemini, OpenAI, Groq, and ElevenLabs provider fields.
+- Preserve existing Pro grants and support Linux-only catalog entries.
+
 ## v1.4.4
 Version Code 25 - September 7th, 2026
 - Added ComicCraft.ing to the built-in Pro access catalog and user grant controls

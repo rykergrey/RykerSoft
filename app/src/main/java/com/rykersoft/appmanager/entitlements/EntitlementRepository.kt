@@ -309,7 +309,7 @@ class EntitlementRepository(private val context: Context) {
         ).await()
     }
 
-    /** Publish distinct Mobile (optional Pro) and Desktop (BYOK) capability records. */
+    /** Publish Mobile and Desktop trusted-family Pro capability records. */
     private suspend fun ensureHyperscribeCapabilityManifests() {
         requireAdmin()
         val db = RykerSoftFirebase.db(context) ?: throw IllegalStateException("Firestore unavailable.")
@@ -321,7 +321,7 @@ class EntitlementRepository(private val context: Context) {
         )
         val manifests = listOf(
             Triple("com.rykersoft.hyperscribemobile", "Hyperscribe Mobile", mobileFields),
-            Triple("com.rykersoft.hyperscribedesktop", "Hyperscribe Desktop", emptyList())
+            Triple("com.rykersoft.hyperscribedesktop", "Hyperscribe Desktop", mobileFields)
         )
 
         for ((packageId, displayName, fields) in manifests) {

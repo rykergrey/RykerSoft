@@ -1,6 +1,6 @@
 # RykerSoft Application Manager
 
-Current release: **v1.4.3** (`versionCode` 24), package `com.rykersoft.appmanager`, for Android 7.0/API 24 and newer.
+Current release: **v1.4.5** (`versionCode` 26), package `com.rykersoft.appmanager`, for Android 7.0/API 24 and newer.
 
 Personal Android app hub and application manager for RykerSoft applications. Easily check for updates, view changelogs, download, and install latest versions of RykerSoft apps — including self-updating RykerSoft itself!
 
@@ -80,7 +80,7 @@ To make the new version available to all RykerSoft users for automatic in-app up
 ```
 
 Provide an `exeUrl` only when a verified Windows release artifact exists. The Android hub
-shows Windows availability as informational metadata and intentionally does not download or launch Windows builds.
+offers a platform chooser for desktop-only apps, with Windows (`exeUrl`) and Linux (`linuxUrl`) links that users can open or copy. Desktop binaries are installed on their matching platform.
 
 Once committed and pushed to `main`, all installed RykerSoft app instances will detect the update and display the **App Manager Update Available** alert banner on open.
 

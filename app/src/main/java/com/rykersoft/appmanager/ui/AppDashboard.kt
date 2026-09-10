@@ -340,7 +340,35 @@ fun AppDashboard(
 
     val snackbarHostState = remember { SnackbarHostState() }
 
+    var desktopDownloadApp by remember { mutableStateOf<AppUiItem?>(null) }
+    var copyDesktopDownload by remember { mutableStateOf(false) }
+
+    desktopDownloadApp?.let { desktop ->
+        AlertDialog(
+            onDismissRequest = { desktopDownloadApp = null },
+            title = { Text(if (copyDesktopDownload) "Copy download link" else "Desktop downloads") },
+            text = {
+                Column {
+                    Text(desktop.name)
+                    listOf("Windows" to desktop.exeUrl, "Linux" to desktop.linuxUrl).filter { it.second.isNotBlank() }.forEach { (platform, url) ->
+                        TextButton(onClick = {
+                            if (copyDesktopDownload) clipboardManager.setText(AnnotatedString(url))
+                            else context.startActivity(android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(url)))
+                            desktopDownloadApp = null
+                        }) { Text(if (copyDesktopDownload) "Copy $platform link" else "Download for $platform") }
+                    }
+                }
+            },
+            confirmButton = { TextButton(onClick = { desktopDownloadApp = null }) { Text("Close") } }
+        )
+    }
+
     fun copyDownloadLink(app: AppUiItem) {
+        if (app.isDesktopOnly) {
+            copyDesktopDownload = true
+            desktopDownloadApp = app
+            return
+        }
         clipboardManager.setText(AnnotatedString(app.primaryDownloadUrl))
         scope.launch {
             val platform = if (app.isDesktopOnly) "Windows download" else "APK"
@@ -349,6 +377,11 @@ fun AppDashboard(
     }
 
     fun runPrimaryAction(app: AppUiItem) {
+        if (app.isDesktopOnly) {
+            copyDesktopDownload = false
+            desktopDownloadApp = app
+            return
+        }
         if (!app.isDesktopOnly) {
             viewModel.downloadAndInstall(app)
             return
@@ -438,7 +471,7 @@ fun AppDashboard(
     val filteredApps = remember(uiState.apps, searchQuery, uiState.filterType, uiState.sortOption, selectedPlatform) {
         val list = uiState.apps.filter { app ->
                 val matchesPlatform = if (selectedPlatform == "Desktop") {
-                    app.windowsAvailable
+                    (app.windowsAvailable || app.linuxUrl.isNotBlank())
                 } else {
                     app.apkUrl.isNotBlank()
                 }
@@ -472,7 +505,7 @@ fun AppDashboard(
 
     val (totalCount, gamesCount, appsCount, updatesCount, installedCount) = remember(uiState.apps, selectedPlatform) {
         val platformApps = uiState.apps.filter { app ->
-            if (selectedPlatform == "Desktop") app.windowsAvailable else app.apkUrl.isNotBlank()
+            if (selectedPlatform == "Desktop") (app.windowsAvailable || app.linuxUrl.isNotBlank()) else app.apkUrl.isNotBlank()
         }
         val total = platformApps.size
         var games = 0
@@ -1196,7 +1229,7 @@ fun AppItemCard(
                         // Tilted Status Sticker Tag (magenta = new/brand, yellow = update
                         // pending CTA, green = installed success)
                         val (statusText, statusBg, statusTextClr, rotation) = when {
-                            app.isDesktopOnly -> Quadruple("WINDOWS", NeoCyan, Color.Black, -2f)
+                            app.isDesktopOnly -> Quadruple("DESKTOP", NeoCyan, Color.Black, -2f)
                             !app.isInstalled -> Quadruple("NEW RELEASE", NeoMagenta, Color.White, -2f)
                             app.isOutdated -> Quadruple("UPDATE READY", NeoYellow, Color.Black, 3f)
                             else -> Quadruple("INSTALLED", NeoGreen, Color.Black, 0f)
@@ -1954,7 +1987,7 @@ fun AppDetailDialog(
                                         DetailRow("LATEST VERSION", "${app.latestVersionName} (code ${app.latestVersionCode})")
                                         DetailRow(
                                             "INSTALLED VERSION",
-                                            if (app.isDesktopOnly) "Managed on Windows" else app.installedVersionName?.let { "$it (code ${app.installedVersionCode})" } ?: "Not Installed"
+                                            if (app.isDesktopOnly) "Managed on desktop" else app.installedVersionName?.let { "$it (code ${app.installedVersionCode})" } ?: "Not Installed"
                                         )
                                         DetailRow("UPDATE STATUS", app.statusText)
                                         DetailRow(
@@ -1963,6 +1996,9 @@ fun AppDetailDialog(
                                         )
                                         if (app.apkUrl.isNotBlank()) {
                                             DetailRow("APK DOWNLOAD URL", app.apkUrl)
+                                        }
+                                        if (app.linuxUrl.isNotBlank()) {
+                                            DetailRow("LINUX DOWNLOAD URL", app.linuxUrl)
                                         }
                                         if (app.exeUrl.isNotBlank()) {
                                             DetailRow("WINDOWS DOWNLOAD URL", app.exeUrl)
@@ -2085,7 +2121,7 @@ fun AppDetailDialog(
                                     ) {
                                         Icon(Icons.Default.Computer, contentDescription = null, tint = Color.Black, modifier = Modifier.size(14.dp))
                                         Spacer(modifier = Modifier.width(4.dp))
-                                        Text("GET WINDOWS APP", fontSize = 11.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace, color = Color.Black)
+                                        Text("GET DESKTOP APP", fontSize = 11.sp, fontWeight = FontWeight.Black, fontFamily = FontFamily.Monospace, color = Color.Black)
                                     }
                                 }
                                 !app.isInstalled -> {
