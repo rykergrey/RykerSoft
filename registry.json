@@ -3,11 +3,11 @@
     {
       "packageName": "com.rykersoft.appmanager",
       "name": "RykerSoft",
-      "latestVersionCode": 26,
-      "latestVersionName": "1.4.5",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/rykersoft-v1.4.5/app-release.apk",
+      "latestVersionCode": 27,
+      "latestVersionName": "1.4.6",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/rykersoft-v1.4.6/app-release.apk",
       "icon": "android",
-      "changelog": "Choose or copy Windows and Linux desktop download links | Hyperscribe Desktop Pro access management | Preserve existing accounts and grants",
+      "changelog": "Hyperscribe Desktop and Mobile share one provider-key record | Edit keys under either Hyperscribe entry to update both editions | Preserve Windows/Linux download choices and existing Pro grants",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rykersoft/01-dashboard.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rykersoft/02-documentation.png",
@@ -33,20 +33,20 @@
     {
       "packageName": "com.rykersoft.hyperscribedesktop",
       "name": "Hyperscribe Desktop",
-      "latestVersionCode": 3,
-      "latestVersionName": "2.3.1",
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-desktop-v2.3.1/HyperscribeDesktop-v2.3.1.exe",
+      "latestVersionCode": 5,
+      "latestVersionName": "2.4.1",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-desktop-v2.4.1/HyperscribeDesktop-v2.4.1.exe",
       "icon": "desktop",
-      "changelog": "Reliable action drag-and-drop between categories and into Favorites with fast row updates | Single Text Item Editor heading, Linux window controls, and persistent resize grips | Current chat, Inbox, Python automation, Repair in Chat, audio responsiveness, and synchronization updates",
+      "changelog": "Fix Pro verification using the existing Hyperscribe Google login | Desktop and Mobile share the same provider keys | Pro sync for content, tags, actions, chats, and optional text replacement rules | Matching Inbox dropdowns for Chat and Actions; send Inbox items to Actions instead of clipboard",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-desktop/01-inbox.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-desktop/02-actions.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-desktop/03-chat.png"
       ],
       "isGame": false,
-      "exeSha256": "b3986bbaf327e07b4f1fe119221dae254c761fbafae7e74b63ce26fbcfa4fba5",
-      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-desktop-v2.3.1/HyperscribeDesktop-v2.3.1-linux-x86_64.tar.gz",
-      "linuxSha256": "582d02ac20cf8a4620e9251c0b61d0204a81f274dd37f754a886795c7f1dd74e"
+      "exeSha256": "f68a007331fc9851b5832c4bb9a8b43537c9a31146218dabe120dccf9b8cf06c",
+      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-desktop-v2.4.1/HyperscribeDesktop-v2.4.1-linux-x86_64.tar.gz",
+      "linuxSha256": "99b207956b2e5b5bf627b8271679d43f1cb4b90135c3de9462c51d426b22fe0e"
     },
     {
       "packageName": "com.rykersoft.informant",
