@@ -246,15 +246,15 @@
     {
       "packageName": "com.rykersoft.comiccrafting",
       "name": "ComicCraft.ing",
-      "latestVersionCode": 2,
-      "latestVersionName": "1.1.0",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/comiccrafting-v1.1.0/ComicCraft.ing-1.1.0.apk",
+      "latestVersionCode": 3,
+      "latestVersionName": "1.1.1",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/comiccrafting-v1.1.1/ComicCraft.ing-1.1.1.apk",
       "icon": "android",
-      "changelog": "New Windows and Linux builds | Idea-first creation and comic-first workbench | Draft autosave and in-app background generation | Individual panel retry | Persistent Undo and Trash | Library search, sorting and names | Clear editing and export controls",
+      "changelog": "Fixed clipped panel menus | Tap images and captions to edit | Swipe through artwork and caption versions | Caption wording and font history preserved in backups | Dedicated Download menus | Compact header with session export icon | Pro access moved to bottom of Home",
       "screenshots": [],
       "isGame": false,
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/comiccrafting-v1.1.0/ComicCraft.ing-1.1.0-windows-x64.exe",
-      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/comiccrafting-v1.1.0/ComicCraft.ing-1.1.0-linux-x86_64.AppImage"
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/comiccrafting-v1.1.1/ComicCraft.ing-1.1.1-windows-x64.exe",
+      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/comiccrafting-v1.1.1/ComicCraft.ing-1.1.1-linux-x86_64.AppImage"
     }
   ]
 }
