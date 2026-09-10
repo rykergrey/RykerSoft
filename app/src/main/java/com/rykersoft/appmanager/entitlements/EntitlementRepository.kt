@@ -15,6 +15,11 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.tasks.await
 
+internal fun providerKeyPackage(packageId: String): String = when (packageId) {
+    "com.rykersoft.hyperscribedesktop" -> "com.rykersoft.hyperscribemobile"
+    else -> packageId
+}
+
 private const val ADMIN_EMAIL = "heavensounds@gmail.com"
 
 data class HubAccountState(
@@ -241,7 +246,7 @@ class EntitlementRepository(private val context: Context) {
                         required = entry["required"] as? Boolean ?: true
                     )
                 }
-            val configured = db.collection("providerKeys").document(document.id).get().await()
+            val configured = db.collection("providerKeys").document(providerKeyPackage(document.id)).get().await()
                 .data.orEmpty()
                 .filterValues { it is String && it.isNotBlank() }
                 .keys
@@ -346,6 +351,7 @@ class EntitlementRepository(private val context: Context) {
                 current.getString("displayName") == displayName &&
                 current.getBoolean("proEnabled") == proEnabled &&
                 current.getString("providerModel") == providerModel &&
+                current.getString("providerKeysPackage") == providerKeyPackage(packageId) &&
                 currentFieldNames == fields.map(AdminCredentialField::field).toSet()
             if (alreadyCurrent) continue
 
@@ -355,6 +361,7 @@ class EntitlementRepository(private val context: Context) {
                     "displayName" to displayName,
                     "proEnabled" to proEnabled,
                     "providerModel" to providerModel,
+                    "providerKeysPackage" to providerKeyPackage(packageId),
                     "credentialFields" to fieldMaps,
                     "updatedAt" to FieldValue.serverTimestamp()
                 ),
@@ -383,7 +390,7 @@ class EntitlementRepository(private val context: Context) {
         val update = mutableMapOf<String, Any>()
         update.putAll(cleanValues)
         update["updatedAt"] = FieldValue.serverTimestamp()
-        db.collection("providerKeys").document(packageId)
+        db.collection("providerKeys").document(providerKeyPackage(packageId))
             .set(update, SetOptions.merge())
             .await()
     }

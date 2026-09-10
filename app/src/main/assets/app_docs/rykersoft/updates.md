@@ -1,5 +1,10 @@
 # Release Updates & History
 
+## v1.4.6 (Version Code 27) - September 10th, 2026
+- Hyperscribe Desktop and Mobile now share one provider-key record.
+- Editing keys under either Hyperscribe entry updates the same shared configuration.
+- Preserve Windows and Linux download choices and existing Pro grants.
+
 ## v1.4.5 (Version Code 26) - September 10th, 2026
 - Choose or copy Windows and Linux download links for desktop-only applications.
 - Register Hyperscribe Desktop Pro with its shared Gemini, OpenAI, Groq, and ElevenLabs provider fields.
