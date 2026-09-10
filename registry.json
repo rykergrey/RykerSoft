@@ -3,11 +3,11 @@
     {
       "packageName": "com.rykersoft.appmanager",
       "name": "RykerSoft",
-      "latestVersionCode": 25,
-      "latestVersionName": "1.4.4",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/rykersoft-v1.4.4/app-release.apk",
+      "latestVersionCode": 26,
+      "latestVersionName": "1.4.5",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/rykersoft-v1.4.5/app-release.apk",
       "icon": "android",
-      "changelog": "Add ComicCraft.ing Pro grant controls | Refresh users and apps when opening administration | Observe deployed capability records for current Pro app status | Preserve existing accounts and grants",
+      "changelog": "Choose or copy Windows and Linux desktop download links | Hyperscribe Desktop Pro access management | Preserve existing accounts and grants",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rykersoft/01-dashboard.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rykersoft/02-documentation.png",
