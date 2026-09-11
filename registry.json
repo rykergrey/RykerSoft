@@ -18,11 +18,11 @@
     {
       "packageName": "com.rykersoft.hyperscribemobile",
       "name": "Hyperscribe Mobile",
-      "latestVersionCode": 15,
-      "latestVersionName": "2.6.2",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.6.2/app-release.apk",
+      "latestVersionCode": 16,
+      "latestVersionName": "2.7.0",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.7.0/app-release.apk",
       "icon": "android",
-      "changelog": "Fix add-tag dialog disappearing when the keyboard opens | Keep compact editor tags mounted while typing | Preserve the fixed left plus button, scrolling tags, full-width editor, and saved navigation defaults",
+      "changelog": "Scrollable full-title view tabs above live search | Save and recall search, tags, filters, sorting, and day groups | Long-press All to reset defaults | Preserves the 2.6.2 editor, recording, and retention improvements",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/29c23bee375465cbc4d843a0e4b1d6730bc7b4a2/screenshots/hyperscribe-mobile/01-inbox.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-mobile/02-actions.png",
@@ -78,7 +78,7 @@
     {
       "packageName": "com.rykersoft.rush",
       "name": "Rush",
-      "description": "Unofficial Rush companion for Android — browse the discography, read lyrics and album notes, explore the band, and build a personal collection of pins, ratings, lyric quotes, and YouTube links.\n\n## Features\n- Home with explore shortcuts, featured content, and spotlight into the catalog\n- Discography with artwork, decade grouping, and studio / live / solo filters\n- Album pages with About, Tracks, Videos, Credits, Liner Notes, and Awards\n- Track list shows per-track YouTube video counts when videos are present\n- Album Videos tab aggregates official and user-added YouTube links by track\n- Song pages with Lyrics, Appears On, and Videos tabs\n- My Collection for pins, ratings, lyric quotes, notes, and custom YouTube links\n- Export and import your collection as JSON, with merge or replace on import\n- The Band history and member pages, studio Timeline, search, random song/video\n- Offline bundled catalog; collection data stored on device\n\n## Platforms\n- Android (Jetpack Compose), minSdk 26\n- Package ID: com.rykersoft.rush\n\n## Requirements\n- Android 8.0+",
+      "description": "Unofficial Rush companion for Android \u2014 browse the discography, read lyrics and album notes, explore the band, and build a personal collection of pins, ratings, lyric quotes, and YouTube links.\n\n## Features\n- Home with explore shortcuts, featured content, and spotlight into the catalog\n- Discography with artwork, decade grouping, and studio / live / solo filters\n- Album pages with About, Tracks, Videos, Credits, Liner Notes, and Awards\n- Track list shows per-track YouTube video counts when videos are present\n- Album Videos tab aggregates official and user-added YouTube links by track\n- Song pages with Lyrics, Appears On, and Videos tabs\n- My Collection for pins, ratings, lyric quotes, notes, and custom YouTube links\n- Export and import your collection as JSON, with merge or replace on import\n- The Band history and member pages, studio Timeline, search, random song/video\n- Offline bundled catalog; collection data stored on device\n\n## Platforms\n- Android (Jetpack Compose), minSdk 26\n- Package ID: com.rykersoft.rush\n\n## Requirements\n- Android 8.0+",
       "latestVersionCode": 3,
       "latestVersionName": "1.0.2",
       "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/rush-v1.0.2/app-release.apk",
