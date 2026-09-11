@@ -18,11 +18,11 @@
     {
       "packageName": "com.rykersoft.hyperscribemobile",
       "name": "Hyperscribe Mobile",
-      "latestVersionCode": 17,
-      "latestVersionName": "2.7.1",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.7.1/app-release.apk",
+      "latestVersionCode": 18,
+      "latestVersionName": "2.7.2",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.7.2/app-release.apk",
       "icon": "android",
-      "changelog": "Drag left for Recording, farther for Actions | Scrollable tabs with large tap targets | Run clipboard actions including TTS without recording | Preserves saved Inbox views and editor improvements",
+      "changelog": "Floating Inbox shows recent 10 text items plus pins; tap to copy or Edit | Right-edge tab order: Capture, Actions, Inbox | Capture adds clipboard, new text, and text/audio/image imports | Single tap preserves default recording",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/29c23bee375465cbc4d843a0e4b1d6730bc7b4a2/screenshots/hyperscribe-mobile/01-inbox.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-mobile/02-actions.png",
