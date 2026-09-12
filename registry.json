@@ -18,11 +18,11 @@
     {
       "packageName": "com.rykersoft.hyperscribemobile",
       "name": "Hyperscribe Mobile",
-      "latestVersionCode": 20,
-      "latestVersionName": "2.8.1",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.8.1/app-release.apk",
+      "latestVersionCode": 21,
+      "latestVersionName": "2.8.2",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.8.2/app-release.apk",
       "icon": "android",
-      "changelog": "Short right-edge swipes follow visible tab order | Input tab puts recording profiles first | Long-press Inbox items for Edit and Pin/Unpin | Pinned items update live at the top",
+      "changelog": "Compact date-grouped Inbox cards with one retention line | Animated HYPERSCRIBING header replaces layout-shifting work banners | Save and rearrange Inbox view tabs from the three-dot menu | Automatically tag generated Inbox items from the action editor",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/29c23bee375465cbc4d843a0e4b1d6730bc7b4a2/screenshots/hyperscribe-mobile/01-inbox.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-mobile/02-actions.png",
