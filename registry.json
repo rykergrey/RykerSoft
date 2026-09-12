@@ -78,7 +78,7 @@
     {
       "packageName": "com.rykersoft.rush",
       "name": "Rush",
-      "description": "Unofficial Rush companion for Android \u2014 browse the discography, read lyrics and album notes, explore the band, and build a personal collection of pins, ratings, lyric quotes, and YouTube links.\n\n## Features\n- Home with explore shortcuts, featured content, and spotlight into the catalog\n- Discography with artwork, decade grouping, and studio / live / solo filters\n- Album pages with About, Tracks, Videos, Credits, Liner Notes, and Awards\n- Track list shows per-track YouTube video counts when videos are present\n- Album Videos tab aggregates official and user-added YouTube links by track\n- Song pages with Lyrics, Appears On, and Videos tabs\n- My Collection for pins, ratings, lyric quotes, notes, and custom YouTube links\n- Export and import your collection as JSON, with merge or replace on import\n- The Band history and member pages, studio Timeline, search, random song/video\n- Offline bundled catalog; collection data stored on device\n\n## Platforms\n- Android (Jetpack Compose), minSdk 26\n- Package ID: com.rykersoft.rush\n\n## Requirements\n- Android 8.0+",
+      "description": "Unofficial Rush companion for Android — browse the discography, read lyrics and album notes, explore the band, and build a personal collection of pins, ratings, lyric quotes, and YouTube links.\n\n## Features\n- Home with explore shortcuts, featured content, and spotlight into the catalog\n- Discography with artwork, decade grouping, and studio / live / solo filters\n- Album pages with About, Tracks, Videos, Credits, Liner Notes, and Awards\n- Track list shows per-track YouTube video counts when videos are present\n- Album Videos tab aggregates official and user-added YouTube links by track\n- Song pages with Lyrics, Appears On, and Videos tabs\n- My Collection for pins, ratings, lyric quotes, notes, and custom YouTube links\n- Export and import your collection as JSON, with merge or replace on import\n- The Band history and member pages, studio Timeline, search, random song/video\n- Offline bundled catalog; collection data stored on device\n\n## Platforms\n- Android (Jetpack Compose), minSdk 26\n- Package ID: com.rykersoft.rush\n\n## Requirements\n- Android 8.0+",
       "latestVersionCode": 3,
       "latestVersionName": "1.0.2",
       "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/rush-v1.0.2/app-release.apk",
@@ -167,22 +167,22 @@
     {
       "packageName": "com.rykersoft.wordplaying",
       "name": "WordPlay.ing",
-      "latestVersionCode": 29,
-      "latestVersionName": "1.3.23",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.23/wordplaying-v1.3.23-android.apk",
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.23/wordplaying-v1.3.23-windows-x64.exe",
+      "latestVersionCode": 30,
+      "latestVersionName": "1.3.24",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.24/wordplaying-v1.3.24-android.apk",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.24/wordplaying-v1.3.24-windows-x64.exe",
       "icon": "android",
-      "changelog": "Connected Words keeps each new word linked to the previous word | Unique Finds cancels shared words for every finder | Best Word scores your highest eligible word | One Word Showdown adds private turns and shared reveals | Updated Windows, Linux and Android builds",
+      "changelog": "Discover and vote on community modes with player records and weekly charts | Save modes in named lists and sync device saves to your account | Daily matches and completion status on the home screen | Clear match formats, stable modifier controls and Undo | Eight-direction Word Grid paths | Updated Android, Windows and Linux builds",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/01-home-v1.2.0.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/02-player-settings-v1.2.0.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/03-match-options-v1.2.0.jpg"
       ],
       "isGame": true,
-      "apkSha256": "d60e80cd8274c6dbf78f1accbc41e1463f5e10b4506dcf8dd8fb3077b3b3093e",
-      "exeSha256": "ad27efe0b09bcacd056f080aeb2d5312a5cae302851c9f40c73d89b026de58f4",
-      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.23/wordplaying-v1.3.23-linux-x86_64.AppImage",
-      "linuxSha256": "59266218ba30b2f8d159bfc9f762f3dd151a63c1759750d54506b6493753879c"
+      "apkSha256": "ed54d86b45b18f05dfd529413ddc75d59e0cf374613aa0003058fa57fbc348f9",
+      "exeSha256": "372b9db56afafe7303a33b972ee25853e80f14ceb2a86dcf0f99dd58428e6a57",
+      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.24/wordplaying-v1.3.24-linux-x86_64.AppImage",
+      "linuxSha256": "3d5f5401d5fce09f34cfeae7c545d22d3402e77bfa1ab9d533c70ef55593cba9"
     },
     {
       "packageName": "com.rykersoft.photocrafting",
