@@ -138,3 +138,7 @@ Attach a label or describe a new food, supplement, exercise or other item. Revie
 Profile now supports explicit nutrient aims, minimums, maximums, ranges and excluded foods. Library favorites are different from foods you consume frequently.
 
 For Linux, mark the AppImage executable before launching, or install the Debian package on a compatible Debian/Ubuntu system. Download links are in the app description.
+
+### If a Library Assistant update cannot be displayed
+
+Invalid updates are rejected with a notice in the chat. The existing draft remains available for review. If the editor encounters an unexpected display error, close the assistant panel and choose **Restore previous draft**. The conversation and attached photos remain available, so you can continue with a correction or another photo. **Return to library** closes the unfinished item without saving it. An unexpected app-wide display error shows **Reload application** instead of a blank screen; saved data remains available, but unsaved edits may need to be entered again.

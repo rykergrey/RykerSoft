@@ -1,5 +1,12 @@
 # Release notes
 
+## v1.5.1
+- Reject malformed assistant custom attributes before they can crash the library item editor
+- Show rejected-update notices in chat while keeping the existing draft available
+- Recover from an editor rendering failure without losing the assistant conversation or attached photos, with an option to restore the previous draft
+- Keep automatic scrolling inside the conversation and provide a reload screen for unexpected app rendering errors
+- Added React integration tests and verified cropped photo submission, multi-step tool results, recovery, and saving in mobile and desktop browsers
+
 ## v1.5.0
 - Fixed the repeated Gemini HTTP 400 error by preserving tool declarations and instructions on every chat request
 - Rebuilt photo cropping with original-image resolution, touch controls, rotation, whole-photo attachment, camera capture, and up to four photos per message
