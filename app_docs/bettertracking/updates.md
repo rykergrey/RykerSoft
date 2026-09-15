@@ -1,5 +1,13 @@
 # Release notes
 
+## v1.5.0
+- Fixed the repeated Gemini HTTP 400 error by preserving tool declarations and instructions on every chat request
+- Rebuilt photo cropping with original-image resolution, touch controls, rotation, whole-photo attachment, camera capture, and up to four photos per message
+- Added structured food and supplement label reading that distinguishes facts panels from marketing and checks units and serving columns
+- Preserved partial ingredients, manufacturer details, supplement actives, unknown nutrients and photo evidence across draft follow-ups
+- Added explicit requests for missing details, typed corrections, and retry with the same photos and message
+- Updated signed Android, Windows portable, Linux AppImage and Debian packages
+
 ## v1.4.1
 - Moved rolling calorie progress into a Today / rolling-average switch on the calorie widget
 - Replaced the always-visible full-width planner with a compact period summary showing average intake, combined balance, coverage, and the selected day

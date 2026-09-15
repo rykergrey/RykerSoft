@@ -2,12 +2,11 @@ Holistic personal tracking for food, supplements, exercise, measurements, lifest
 
 bettertracking is a full journal + library system, not a simple calorie counter. Track what you eat and do, build a personal library of ingredients and combos, stage batches into your journal, and let targets adapt from your weight trend and activity.
 
-## New in 1.4.1
+## New in 1.5.0
 
-- Today and rolling-average views directly inside both calorie and nutrient widgets
-- A compact calorie-period summary with average intake, combined balance, usable-day coverage, and the selected-day marker
-- On-demand Plans & details modal for what-if planning, maintenance context, and daily history
-- Clear goal, minimum, maximum, and range lines plus cumulative nutrient variance and overage-day counts
+- Fixed chat request failures in the global and Library Draft Assistant conversations
+- Improved photo cropping, rotation, camera capture and multi-photo attachment
+- Food and supplement labels support partial photos and typed follow-ups, with explicit missing-information notices
 
 ## Features
 
@@ -27,6 +26,14 @@ bettertracking is a full journal + library system, not a simple calorie counter.
 - **Firebase Auth + Firestore** account sync with IndexedDB offline persistence
 - **Library JSON export/import** including combo dependencies
 
+## PRO Features
+
+Items marked * require app-specific RykerSoft pro access for your signed-in account when using app-provided AI credentials. Sign in with the same RykerSoft account under Profile → API Keys.
+
+* **Library Draft Assistant** — Read food and supplement labels, search exact manufacturer products, and refine partial drafts with photos or typed details
+* **AI chat and Quick Log** — Tool-assisted chat and food analysis
+* **Cloud transcription** — Dictate using configured speech providers
+
 ## AI unlock
 
 In-app AI features (Quick Log, AI Architect, chat, and voice transcription) are enabled through the RykerSoft App Manager: have bettertracking access granted to your RykerSoft account, then sign in with that account inside the app under **Profile → API Keys → RykerSoft AI unlock**. Health Coach prompts do not use BetterTracking API credits; the external chatbot uses the user's own account. All tracking, journaling, library, and reminder features work without the unlock. You can also supply your own Gemini/Groq/OpenAI keys manually.
@@ -39,9 +46,9 @@ In-app AI features (Quick Log, AI Architect, chat, and voice transcription) are 
 
 - **Linux** — x64 AppImage and Debian package
 
-## Download version 1.4.1
+## Download version 1.5.0
 
-- [Android APK](https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.4.1/app-release.apk)
-- [Windows x64 portable](https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.4.1/bettertracking-v1.4.1-win-x64.exe)
-- [Linux x64 AppImage](https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.4.1/bettertracking-v1.4.1-linux-x86_64.AppImage)
-- [Linux x64 Debian package](https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.4.1/bettertracking-v1.4.1-linux-amd64.deb)
+- [Android APK](https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.5.0/app-release.apk)
+- [Windows x64 portable](https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.5.0/bettertracking-v1.5.0-win-x64.exe)
+- [Linux x64 AppImage](https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.5.0/bettertracking-v1.5.0-linux-x86_64.AppImage)
+- [Linux x64 Debian package](https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.5.0/bettertracking-v1.5.0-linux-amd64.deb)

@@ -4,6 +4,7 @@ Holistic tracking for food, supplements, exercise, measurements, lifestyle, and 
 
 ## Table of Contents
 
+- [PRO Features](#pro-features)
 - [1. Getting started](#1-getting-started)
 - [2. The Journal](#2-the-journal)
 - [3. Library & Composer](#3-library--composer)
@@ -14,6 +15,14 @@ Holistic tracking for food, supplements, exercise, measurements, lifestyle, and 
 - [8. RykerSoft AI unlock](#8-rykersoft-ai-unlock)
 - [9. Profile, keys & preferences](#9-profile-keys--preferences)
 - [10. Export & import](#10-export--import)
+
+## PRO Features
+
+Items marked * require app-specific RykerSoft pro access for your signed-in account when using app-provided AI credentials. Sign in with the same RykerSoft account under Profile → API Keys.
+
+* **Library Draft Assistant** — Read food and supplement labels, search exact manufacturer products, and refine partial drafts with photos or typed details
+* **AI chat and Quick Log** — Tool-assisted chat and food analysis
+* **Cloud transcription** — Dictate using configured speech providers
 
 ## 1. Getting started
 
@@ -40,6 +49,16 @@ Holistic tracking for food, supplements, exercise, measurements, lifestyle, and 
 - **AI Architect**: describe an item in plain language (optionally with photos) and let the model draft the entry; nutrition AI can estimate macros and exercise burn from your biometrics.
 - Tap behavior is configurable: stage the item to the tray or open its details.
 - Your Library search, scroll position, and open groups are kept when you leave for the staging tray and return.
+
+### Add a product from photos
+
+1. Open a new food or supplement item and its **Library draft assistant**.
+2. Use **Take photo** or select up to four images: the package front, Nutrition/Supplement Facts and ingredients. Rotate or crop each image, or choose **Use whole photo**. Keep serving sizes and complete text visible.
+3. Send the photos, with any product name or other details you already know. The assistant reads supported facts, keeps unknown values unknown, and can search for the exact manufacturer product.
+4. Check the missing-information message. Send another photo or type the missing details; a partial ingredients photo is not treated as a complete list. You can also finish later.
+5. Review the editable name, manufacturer, description, serving basis, nutrition, ingredients and supplement facts before saving. Package marketing claims are not a facts panel. If a request fails, use **Retry with the same photos and message**.
+
+Photos stay on the device where they were attached. The current library draft conversation keeps its photos in memory; save the draft before leaving the editor.
 
 ## 4. Staging tray & Quick Log
 
@@ -85,12 +104,12 @@ For background on sustainable changes and weight management, see [NIDDK’s eati
 In-app AI features (Quick Log, AI Architect, chat, and cloud voice transcription) require an unlock. Coach Analysis itself does not use a BetterTracking API key; the selected external chatbot uses the user's own account or subscription. All tracking, journaling, library, and reminder features work without an unlock.
 
 1. In the **RykerSoft App Manager**, create or sign in to your RykerSoft account.
-2. Open bettertracking's page in the App Manager, tap **UNLOCK AI FEATURES**, and enter your family unlock code.
+2. Have an administrator grant bettertracking pro access to your RykerSoft account through the App Manager.
 3. In bettertracking, go to **Profile → API Keys** and sign in with the **same** RykerSoft account.
 4. AI keys sync automatically. Use **Refresh keys** if AI features don't light up right away.
 
 Notes:
-- The unlock code is only entered in the App Manager, never inside bettertracking.
+- Pro access is granted per app to your RykerSoft account; no reusable unlock code is required.
 - This RykerSoft sign-in is separate from your bettertracking account (which syncs your data).
 - Keys you enter manually under Profile → API Keys take priority over synced keys.
 
