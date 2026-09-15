@@ -1,5 +1,13 @@
 # Release notes
 
+## v1.6.0
+- Show parsed library items as compact nutrition draft cards with serving size, nutrient values, category, tags and icon
+- Keep unknown values and partial-label notices visible; expand ingredients, additional nutrients and lengthy assistant notes as needed
+- Suggest organization using existing categories/tags and supported icons, preserving current selections during photo follow-ups
+- Browse every tag in a scrollable multi-select picker, with typed filtering, keyboard navigation and new-tag entry
+- Preserve existing category and tag capitalization on save
+- Keep the beginning of new results visible within the chat without moving the surrounding editor
+
 ## v1.5.1
 - Reject malformed assistant custom attributes before they can crash the library item editor
 - Show rejected-update notices in chat while keeping the existing draft available

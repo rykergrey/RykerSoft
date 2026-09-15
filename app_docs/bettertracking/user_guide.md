@@ -55,8 +55,10 @@ Items marked * require app-specific RykerSoft pro access for your signed-in acco
 1. Open a new food or supplement item and its **Library draft assistant**.
 2. Use **Take photo** or select up to four images: the package front, Nutrition/Supplement Facts and ingredients. Rotate or crop each image, or choose **Use whole photo**. Keep serving sizes and complete text visible.
 3. Send the photos, with any product name or other details you already know. The assistant reads supported facts, keeps unknown values unknown, and can search for the exact manufacturer product.
-4. Check the missing-information message. Send another photo or type the missing details; a partial ingredients photo is not treated as a complete list. You can also finish later.
-5. Review the editable name, manufacturer, description, serving basis, nutrition, ingredients and supplement facts before saving. Package marketing claims are not a facts panel. If a request fails, use **Retry with the same photos and message**.
+4. Review the compact draft card: serving size, calories, nutrients, suggested category, tags and icon. Expand ingredients or additional nutrients for details. A dash means unknown, and ≈ marks an estimate. Check the missing-information message. Send another photo or type the missing details; a partial ingredients photo is not treated as a complete list. You can also finish later.
+5. Tap **Edit current draft** to review or change the name, manufacturer, description, serving basis, nutrition, ingredients and supplement facts before saving. Package marketing claims are not a facts panel. If a request fails, use **Retry with the same photos and message**.
+
+Tap the **Tags** field to browse all existing tags in a scrollable list. Tap checkboxes to select several, type to filter, or press Enter / **Add** to create a new tag. Use **Done** to close the list. Assistant suggestions reuse existing categories and tags; you can change these and the icon before saving.
 
 Photos stay on the device where they were attached. The current library draft conversation keeps its photos in memory; save the draft before leaving the editor.
 
