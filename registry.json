@@ -223,18 +223,20 @@
     {
       "packageName": "com.superstorycraft.ing",
       "name": "Storytime",
-      "latestVersionCode": 4,
-      "latestVersionName": "1.1.0",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/storytime-v1.1.0/app-release.apk",
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/storytime-v1.1.0/Storytime.1.1.0.exe",
+      "latestVersionCode": 6,
+      "latestVersionName": "1.3.0",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/storytime-v1.3.0/app-release.apk",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/storytime-v1.3.0/Storytime.1.3.0.exe",
       "icon": "android",
-      "changelog": "Adds Director and Listener Story Party roles, a single leased car-speaker phone, queued locally cached narration, and shared playback progress.",
+      "changelog": "Adds fast scene cards, selective Pro Quick Start, a solo writing assistant with saved conversations, idea capture, focused manuscript editing, story threads and continuity checks, saved versions, alternative drafts, and read-through revision notes.",
       "screenshots": [
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/storytime/01-home.png",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/storytime/02-online-road-trip.png",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/storytime/03-anonymous-author-online.png"
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/storytime/v1.3.0/01-home.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/storytime/v1.3.0/02-scene-board.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/storytime/v1.3.0/03-writing-assistant.png"
       ],
-      "isGame": true
+      "isGame": true,
+      "apkSha256": "eca36b3d9ca8f3529f2072b053f2733ffdac1a08aeef2ba53d45f2d96f429d9f",
+      "exeSha256": "d26e1369f9119b7806ea77cebc5eaf61da0405796f806006575a7ba63a426c9b"
     },
     {
       "packageName": "com.rykersoft.roadtripper",
