@@ -3,15 +3,24 @@
 ## Application
 
 - Package: `com.superstorycraft.ing`
-- Release: `1.0.0` (`versionCode 1`)
+- Release: `1.3.0` (`versionCode 6`)
 - UI: React 19, TypeScript, Vite, and Tailwind CSS
 - Android: Capacitor 8 with native Java bridges
 - Windows: Electron 40, NSIS installer, and portable x86-64 executable
 - Data: localStorage plus IndexedDB; stories and generated media remain local unless the user explicitly syncs
 
+## Story Studio
+
+- Title-first scene insertion, expandable drafts, idea inbox, structural views, editable/focused manuscript, and read-through revision notes
+- Selective Quick Start with source provenance, character merges, and reviewed application
+- Persistent versions, alternative drafts, and linked continuity checks
+- Transactional autosave with conflict recovery; reviewed assistant changes and session undo
+- Floating solo-only assistant with programmatic screen/selection context, saved auto-named conversations, local commands, and optional connected writing assistance
+- Editable ZIP backups retain studio documents, versions, alternatives, and revision notes; device-local assistant conversations remain outside backups
+
 ## Standard and Pro Boundary
 
-- Standard functions do not call external AI providers.
+- Standard functions do not call external writing providers.
 - Provider-backed writing, artwork, creative assistance, cloud speech, and Story Party hosting are marked with `*` as Pro features.
 - A personal provider key can be used as an optional local override.
 - RykerSoft-managed keys are runtime-only and never enter localStorage, IndexedDB, story files, Drive backups, logs, source, or packaged artifacts.
@@ -21,6 +30,7 @@
 - App-owned Firebase project: `superstorycrafting`
   - Google authentication for online rooms
   - Ephemeral room, membership, response, and public-state documents
+  - Director/listener roles and a short-lived single-speaker lease with a bounded playlist cursor
   - Public room names chosen by the player and separated from email/profile identity
 - RykerSoft hub project: `rykersoft-abe84`
   - Named Firebase app: `rykersoft-hub`
@@ -42,7 +52,7 @@ Firebase UIDs are project-scoped. Storytime never treats app-project and hub-pro
 ## Authentication
 
 - Android app-data sign-in uses the Capacitor Firebase Authentication native Google flow.
-- Android hub sign-in uses a dedicated Credential Manager bridge with the hub web client ID, then imports the short-lived Google credential into the named hub Firebase Auth instance.
+- Android hub sign-in uses a dedicated Credential Manager bridge with the app-project web client ID accepted by the hub, then imports the short-lived Google credential into the named hub Firebase Auth instance.
 - Windows app-data and hub sign-in use a temporary loopback Firebase helper opened in the system browser. The helper uses in-memory persistence and returns only short-lived credentials through narrow IPC.
 - Web development uses Firebase Google popup authentication.
 - Google Drive authorization is separate from Firebase authentication.
@@ -52,6 +62,7 @@ Firebase UIDs are project-scoped. Storytime never treats app-project and hub-pro
 - Electron context isolation, sandboxing, navigation restrictions, and a narrow preload bridge remain enabled.
 - No OAuth client secret, service-account credential, provider key, entitlement-writing authority, or reusable family code is packaged.
 - Online-room public data excludes email, Firebase UID presentation, tokens, provider keys, and entitlement state.
+- Road-trip audio files remain in the active speaker's local cache; Firestore carries only story text, lease state, and playlist progress.
 - Personal keys are masked by default with accessible show/hide controls and may be removed independently.
 - Android backups are disabled at the application manifest level.
 

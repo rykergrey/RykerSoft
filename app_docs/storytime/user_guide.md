@@ -5,7 +5,8 @@
 - [Standard Experience](#standard-experience)
 - [PRO Features](#pro-features)
 - [Getting Started](#getting-started)
-- [Library](#library)
+- [Story Studio](#story-studio)
+- [World Library](#world-library)
 - [Local Games](#local-games)
 - [Online Rooms](#online-rooms)
 - [Stories and Imports](#stories-and-imports)
@@ -17,26 +18,42 @@
 
 ## Standard Experience
 
-Storytime works without an AI-provider API key. You can build and edit the Library, import and read existing stories, export your work, use device or locally hosted narration, connect a private Google Drive backup, play Anonymous Author or Pass the Pen, and join another person's online game.
+Storytime works without a writing-provider connection. You can build and edit the Library, import and read existing stories, export your work, use device or locally hosted narration, connect a private Google Drive backup, play Anonymous Author or Pass the Pen, and join another person's online game.
 
 Standard features remain available when you are signed out of RykerSoft, your Pro grant is missing or revoked, the hub is offline, or a provider is unavailable.
 
 ## PRO Features
 
-- * New AI-assisted stories — generate setup material and play an interactive story.
+- * Quick Start — turn rough notes into selected scene cards, linked characters, and story details while preserving the original material.
+
+- * Writing assistant — discuss your writing with current-screen context, saved conversations, and reviewed changes, throughout solo Story Studio.
+
+- * Adventure creation — generate setup material and play an interactive story.
 - * Story generation and revision — create scenes, choices, rerolls, endings, and rewrites.
 - * Character and world assistance — enhance library entries and generate casts, lore, locations, and items.
 - * Generated artwork — create portraits and story imagery.
 - * Story Party hosting — generate the shared adventure while guests vote.
-- * Cloud voices — use Gemini, OpenAI, or ElevenLabs narration.
+- * Cloud voices — use Gemini, GPT, or ElevenLabs narration.
 
 `*` items require administrator-granted RykerSoft Pro access followed by sign-in to the same RykerSoft Google account inside the app. Entitled family and friends receive configured provider access automatically and never need to copy or manage RykerSoft API keys.
 
 ## Getting Started
 
-The Home screen describes both experiences. Choose Library or a standard writing game to begin without a provider. Choose New Story for Pro-assisted creation. If provider access is unavailable, Storytime opens Settings so you can sign into RykerSoft Pro access or optionally add a personal key.
+Choose **Solo story → Write a story** to start an offline scene board, or **Play an adventure** for an interactive story. Home puts your latest story first. **Your stories** contains saved work; **World library** holds reusable characters, places, and items. Advanced options remain available under customization and Settings.
 
-## Library
+## Story Studio
+
+Use **Add scene** for a quick title-only card, or choose **Details** to develop it immediately. Expand full drafts on the board. **Ideas**, **Manuscript**, **Threads**, and **Versions** support capture, focus writing, continuity, and revision. The floating **Writing assistant** follows the active screen throughout solo Studio; its automatically named conversations are saved on this device, outside story backups. Pro **Quick Start** organizes rough notes into a reviewable set of scenes, characters, and details. See [the complete Story Studio guide](story-studio.md) for all controls and recovery options.
+
+Start with one moment per card. Drag cards into sequence, use the arrow buttons, or choose a position. Open a card to expand its short premise into a full scene. **Develop the scene** contains goals, conflict, consequences, setting, and direction. Link cast members under **Characters in this scene**.
+
+Use **Characters** to edit the cast together. Review changes before applying them. A full-name rename updates matching names throughout the story; aliases and partial names are not guessed. Undo and redo are available during the open session.
+
+The **Custodian** searches only the current story. Without a connection it returns source passages and supports commands such as `Add card The visitor | A stranger arrives`, `Move card 3 before 1`, and `Rename Mara to Lena`. Connected writing tools enable open-ended questions and editing requests. Changes remain proposals until reviewed and applied; an outdated proposal cannot overwrite newer work.
+
+Applied changes autosave on the device. Unreviewed character drafts recover within the browser session, but enter backups only after being applied. If another window changes the story, save your version as a separate copy. **Manuscript** follows the card order. Export the draft, cards and draft, or a complete editable ZIP backup.
+
+## World Library
 
 Library stores reusable characters, locations, items, and voice presets. Manual creation and editing are standard features. Buttons marked with `*` use a provider and require available Pro or personal-provider access.
 
@@ -52,17 +69,23 @@ Optional assistance buttons marked with `*` remain disabled until provider acces
 
 Online Anonymous Author and Pass the Pen use Google sign-in in Storytime's app Firebase project. Choose a public game name yourself; Storytime never publishes your Google name, email, picture, or hub entitlement.
 
-Story Party guests may join and vote without provider access. The host creates the AI-assisted story and therefore needs Pro or a personal writing-provider key. Room codes and room data expire according to the online-room policy documented in the app.
+Story Party guests choose **Director** or **Listener** before marking themselves ready. Directors vote privately on each choice. Listeners see the story and choices but do not vote and never hold up the ballot. The host remains a director and creates each assisted scene once, so hosting requires Pro or a personal writing-provider key.
+
+For a road trip, have the phone connected to the car stereo join as a Listener. In the live room, select **Use this phone as car speaker**. That phone alone prepares and plays each new section in order. It keeps a short renewable room lease, caches audio locally, and publishes only playlist progress to the room. If it disconnects, another listener can take over after the lease expires. Use **Pause playlist**, **Resume playlist**, or **Retry this section** when needed.
+
+The speaker phone uses its own narration provider, API access, and local voice presets. No API keys or audio files are written to the multiplayer room. Room codes and room data expire according to the online-room policy documented in the app.
 
 ## Stories and Imports
 
-Saved stories remain on the device and can be opened for reading without a provider. Continuing or regenerating AI-authored content requires provider access. Export a story before clearing application data or moving to a device that is not connected to your Drive backup.
+Saved stories remain on the device and can be opened for reading without a provider. Continuing or regenerating adventure content requires provider access. Export a story before clearing application data or moving to a device that is not connected to your Drive backup.
 
 ## Narration
 
-Device Native TTS, Piper, and local IndexTTS do not require a cloud API key. Gemini Voice, OpenAI Speech, and ElevenLabs are provider-backed Pro features and appear with `*` in feature guidance.
+Device Native TTS, Piper, and local IndexTTS do not require a cloud API key. Gemini Voice, GPT Speech, and ElevenLabs are provider-backed Pro features and appear with `*` in feature guidance.
 
 Generated audio can consume substantial storage. Settings lets you choose whether all retained audio is included in Drive synchronization.
+
+Road-trip speaker audio is cached on the selected speaker device so reconnecting that same phone does not needlessly regenerate completed clips. Other phones receive text and playback progress, not duplicate audio requests.
 
 ## Google Drive Sync
 
@@ -74,7 +97,7 @@ Personal provider-key overrides are included when you explicitly synchronize set
 
 1. Sign into RykerSoft Application Manager with Google.
 2. Ask the administrator to grant Storytime to that hub account. The exact package is `com.superstorycraft.ing`.
-3. In Storytime, open Settings → Pro & Keys.
+3. In Storytime, open Settings → Account & access.
 4. Select **Sign in with Google** and choose the same account.
 5. Select **Refresh** after the administrator grants or updates access.
 
@@ -84,7 +107,7 @@ If access is revoked, the next startup or refresh clears all RykerSoft-managed c
 
 ## Personal Provider Keys
 
-Personal keys are optional overrides under Settings → Pro & Keys. Each field starts hidden and has its own accessible show/hide button. A personal key takes priority over the matching RykerSoft-managed key and remains on the device until removed.
+Personal keys are optional overrides under Settings → Account & access. Each field starts hidden and has its own accessible show/hide button. A personal key takes priority over the matching RykerSoft-managed key and remains on the device until removed.
 
 Do not enter a shared RykerSoft key manually. Remove personal keys before sharing the device, browser profile, or connected Drive account.
 
