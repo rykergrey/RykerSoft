@@ -18,11 +18,11 @@
     {
       "packageName": "com.rykersoft.hyperscribemobile",
       "name": "Hyperscribe Mobile",
-      "latestVersionCode": 22,
-      "latestVersionName": "2.8.3",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.8.3/app-release.apk",
+      "latestVersionCode": 30,
+      "latestVersionName": "2.9.7",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.9.7/app-release.apk",
       "icon": "android",
-      "changelog": "Floating TTS tab with live segment playlist | Play/pause, stop, previous/next, tap-to-play and seeking | Control speech while using other apps and replay after Stop | Larger, compact tactical floating menu with preserved tab preferences",
+      "changelog": "One shared recording, floating button, and Index receiver notification | Reliable Pause/Resume, Stop, and Cancel controls | Includes Pebble/Index conversations and watch TTS, source-linked speech, and editable Actions input",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/29c23bee375465cbc4d843a0e4b1d6730bc7b4a2/screenshots/hyperscribe-mobile/01-inbox.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-mobile/02-actions.png",
