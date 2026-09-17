@@ -1,5 +1,12 @@
 # Release notes
 
+## v1.7.0
+- Add mobile tap glows, independent light trails to the tray, and arrival pulses
+- Show persistent tray selection checks across multiple library items, including combos
+- Long-press selects and expands without duplicating items; cancel holds safely during scrolling
+- Add visual feedback to navigation and library controls, with reduced-motion support
+- Remove vibration from library, tray navigation, and number-pad interactions
+
 ## v1.6.0
 - Show parsed library items as compact nutrition draft cards with serving size, nutrient values, category, tags and icon
 - Keep unknown values and partial-label notices visible; expand ingredients, additional nutrients and lengthy assistant notes as needed

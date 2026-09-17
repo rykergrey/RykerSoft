@@ -144,12 +144,12 @@
     {
       "packageName": "com.rykersoft.bettertracking",
       "name": "bettertracking",
-      "latestVersionCode": 16,
-      "latestVersionName": "1.6.0",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.6.0/app-release.apk",
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.6.0/bettertracking-v1.6.0-win-x64.exe",
+      "latestVersionCode": 17,
+      "latestVersionName": "1.7.0",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.7.0/app-release.apk",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.7.0/bettertracking-v1.7.0-win-x64.exe",
       "icon": "android",
-      "changelog": "Compact nutrition draft cards with expandable ingredients and nutrients | Existing category/tag suggestions and supported icons | Scrollable multi-select tags with typed search and new tags | Preserve existing label capitalization",
+      "changelog": "Mobile tap glows and light trails to the tray | Multi-item selection with persistent checks | Long-press selects and expands without duplicates | Responsive navigation and reduced-motion support",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/bettertracking/01-journal.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/bettertracking/02-logs.jpg",
@@ -161,8 +161,8 @@
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/bettertracking/08-item-detail.jpg"
       ],
       "isGame": false,
-      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.6.0/bettertracking-v1.6.0-linux-x86_64.AppImage",
-      "linuxDebUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.6.0/bettertracking-v1.6.0-linux-amd64.deb"
+      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.7.0/bettertracking-v1.7.0-linux-x86_64.AppImage",
+      "linuxDebUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.7.0/bettertracking-v1.7.0-linux-amd64.deb"
     },
     {
       "packageName": "com.rykersoft.wordplaying",
