@@ -266,6 +266,21 @@
       "isGame": false,
       "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/comiccrafting-v1.1.1/ComicCraft.ing-1.1.1-windows-x64.exe",
       "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/comiccrafting-v1.1.1/ComicCraft.ing-1.1.1-linux-x86_64.AppImage"
+    },
+    {
+      "packageName": "com.rykersoft.yoink",
+      "name": "yoink.",
+      "latestVersionCode": 1,
+      "latestVersionName": "0.1.0",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/yoink-v0.1.0/yoink-0.1.0-windows-x64.exe",
+      "icon": "desktop",
+      "changelog": "Initial Windows and Linux release | Focused video/audio downloads | Non-destructive FFmpeg Studio and media profiles | Consent-gated AI and optional Codex connection | Package-scoped RykerSoft Pro access",
+      "screenshots": [],
+      "isGame": false,
+      "exeSha256": "0219c6d1d582934ab6a473fb86b862aabcfeef153918ed1b23b9a97a5778f731",
+      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/yoink-v0.1.0/yoink-0.1.0-linux-x86_64.AppImage",
+      "linuxSha256": "98f9ebeffe7064e41380c2857064eb3a7f66bf9c57d6c924dc1e4dd0270ad97c",
+      "linuxDebUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/yoink-v0.1.0/yoink-0.1.0-linux-amd64.deb"
     }
   ]
 }
