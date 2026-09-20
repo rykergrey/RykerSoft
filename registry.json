@@ -270,17 +270,30 @@
     {
       "packageName": "com.rykersoft.yoink",
       "name": "yoink.",
-      "latestVersionCode": 1,
-      "latestVersionName": "0.1.0",
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/yoink-v0.1.0/yoink-0.1.0-windows-x64.exe",
+      "latestVersionCode": 24,
+      "latestVersionName": "0.1.23",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/yoink-v0.1.23/yoink-0.1.23-windows-x64.exe",
       "icon": "desktop",
-      "changelog": "Initial Windows and Linux release | Focused video/audio downloads | Non-destructive FFmpeg Studio and media profiles | Consent-gated AI and optional Codex connection | Package-scoped RykerSoft Pro access",
+      "changelog": "Lightning y icon and outlined yoink. title bar logo | Unified Studio tracks, waveforms, source audio/video selection and jog controls | Improved edit history and navigation | Fixed Windows waveform build",
       "screenshots": [],
       "isGame": false,
-      "exeSha256": "0219c6d1d582934ab6a473fb86b862aabcfeef153918ed1b23b9a97a5778f731",
-      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/yoink-v0.1.0/yoink-0.1.0-linux-x86_64.AppImage",
-      "linuxSha256": "98f9ebeffe7064e41380c2857064eb3a7f66bf9c57d6c924dc1e4dd0270ad97c",
-      "linuxDebUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/yoink-v0.1.0/yoink-0.1.0-linux-amd64.deb"
+      "exeSha256": "2862e509e984082f27921d6dd1f7601213d26b90dc8a39881139722d6eecbee4",
+      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/yoink-v0.1.23/yoink-0.1.23-linux-x86_64.AppImage",
+      "linuxSha256": "7dac963de94584a2d7bb26e2d5399a7cc06da7c4797464255eac494a549fe9ad",
+      "linuxDebUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/yoink-v0.1.23/yoink-0.1.23-linux-amd64.deb",
+      "linuxDebSha256": "e59cc3498612f368c75396f986bebf3064e6dc69fb1b1d56c587e8391f146935"
+    },
+    {
+      "packageName": "app.flux.download",
+      "name": "yoink. (Android)",
+      "latestVersionCode": 24,
+      "latestVersionName": "0.1.23",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/yoink-v0.1.23/yoink-0.1.23-android.apk",
+      "apkSha256": "49d18f5111861a82960f6188cfa200a6c61a9fc9ef4d22c0edc03c10b8af4b57",
+      "icon": "android",
+      "changelog": "First release-signed Android distribution | Lightning y icon and outlined yoink. title bar logo | Unified Studio tracks, waveforms, source audio/video selection and jog controls | Improved back navigation and edit history | Earlier debug installs use a different signature: export important media before any manual uninstall",
+      "screenshots": [],
+      "isGame": false
     }
   ]
 }
