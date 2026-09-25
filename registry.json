@@ -167,22 +167,22 @@
     {
       "packageName": "com.rykersoft.wordplaying",
       "name": "WordPlay.ing",
-      "latestVersionCode": 35,
-      "latestVersionName": "1.3.29",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.29/wordplaying-v1.3.29-android.apk",
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.29/wordplaying-v1.3.29-windows-x64.exe",
+      "latestVersionCode": 39,
+      "latestVersionName": "1.3.33",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.33/wordplaying-v1.3.33-android.apk",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.33/wordplaying-v1.3.33-windows-x64.exe",
       "icon": "android",
-      "changelog": "Clearer modes directory with built-in starters | Newest-first discovery and New to you badges | Vote on played modes directly | Clearer scores and standings | Letter-grid loading and board-learning summaries",
+      "changelog": "Bungle and Scramble game cards with illustrated boards | Scramble online match creation and improved lobbies | Clear reconnect and error recovery | Existing matches and saves remain compatible",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/01-home-v1.2.0.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/02-player-settings-v1.2.0.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/03-match-options-v1.2.0.jpg"
       ],
       "isGame": true,
-      "apkSha256": "69873f0dabd781a1099a5c622e8c665a116a44c6b1bf6fe886381b5635ce7de5",
-      "exeSha256": "5760a274332beb87070984016620a10711c07f8e42a0f817ef7037ca3a1361d8",
-      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.29/wordplaying-v1.3.29-linux-x86_64.AppImage",
-      "linuxSha256": "3da69286af82a5f84082130ad404627681e12ca70e41498f9b67ab36a0077150"
+      "apkSha256": "adaf67293a45f278aa0d249deb31a39bd038f6eb2949979ba57a2490a1644a38",
+      "exeSha256": "7301062ce9b3c86d0e7dd36d44d6136fcd216e61d0f28d95e65437652e87c8aa",
+      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.33/wordplaying-v1.3.33-linux-x86_64.AppImage",
+      "linuxSha256": "eecf78e4bcb942ce89637ed20dd195f8a5ee0aa77162fb6978af8749aa9c723e"
     },
     {
       "packageName": "com.rykersoft.photocrafting",
