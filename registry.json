@@ -78,7 +78,7 @@
     {
       "packageName": "com.rykersoft.rush",
       "name": "Rush",
-      "description": "Unofficial Rush companion for Android \u2014 browse the discography, read lyrics and album notes, explore the band, and build a personal collection of pins, ratings, lyric quotes, and YouTube links.\n\n## Features\n- Home with explore shortcuts, featured content, and spotlight into the catalog\n- Discography with artwork, decade grouping, and studio / live / solo filters\n- Album pages with About, Tracks, Videos, Credits, Liner Notes, and Awards\n- Track list shows per-track YouTube video counts when videos are present\n- Album Videos tab aggregates official and user-added YouTube links by track\n- Song pages with Lyrics, Appears On, and Videos tabs\n- My Collection for pins, ratings, lyric quotes, notes, and custom YouTube links\n- Export and import your collection as JSON, with merge or replace on import\n- The Band history and member pages, studio Timeline, search, random song/video\n- Offline bundled catalog; collection data stored on device\n\n## Platforms\n- Android (Jetpack Compose), minSdk 26\n- Package ID: com.rykersoft.rush\n\n## Requirements\n- Android 8.0+",
+      "description": "Unofficial Rush companion for Android — browse the discography, read lyrics and album notes, explore the band, and build a personal collection of pins, ratings, lyric quotes, and YouTube links.\n\n## Features\n- Home with explore shortcuts, featured content, and spotlight into the catalog\n- Discography with artwork, decade grouping, and studio / live / solo filters\n- Album pages with About, Tracks, Videos, Credits, Liner Notes, and Awards\n- Track list shows per-track YouTube video counts when videos are present\n- Album Videos tab aggregates official and user-added YouTube links by track\n- Song pages with Lyrics, Appears On, and Videos tabs\n- My Collection for pins, ratings, lyric quotes, notes, and custom YouTube links\n- Export and import your collection as JSON, with merge or replace on import\n- The Band history and member pages, studio Timeline, search, random song/video\n- Offline bundled catalog; collection data stored on device\n\n## Platforms\n- Android (Jetpack Compose), minSdk 26\n- Package ID: com.rykersoft.rush\n\n## Requirements\n- Android 8.0+",
       "latestVersionCode": 3,
       "latestVersionName": "1.0.2",
       "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/rush-v1.0.2/app-release.apk",
@@ -167,22 +167,22 @@
     {
       "packageName": "com.rykersoft.wordplaying",
       "name": "WordPlay.ing",
-      "latestVersionCode": 45,
-      "latestVersionName": "1.3.39",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.39/wordplaying-v1.3.39-android.apk",
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.39/wordplaying-v1.3.39-windows-x64.exe",
+      "latestVersionCode": 46,
+      "latestVersionName": "1.3.40",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.40/wordplaying-v1.3.40-android.apk",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.40/wordplaying-v1.3.40-windows-x64.exe",
       "icon": "android",
-      "changelog": "Compact Scramble board and tappable player profiles | Turn alerts switch that reflects Android settings | In-game notifications for invites, turns, results, and scores | Direct multiplayer lobby invites",
+      "changelog": "Scramble turn alerts use one bell icon: grey when disabled and orange when enabled",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/01-home-v1.2.0.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/02-player-settings-v1.2.0.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/03-match-options-v1.2.0.jpg"
       ],
       "isGame": true,
-      "apkSha256": "e6a3ab0a2524d1177696e824e8bb0a37390bede0b47664b4f0553cb8183557a3",
-      "exeSha256": "f66e6a6f4e6108bcf226d936ca30fc1640289bc589c3c3dd7f98d8e787a955a9",
-      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.39/wordplaying-v1.3.39-linux-x86_64.AppImage",
-      "linuxSha256": "188263869aadb4a278ad10732b519c0c47801431589f224d0886f8ad00342404"
+      "apkSha256": "2649cc4734cbb37c3b2f91579e43d12192c5ee8eb33e71447450c9c63da9c3e3",
+      "exeSha256": "bc1c45e9a1ff1d526f2f46a70953d68fb0a0ec043f92bbd4fbc8b8761e8e9cb3",
+      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.40/wordplaying-v1.3.40-linux-x86_64.AppImage",
+      "linuxSha256": "c390bebbfb398cf420940bc189084ed1a958840d637ad393c00f9df3d592b3dc"
     },
     {
       "packageName": "com.rykersoft.photocrafting",
