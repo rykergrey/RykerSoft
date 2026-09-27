@@ -18,11 +18,11 @@
     {
       "packageName": "com.rykersoft.hyperscribemobile",
       "name": "Hyperscribe Mobile",
-      "latestVersionCode": 30,
-      "latestVersionName": "2.9.7",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.9.7/app-release.apk",
+      "latestVersionCode": 36,
+      "latestVersionName": "2.12.0",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.12.0/app-release.apk",
       "icon": "android",
-      "changelog": "One shared recording, floating button, and Index receiver notification | Reliable Pause/Resume, Stop, and Cancel controls | Includes Pebble/Index conversations and watch TTS, source-linked speech, and editable Actions input",
+      "changelog": "Global voice chat sends new phone, floating-button, and Index 01 recordings to one chosen thread and speaks replies | Green controls and a pinned voice thread | Pebble watch app 0.3.0 browses recent chats newest first | Includes multiple Inbox alerts and recurring schedule controls",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/29c23bee375465cbc4d843a0e4b1d6730bc7b4a2/screenshots/hyperscribe-mobile/01-inbox.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-mobile/02-actions.png",
