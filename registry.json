@@ -18,11 +18,11 @@
     {
       "packageName": "com.rykersoft.hyperscribemobile",
       "name": "Hyperscribe Mobile",
-      "latestVersionCode": 40,
-      "latestVersionName": "2.13.2",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.13.2/app-release.apk",
+      "latestVersionCode": 41,
+      "latestVersionName": "2.13.3",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.13.3/app-release.apk",
       "icon": "android",
-      "changelog": "Create text replacement rules directly in Chat | Connect alternate names through existing replacement aliases | Current project-status questions include recent topic evidence and dated-source guidance | My knowledge controls, Saved sources, and reviewed entry edits | Preserve prior recording-to-clipboard improvements",
+      "changelog": "Read-aloud-friendly source labels instead of long internal IDs | Saved sources retains exact entry links | Create text replacement rules in Chat and search alternate names | Current-status questions include recent dated evidence | My knowledge controls and reviewed entry edits",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/29c23bee375465cbc4d843a0e4b1d6730bc7b4a2/screenshots/hyperscribe-mobile/01-inbox.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-mobile/02-actions.png",
