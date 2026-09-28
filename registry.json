@@ -18,11 +18,11 @@
     {
       "packageName": "com.rykersoft.hyperscribemobile",
       "name": "Hyperscribe Mobile",
-      "latestVersionCode": 42,
-      "latestVersionName": "2.14.0",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.14.0/app-release.apk",
+      "latestVersionCode": 43,
+      "latestVersionName": "2.15.0",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.15.0/app-release.apk",
       "icon": "android",
-      "changelog": "Search from Chat with expandable clickable previews and Open in Inbox | Page through active and archived knowledge without sending results to AI | Preserve your previous Inbox view | Bounded multi-note answers with coverage limits | Readable source references for TTS",
+      "changelog": "Create scheduled Inbox reminders from longer voice requests | Keep the spoken words with a short title and matching tags | Show Alerts on every item and control reminders by title | Open Chat search results and saved sources directly in the app",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/29c23bee375465cbc4d843a0e4b1d6730bc7b4a2/screenshots/hyperscribe-mobile/01-inbox.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-mobile/02-actions.png",
