@@ -1,5 +1,10 @@
 # Updates
 
+## v1.3.47 — Cleaner Scramble board
+
+- Blend the bonus-color legend into the top interface with a dark background that fades into the board.
+- Keep the turn ticker above the letter tray and remove routine placement hints beside Your Letters.
+
 ## v1.3.46 — Neon collection
 
 - Expand the retro arcade collection to eight palettes, six tile finishes, five interface styles, and three motion choices: four starters and 18 earnable upgrades.
