@@ -6,7 +6,7 @@
 - **Web**: Modern Chromium-, Firefox-, or WebKit-based browser
 - **compileSdk / targetSdk**: 36
 - **Package ID**: `com.rykersoft.wordplaying`
-- **Release version**: 1.3.47 (version code 53)
+- **Release version**: 1.3.49 (Android version code 55)
 - **Shell**: Capacitor 8 (WebView) wrapping a Vite + React 19 TypeScript app
 
 
@@ -18,6 +18,7 @@
 - **Definitions**: Free Dictionary API (`api.dictionaryapi.dev`)
 - **Optional desktop**: Electron + electron-builder
 - **Release artifacts**: Signed Android APK, portable Windows executable, and Linux AppImage from the same versioned source
+- **Android updates**: The app compares its installed version code with the RykerSoft registry on launch, shows a persistent notice in Notifications when a newer release exists, and verifies the downloaded APK before asking Android to install it.
 
 ## Network
 - Maintained remote traffic is HTTPS-only. Live Match uses Firebase rather than a VPS or Colyseus endpoint, and Android does not require cleartext or mixed-content exceptions.

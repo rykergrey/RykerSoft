@@ -1,5 +1,18 @@
 # Updates
 
+## v1.3.49 — Updates in Notifications
+
+- Check RykerSoft for a newer Android version when the app opens and when it returns online.
+- Keep an update notice in Notifications, including for signed-out players, until the installed version catches up.
+- Open release notes and download the verified APK directly from the notice, then confirm installation with Android.
+
+## v1.3.48 — Clearer match results and notifications
+
+- Show the played mode by name on Time's Up, display an existing vote, and let players change their upvote or downvote. Built-in modes keep their names and never ask for a discovery name.
+- Show a combined word list after multiplayer matches, with compact player labels beside each word so shared and unique finds are easy to compare.
+- Rename the home header to WordPlay. Move the account action into the left-aligned notifications panel and make the icon-only push alert control turn alerts on or off.
+- Close notifications with Escape, Android back, or a tap outside the panel.
+
 ## v1.3.47 — Cleaner Scramble board
 
 - Blend the bonus-color legend into the top interface with a dark background that fades into the board.

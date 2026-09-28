@@ -127,14 +127,19 @@ The current player's color fills the space around the board, colors the turn ban
 - The guided first-run tutorial introduces selection, scoring, Daily Board play, progression, and comfort options.
 - Dialogs manage keyboard focus, tiles expose accessible labels, and live announcements describe the active selection.
 
-## 11. Windows desktop
+## 11. Android updates
+
+- When a newer Android release is available on RykerSoft, the bell on Home shows an update notice. The notice stays until you upgrade, even if you are signed out.
+- Open **Notifications → WordPlay.ing update available → Update now** to read the release notes and download the APK. If Android asks, allow WordPlay.ing to install updates, then confirm the install in Android's installer.
+
+## 12. Windows desktop
 
 - Run the portable WordPlay.ing executable; no installer is required.
 - Google sign-in opens from the packaged app's private loopback origin; no game server is exposed to the network.
 - Use the custom title bar to minimize, maximize, or close the app.
 - Windows may show a publisher warning because the portable desktop executable is not code-signed.
 
-## 12. Scramble
+## 13. Scramble
 
 - Tap the board to zoom; drag or pinch to explore. The zoomed board fills the play area behind the top information and bottom controls, and you can pan every edge clear of those overlays. The color key above your letters identifies double/triple letter and word bonuses, including the colored outlines on covered bonus cells.
 
@@ -147,7 +152,7 @@ The current player's color fills the space around the board, colors the turn ban
 - Optional Builder rules include hidden or randomized bonuses, barriers, stacking, falling tiles, and **Lasting Bonuses**. Lasting Bonuses reapplies DL/TL/DW/TW every time a scored word uses that square; its colored outline stays visible under the letter. Open a modifier chip during play to see its rules.
 - Local games save on this device. Finished online matches record verified results automatically. **Leaderboards** compare the same ruleset, player count, format, and turn clock; **Awards** shows Builder career milestones. Bungle career and season scores remain separate.
 
-## 13. Make it yours
+## 14. Make it yours
 
 - Open the palette button on Home, or **Appearance** in Scramble's match menu. Mix neon arcade palettes, tile finishes, interface styles, and motion in a live preview; choose **Use this look** to apply earned pieces. The collection has 8 palettes, 6 tile finishes, 5 interface styles, and 3 motion options: 4 starters and 18 earnable upgrades.
 - Scroll each category to browse its whole collection. Locked pieces show a name, silhouette, lock, and requirement; their looks cannot be previewed until earned. Each category shows its unlocked percentage. Tap the board preview to switch between Bungle and Scramble, or tap **Replay** to replay its brief animation.
