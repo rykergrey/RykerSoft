@@ -1,5 +1,10 @@
 # Release notes
 
+## v1.7.1
+- Let a library long press open item options without adding the item to the tray
+- Expand combo alerts into their individual components for logging or staging
+- Mark combo alerts complete when all constituent items have been logged, including older logs without combo metadata
+
 ## v1.7.0
 - Add mobile tap glows, independent light trails to the tray, and arrival pulses
 - Show persistent tray selection checks across multiple library items, including combos
