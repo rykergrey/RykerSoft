@@ -223,19 +223,19 @@
     {
       "packageName": "com.superstorycraft.ing",
       "name": "Storytime",
-      "latestVersionCode": 6,
-      "latestVersionName": "1.3.0",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/storytime-v1.3.0/app-release.apk",
+      "latestVersionCode": 7,
+      "latestVersionName": "1.4.0",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/storytime-v1.4.0/app-release.apk",
       "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/storytime-v1.3.0/Storytime.1.3.0.exe",
       "icon": "android",
-      "changelog": "Adds fast scene cards, selective Pro Quick Start, a solo writing assistant with saved conversations, idea capture, focused manuscript editing, story threads and continuity checks, saved versions, alternative drafts, and read-through revision notes.",
+      "changelog": "Android 1.4.0: fixes online room creation and eight-player starts; separates Solo and Multiplayer on Home; adds relevant match notifications, Android push alerts, and in-app update installation; improves Back navigation, narration, and the mobile scene board. Windows remains 1.3.0.",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/storytime/v1.3.0/01-home.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/storytime/v1.3.0/02-scene-board.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/storytime/v1.3.0/03-writing-assistant.png"
       ],
       "isGame": true,
-      "apkSha256": "eca36b3d9ca8f3529f2072b053f2733ffdac1a08aeef2ba53d45f2d96f429d9f",
+      "apkSha256": "d8f9a03653216541a938e3a3f6e36db6b01badcad1f184cb4ed2f80fe7706631",
       "exeSha256": "d26e1369f9119b7806ea77cebc5eaf61da0405796f806006575a7ba63a426c9b"
     },
     {
