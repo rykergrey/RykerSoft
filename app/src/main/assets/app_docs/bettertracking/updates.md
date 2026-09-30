@@ -1,5 +1,12 @@
 # Release notes
 
+## v1.8.0
+- Calculate amounts with addition, subtraction, multiplication, and division directly in the number pad
+- Preview results live and use the calculated amount with Log Now, To Tray, and Done
+- Keep familiar digit positions with a thumb-friendly operator column and compact phone layout
+- Support typed and pasted calculations, decimal operands, and standard operator precedence
+- Block incomplete calculations and division by zero while preserving units, time entry, and hold-to-clear
+
 ## v1.7.1
 - Let a library long press open item options without adding the item to the tray
 - Expand combo alerts into their individual components for logging or staging

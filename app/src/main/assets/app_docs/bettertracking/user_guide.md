@@ -50,6 +50,12 @@ Items marked * require app-specific RykerSoft pro access for your signed-in acco
 - Tap behavior is configurable: stage the item to the tray or open its details.
 - Your Library search, scroll position, and open groups are kept when you leave for the staging tray and return.
 
+### Calculate an amount
+
+Tap an amount to open the number pad. Use **+**, **−**, **×**, and **÷** to enter a calculation: `11 + 14` previews **25**, and **Log Now**, **To Tray**, or **Done** uses that result with the selected unit. Multiplication and division run before addition and subtraction (`2 + 3 × 4` gives **14**).
+
+You can also type or paste calculations using `+`, `-`, `*`, and `/`. Decimals work in each number. Tap backspace to correct the last character, or hold it to clear everything. Finish an incomplete calculation or correct an error such as division by zero before submitting. Time entry keeps its AM/PM controls.
+
 ### Add a product from photos
 
 1. Open a new food or supplement item and its **Library draft assistant**.
