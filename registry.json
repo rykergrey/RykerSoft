@@ -99,11 +99,11 @@
     {
       "packageName": "com.rykersoft.synthing",
       "name": "Synthing",
-      "latestVersionCode": 15,
-      "latestVersionName": "1.0.14",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/synthing-v1.0.14/app-release.apk",
+      "latestVersionCode": 16,
+      "latestVersionName": "1.0.15",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/synthing-v1.0.15/app-release.apk",
       "icon": "android",
-      "changelog": "- Reduce repeated drawing work during grid resizing, scrolling, and playback\n- Keep all 88 keys prepared for rapid reveal and playing\n- Protect audio shutdown, recording finalization, and overload recovery\n- Preserve project isolation and retry failed background saves",
+      "changelog": "Fix GRID and KEYS editor preview alignment in FILTER and COLORS | Keep the full octave visible and taps aligned with the displayed notes, including A | Restore taps on exposed white-key tops",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/synthing/01-play-grids.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/synthing/02-play-keys.jpg",
