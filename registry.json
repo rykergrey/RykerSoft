@@ -294,6 +294,22 @@
       "changelog": "Auto-download starts a balanced MP4 download after search: H.264 video and AAC audio up to 1080p | Checkbox remembers your choice across restarts | Uncheck to choose formats manually | Audio-only links keep the audio format picker",
       "screenshots": [],
       "isGame": false
+    },
+    {
+      "packageName": "com.oddly.app.release",
+      "name": "Umm",
+      "latestVersionCode": 7,
+      "latestVersionName": "0.4.1",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/umm-v0.4.1/Umm-0.4.1.apk",
+      "apkSha256": "ae30682a3674c87850cb215d54ab55d9a47863acb4b8fba7cbd7b8e80307e697",
+      "icon": "android",
+      "changelog": "Google sign-in and unique usernames | Mystery card pool and daily editions | Timed answers and shared recaps | Visual quiz workshop, card styles and stickers | Creator reactions and bonus coins | Hosted Firebase gameplay",
+      "screenshots": [
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft-APKs/46200efc761d980c6cf78d4915f8c5221d37aca7/docs/umm/screenshots/0.4.1/mystery-pool.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft-APKs/46200efc761d980c6cf78d4915f8c5221d37aca7/docs/umm/screenshots/0.4.1/answer-card.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft-APKs/46200efc761d980c6cf78d4915f8c5221d37aca7/docs/umm/screenshots/0.4.1/workshop.png"
+      ],
+      "isGame": true
     }
   ]
 }
