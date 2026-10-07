@@ -18,35 +18,36 @@
     {
       "packageName": "com.rykersoft.hyperscribemobile",
       "name": "Hyperscribe Mobile",
-      "latestVersionCode": 43,
-      "latestVersionName": "2.15.0",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.15.0/app-release.apk",
+      "latestVersionCode": 45,
+      "latestVersionName": "2.16.1",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.16.1/app-release.apk",
       "icon": "android",
-      "changelog": "Create scheduled Inbox reminders from longer voice requests | Keep the spoken words with a short title and matching tags | Show Alerts on every item and control reminders by title | Open Chat search results and saved sources directly in the app",
+      "changelog": "Reliable Desktop/Mobile Sync for selected Inbox text, scoped tags, Chat and replacement rules | Server-confirmed status and automatic retries | Protect offline edits and deletions | Preserve Desktop Computer actions as desktop-only",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/29c23bee375465cbc4d843a0e4b1d6730bc7b4a2/screenshots/hyperscribe-mobile/01-inbox.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-mobile/02-actions.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-mobile/03-chat.png"
       ],
-      "isGame": false
+      "isGame": false,
+      "apkSha256": "7217b99108b93fb85f29adac1a8dde0c0d75104fe3903019f42386444adbcb0c"
     },
     {
       "packageName": "com.rykersoft.hyperscribedesktop",
       "name": "Hyperscribe Desktop",
-      "latestVersionCode": 6,
-      "latestVersionName": "2.4.2",
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-desktop-v2.4.2/HyperscribeDesktop-v2.4.2.exe",
+      "latestVersionCode": 7,
+      "latestVersionName": "2.4.4",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-desktop-v2.4.4/HyperscribeDesktop-v2.4.4.exe",
       "icon": "desktop",
-      "changelog": "Saved Inbox and Actions views | Versioned Inbox Viewer with audio, item chat, and alerts | Codex and Gemini CLI text generation plus reviewed file Agent | Improved recording controls, notifications, sync, and data recovery",
+      "changelog": "Reliable cross-device Sync with acknowledged revisions, guarded writes and deletion conflict protection | Server-confirmed counts and check time | Automatic retries and incremental reads | Desktop/Mobile Chat, tags and replacement-rule compatibility | Preserve local files and ongoing edits",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-desktop/01-inbox.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-desktop/02-actions.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-desktop/03-chat.png"
       ],
       "isGame": false,
-      "exeSha256": "1294a623b4753e67b6de905dfcb4b659b640e1b137963ad1f92d5bbdd4168dee",
-      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-desktop-v2.4.2/HyperscribeDesktop-v2.4.2-linux-x86_64.tar.gz",
-      "linuxSha256": "42fdb6f6363920859cc47c66d2d9af8d8093bbbf3fd4912ad6925c465f09277b"
+      "exeSha256": "4b7dfcf3aceb1c55adeec03ce706ee5c1e5ce3503ea4074e5ee02d3e2c25c705",
+      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-desktop-v2.4.4/HyperscribeDesktop-v2.4.4-linux-x86_64.tar.gz",
+      "linuxSha256": "72861fa3aaca34d2b4e1b3dd299184ef7ee2d974a138c9cf39ee86f772f1de08"
     },
     {
       "packageName": "com.rykersoft.informant",
