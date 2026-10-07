@@ -298,13 +298,14 @@
     {
       "packageName": "com.oddly.app.release",
       "name": "Umm",
-      "latestVersionCode": 7,
-      "latestVersionName": "0.4.1",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/umm-v0.4.1/Umm-0.4.1.apk",
-      "apkSha256": "ae30682a3674c87850cb215d54ab55d9a47863acb4b8fba7cbd7b8e80307e697",
+      "latestVersionCode": 8,
+      "latestVersionName": "0.4.2",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/umm-v0.4.2/Umm-0.4.2.apk",
+      "apkSha256": "768e18b0760f7528d17e3d1dee65145d52664956572bf7c7d49dd966b95211c0",
       "icon": "android",
-      "changelog": "Google sign-in and unique usernames | Mystery card pool and daily editions | Timed answers and shared recaps | Visual quiz workshop, card styles and stickers | Creator reactions and bonus coins | Hosted Firebase gameplay",
+      "changelog": "Compact player name and Google status | Prominent coin, answer, question and sticker shortcuts | Your quizzes near the top with quick creation | Extra participation and rating totals under More stats",
       "screenshots": [
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft-APKs/d0355b5b2adeecc2f9c7ae1801727f802a276715/docs/umm/screenshots/0.4.2/profile.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft-APKs/46200efc761d980c6cf78d4915f8c5221d37aca7/docs/umm/screenshots/0.4.1/mystery-pool.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft-APKs/46200efc761d980c6cf78d4915f8c5221d37aca7/docs/umm/screenshots/0.4.1/answer-card.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft-APKs/46200efc761d980c6cf78d4915f8c5221d37aca7/docs/umm/screenshots/0.4.1/workshop.png"
