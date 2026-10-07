@@ -301,17 +301,18 @@
     {
       "packageName": "com.oddly.app.release",
       "name": "Umm",
-      "latestVersionCode": 8,
-      "latestVersionName": "0.4.2",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/umm-v0.4.2/Umm-0.4.2.apk",
-      "apkSha256": "768e18b0760f7528d17e3d1dee65145d52664956572bf7c7d49dd966b95211c0",
+      "latestVersionCode": 9,
+      "latestVersionName": "0.4.3",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/umm-v0.4.3/Umm-0.4.3.apk",
+      "apkSha256": "a5ce649ab9dd7372fbf39ed2e332deb70beeaac471f1e4cd4ad6010985493688",
       "icon": "android",
-      "changelog": "Compact player name and Google status | Prominent coin, answer, question and sticker shortcuts | Your quizzes near the top with quick creation | Extra participation and rating totals under More stats",
+      "changelog": "Sunny Meadow menu and original scenic artwork | Warm ivory and pastel styling throughout the app | Light, subtle card presets with expressive customization retained | Readable sticker defaults and improved phone layouts",
       "screenshots": [
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft-APKs/d0355b5b2adeecc2f9c7ae1801727f802a276715/docs/umm/screenshots/0.4.2/profile.png",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft-APKs/46200efc761d980c6cf78d4915f8c5221d37aca7/docs/umm/screenshots/0.4.1/mystery-pool.png",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft-APKs/46200efc761d980c6cf78d4915f8c5221d37aca7/docs/umm/screenshots/0.4.1/answer-card.png",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft-APKs/46200efc761d980c6cf78d4915f8c5221d37aca7/docs/umm/screenshots/0.4.1/workshop.png"
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft-APKs/04a331b7daa6dd7c3454df047aa5f3d08f8ce994/docs/umm/screenshots/0.4.3/meadow-menu.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft-APKs/04a331b7daa6dd7c3454df047aa5f3d08f8ce994/docs/umm/screenshots/0.4.3/desktop-meadow.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft-APKs/04a331b7daa6dd7c3454df047aa5f3d08f8ce994/docs/umm/screenshots/0.4.3/answer-card.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft-APKs/04a331b7daa6dd7c3454df047aa5f3d08f8ce994/docs/umm/screenshots/0.4.3/workshop.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft-APKs/04a331b7daa6dd7c3454df047aa5f3d08f8ce994/docs/umm/screenshots/0.4.3/profile.png"
       ],
       "isGame": true
     }
