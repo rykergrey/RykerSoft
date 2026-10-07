@@ -18,18 +18,20 @@
     {
       "packageName": "com.rykersoft.hyperscribemobile",
       "name": "Hyperscribe Mobile",
-      "latestVersionCode": 45,
-      "latestVersionName": "2.16.1",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.16.1/app-release.apk",
+      "latestVersionCode": 47,
+      "latestVersionName": "2.17.1",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.17.1/app-release.apk",
       "icon": "android",
-      "changelog": "Reliable Desktop/Mobile Sync for selected Inbox text, scoped tags, Chat and replacement rules | Server-confirmed status and automatic retries | Protect offline edits and deletions | Preserve Desktop Computer actions as desktop-only",
+      "changelog": "Direct custom floating tabs with right-edge swipe selection | Tap outside to close without activating the app underneath | Duplicate filtered Inbox/Actions/Capture/Listen tabs | Default speech actions and summary-then-speech playback",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/29c23bee375465cbc4d843a0e4b1d6730bc7b4a2/screenshots/hyperscribe-mobile/01-inbox.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-mobile/02-actions.png",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-mobile/03-chat.png"
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-mobile/03-chat.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/fb40ef4a1adc9f5d8bdd22fdda2cf3e2f60ee115/screenshots/hyperscribe-mobile/2.17.1/04-tabbed-capture.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/fb40ef4a1adc9f5d8bdd22fdda2cf3e2f60ee115/screenshots/hyperscribe-mobile/2.17.1/05-listen-speech-action.png"
       ],
       "isGame": false,
-      "apkSha256": "7217b99108b93fb85f29adac1a8dde0c0d75104fe3903019f42386444adbcb0c"
+      "apkSha256": "788195a8729faeb0c56f0f24374b38a6ff82c4a28b2fddce51af76bbb1a68b6a"
     },
     {
       "packageName": "com.rykersoft.hyperscribedesktop",
