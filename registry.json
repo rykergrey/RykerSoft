@@ -338,6 +338,22 @@
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/fieldrecorder/rules-1.0.0.png"
       ],
       "isGame": true
+    },
+    {
+      "packageName": "com.rykersoft.somethingsoff",
+      "name": "The Guile Family",
+      "latestVersionCode": 15,
+      "latestVersionName": "3.3.0",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/the-guile-family-v3.3.0/the-guile-family-3.3.0.apk",
+      "apkSha256": "f927e0ceffdc164390f4da753ee51b138a9283b474b0c49fa75edc167322bd38",
+      "icon": "android",
+      "changelog": "The Guile Family name | Three complete offline party games | Content Workshop and pack exchange | RykerSoft Pro Access for every explicit AI action",
+      "screenshots": [
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/the-guile-family/3.3.0/home.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/the-guile-family/3.3.0/games.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/the-guile-family/3.3.0/workshop.png"
+      ],
+      "isGame": true
     }
   ]
 }
