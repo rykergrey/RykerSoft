@@ -56,17 +56,19 @@
     {
       "packageName": "com.rykersoft.informant",
       "name": "INFORMANT",
-      "latestVersionCode": 20,
-      "latestVersionName": "1.4.3",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/informant-v1.4.3/app-release.apk",
+      "latestVersionCode": 21,
+      "latestVersionName": "1.4.4",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/informant-v1.4.4/app-release.apk",
       "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/informant-v1.4.2/INFORMANT-Portable-1.4.2.exe",
       "icon": "android",
-      "changelog": "Fix stale shared-link dialogs on launch and resume. Restore the active project, expanded video, selected tab, and scroll position. Android update preserves existing app data.",
+      "changelog": "Import URLs as standalone home-screen videos and open directly on Info. Use Add to project to organize them later, or restore the original project-based flow in General settings. Saved work and Android app data are preserved.",
       "screenshots": [
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/01-home.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/v1.4.4/01-home.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/v1.4.4/02-video-info.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/v1.4.4/03-add-to-project.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/v1.4.4/04-import-settings.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/02-workspace.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/03-texts.jpg",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/04-video-info.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/05-comments.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/06-transcript.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/07-notes.jpg",
@@ -78,7 +80,8 @@
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/13-article-body.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/14-bookmarks.jpg"
       ],
-      "isGame": false
+      "isGame": false,
+      "apkSha256": "bf239b0d387353ade98815cb988d1adfa78375c551132641693badab9daf3db0"
     },
     {
       "packageName": "com.rykersoft.rush",
