@@ -322,6 +322,22 @@
         "https://raw.githubusercontent.com/rykergrey/RykerSoft-APKs/04a331b7daa6dd7c3454df047aa5f3d08f8ce994/docs/umm/screenshots/0.4.3/profile.png"
       ],
       "isGame": true
+    },
+    {
+      "packageName": "com.rykersoft.fieldrecorder",
+      "name": "Field Recorder",
+      "latestVersionCode": 2,
+      "latestVersionName": "1.0.0",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/fieldrecorder-v1.0.0/Field-Recorder-1.0.0.apk",
+      "apkSha256": "bdf4d5313d05acf3972a857bb8fe30246d8222502a2816fa6380bb3b0903b977",
+      "icon": "android",
+      "changelog": "First production release: push-to-talk category gameplay, standalone personal-key Groq transcription, custom decks, saved rosters, and post-game audio review.",
+      "screenshots": [
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/fieldrecorder/lobby-1.0.0.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/fieldrecorder/transcription-1.0.0.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/fieldrecorder/rules-1.0.0.png"
+      ],
+      "isGame": true
     }
   ]
 }
