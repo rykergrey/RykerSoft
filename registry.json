@@ -172,22 +172,24 @@
     {
       "packageName": "com.rykersoft.wordplaying",
       "name": "WordPlay",
-      "latestVersionCode": 58,
-      "latestVersionName": "1.3.52",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.52/wordplaying-v1.3.52-android.apk",
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.52/wordplaying-v1.3.52-windows-x64.exe",
+      "latestVersionCode": 59,
+      "latestVersionName": "1.3.53",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.53/wordplaying-v1.3.53-android.apk",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.53/wordplaying-v1.3.53-windows-x64.exe",
       "icon": "android",
-      "changelog": "Free Placement builds multiple words anywhere | Clash hides turns, then reveals tile battles together | Strict hides previews and invalid words cost a turn | Public weekly lobbies for Bungle and Scramble",
+      "changelog": "Slower Clash reveals show opponent words, sequential letter points, both totals, clear winners, and losing tiles falling away | Consistent player colors | Bungle Finale: ten untimed turns per player on the finished Scramble board, with combined final scores",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/01-home-v1.2.0.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/02-player-settings-v1.2.0.jpg",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/04-scramble-modifiers-v1.3.52.jpg"
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/04-scramble-modifiers-v1.3.52.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/05-clash-comparison-v1.3.53.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/06-bungle-finale-v1.3.53.jpg"
       ],
       "isGame": true,
-      "apkSha256": "55748595f6f57ce54fb0ec8a351856dbf87bd9cd4750d3997c818802bff9dce8",
-      "exeSha256": "ca8e86fa6fae496df36e03e78817375ba60c2be1947b4454c4fc88d2412e8eda",
-      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.52/wordplaying-v1.3.52-linux-x86_64.AppImage",
-      "linuxSha256": "b89f81e4fa546f22aedb6ef4d3a549f72d78c528444cf1bd5554b17b8829e462"
+      "apkSha256": "a985d28468409346ecb3e92e4fc9b3b9786f5add54f21b3f3e45b9d91d479836",
+      "exeSha256": "02a3a983d9e5c0b77a7bdfcebc265a40f1eb37605d0678fd0b108ea356279f54",
+      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.53/wordplaying-v1.3.53-linux-x86_64.AppImage",
+      "linuxSha256": "c861fc88cae7acdf4281c73f62d6d827c8432188b003b5ad50ca26d83a67bd0e"
     },
     {
       "packageName": "com.rykersoft.photocrafting",
