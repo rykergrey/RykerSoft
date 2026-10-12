@@ -354,6 +354,18 @@
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/the-guile-family/3.3.0/workshop.png"
       ],
       "isGame": true
+    },
+    {
+      "packageName": "com.rykersoft.pocketdm",
+      "name": "Pocket DM",
+      "latestVersionCode": 9,
+      "latestVersionName": "0.2.7",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/pocket-dm-v0.2.7/Pocket-DM-0.2.7.apk",
+      "apkSha256": "85486638cfe2a940d7cb06aa01e481a903da3ec18ea6f25439799fe7c5d72442",
+      "icon": "android",
+      "isGame": true,
+      "changelog": "First public release: responsive Android reveals, an empty player-created roster, and detailed TF2-inspired painterly portraits. New production signer; earlier debug builds must be removed before installation.",
+      "screenshots": []
     }
   ]
 }
