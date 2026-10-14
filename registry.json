@@ -59,9 +59,9 @@
       "latestVersionCode": 30,
       "latestVersionName": "1.4.13",
       "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/informant-v1.4.13/INFORMANT-1.4.13.apk",
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/informant-v1.4.2/INFORMANT-Portable-1.4.2.exe",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/informant-v1.4.13/INFORMANT-Portable-1.4.13.exe",
       "icon": "android",
-      "changelog": "Android article imports extract complete bodies, including Daily Mail, using direct on-device retrieval without automatic third-party scraper fallback. Re-scraped article word counts and reading-time estimates follow the current body. Saved items and projects are preserved.",
+      "changelog": "Android article imports extract complete bodies, including Daily Mail, using direct on-device retrieval without automatic third-party scraper fallback. Re-scraped article word counts and reading-time estimates follow the current body. Saved items and projects are preserved. Windows portable and Linux AppImage downloads now provide 1.4.13, including direct reader sending, a local Reader queue, and reliable saves on close.",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/v1.4.4/01-home.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/v1.4.5/02-video-info.png",
@@ -81,7 +81,10 @@
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/14-bookmarks.jpg"
       ],
       "isGame": false,
-      "apkSha256": "5ab66ef1da103814b6a36b60119c9b2996344dd2bc13c82c90d968f689bebec7"
+      "apkSha256": "5ab66ef1da103814b6a36b60119c9b2996344dd2bc13c82c90d968f689bebec7",
+      "exeSha256": "399a23d1c8513f4b05f57c3134dd1fc82de061f53015195b2d61219ddeeb3f27",
+      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/informant-v1.4.13/INFORMANT-1.4.13-linux-x86_64.AppImage",
+      "linuxSha256": "6a84c5d191e63cb91cd827762148d3e403a5d9b94a5bc4ef21020bf5801c50c8"
     },
     {
       "packageName": "com.rykersoft.rush",
