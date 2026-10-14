@@ -56,12 +56,12 @@
     {
       "packageName": "com.rykersoft.informant",
       "name": "INFORMANT",
-      "latestVersionCode": 22,
-      "latestVersionName": "1.4.5",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/informant-v1.4.5/app-release.apk",
+      "latestVersionCode": 29,
+      "latestVersionName": "1.4.12",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/informant-v1.4.12/INFORMANT-1.4.12.apk",
       "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/informant-v1.4.2/INFORMANT-Portable-1.4.2.exe",
       "icon": "android",
-      "changelog": "Both Add to project buttons now use only a folder-plus icon, with tooltips and accessibility labels. Standalone imports, saved work, and Android app data are preserved.",
+      "changelog": "Android article imports now extract complete bodies reliably, including Daily Mail, while rejecting navigation and verification pages. Articles use direct on-device retrieval without automatic third-party scraper fallback. Saved items and projects are preserved.",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/v1.4.4/01-home.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/v1.4.5/02-video-info.png",
@@ -81,7 +81,7 @@
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/14-bookmarks.jpg"
       ],
       "isGame": false,
-      "apkSha256": "162402d02874fb466f7aefe167d365093ae29422b300dd78f3eeb31e9ee70b42"
+      "apkSha256": "b0f80e8833124d0982ea7dc66919574c56e827c03f04b81993bc5a294cf8cba5"
     },
     {
       "packageName": "com.rykersoft.rush",
