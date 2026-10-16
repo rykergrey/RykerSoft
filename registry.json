@@ -223,22 +223,24 @@
     {
       "packageName": "com.rykersoft.freeballing",
       "name": "FreeBall.ing",
-      "latestVersionCode": 30,
-      "latestVersionName": "1.0.29",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.29/freeballing-v1.0.29-android.apk",
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.29/freeballing-v1.0.29-windows-x86_64.exe",
+      "latestVersionCode": 46,
+      "latestVersionName": "1.0.30",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.30/freeballing-v1.0.30-android.apk",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.30/freeballing-v1.0.30-windows-x86_64.exe",
       "icon": "android",
-      "changelog": "Improved mobile and desktop navigation, board browsing, favorites and practice | Consistent pause and keyboard controls | Contextual editor inspectors and live parameter previews | Shared accessibility and quality settings | Paged Community previews | New Linux AppImage and portable archive",
+      "changelog": "Three-letter local high-score initials and reversible touch scrolling | Independent mobile screens and real board thumbnails | Paper arcade presentation and preview-to-game transitions | Static mobile previews and improved 60 FPS frame pacing | Desktop editor styling refinements",
       "screenshots": [
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/v1.0.29/updated-mobile-home.png",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/v1.0.29/updated-mobile-browser.png",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/v1.0.29/updated-mobile-game.png",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/v1.0.29/updated-mobile-pause.png",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/v1.0.29/updated-desktop-home.png",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/v1.0.29/updated-desktop-editor.png"
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/v1.0.30/phone-01-home.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/v1.0.30/phone-02-browse.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/v1.0.30/phone-04-gameplay.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/v1.0.30/phone-05-turn-complete.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/v1.0.30/desktop-01-home.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/v1.0.30/desktop-02-editor.png"
       ],
       "isGame": true,
-      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.29/freeballing-v1.0.29-linux-x86_64.AppImage"
+      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.29/freeballing-v1.0.29-linux-x86_64.AppImage",
+      "apkSha256": "0091c03bb88d410f1302d09f4aa31643b0d965727d2b3745d524acb831b69cab",
+      "exeSha256": "eb41d6be43a9ecf992427e3281847d1292c133615d908b7c09f47e686ff00ec3"
     },
     {
       "packageName": "com.superstorycraft.ing",
