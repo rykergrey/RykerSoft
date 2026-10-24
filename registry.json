@@ -185,24 +185,25 @@
     {
       "packageName": "com.rykersoft.wordplaying",
       "name": "WordPlay",
-      "latestVersionCode": 62,
-      "latestVersionName": "1.3.56",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.56/wordplaying-v1.3.56-android.apk",
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.56/wordplaying-v1.3.56-windows-x64.exe",
+      "latestVersionCode": 63,
+      "latestVersionName": "1.3.57",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.57/wordplaying-v1.3.57-android.apk",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.57/wordplaying-v1.3.57-windows-x64.exe",
       "icon": "android",
-      "changelog": "Keep Solo, Raid and Pass & Play Scramble matches on Home | Resume saved progress | Show all ongoing online matches | Refresh matches after device Back",
+      "changelog": "Timed Daily Scramble with identical boards and letters | Earlier played dailies stay open to everyone through Sunday | Server-saved daily attempts | Original boards and individual timers for late arrivals",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/01-home-v1.2.0.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/02-player-settings-v1.2.0.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/04-scramble-modifiers-v1.3.52.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/05-clash-comparison-v1.3.53.jpg",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/06-bungle-finale-v1.3.53.jpg"
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/06-bungle-finale-v1.3.53.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/07-daily-scramble-v1.3.57.jpg"
       ],
       "isGame": true,
-      "apkSha256": "e519e7babccba3d3f4dd8c190d9780034d0efa4e7917430067316d9394fc3d67",
-      "exeSha256": "e4a79af30a4f5415fc32d6490f5ba1ca0f50ee3c86107ef90e436c3fb8131d38",
-      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.56/wordplaying-v1.3.56-linux-x86_64.AppImage",
-      "linuxSha256": "1547a97cb9dc527089de47d5493d2ea6f7ffb895d6d8b85b91808d6a01e05890"
+      "apkSha256": "28cab1aed4cd1576916734ef3565e010f9b6a739f3a144c1334649eb37ed83f6",
+      "exeSha256": "47b5a830711a8538091bbac544b97af0660d9e51eaff4e67a2ceaf13ed641fa7",
+      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.57/wordplaying-v1.3.57-linux-x86_64.AppImage",
+      "linuxSha256": "86f9c23a108d2e9670dde001713df4c3da2dbd8948efd83a8bfb06147ffdc481"
     },
     {
       "packageName": "com.rykersoft.photocrafting",
