@@ -155,13 +155,15 @@
     {
       "packageName": "com.rykersoft.bettertracking",
       "name": "bettertracking",
-      "latestVersionCode": 25,
-      "latestVersionName": "1.11.2",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.11.2/app-release.apk",
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.11.2/bettertracking-v1.11.2-win-x64.exe",
+      "latestVersionCode": 30,
+      "latestVersionName": "1.14.0",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.14.0/app-release.apk",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.14.0/bettertracking-v1.14.0-win-x64.exe",
       "icon": "android",
-      "changelog": "Home Log/Stats switch separates daily entries from reports | One shared Day Week Month Year All time Custom range | Retained Stats period across logging and drilldowns | Trends & History charts and records | Saved AI Analysis for the same selected dates",
+      "changelog": "Persistent full-history calorie balance across weeks | Goal versus estimated maintenance context | Capped recent-window calorie plans | Protected daily nutrient goals and limits | Optional Android Index Assistant connection",
       "screenshots": [
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/bettertracking/v1.14.0/18-rolling-goal-maintenance.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/bettertracking/v1.14.0/19-daily-nutrients.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/bettertracking/v1.11.2/15-stats.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/bettertracking/v1.11.2/16-log.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/bettertracking/v1.11.2/17-analysis.jpg",
@@ -175,12 +177,12 @@
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/bettertracking/08-item-detail.jpg"
       ],
       "isGame": false,
-      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.11.2/bettertracking-v1.11.2-linux-x86_64.AppImage",
-      "linuxDebUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.11.2/bettertracking-v1.11.2-linux-amd64.deb",
-      "apkSha256": "d28ce6b19cec8d6ac59cbce8962cf42097817d792554d076ee02d6027e9985f6",
-      "exeSha256": "9895ea6ea5052105bd42bb9ab1677130ef1680e5956c6101511eaf3b8abe68ae",
-      "linuxSha256": "57013115546ea79eca3872035c25a8e701e15543a0b1d209faa1d4975d95f3d2",
-      "linuxDebSha256": "8c9caa5615f457d288227f9b35e59fb866cf0edd099f7d8d5537e715bc451a29"
+      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.14.0/bettertracking-v1.14.0-linux-x86_64.AppImage",
+      "linuxDebUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.14.0/bettertracking-v1.14.0-linux-amd64.deb",
+      "apkSha256": "0d46ccae4ba75999627462227c062fa092235fb9d76503057c8deca050675cf4",
+      "exeSha256": "9566495b610b31380877c48695cad1be2effa422d44e5c24eafbcfd8b3e8565d",
+      "linuxSha256": "4c7bd69e12cec4d68c71a4f40ba8e2b8a949964ed489dda123bcdc5db79e6a4d",
+      "linuxDebSha256": "e5ca1dc7fb53e99c4f854937d9a51789c2042008d8757fc6c4703542c98fe23e"
     },
     {
       "packageName": "com.rykersoft.wordplaying",
