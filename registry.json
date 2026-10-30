@@ -382,6 +382,21 @@
       "isGame": true,
       "changelog": "First public release: responsive Android reveals, an empty player-created roster, and detailed TF2-inspired painterly portraits. New production signer; earlier debug builds must be removed before installation.",
       "screenshots": []
+    },
+    {
+      "packageName": "com.rykersoft.closecall",
+      "name": "Close Call",
+      "latestVersionCode": 9,
+      "latestVersionName": "0.4.2",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/closecall-v0.4.2/Close-Call-0.4.2.apk",
+      "icon": "android",
+      "changelog": "First RykerSoft release: family image, video and song matches; sealed visual guesses; hold-to-speak song buzzers and artist/album points; private earpiece previews with proximity controls. Production signing requires a fresh install over earlier debug prototypes; uninstalling removes their local data.",
+      "screenshots": [
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/closecall/v0.4.2/01-home.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/closecall/v0.4.2/03-song-results.png"
+      ],
+      "isGame": true,
+      "apkSha256": "160646cce8f163dc2e9afc969e94517d205ec1ffe1b50acf34079b1c396667a6"
     }
   ]
 }
