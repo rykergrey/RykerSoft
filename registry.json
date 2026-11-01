@@ -401,12 +401,12 @@
     {
       "packageName": "com.rykersoft.memegod",
       "name": "MechaMeme",
-      "latestVersionCode": 23,
-      "latestVersionName": "1.0.21",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/memegod-v1.0.21/MechaMeme-1.0.21.apk",
-      "apkSha256": "25cb820645c448043dcb997fcf99395a6e6690e55c4889ffbabb9ecbd5cb2773",
+      "latestVersionCode": 24,
+      "latestVersionName": "1.0.22",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/memegod-v1.0.22/MechaMeme-1.0.22.apk",
+      "apkSha256": "b247b86fa3100a4827192f9fd8e3acc189305eb399ac6a76a970a1177b0923c7",
       "icon": "android",
-      "changelog": "Meme God is now MechaMeme, with a new red geometric icon | Crisp static controls with colored backing layers and shadows | Lightweight mosaic processing and caption transitions without smoke | Long-press Your Photos for Rename/Delete | Existing photos, settings and Pro access preserved",
+      "changelog": "Add manual captions to imported photos with the pencil | Save as a new take while preserving the original | No AI or Pro required for manual captions | Saved takes persist after reopening",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/mechameme/1.0.21/take.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/mechameme/1.0.21/photo.png",
