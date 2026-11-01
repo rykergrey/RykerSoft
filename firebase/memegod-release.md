@@ -6,4 +6,6 @@ This snapshot intentionally starts from deployed rules, which differ from the ol
 
 Deployed ruleset: `projects/rykersoft-abe84/rulesets/98027678-ba50-4969-9885-fbbf09d7fb2e`.
 
-Six emulator tests passed using `firebase.memegod-tests.json` and `firestore-tests/memegod.rules.test.js`, with Java 21. The provider capability uses structured credential fields; the OpenAI key remains in protected Firestore, never this repository or the APK.
+Six emulator tests passed using `firebase.memegod-tests.json` and `firestore-tests/memegod.rules.check.js`, with Java 21. The provider capability uses structured credential fields; the OpenAI key remains in protected Firestore, never this repository or the APK.
+
+Run the isolated suite from the hub root with Java 21: `firebase emulators:exec --project demo-memegod-pro --config firebase.memegod-tests.json --only firestore "cd firestore-tests && node --test memegod.rules.check.js"`. The explicit filename keeps this dedicated-port suite out of the root rules test discovery.
