@@ -400,14 +400,18 @@
     },
     {
       "packageName": "com.rykersoft.memegod",
-      "name": "Meme God",
-      "latestVersionCode": 2,
-      "latestVersionName": "1.0.0",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/memegod-v1.0.0/Meme-God-1.0.0.apk",
-      "apkSha256": "2777025f550cec0488c06116b7c598971361ecef580fdaa829d88bfb679da744",
+      "name": "MechaMeme",
+      "latestVersionCode": 23,
+      "latestVersionName": "1.0.21",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/memegod-v1.0.21/MechaMeme-1.0.21.apk",
+      "apkSha256": "25cb820645c448043dcb997fcf99395a6e6690e55c4889ffbabb9ecbd5cb2773",
       "icon": "android",
-      "changelog": "Free photo import, cropping, caption editing, keeping and export | Direct on-device AI unlocked by any RykerSoft Pro grant | Automatic provider access with no PC or manual API setup | Inline image-and-border pinch zoom",
-      "screenshots": [],
+      "changelog": "Meme God is now MechaMeme, with a new red geometric icon | Crisp static controls with colored backing layers and shadows | Lightweight mosaic processing and caption transitions without smoke | Long-press Your Photos for Rename/Delete | Existing photos, settings and Pro access preserved",
+      "screenshots": [
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/mechameme/1.0.21/take.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/mechameme/1.0.21/photo.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/mechameme/1.0.21/photo-actions.png"
+      ],
       "isGame": false
     }
   ]
