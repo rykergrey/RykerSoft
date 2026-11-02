@@ -401,15 +401,15 @@
     {
       "packageName": "com.rykersoft.memegod",
       "name": "MechaMeme",
-      "latestVersionCode": 30,
-      "latestVersionName": "1.0.28",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/memegod-v1.0.28/MechaMeme-1.0.28.apk",
-      "apkSha256": "803f053be02c3d7fa7a6ad99babb3f03e6f14ec36b46d96355aff966210f892e",
+      "latestVersionCode": 31,
+      "latestVersionName": "1.0.29",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/memegod-v1.0.29/MechaMeme-1.0.29.apk",
+      "apkSha256": "8b27c93179f8988fbfce722e3c46cb824cc21fd8392f7ce6e7c03c47e9a68cfa",
       "icon": "android",
-      "changelog": "Upvote other users\u2019 Community posts | Separate icon-only Add to library action | Save private copies without signing in or leaving Community | One-tap Remix remains available",
+      "changelog": "Publishing includes your thumbs-up; remove it even on your own post | Zero-vote images leave Community | Smaller centered username badge and tighter picture spacing | Raised arcade actions and responsive zoom layout",
       "screenshots": [
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/mechameme/1.0.24/home.png",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/mechameme/1.0.24/picture.png"
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/mechameme/1.0.29/home.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/mechameme/1.0.29/picture.png"
       ],
       "isGame": false
     }
