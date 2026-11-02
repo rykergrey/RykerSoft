@@ -401,16 +401,15 @@
     {
       "packageName": "com.rykersoft.memegod",
       "name": "MechaMeme",
-      "latestVersionCode": 25,
-      "latestVersionName": "1.0.23",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/memegod-v1.0.23/MechaMeme-1.0.23.apk",
-      "apkSha256": "db9343bf8108006d9f97196823dbdab1a7f7b1da28a2752d0ee4a1d41cce3ed2",
+      "latestVersionCode": 26,
+      "latestVersionName": "1.0.24",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/memegod-v1.0.24/MechaMeme-1.0.24.apk",
+      "apkSha256": "dcaa5ff9e7f3c4a44eaa1f63ffc0cdbc8c379f466711fcc924b287db4097688c",
       "icon": "android",
-      "changelog": "Library grid with number-only take badges | Matching Takes, Library and Settings panels | Pull-down take drawer with stable placement and smooth dimming | Cinematic photo selection | Deleting a take preserves its numbered selection",
+      "changelog": "Community sharing with Google sign-in | Free captions and template assistance; Recreate me uses Pro | Compact Home with visual take indicators | Dates above images, usernames below | Share, Save, Thumbs up, Keep",
       "screenshots": [
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/mechameme/1.0.23/take.png",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/mechameme/1.0.23/library.png",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/mechameme/1.0.23/takes.png"
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/mechameme/1.0.24/home.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/mechameme/1.0.24/picture.png"
       ],
       "isGame": false
     }
