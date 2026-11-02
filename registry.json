@@ -401,12 +401,12 @@
     {
       "packageName": "com.rykersoft.memegod",
       "name": "MechaMeme",
-      "latestVersionCode": 26,
-      "latestVersionName": "1.0.24",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/memegod-v1.0.24/MechaMeme-1.0.24.apk",
-      "apkSha256": "dcaa5ff9e7f3c4a44eaa1f63ffc0cdbc8c379f466711fcc924b287db4097688c",
+      "latestVersionCode": 28,
+      "latestVersionName": "1.0.26",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/memegod-v1.0.26/MechaMeme-1.0.26.apk",
+      "apkSha256": "273325768e69482c2cf06bfcd805763dd58e4197ebcd89a57bbe9e277b643237",
       "icon": "android",
-      "changelog": "Community sharing with Google sign-in | Free captions and template assistance; Recreate me uses Pro | Compact Home with visual take indicators | Dates above images, usernames below | Share, Save, Thumbs up, Keep",
+      "changelog": "Private public usernames with Google sign-in | Delete Community posts even without a library copy | Clear owner/session errors and delete confirmation | Emoji reactions, classic templates and retro-space themes",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/mechameme/1.0.24/home.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/mechameme/1.0.24/picture.png"
