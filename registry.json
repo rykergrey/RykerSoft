@@ -401,12 +401,12 @@
     {
       "packageName": "com.rykersoft.memegod",
       "name": "MechaMeme",
-      "latestVersionCode": 32,
-      "latestVersionName": "1.0.30",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/memegod-v1.0.30/MechaMeme-1.0.30.apk",
-      "apkSha256": "7e24df7574a7211431555e705ebf6fce035900e4ebddafb06807aab1564b927b",
+      "latestVersionCode": 33,
+      "latestVersionName": "1.0.31",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/memegod-v1.0.31/MechaMeme-1.0.31.apk",
+      "apkSha256": "5728f7758b8476b441fd62bae8824403294a0a486949b087877b1c15459287f0",
       "icon": "android",
-      "changelog": "Reusable Community templates stay with saved memes | Private remixes become library variations | Editable PNG and portable .meme files with agent tools | Compact centered picture popups and scrollable emoji reactions",
+      "changelog": "Fullscreen Library and integrated caption editing | Direct Home edit shortcut | Faster complete-image transitions and swipe previews | Steadier feed cards and brighter stack indicators",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/mechameme/1.0.29/home.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/mechameme/1.0.30/picture.png",
