@@ -413,6 +413,22 @@
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/mechameme/1.0.30/reactions.png"
       ],
       "isGame": false
+    },
+    {
+      "packageName": "com.rykersoft.earbound",
+      "name": "Earbound",
+      "latestVersionCode": 13,
+      "latestVersionName": "0.7.0",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/earbound-v0.7.0/earbound-v0.7.0-android.apk",
+      "apkSha256": "bbf96d57ecb813785aadc8c68c53bbc2ba494b02ed376165f2e591d2c168ebe2",
+      "icon": "android",
+      "changelog": "First RykerSoft release | New-player placement with an I don't know option | 129 dated achievements | Practice unlocks through the campaign | Redesigned Records | Complete backup and restore",
+      "screenshots": [
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/earbound/v0.7.0/phone-01-home-placement.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/earbound/v0.7.0/phone-02-question.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/earbound/v0.7.0/phone-03-achievements.png"
+      ],
+      "isGame": true
     }
   ]
 }
