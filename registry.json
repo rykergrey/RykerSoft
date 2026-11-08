@@ -249,19 +249,19 @@
     {
       "packageName": "com.superstorycraft.ing",
       "name": "Storytime",
-      "latestVersionCode": 8,
-      "latestVersionName": "1.5.0",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/storytime-v1.5.0/app-release.apk",
+      "latestVersionCode": 9,
+      "latestVersionName": "1.5.1",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/storytime-v1.5.1/app-release.apk",
       "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/storytime-v1.3.0/Storytime.1.3.0.exe",
       "icon": "android",
-      "changelog": "Android 1.5.0: adds Story Table, where one phone on the table reads the story aloud while everyone steers each part with ideas from their own phones before a countdown locks them; adds Bedtime stories, an endlessly unfolding narrated audiobook with a generation timer and background playback; adds a per-character voice mixer. Windows remains 1.3.0.",
+      "changelog": "Android 1.5.1: fixes Story Table screens that could not scroll, keeps the room code on one line, guarantees players at least 20 seconds for ideas, keeps quickly typed ideas, and fixes a crash opening online Anonymous Author and Pass the Pen games. Includes 1.5.0: Story Table, Bedtime stories, and the voice mixer. Windows remains 1.3.0.",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/storytime/v1.3.0/01-home.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/storytime/v1.3.0/02-scene-board.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/storytime/v1.3.0/03-writing-assistant.png"
       ],
       "isGame": true,
-      "apkSha256": "f69633764b1a3b5aa27516f64505ed7214727f0e8c7f5b6c9cf13b2ff83ecfb7",
+      "apkSha256": "358c6bdf08e062e8df8493b0503c9584f12f121d62230d44626852497ba25b6d",
       "exeSha256": "d26e1369f9119b7806ea77cebc5eaf61da0405796f806006575a7ba63a426c9b"
     },
     {
