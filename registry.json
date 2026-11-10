@@ -249,19 +249,19 @@
     {
       "packageName": "com.superstorycraft.ing",
       "name": "Storytime",
-      "latestVersionCode": 10,
-      "latestVersionName": "1.5.2",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/storytime-v1.5.2/app-release.apk",
+      "latestVersionCode": 11,
+      "latestVersionName": "1.5.3",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/storytime-v1.5.3/app-release.apk",
       "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/storytime-v1.3.0/Storytime.1.3.0.exe",
       "icon": "android",
-      "changelog": "Android 1.5.2: redesigns the Story Table reading screen with a speaker orb and an easy-to-read passage card that highlights the sentence being read. Includes 1.5.1 fixes and 1.5.0's Story Table, Bedtime stories, and voice mixer. Windows remains 1.3.0.",
+      "changelog": "Android 1.5.3: every online room gets its own match link. Copy it, or tap Invite to send it through any messaging app with Android's share sheet; tapping the link opens Storytime straight to the room. Includes 1.5.2's Story Table reading screen, 1.5.1 fixes, and 1.5.0's Story Table, Bedtime stories, and voice mixer. Windows remains 1.3.0.",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/storytime/v1.3.0/01-home.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/storytime/v1.3.0/02-scene-board.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/storytime/v1.3.0/03-writing-assistant.png"
       ],
       "isGame": true,
-      "apkSha256": "efd5f4f15dacebfd462d87882c1e4172de264470d44c082a8b5010d24c02958c",
+      "apkSha256": "6df8f4f006463c7b38fe6e95b53295d40fb1a0a1148719eefaf9da4f25284f5e",
       "exeSha256": "d26e1369f9119b7806ea77cebc5eaf61da0405796f806006575a7ba63a426c9b"
     },
     {
