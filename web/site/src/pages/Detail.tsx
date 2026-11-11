@@ -1,4 +1,4 @@
-import { ChevronLeft, Copy, Download } from 'lucide-react';
+import { ChevronLeft, Copy, Download, ExternalLink, Globe } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
@@ -46,6 +46,23 @@ function BuildRow({ app, build, mine, primary, showQr }: { app: App; build: Buil
           <p className="m-0">Scan with your phone to download the APK there. The code is the direct link to <span className="font-mono text-label break-all">{build.file}</span>.</p>
         </div>
       )}
+    </div>
+  );
+}
+
+function WebRow({ url }: { url: string }) {
+  return (
+    <div className="px-3.5 pt-3 pb-3.5 border-t-2 border-border-soft border-l-4 border-l-transparent">
+      <div className="flex items-center gap-2 [&>svg]:size-4.5">
+        <Globe />
+        <b className="font-display text-body font-bold tracking-display">Web</b>
+        <span className="font-mono text-label text-dim">Browser</span>
+      </div>
+      <div className="mt-2 mb-2.5 font-mono text-label text-dim break-all">{url.replace(/^https?:\/\//, '')}</div>
+      <div className="flex gap-2">
+        <LinkButton href={url} target="_blank" rel="noreferrer" className="flex-1"><ExternalLink />Open in browser</LinkButton>
+        <Button icon aria-label="Copy web address" title="Copy web address" onClick={() => copy(url, 'Address')}><Copy /></Button>
+      </div>
     </div>
   );
 }
@@ -119,7 +136,7 @@ export function Detail({ app, mine }: { app: App; mine: OS | null }) {
           <Section title="Details">
             <dl className="grid grid-cols-[110px_1fr] md:grid-cols-[150px_1fr] m-0 max-w-prose border-2 border-border-soft font-mono text-label [&>dt]:label-mono [&>dt]:px-3 [&>dt]:py-2 [&>dd]:m-0 [&>dd]:px-3 [&>dd]:py-2 [&>dd]:break-all [&>*]:border-t [&>*]:border-border-soft [&>*:nth-child(-n+2)]:border-t-0">
               <dt>Latest</dt><dd>v{app.version} · {app.date}</dd>
-              <dt>Systems</dt><dd>{systems.map((os) => OS_NAME[os]).join(', ')}</dd>
+              <dt>Systems</dt><dd>{[...systems.map((os) => OS_NAME[os]), ...(app.web ? ['Web'] : [])].join(', ')}</dd>
               <dt>Price</dt><dd>{app.pro ? 'Free, with optional Pro features' : 'Free'}</dd>
               <dt>Package</dt><dd>{app.packages.join(', ')}</dd>
             </dl>
@@ -134,6 +151,7 @@ export function Detail({ app, mine }: { app: App; mine: OS | null }) {
             <span className="font-mono text-label text-dim tabular-nums">{builds.length} file{builds.length > 1 && 's'}</span>
           </h2>
           {builds.map((b, i) => <BuildRow key={b.url} app={app} build={b} mine={mine} primary={i === 0} showQr={b === apk && mine !== 'android'} />)}
+          {app.web && <WebRow url={app.web} />}
           <p className="m-0 px-3.5 py-2.5 border-t-2 border-border-soft text-sm text-dim">
             {apk && mine !== 'android' && 'Android will ask you to allow installs from your browser the first time. '}
             {app.id !== 'rykersoft' && apk && <>The <a href="#/app/rykersoft">RykerSoft Hub</a> app installs and updates this for you.</>}

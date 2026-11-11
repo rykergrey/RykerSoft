@@ -26,6 +26,8 @@ export interface App {
   icon: string;
   shots: string[];
   packages: string[];
+  /** Address of a version that runs in the browser, or ''. */
+  web?: string;
   builds: Build[];
   releases: Release[];
 }

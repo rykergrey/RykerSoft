@@ -6,6 +6,7 @@
       "latestVersionCode": 27,
       "latestVersionName": "1.4.6",
       "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/rykersoft-v1.4.6/app-release.apk",
+      "webUrl": "https://rykersoft.rykergrey.com",
       "icon": "android",
       "changelog": "Hyperscribe Desktop and Hyperscribe Mobile now share one Pro setup",
       "screenshots": [
@@ -16,13 +17,14 @@
       "isGame": false,
       "id": "rykersoft",
       "tagline": "Install and update every RykerSoft app from one place.",
-      "description": "The RykerSoft Hub is the Android home for the whole collection. It lists every app and game, shows which ones you have and which have updates, and downloads and installs them for you. Each download is checked before Android's installer opens. It is also where you sign in to your RykerSoft account, which carries Pro access into the other apps.",
+      "description": "The RykerSoft Hub is the Android home for the whole collection. It lists every app and game, shows which ones you have and which have updates, and downloads and installs them for you. Each download is checked before Android's installer opens. It is also where you sign in to your RykerSoft account, which carries Pro access into the other apps. The same catalog is on the web at rykersoft.rykergrey.com, with the Windows and Linux downloads.",
       "features": [
         "One catalog of every RykerSoft app and game",
         "Update checks on demand or in the background, with notifications",
         "Every download is verified before it installs",
         "Clear messages when an install fails, with what to do next",
         "Copy or share the download links for Windows and Linux builds",
+        "The same catalog in any browser at rykersoft.rykergrey.com",
         "One Google sign-in for Pro access across the apps"
       ],
       "pro": "",
@@ -74,9 +76,11 @@
       "icon": "desktop",
       "changelog": "A new Console look shared with Hyperscribe Mobile, with Roboto and JetBrains Mono built in | Settings opens on Windows again, and Windows global shortcuts register more reliably | Drop files to import, transcribe or extract their text; files already in the Inbox are recognised, and dropping a file on an action runs it | Ask about your screen while recording: capture, mark it up and hear the answer | Choose per item which Inbox entries sync to your other devices | CSV and spreadsheet rows show as tables and paste as cells into Excel and Google Sheets, with a new Excel action category | The Inbox Viewer gains a Tags tab, read-aloud playback controls and streaming chat replies | Saved views appear as tabs under Actions, and the Inbox, Actions and long chats open faster",
       "screenshots": [
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-desktop/01-inbox.png",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-desktop/02-actions.png",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-desktop/03-chat.png"
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-desktop/v2.4.38/01-inbox.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-desktop/v2.4.38/02-chat.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-desktop/v2.4.38/03-actions.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-desktop/v2.4.38/04-viewer.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-desktop/v2.4.38/05-custom-action.png"
       ],
       "isGame": false,
       "exeSha256": "f65ab908c1c8e8d3d39ae9b0f6c19fa06cee7afe6e7bffdee0aeff1fc8aaaf23",
@@ -329,15 +333,16 @@
       "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.58/wordplaying-v1.3.58-linux-x86_64.AppImage",
       "linuxSha256": "f66651d5bed7c3a08209ff7c6c0713a2a3e546e1419d90bcaae1243d965800d6",
       "id": "wordplay",
-      "tagline": "Two word games: swipe letters in Bungle, place tiles in Scramble.",
-      "description": "WordPlay is two word games in one. In Bungle you swipe adjacent letters on a dice grid before the clock runs out. In Scramble you place tiles to build crossing words on a board. Play solo, pass the device around or join online matches, then compare scores on daily boards and leaderboards.",
+      "tagline": "Boggle-style Bungle and Scrabble-style Scramble, with rule-changing modifiers, online multiplayer and leaderboards.",
+      "description": "WordPlay is two word games in one, each a custom take on a classic. Bungle is the Boggle side: swipe adjacent letters on a dice grid before the clock runs out. Scramble is the Scrabble side: place tiles to build crossing words on a board with premium squares. More than 25 modifiers then change the rules. Gravity drops the letters above into the gaps you leave, Reroll replaces the letters you use, Turf War turns the grid into territory, Sabotage lets you set trap words, and Scramble adds barriers, stacking tiles and secret Clash rounds. Combine them into your own modes and save them. Every mode plays solo, passed around one device with up to eight players, or live online through room codes and public lobbies. Daily boards, weekly seasons and career leaderboards rank your scores against everyone else's.",
       "features": [
         "Bungle: 4×4 and 5×5 letter grids checked against a real dictionary",
-        "Scramble: tile boards in three sizes with premium squares",
-        "Daily boards for both games, shared by everyone for the week",
-        "Live online rooms, pass and play, and solo",
-        "Modifiers such as Gravity, Blind Mode and Combo Meter",
-        "Seasons, leaderboards and a word gallery with definitions"
+        "Scramble: tile boards in three sizes with premium squares, tile exchanges and a Bungle Finale",
+        "More than 25 modifiers, such as Gravity, Turf War, Sabotage, Letter Lock and Word Grid",
+        "Build your own modes from any mix of rules, or load presets like Zenith of Chaos",
+        "Live online rooms and public lobbies, pass and play for up to eight, solo and Vs Raid",
+        "Daily boards and five daily Scramble formats, shared by everyone for the week",
+        "Seasons, career leaderboards, 50+ awards and a word gallery with definitions"
       ],
       "pro": "",
       "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/wordplay.png",
@@ -385,11 +390,14 @@
       "icon": "android",
       "changelog": "Android has separate Home, Community, More and Profile screens | Real board thumbnails while you browse | A paper arcade look: square controls, raised shadows and each board's rail colour | High-score entry is three initials, with smoother letter scrolling",
       "screenshots": [
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/v1.0.30/phone-01-home.png",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/v1.0.30/phone-02-browse.png",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/v1.0.30/phone-04-gameplay.png",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/v1.0.30/phone-05-turn-complete.png",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/v1.0.30/desktop-01-home.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/v1.0.30/play-01-galaxy.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/v1.0.30/play-02-honeycomb.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/v1.0.30/play-03-diamond.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/v1.0.30/phone-06-home.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/v1.0.30/phone-07-browse.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/v1.0.30/phone-08-turn-complete.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/v1.0.30/desktop-03-home.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/v1.0.30/desktop-04-gameplay.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/v1.0.30/desktop-02-editor.png"
       ],
       "isGame": true,
@@ -445,37 +453,6 @@
       "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/storytime.png",
       "releasedAt": "2026-11-10",
       "updatesHistory": "## 1.5.3 · 2026-11-09\n- Every online room has its own link: copy it, or tap Invite to send it through any messaging app\n- Tapping a link opens Storytime straight to the room\n\n## 1.5.2 · 2026-11-08\n- A redesigned Story Table reading screen, with a speaker orb and a passage card that highlights the sentence being read\n\n## 1.5.0 · 2026-11-08\n- Story Table: one phone reads the story aloud while everyone steers each part from their own phone\n- Bedtime stories: a narrated audiobook that keeps unfolding and plays in the background\n- A voice mixer with a voice for each character\n\n## 1.4.0 · 2026-09-30\n- Home separates Solo and Multiplayer\n- A notification bell and Android alerts when it is your turn\n- Pick up your online rooms on another device"
-    },
-    {
-      "packageName": "com.rykersoft.roadtripper",
-      "name": "Roadtrip Copilot",
-      "latestVersionCode": 2,
-      "latestVersionName": "1.1.0",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/roadtripper-v1.1.0/Roadtrip-Copilot-v1.1.0.apk",
-      "icon": "android",
-      "changelog": "Send the selected trip to Google Maps, including your next planned stops | Add, edit and delete stops, with richer profiles and more filters | Drive mode with GPS tracking and approach notifications | Invite collaborators by link or code",
-      "screenshots": [
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/roadtripper/01-route.png",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/roadtripper/02-stop-details.png",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/roadtripper/03-collaboration.png",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/roadtripper/04-offline-library.png"
-      ],
-      "isGame": false,
-      "id": "roadtrip-copilot",
-      "tagline": "An offline-first family trip planner for stops worth the detour.",
-      "description": "Roadtrip Copilot helps a family decide which stops are worth the detour and keeps the plan usable when the road leaves cell coverage. Each shared trip downloads to your phone: stops, addresses, priorities, comments and saved research all open offline, and your edits sync when you are back in range.",
-      "features": [
-        "Trips, stops, notes and research available offline",
-        "Search and filter stops by route window, category, status, price or priority",
-        "Drive mode with GPS progress and approach alerts",
-        "Hand the trip to Google Maps for turn-by-turn navigation",
-        "Share a trip and plan it together",
-        "A bundled example route to try before signing in"
-      ],
-      "pro": "Pro adds live place details, destination videos, AI research and route recalculation.",
-      "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/roadtrip-copilot.png",
-      "releasedAt": "2026-08-24",
-      "updatesHistory": "## 1.1.0 · 2026-08-23\n- Send the selected trip to Google Maps, including your next planned stops\n- Add, edit and delete stops, with richer profiles and more filters\n- Drive mode with GPS tracking and approach notifications\n- Invite collaborators by link or code\n\n## 1.0.0 · 2026-08-21\n- First Android release, with whole trips available offline"
     },
     {
       "packageName": "com.rykersoft.comiccrafting",
@@ -663,35 +640,6 @@
       "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/guile-family.png",
       "releasedAt": "2026-10-10",
       "updatesHistory": "## 3.3.0 · 2026-10-10\n- The game is now called The Guile Family\n- Sign in with Google in Settings to use Pro access\n\n## 3.2.0\n- A Content Workshop for all three games, with saved packs and sharing"
-    },
-    {
-      "packageName": "com.rykersoft.pocketdm",
-      "name": "Pocket DM",
-      "latestVersionCode": 9,
-      "latestVersionName": "0.2.7",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/pocket-dm-v0.2.7/Pocket-DM-0.2.7.apk",
-      "apkSha256": "85486638cfe2a940d7cb06aa01e481a903da3ec18ea6f25439799fe7c5d72442",
-      "icon": "android",
-      "isGame": true,
-      "changelog": "First public release | Characters start from your own ideas, with no default roster | Detailed painterly portraits | Smoother reveals on phones",
-      "screenshots": [
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/pocket-dm/01-home-v0.2.7.jpg",
-        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/pocket-dm/02-private-start-v0.2.7.jpg"
-      ],
-      "id": "pocket-dm",
-      "tagline": "Invent a character, pass the phone, and get a narrated comic.",
-      "description": "Pocket DM is a two-player storytelling game on one Android phone. Each player invents an improbable character, then takes turns describing what they try next. The game turns each move into a narrated comic and keeps the consequences fair. It is an early prototype: practice mode works offline, and live storytelling uses your own OpenAI key.",
-      "features": [
-        "Describe a character's identity, personality and looks",
-        "Speak or type your move, then read the comic",
-        "Private secrets and handoffs on a shared phone",
-        "Spoken commentary with an offline voice or your own provider",
-        "Resume saved encounters and reuse character art"
-      ],
-      "pro": "",
-      "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/pocket-dm.png",
-      "releasedAt": "2026-10-12",
-      "updatesHistory": "## 0.2.7 · 2026-10-12\n- First public release\n- Characters start from your own ideas, with no default roster\n- Detailed painterly portraits\n- Smoother reveals on phones"
     },
     {
       "packageName": "com.rykersoft.closecall",

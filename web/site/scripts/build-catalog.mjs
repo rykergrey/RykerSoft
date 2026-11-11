@@ -143,6 +143,7 @@ for (const e of entries) {
     icon: icons.has(id) ? `icons/${id}.png` : '',
     shots: await Promise.all(shots.map((s) => s.trim()).filter(Boolean).map(localShot)),
     packages: [e.packageName],
+    web: (e.webUrl || '').trim(),
     builds,
     releases: parseHistory(e.updatesHistory),
   };
@@ -152,6 +153,7 @@ for (const e of entries) {
   if (item.name.length < first.name.length) first.name = item.name;
   first.packages.push(...item.packages.filter((p) => !first.packages.includes(p)));
   first.builds.push(...item.builds);
+  if (!first.web) first.web = item.web;
   first.shots.push(...item.shots.filter((s) => !first.shots.includes(s)));
   if (item.date > first.date) first.date = item.date;
 }

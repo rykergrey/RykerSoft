@@ -29,7 +29,7 @@ class RegistryContentFieldsTest {
         try {
             val apps = RegistryFetcher(client).fetchRegistry("https://example.invalid/registry.json")
 
-            assertTrue("expected the whole catalog, got ${apps.size}", apps.size >= 23)
+            assertTrue("expected the whole catalog, got ${apps.size}", apps.size >= 21)
             apps.forEach { app ->
                 assertTrue("${app.name}: tagline", app.tagline.isNotBlank())
                 assertTrue("${app.name}: description", app.description.isNotBlank())
