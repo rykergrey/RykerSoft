@@ -35,3 +35,14 @@ export function useRoute(): string | null {
   }, []);
   return id ? decodeURIComponent(id) : null;
 }
+
+/** `#/account` opens sign-in and, for the administrator, account management. */
+export function useAccountRoute(): boolean {
+  const [on, setOn] = useState(() => location.hash === '#/account');
+  useEffect(() => {
+    const f = () => setOn(location.hash === '#/account');
+    addEventListener('hashchange', f);
+    return () => removeEventListener('hashchange', f);
+  }, []);
+  return on;
+}

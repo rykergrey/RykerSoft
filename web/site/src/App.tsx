@@ -1,12 +1,15 @@
-import { Search } from 'lucide-react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { Search, UserRound } from 'lucide-react';
+import { Suspense, lazy, useEffect, useMemo, useRef, useState } from 'react';
 import { Toaster } from 'sonner';
 import { type Catalog, detectOS, loadCatalog } from './lib/catalog';
-import { useFilters, useRoute } from './lib/state';
-import { Button } from './components/kit';
+import { useAccountRoute, useFilters, useRoute } from './lib/state';
+import { Button, LinkButton } from './components/kit';
 import { SystemMenu } from './components/menus';
 import { Detail } from './pages/Detail';
 import { Home } from './pages/Home';
+
+// Firebase is only downloaded when the account page is opened.
+const Account = lazy(() => import('./pages/Account'));
 
 export function App() {
   const [catalog, setCatalog] = useState<Catalog | null>(null);
@@ -14,6 +17,8 @@ export function App() {
   const [attempt, setAttempt] = useState(0);
   const { filters, update, reset } = useFilters();
   const routeId = useRoute();
+  const accountRoute = useAccountRoute();
+  const away = !!routeId || accountRoute;
   const mine = useMemo(detectOS, []);
   const search = useRef<HTMLInputElement>(null);
   const homeScroll = useRef(0);
@@ -40,14 +45,14 @@ export function App() {
 
   // Coming back from an app returns to where the catalog was scrolled.
   useEffect(() => {
-    if (app) return;
+    if (app || accountRoute) return;
     const on = () => { homeScroll.current = scrollY; };
     scrollTo(0, homeScroll.current);
     addEventListener('scroll', on, { passive: true });
     return () => removeEventListener('scroll', on);
-  }, [app]);
+  }, [app, accountRoute]);
 
-  useEffect(() => { document.title = app ? `${app.name} · RykerSoft` : 'RykerSoft'; }, [app]);
+  useEffect(() => { document.title = accountRoute ? 'Account · RykerSoft' : app ? `${app.name} · RykerSoft` : 'RykerSoft'; }, [app, accountRoute]);
 
   return (
     <>
@@ -60,18 +65,21 @@ export function App() {
             <span className="sr-only">Search apps and games</span>
             <Search aria-hidden="true" className="absolute left-2.5 top-1/2 -translate-y-1/2 size-4 text-faint pointer-events-none" />
             <input ref={search} type="search" autoComplete="off" placeholder="Search apps and games" value={filters.q}
-              onChange={(e) => { update({ q: e.target.value }); if (routeId) location.hash = '#/'; }}
+              onChange={(e) => { update({ q: e.target.value }); if (away) location.hash = '#/'; }}
               className="w-full h-9 pointer-coarse:h-11 pl-8.5 pr-9 border-2 border-border rounded-sm bg-surface font-mono text-sm font-medium text-text placeholder:text-faint focus-visible:border-link focus-visible:outline-none" />
             <kbd aria-hidden="true" className="max-md:hidden absolute right-2 top-1/2 -translate-y-1/2 grid place-items-center min-w-5 h-5 border border-border rounded-sm font-mono text-meta text-faint">/</kbd>
           </label>
-          <div className="ml-auto md:ml-0">
-            {catalog && <SystemMenu apps={catalog.apps} value={filters.os} mine={mine} onChange={(os) => { update({ os }); if (routeId) location.hash = '#/'; }} />}
+          <div className="flex gap-2 ml-auto md:ml-0">
+            {catalog && <SystemMenu apps={catalog.apps} value={filters.os} mine={mine} onChange={(os) => { update({ os }); if (away) location.hash = '#/'; }} />}
+            <LinkButton href="#/account" aria-current={accountRoute ? 'page' : undefined} className={accountRoute ? 'border-action' : undefined}><UserRound />Account</LinkButton>
           </div>
         </div>
       </header>
 
       <main className="max-w-page mx-auto px-4 md:px-6 min-h-150">
-        {error ? (
+        {accountRoute ? (
+          <Suspense fallback={<p role="status" className="label-mono pt-10">Loading the account page…</p>}><Account /></Suspense>
+        ) : error ? (
           <div role="alert" className="mt-10 px-5 py-12 border-2 border-dashed border-border text-center text-dim">
             <p className="m-0 mb-3.5">{error}</p>
             <Button onClick={() => setAttempt((n) => n + 1)}>Try again</Button>

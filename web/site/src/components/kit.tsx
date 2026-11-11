@@ -1,4 +1,5 @@
-import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'react';
+import { Switch as BaseSwitch } from '@base-ui/react/switch';
+import type { AnchorHTMLAttributes, ButtonHTMLAttributes, InputHTMLAttributes, ReactNode } from 'react';
 import { type App, type OS, monogram } from '../lib/catalog';
 
 const cx = (...c: (string | false | null | undefined)[]) => c.filter(Boolean).join(' ');
@@ -10,7 +11,7 @@ const VARIANT = {
   primary: 'border-shadow bg-action text-action-ink font-bold shadow-hard-sm hover:-translate-x-px hover:-translate-y-px hover:shadow-hard active:translate-x-0.5 active:translate-y-0.5 active:shadow-none',
 };
 type Variant = keyof typeof VARIANT;
-const btn = (variant: Variant, icon: boolean, className?: string) => cx(BTN, VARIANT[variant], icon && 'w-9 pointer-coarse:w-11 px-0', className);
+const btn = (variant: Variant, icon: boolean, className?: string) => cx(BTN, VARIANT[variant], icon && 'w-9 pointer-coarse:w-11 px-0', 'disabled:opacity-45 disabled:pointer-events-none', className);
 
 export function Button({ variant = 'plain', icon = false, className, ...p }: ButtonHTMLAttributes<HTMLButtonElement> & { variant?: Variant; icon?: boolean }) {
   return <button type="button" className={btn(variant, icon, className)} {...p} />;
@@ -95,6 +96,38 @@ export function DashList({ items, className }: { items: string[]; className?: st
     <ul className={cx('m-0 p-0 list-none max-w-prose', className)}>
       {items.map((t) => <li key={t} className="dash-item py-1.5 border-t border-border-soft text-dim">{t}</li>)}
     </ul>
+  );
+}
+/* A labelled text input. The label stays visible above the field. */
+export function Field({ label, hint, className, ...p }: InputHTMLAttributes<HTMLInputElement> & { label: string; hint?: ReactNode }) {
+  return (
+    <label className={cx('flex flex-col gap-1.5 min-w-0', className)}>
+      <span className="flex items-center gap-2 font-mono text-label font-medium text-dim">{label}{hint}</span>
+      <input className="w-full h-9 pointer-coarse:h-11 px-2.5 border-2 border-border rounded-sm bg-bg font-mono text-sm text-text placeholder:text-faint focus-visible:border-link focus-visible:outline-none disabled:opacity-45" {...p} />
+    </label>
+  );
+}
+
+/* On/off. Green means Pro is switched on (DESIGN.md, ok). */
+export function Switch({ checked, onChange, disabled, label }: { checked: boolean; onChange: (v: boolean) => void; disabled?: boolean; label: string }) {
+  return (
+    <BaseSwitch.Root checked={checked} onCheckedChange={(v) => onChange(v)} disabled={disabled} aria-label={label} title={label}
+      className="relative inline-flex shrink-0 items-center w-10 h-5.5 p-0.5 border-2 border-border rounded-sm bg-bg transition-press data-[checked]:border-ok data-[checked]:bg-ok/20 data-[disabled]:opacity-45 data-[disabled]:cursor-progress pointer-coarse:my-2.5">
+      <BaseSwitch.Thumb className="block size-3.5 rounded-sm bg-faint transition-press data-[checked]:translate-x-4.5 data-[checked]:bg-ok" />
+    </BaseSwitch.Root>
+  );
+}
+
+/* A settings row: a name and a line of explanation on the left, its control on the right. */
+export function Row({ title, sub, children }: { title: ReactNode; sub?: ReactNode; children?: ReactNode }) {
+  return (
+    <div className="flex flex-wrap items-center gap-x-4 gap-y-2.5 px-3.5 py-3 border-t-2 border-border-soft first:border-t-0">
+      <div className="flex-1 min-w-48">
+        <div className="text-body font-medium">{title}</div>
+        {sub && <div className="text-sm text-dim">{sub}</div>}
+      </div>
+      {children && <div className="flex flex-wrap items-center gap-2">{children}</div>}
+    </div>
   );
 }
 export { cx };

@@ -27,6 +27,21 @@ system filter set.
 If GitHub cannot be reached, sizes and dates carry over from the previous `catalog.json`. Set `GITHUB_TOKEN` to lift
 the anonymous rate limit.
 
+## Account and administration (`#/account`)
+
+The Account button opens sign-in (Google, or an older password account with Google linking), the same Firebase
+project and Firestore records the Android hub uses. A signed-in user sees their own Pro access. The administrator
+(the verified email named in `firestore.rules`) also gets:
+
+- **Pro access**: every account against every published Pro app, one switch per cell. Each switch writes
+  `users/<uid>/entitlements/apps` and shows what the server stored.
+- **Provider keys**: one form per app, with fields from `appCapabilities/<package>`. Saved keys are never read back
+  into the page; a blank field keeps the saved key.
+
+Firebase's public web config is in `src/lib/hub.ts`; `firestore.rules` does the enforcing. The SDK is loaded only
+when the account page opens. Google sign-in works only on domains listed under Firebase Authentication → Settings
+→ Authorized domains; `rykersoft.rykergrey.com` and `localhost` are listed (added 2026-11-11).
+
 ## Hosting on a VPS
 
 The site is `dist/` behind any static web server. Hash routing (`#/app/<id>`) means no rewrite rules.
