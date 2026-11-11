@@ -2,18 +2,33 @@
   "apps": [
     {
       "packageName": "com.rykersoft.appmanager",
-      "name": "RykerSoft",
+      "name": "RykerSoft Hub",
       "latestVersionCode": 27,
       "latestVersionName": "1.4.6",
       "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/rykersoft-v1.4.6/app-release.apk",
       "icon": "android",
-      "changelog": "Hyperscribe Desktop and Mobile share one provider-key record | Edit keys under either Hyperscribe entry to update both editions | Preserve Windows/Linux download choices and existing Pro grants",
+      "changelog": "Hyperscribe Desktop and Hyperscribe Mobile now share one Pro setup",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rykersoft/01-dashboard.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rykersoft/02-documentation.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rykersoft/03-settings.png"
       ],
-      "isGame": false
+      "isGame": false,
+      "id": "rykersoft",
+      "tagline": "Install and update every RykerSoft app from one place.",
+      "description": "The RykerSoft Hub is the Android home for the whole collection. It lists every app and game, shows which ones you have and which have updates, and downloads and installs them for you. Each download is checked before Android's installer opens. It is also where you sign in to your RykerSoft account, which carries Pro access into the other apps.",
+      "features": [
+        "One catalog of every RykerSoft app and game",
+        "Update checks on demand or in the background, with notifications",
+        "Every download is verified before it installs",
+        "Clear messages when an install fails, with what to do next",
+        "Copy or share the download links for Windows and Linux builds",
+        "One Google sign-in for Pro access across the apps"
+      ],
+      "pro": "",
+      "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/rykersoft.png",
+      "releasedAt": "2026-09-10",
+      "updatesHistory": "## 1.4.6 · 2026-09-10\n- Hyperscribe Desktop and Hyperscribe Mobile now share one Pro setup\n\n## 1.4.5 · 2026-09-10\n- Choose a Windows or Linux download for desktop apps, or copy its link\n\n## 1.4.4 · 2026-09-07\n- ComicCraft.ing joins the apps that support Pro access"
     },
     {
       "packageName": "com.rykersoft.hyperscribemobile",
@@ -22,7 +37,7 @@
       "latestVersionName": "2.18.0",
       "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.18.0/app-release.apk",
       "icon": "android",
-      "changelog": "Choose which Chat threads to save to Inbox | Readable Markdown with speakers, timestamps and source excerpts | Configured Inbox actions, auto-tags and tag workflows apply | Improved Inbox/Actions tag Sync and transcription replacement-rule syncing",
+      "changelog": "Save a whole Chat thread to your Inbox as one item, from the Chat menu | Saved threads keep lists, tables and code, with speakers and timestamps | Your automatic Inbox actions, tags and tag workflows apply to saved threads | Chat messages no longer pile up in the Inbox one at a time",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/29c23bee375465cbc4d843a0e4b1d6730bc7b4a2/screenshots/hyperscribe-mobile/01-inbox.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-mobile/02-actions.png",
@@ -33,7 +48,22 @@
         "https://raw.githubusercontent.com/rykergrey/RykerSoft-APKs/f1a27410b9029bc7edcfa39c3a8511a38ce7698c/docs/hyperscribe-mobile/screenshots/2.18.0/chat-saved-markdown-preview.png"
       ],
       "isGame": false,
-      "apkSha256": "4e7226c162d15d6c4209283972ec857b238989fef9eb88cbbed337ead89279ac"
+      "apkSha256": "4e7226c162d15d6c4209283972ec857b238989fef9eb88cbbed337ead89279ac",
+      "id": "hyperscribe-mobile",
+      "tagline": "Capture voice and text, then ask your own notes anything.",
+      "description": "Hyperscribe Mobile is a capture workspace for Android. Record a thought, paste text, or import audio and images, and it all lands in your Inbox as searchable text. Chat can then answer from what you have saved, show the sources it used, and propose edits for you to approve. Reusable actions, reminders and read-aloud speech work on the same material.",
+      "features": [
+        "Record, import and transcribe voice, text and images into one Inbox",
+        "Chat that answers from your saved notes and shows its sources",
+        "Reusable actions: AI prompts, templates, snippets, speech and multi-step combos",
+        "A floating menu with your own tabs for capture, actions, Inbox and listening",
+        "Spoken reminders and read-aloud with local or cloud voices",
+        "Recording, organising and local actions need no account"
+      ],
+      "pro": "AI features use your own provider keys or Pro access. Pro also turns on Sync between your Hyperscribe devices.",
+      "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/hyperscribe-mobile.png",
+      "releasedAt": "2026-10-09",
+      "updatesHistory": "## 2.18.0 · 2026-10-08\n- Save a whole Chat thread to your Inbox as one item, from the Chat menu\n- Saved threads keep lists, tables and code, with speakers and timestamps\n- Your automatic Inbox actions, tags and tag workflows apply to saved threads\n- Chat messages no longer pile up in the Inbox one at a time\n\n## 2.17.1 · 2026-10-07\n- Open the floating menu straight from the edge button, then slide through your tabs\n- Build your own menu: add, rename, reorder and hide Capture, Actions, Inbox and Listen tabs\n- Speech is now an action, so an article can be summarised first and then read aloud\n\n## 2.16.1 · 2026-10-07\n- Ask Chat to take notes and add to lists in plain language\n- Your Inbox text is available to Chat by default, or only tagged items if you prefer"
     },
     {
       "packageName": "com.rykersoft.hyperscribedesktop",
@@ -42,7 +72,7 @@
       "latestVersionName": "2.4.4",
       "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-desktop-v2.4.4/HyperscribeDesktop-v2.4.4.exe",
       "icon": "desktop",
-      "changelog": "Reliable cross-device Sync with acknowledged revisions, guarded writes and deletion conflict protection | Server-confirmed counts and check time | Automatic retries and incremental reads | Desktop/Mobile Chat, tags and replacement-rule compatibility | Preserve local files and ongoing edits",
+      "changelog": "Sync between Desktop and Mobile is more reliable and reports what was uploaded and downloaded | Pick an emoji for each tag; it shows in tag menus and managers | A reorganised Action Editor | Sharper Windows screenshots and screen recording, with a choice of display and 30 or 60 fps | Tagged Inbox items stay visible and can be archived on their own",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-desktop/01-inbox.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-desktop/02-actions.png",
@@ -51,7 +81,22 @@
       "isGame": false,
       "exeSha256": "4b7dfcf3aceb1c55adeec03ce706ee5c1e5ce3503ea4074e5ee02d3e2c25c705",
       "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-desktop-v2.4.4/HyperscribeDesktop-v2.4.4-linux-x86_64.tar.gz",
-      "linuxSha256": "72861fa3aaca34d2b4e1b3dd299184ef7ee2d974a138c9cf39ee86f772f1de08"
+      "linuxSha256": "72861fa3aaca34d2b4e1b3dd299184ef7ee2d974a138c9cf39ee86f772f1de08",
+      "id": "hyperscribe-desktop",
+      "tagline": "Voice, text, actions and chat in one desktop workspace.",
+      "description": "Hyperscribe Desktop is the Windows and Linux edition of Hyperscribe. Capture clipboard text or audio, organise it in an Inbox, transform it with reusable actions and pipelines, chat with the AI provider you choose, and have anything read aloud. Your data stays on your computer unless you turn on Sync.",
+      "features": [
+        "Record, import, transcribe, tag and search voice and text",
+        "Reusable actions and multi-step pipelines, each with its own global shortcut",
+        "Chat threads that can use your Inbox as context",
+        "An Inbox Viewer for text, audio playlists, item chat and alerts",
+        "Read-aloud with local Piper voices or cloud speech",
+        "Updates install from inside the app"
+      ],
+      "pro": "AI features use your own provider keys or Pro access. Pro also turns on Sync with Hyperscribe Mobile.",
+      "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/hyperscribe-desktop.png",
+      "releasedAt": "2026-10-07",
+      "updatesHistory": "## 2.4.4 · 2026-10-07\n- Sync between Desktop and Mobile is more reliable and reports what was uploaded and downloaded\n- Pick an emoji for each tag; it shows in tag menus and managers\n- A reorganised Action Editor\n- Sharper Windows screenshots and screen recording, with a choice of display and 30 or 60 fps\n- Tagged Inbox items stay visible and can be archived on their own\n\n## 2.4.2 · 2026-09-25\n- Saved views for the Inbox and Actions\n- A new Inbox Viewer with audio, item chat and alerts\n- Improved recording controls and notifications\n\n## 2.4.1 · 2026-09-10\n- Sync your Inbox, tags, actions and chats with Hyperscribe Mobile\n- Send Inbox items straight to Actions"
     },
     {
       "packageName": "com.rykersoft.informant",
@@ -61,7 +106,7 @@
       "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/informant-v1.4.13/INFORMANT-1.4.13.apk",
       "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/informant-v1.4.13/INFORMANT-Portable-1.4.13.exe",
       "icon": "android",
-      "changelog": "Android article imports extract complete bodies, including Daily Mail, using direct on-device retrieval without automatic third-party scraper fallback. Re-scraped article word counts and reading-time estimates follow the current body. Saved items and projects are preserved. Windows portable and Linux AppImage downloads now provide 1.4.13, including direct reader sending, a local Reader queue, and reliable saves on close.",
+      "changelog": "Windows and Linux builds now match Android | Send an article or transcript straight to a CrossPoint e-reader on the same Wi-Fi | A Reader queue for saving now and sending later | Article word counts and reading times stay correct after a refresh",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/v1.4.4/01-home.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/informant/v1.4.5/02-video-info.png",
@@ -84,17 +129,32 @@
       "apkSha256": "5ab66ef1da103814b6a36b60119c9b2996344dd2bc13c82c90d968f689bebec7",
       "exeSha256": "399a23d1c8513f4b05f57c3134dd1fc82de061f53015195b2d61219ddeeb3f27",
       "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/informant-v1.4.13/INFORMANT-1.4.13-linux-x86_64.AppImage",
-      "linuxSha256": "6a84c5d191e63cb91cd827762148d3e403a5d9b94a5bc4ef21020bf5801c50c8"
+      "linuxSha256": "6a84c5d191e63cb91cd827762148d3e403a5d9b94a5bc4ef21020bf5801c50c8",
+      "id": "informant",
+      "tagline": "Research YouTube videos, articles and Reddit threads in one place.",
+      "description": "INFORMANT is a local workspace for digging into videos, articles and Reddit posts. Import a link, then read or watch it alongside its transcript and comments, and keep notes and bookmarks on each item. Group items into projects when you are ready, and run chat or analysis over what you collected. No YouTube login is needed.",
+      "features": [
+        "Import YouTube, article and Reddit links, one at a time or in batches",
+        "Searchable captions: tap a line to jump the video there",
+        "Notes, quote bookmarks and timestamped video bookmarks on every item",
+        "Comment threads you can search, filter and favourite",
+        "A floating player that keeps playing while you read",
+        "Share a link from another Android app straight into INFORMANT"
+      ],
+      "pro": "AI chat and AI actions such as summaries and key takeaways need Pro access or your own API keys.",
+      "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/informant.png",
+      "releasedAt": "2026-10-14",
+      "updatesHistory": "## 1.4.13 · 2026-10-13\n- Windows and Linux builds now match Android\n- Send an article or transcript straight to a CrossPoint e-reader on the same Wi-Fi\n- A Reader queue for saving now and sending later\n- Article word counts and reading times stay correct after a refresh\n\n## 1.4.12 · 2026-10-13\n- More complete article imports, including Daily Mail\n- Articles keep their paragraphs, captions and images\n- Articles are fetched on your device, not through a third-party service\n\n## 1.4.5 · 2026-10-10\n- Imported links appear on the home screen and open straight away\n- Add to project moves an item into a project later"
     },
     {
       "packageName": "com.rykersoft.rush",
       "name": "Rush",
-      "description": "Unofficial Rush companion for Android \u2014 browse the discography, read lyrics and album notes, explore the band, and build a personal collection of pins, ratings, lyric quotes, and YouTube links.\n\n## Features\n- Home with explore shortcuts, featured content, and spotlight into the catalog\n- Discography with artwork, decade grouping, and studio / live / solo filters\n- Album pages with About, Tracks, Videos, Credits, Liner Notes, and Awards\n- Track list shows per-track YouTube video counts when videos are present\n- Album Videos tab aggregates official and user-added YouTube links by track\n- Song pages with Lyrics, Appears On, and Videos tabs\n- My Collection for pins, ratings, lyric quotes, notes, and custom YouTube links\n- Export and import your collection as JSON, with merge or replace on import\n- The Band history and member pages, studio Timeline, search, random song/video\n- Offline bundled catalog; collection data stored on device\n\n## Platforms\n- Android (Jetpack Compose), minSdk 26\n- Package ID: com.rykersoft.rush\n\n## Requirements\n- Android 8.0+",
+      "description": "Rush is an unofficial fan companion to the band. Browse the discography with artwork, liner notes and credits, read the lyrics, follow the studio timeline and the band's history, and keep your own collection of pinned albums, rated songs, saved lyric quotes and notes. The catalog is bundled with the app, so it works offline.",
       "latestVersionCode": 3,
       "latestVersionName": "1.0.2",
       "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/rush-v1.0.2/app-release.apk",
       "icon": "android",
-      "changelog": "- My Collection import/upload with merge or replace choice\n- Import adds pins, quotes, comments, links, and ratings without wiping existing data unless Replace is chosen",
+      "changelog": "Import a saved collection and choose to merge it with yours or replace it",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rush/01-home.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rush/02-home-spotlight.jpg",
@@ -105,7 +165,21 @@
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rush/07-timeline.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rush/08-band.jpg"
       ],
-      "isGame": false
+      "isGame": false,
+      "id": "rush",
+      "tagline": "An unofficial companion to Rush: albums, lyrics, history and your own collection.",
+      "features": [
+        "Discography by decade, with studio, live and solo filters",
+        "Album pages with tracks, videos, credits, liner notes and awards",
+        "Lyrics for every song, searchable by title or by line",
+        "Pin, rate and annotate albums and songs, and save lyric excerpts",
+        "Random Song and Random Video",
+        "Export and import your collection"
+      ],
+      "pro": "",
+      "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/rush.png",
+      "releasedAt": "2026-08-09",
+      "updatesHistory": "## 1.0.2 · 2026-07-24\n- Import a saved collection and choose to merge it with yours or replace it\n\n## 1.0.1 · 2026-07-23\n- A larger offline catalog\n- Improved album, song, video, timeline and band pages"
     },
     {
       "packageName": "com.rykersoft.synthing",
@@ -114,14 +188,29 @@
       "latestVersionName": "1.0.15",
       "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/synthing-v1.0.15/app-release.apk",
       "icon": "android",
-      "changelog": "Fix GRID and KEYS editor preview alignment in FILTER and COLORS | Keep the full octave visible and taps aligned with the displayed notes, including A | Restore taps on exposed white-key tops",
+      "changelog": "The preview keyboard in the GRID and KEYS editors fits a full octave, and taps land on the note you see",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/synthing/01-play-grids.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/synthing/02-play-keys.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/synthing/03-synth.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/synthing/04-piano-roll.jpg"
       ],
-      "isGame": false
+      "isGame": false,
+      "id": "synthing",
+      "tagline": "A music sketchpad with two synths, chord grids and a piano roll.",
+      "description": "Synthing is an Android sketchpad for writing music. Play two synth voices from chord pads, scale-aware keys or isomorphic grids, record into a continuous arrangement timeline, and edit the result in a piano roll with automation. A native low-latency audio engine keeps it playable.",
+      "features": [
+        "Two subtractive synths with presets, modulators, LFO and effects",
+        "Chord pads, scale-aware keys and isomorphic grids",
+        "A continuous arrangement timeline with loop markers",
+        "Piano roll with snap, quantise, automation lanes and note links",
+        "Overdub recording from any position",
+        "Projects with sections, templates and import and export"
+      ],
+      "pro": "",
+      "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/synthing.png",
+      "releasedAt": "2026-09-30",
+      "updatesHistory": "## 1.0.15 · 2026-09-30\n- The preview keyboard in the GRID and KEYS editors fits a full octave, and taps land on the note you see\n\n## 1.0.14 · 2026-09-30\n- Smoother playing and editing in the grids, keyboards and piano roll\n- A \"Changes not saved yet\" notice with Retry if a save does not go through\n- Faster project loading, import and export\n\n## 1.0.13 · 2026-08-12\n- Tap either arrangement overview to place the playhead, or drag to scrub"
     },
     {
       "packageName": "com.rykersoft.superthinking",
@@ -136,7 +225,7 @@
       "exeSha256": "261406d82f4cb1a037e9a4030ff89840532fd087862ecbb4ef7369bcd745ee31",
       "linuxSha256": "d1735eddb1faa2598b69a6e38621f4a378aac07d395f9e7791ccca1edaeb6345",
       "icon": "android",
-      "changelog": "Android: remove empty space above maximized cards | Collapse app header, card title, then tabs in stages | Keep text editing toolbar at the top edge | Upward scrolling restores controls | Windows/Linux remain at 2.2.11",
+      "changelog": "Android: maximised cards use the whole screen. The header, title and tabs tuck away in stages as you scroll down and return when you scroll up",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/superthinking/01-categories.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/superthinking/02-category-cards.jpg",
@@ -150,17 +239,33 @@
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/superthinking/10-card-switcher.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/superthinking/11-category-picker.jpg"
       ],
-      "isGame": false
+      "isGame": false,
+      "id": "superthinking",
+      "tagline": "A card-based workspace for notes, chat, images, audio and video.",
+      "description": "SuperThink.ing keeps your thinking in cards, and every card holds tabs of text, chat, images, audio or video. Write in Markdown, draw mind maps and diagrams, write songs with chords, record and transcribe audio, and transform any of it with reusable AI actions. Use it on your device as a guest, or sign in to sync.",
+      "features": [
+        "Cards with text, chat, image, audio and video tabs",
+        "List, grid and kanban views, floating cards and dual panes",
+        "A Markdown editor with dictation, read-aloud and find and replace",
+        "Song tools: chords, transpose and a teleprompter",
+        "Mind maps and diagrams with image export",
+        "Link audio to lyrics or notes and play it inline",
+        "Guest mode on your device, or sign in to sync"
+      ],
+      "pro": "Pro adds AI actions, AI chat, and tools such as OCR, transcription and image generation.",
+      "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/superthinking.png",
+      "releasedAt": "2026-11-06",
+      "updatesHistory": "## 2.3.3 · 2026-11-05\n- Android: maximised cards use the whole screen. The header, title and tabs tuck away in stages as you scroll down and return when you scroll up\n\n## 2.3.2 · 2026-11-05\n- Android: toolbars hide while you read or write and return when you scroll up\n- Choose what a chat can see, and review context edits before they apply\n- Shared speech settings and playback controls, with optional offline voices\n\n## 2.2.11 · 2026-09-10\n- Back on Android closes the open card, then its category, then returns to All Categories"
     },
     {
       "packageName": "com.rykersoft.bettertracking",
-      "name": "bettertracking",
+      "name": "BetterTracking",
       "latestVersionCode": 31,
       "latestVersionName": "1.15.0",
       "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.15.0/app-release.apk",
       "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/bettertracking-v1.15.0/bettertracking-v1.15.0-win-x64.exe",
       "icon": "android",
-      "changelog": "Chat log cards with Log and Tray buttons that apply in place | Chat logs to the day selected in the journal and shows the target date | Per-item dates in the staging tray | Duplicate tray items onto another day or time",
+      "changelog": "Chat log cards have Log and Tray buttons that apply in place | Chat logs to the day you have selected, and each card shows its date | Every tray item can have its own date as well as its own time | Duplicate a tray item onto another day or time",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/bettertracking/v1.14.0/18-rolling-goal-maintenance.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/bettertracking/v1.14.0/19-daily-nutrients.png",
@@ -182,7 +287,22 @@
       "apkSha256": "4c3a195845e70e4f28dd3067d596a357cc2bc136dcb2e0e7a8717a6ccf34bf1f",
       "exeSha256": "b5912c5c3a0b5ec0657e3e56881b0c3a5b39749287ba2b0acecc963696541da8",
       "linuxSha256": "502da86c0545a602d17ce0387642b4d27b74fdf67c56466ab68bfc42b603ded4",
-      "linuxDebSha256": "4709b524c40e06e7e28975f73a9a0548f41b58b97eb7eedc9cb35615f2bdd008"
+      "linuxDebSha256": "4709b524c40e06e7e28975f73a9a0548f41b58b97eb7eedc9cb35615f2bdd008",
+      "id": "bettertracking",
+      "tagline": "Track food, supplements, exercise, measurements and habits in one journal.",
+      "description": "BetterTracking is a personal journal and library for everything you track: food, supplements, exercise, measurements, lifestyle and notes. Build a library of your own ingredients and combos, stage several items in a tray and log them together, and let your calorie targets adapt to your weight trend and activity. It works offline and can sync to the cloud.",
+      "features": [
+        "Six domains in one journal: food, supplements, exercise, measurements, lifestyle and notes",
+        "A personal library of ingredients, combos and routines",
+        "A staging tray for logging several items at once",
+        "Calorie targets that adapt to your weight trend and activity",
+        "Stats with trends, history and weekly or monthly reviews",
+        "Reminders, cloud sync and offline use"
+      ],
+      "pro": "AI logging, chat, coach reviews and cloud dictation need Pro access or your own provider keys.",
+      "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/bettertracking.png",
+      "releasedAt": "2026-11-10",
+      "updatesHistory": "## 1.15.0 · 2026-11-10\n- Chat log cards have Log and Tray buttons that apply in place\n- Chat logs to the day you have selected, and each card shows its date\n- Every tray item can have its own date as well as its own time\n- Duplicate a tray item onto another day or time\n\n## 1.14.0 · 2026-10-26\n- Calorie overages carry forward until later days balance them, with no weekly reset\n- See daily and recent intake against your goal and your estimated maintenance\n- Optional calorie guidance with plan previews from 1 to 365 days\n\n## 1.11.2 · 2026-10-14\n- Home has a Log and Stats switch that separates daily entries from reports\n- One period picker for day, week, month, year, all time or a custom range\n- Trends and History charts, with saved AI analysis for the same dates"
     },
     {
       "packageName": "com.rykersoft.wordplaying",
@@ -192,7 +312,7 @@
       "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.58/wordplaying-v1.3.58-android.apk",
       "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.58/wordplaying-v1.3.58-windows-x64.exe",
       "icon": "android",
-      "changelog": "Five fuller daily Scramble formats | Timed play, stacking, fixed tiles and free placement | Shared standings and leader labels | New Scramble results screen | Win/loss/tie alerts when opponents challenge your scores",
+      "changelog": "Five daily Scramble formats: One Perfect Word, Word Rush, Stack Attack, Tile Tactics and Free Rein | Fuller starting boards, with the same letters and draw order for everyone | Scramble results show rival scores, ranks, word breakdowns and a board review | Win, loss and tie alerts when someone challenges your score",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/01-home-v1.2.0.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/02-player-settings-v1.2.0.jpg",
@@ -206,7 +326,22 @@
       "apkSha256": "c765c26841efc995fec89b89dbf79b13c5fb7e826728a1727724820b9fcba185",
       "exeSha256": "f9378a59c0923013abba20f38d365f362f4dd0f1b4ae7f81fa2f873dcc3494b3",
       "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.3.58/wordplaying-v1.3.58-linux-x86_64.AppImage",
-      "linuxSha256": "f66651d5bed7c3a08209ff7c6c0713a2a3e546e1419d90bcaae1243d965800d6"
+      "linuxSha256": "f66651d5bed7c3a08209ff7c6c0713a2a3e546e1419d90bcaae1243d965800d6",
+      "id": "wordplay",
+      "tagline": "Two word games: swipe letters in Bungle, place tiles in Scramble.",
+      "description": "WordPlay is two word games in one. In Bungle you swipe adjacent letters on a dice grid before the clock runs out. In Scramble you place tiles to build crossing words on a board. Play solo, pass the device around or join online matches, then compare scores on daily boards and leaderboards.",
+      "features": [
+        "Bungle: 4×4 and 5×5 letter grids checked against a real dictionary",
+        "Scramble: tile boards in three sizes with premium squares",
+        "Daily boards for both games, shared by everyone for the week",
+        "Live online rooms, pass and play, and solo",
+        "Modifiers such as Gravity, Blind Mode and Combo Meter",
+        "Seasons, leaderboards and a word gallery with definitions"
+      ],
+      "pro": "",
+      "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/wordplay.png",
+      "releasedAt": "2026-10-26",
+      "updatesHistory": "## 1.3.58 · 2026-10-25\n- Five daily Scramble formats: One Perfect Word, Word Rush, Stack Attack, Tile Tactics and Free Rein\n- Fuller starting boards, with the same letters and draw order for everyone\n- Scramble results show rival scores, ranks, word breakdowns and a board review\n- Win, loss and tie alerts when someone challenges your score\n\n## 1.3.57 · 2026-10-24\n- Daily Scramble: a pre-filled board, seven letters and two minutes for one move\n- Daily boards stay open to everyone until the end of the week\n\n## 1.3.56 · 2026-10-21\n- Solo and Vs Raid Scramble matches save automatically; choose Continue on Home\n\n## 1.3.55 · 2026-10-15\n- After a Bungle match, compare accuracy, words per minute, longest word and best combo with another player\n- Sort every word found by length, popularity or points"
     },
     {
       "packageName": "com.rykersoft.photocrafting",
@@ -216,13 +351,28 @@
       "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/photocrafting-v1.0.3/app-release.apk",
       "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/photocrafting-v1.0.2/Photocraft.ing-1.0.2-portable.exe",
       "icon": "android",
-      "changelog": "Restore Continue with Google in Settings | Use the canonical RykerSoft Hub project and signed Android Credential Manager flow | Remove the obsolete password and unlock-code account paths",
+      "changelog": "Sign in with Google from Settings to use Pro access",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/photocrafting/01-home.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/photocrafting/02-workspace.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/photocrafting/03-settings.jpg"
       ],
-      "isGame": false
+      "isGame": false,
+      "id": "photocrafting",
+      "tagline": "Transform photos with AI actions, chat and paint markup.",
+      "description": "Photocraft.ing is a photo editor built around AI image models. Pick a photo, then choose a craft action such as Anime Studio, Clean Up or Room Remodeler, or describe the change you want in chat. Paint or crop first and the model follows your markup. Originals and results stay in a feed on your device.",
+      "features": [
+        "A catalog of craft actions for art, characters, photography and places",
+        "Describe a change in chat, review the prompt, then run it",
+        "Paint and crop before you generate",
+        "Build and save your own actions",
+        "Use several images as references",
+        "Save results and before-and-after composites"
+      ],
+      "pro": "Generating images needs Pro access or your own Gemini or OpenAI key. Organising, paint, crop, download and share are free.",
+      "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/photocrafting.png",
+      "releasedAt": "2026-08-31",
+      "updatesHistory": "## 1.0.3 · 2026-08-31\n- Sign in with Google from Settings to use Pro access\n\n## 1.0.0 · 2026-07-24\n- First release: craft catalog, transformation chat, Action Builder, paint and crop, and multi-image references"
     },
     {
       "packageName": "com.rykersoft.freeballing",
@@ -232,7 +382,7 @@
       "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.30/freeballing-v1.0.30-android.apk",
       "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.30/freeballing-v1.0.30-windows-x86_64.exe",
       "icon": "android",
-      "changelog": "Three-letter local high-score initials and reversible touch scrolling | Independent mobile screens and real board thumbnails | Paper arcade presentation and preview-to-game transitions | Static mobile previews and improved 60 FPS frame pacing | Desktop editor styling refinements",
+      "changelog": "Android has separate Home, Community, More and Profile screens | Real board thumbnails while you browse | A paper arcade look: square controls, raised shadows and each board's rail colour | High-score entry is three initials, with smoother letter scrolling",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/v1.0.30/phone-01-home.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/v1.0.30/phone-02-browse.png",
@@ -244,7 +394,22 @@
       "isGame": true,
       "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.29/freeballing-v1.0.29-linux-x86_64.AppImage",
       "apkSha256": "0091c03bb88d410f1302d09f4aa31643b0d965727d2b3745d524acb831b69cab",
-      "exeSha256": "eb41d6be43a9ecf992427e3281847d1292c133615d908b7c09f47e686ff00ec3"
+      "exeSha256": "eb41d6be43a9ecf992427e3281847d1292c133615d908b7c09f47e686ff00ec3",
+      "id": "freeballing",
+      "tagline": "A physics arcade puzzler in the spirit of pachinko, with a level editor.",
+      "description": "FreeBall.ing is a physics puzzle arcade game in the spirit of pachinko and Peggle. Launch steel balls, find the valuable routes through pegs and bumpers, and hear melodies emerge as everything bounces. Play the campaign and community boards, pass the device between local players, and build your own levels in the desktop editor.",
+      "features": [
+        "Eleven campaign boards, playable offline",
+        "Community boards to browse and play without an account",
+        "Bumpers that heat up and overload, multiplier pegs and score gutters",
+        "Local turns with three-letter high-score initials",
+        "A desktop level editor for boards, backgrounds and scoring",
+        "Optional Google sign-in for a public username and ranked scores"
+      ],
+      "pro": "",
+      "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/freeballing.png",
+      "releasedAt": "2026-10-16",
+      "updatesHistory": "## 1.0.30 · 2026-10-16\n- Android has separate Home, Community, More and Profile screens\n- Real board thumbnails while you browse\n- A paper arcade look: square controls, raised shadows and each board's rail colour\n- High-score entry is three initials, with smoother letter scrolling\n\n## 1.0.29 · 2026-09-09\n- Pause freezes the board and keeps your shot\n- Untimed practice and keyboard aiming\n- Favourites, recent boards, search and sorting\n- Sound, motion and text-size settings shared between Home and Pause\n- Linux builds"
     },
     {
       "packageName": "com.superstorycraft.ing",
@@ -254,7 +419,7 @@
       "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/storytime-v1.5.3/app-release.apk",
       "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/storytime-v1.3.0/Storytime.1.3.0.exe",
       "icon": "android",
-      "changelog": "Android 1.5.3: every online room gets its own match link. Copy it, or tap Invite to send it through any messaging app with Android's share sheet; tapping the link opens Storytime straight to the room. Includes 1.5.2's Story Table reading screen, 1.5.1 fixes, and 1.5.0's Story Table, Bedtime stories, and voice mixer. Windows remains 1.3.0.",
+      "changelog": "Every online room has its own link: copy it, or tap Invite to send it through any messaging app | Tapping a link opens Storytime straight to the room",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/storytime/v1.3.0/01-home.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/storytime/v1.3.0/02-scene-board.png",
@@ -262,7 +427,23 @@
       ],
       "isGame": true,
       "apkSha256": "6df8f4f006463c7b38fe6e95b53295d40fb1a0a1148719eefaf9da4f25284f5e",
-      "exeSha256": "d26e1369f9119b7806ea77cebc5eaf61da0405796f806006575a7ba63a426c9b"
+      "exeSha256": "d26e1369f9119b7806ea77cebc5eaf61da0405796f806006575a7ba63a426c9b",
+      "id": "storytime",
+      "tagline": "A writing studio and a storytelling party game in one.",
+      "description": "Storytime is a local-first writing studio and a social storytelling game. Plan stories on a board of scene cards, keep a library of characters, locations and items, and listen to your manuscript read aloud. Then play: write together in Anonymous Author or Pass the Pen, or put one phone on the table and let everyone steer a narrated story from their own.",
+      "features": [
+        "A story studio with movable scene cards and focused manuscript editing",
+        "A library of characters, locations, items and voices",
+        "Saved versions, alternative drafts and read-through notes",
+        "Anonymous Author and Pass the Pen, on one device or online",
+        "Story Table and Bedtime stories, narrated aloud",
+        "Narration with device voices or local Piper voices",
+        "Private Google Drive backup and restore"
+      ],
+      "pro": "Pro covers what needs an AI service: story generation, Bedtime stories, hosting a Story Table or Story Party, the writing assistant and generated artwork. Writing, editing, the pass-and-play games and joining a hosted game are free.",
+      "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/storytime.png",
+      "releasedAt": "2026-11-10",
+      "updatesHistory": "## 1.5.3 · 2026-11-09\n- Every online room has its own link: copy it, or tap Invite to send it through any messaging app\n- Tapping a link opens Storytime straight to the room\n\n## 1.5.2 · 2026-11-08\n- A redesigned Story Table reading screen, with a speaker orb and a passage card that highlights the sentence being read\n\n## 1.5.0 · 2026-11-08\n- Story Table: one phone reads the story aloud while everyone steers each part from their own phone\n- Bedtime stories: a narrated audiobook that keeps unfolding and plays in the background\n- A voice mixer with a voice for each character\n\n## 1.4.0 · 2026-09-30\n- Home separates Solo and Multiplayer\n- A notification bell and Android alerts when it is your turn\n- Pick up your online rooms on another device"
     },
     {
       "packageName": "com.rykersoft.roadtripper",
@@ -271,14 +452,29 @@
       "latestVersionName": "1.1.0",
       "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/roadtripper-v1.1.0/Roadtrip-Copilot-v1.1.0.apk",
       "icon": "android",
-      "changelog": "Google Maps turn-by-turn navigation for the selected trip, including upcoming planned stops | Clear trip selection with trip-scoped routes, stops, research, and conversations | Full Stops search, route-window filtering, sorting, editing, comments, and discovery parity | Live Pro Places refresh, videos, AI research, route calculation, and enrichment | Editor invitations and shared trip collaboration",
+      "changelog": "Send the selected trip to Google Maps, including your next planned stops | Add, edit and delete stops, with richer profiles and more filters | Drive mode with GPS tracking and approach notifications | Invite collaborators by link or code",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/roadtripper/01-route.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/roadtripper/02-stop-details.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/roadtripper/03-collaboration.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/roadtripper/04-offline-library.png"
       ],
-      "isGame": false
+      "isGame": false,
+      "id": "roadtrip-copilot",
+      "tagline": "An offline-first family trip planner for stops worth the detour.",
+      "description": "Roadtrip Copilot helps a family decide which stops are worth the detour and keeps the plan usable when the road leaves cell coverage. Each shared trip downloads to your phone: stops, addresses, priorities, comments and saved research all open offline, and your edits sync when you are back in range.",
+      "features": [
+        "Trips, stops, notes and research available offline",
+        "Search and filter stops by route window, category, status, price or priority",
+        "Drive mode with GPS progress and approach alerts",
+        "Hand the trip to Google Maps for turn-by-turn navigation",
+        "Share a trip and plan it together",
+        "A bundled example route to try before signing in"
+      ],
+      "pro": "Pro adds live place details, destination videos, AI research and route recalculation.",
+      "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/roadtrip-copilot.png",
+      "releasedAt": "2026-08-24",
+      "updatesHistory": "## 1.1.0 · 2026-08-23\n- Send the selected trip to Google Maps, including your next planned stops\n- Add, edit and delete stops, with richer profiles and more filters\n- Drive mode with GPS tracking and approach notifications\n- Invite collaborators by link or code\n\n## 1.0.0 · 2026-08-21\n- First Android release, with whole trips available offline"
     },
     {
       "packageName": "com.rykersoft.comiccrafting",
@@ -287,11 +483,27 @@
       "latestVersionName": "1.1.1",
       "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/comiccrafting-v1.1.1/ComicCraft.ing-1.1.1.apk",
       "icon": "android",
-      "changelog": "Fixed clipped panel menus | Tap images and captions to edit | Swipe through artwork and caption versions | Caption wording and font history preserved in backups | Dedicated Download menus | Compact header with session export icon | Pro access moved to bottom of Home",
-      "screenshots": [],
+      "changelog": "Tap an image or a caption to edit it, and swipe to browse versions | Download menus for panels and whole comics | A more compact header",
+      "screenshots": [
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/comiccrafting/01-create-v1.1.1.jpg"
+      ],
       "isGame": false,
       "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/comiccrafting-v1.1.1/ComicCraft.ing-1.1.1-windows-x64.exe",
-      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/comiccrafting-v1.1.1/ComicCraft.ing-1.1.1-linux-x86_64.AppImage"
+      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/comiccrafting-v1.1.1/ComicCraft.ing-1.1.1-linux-x86_64.AppImage",
+      "id": "comiccrafting",
+      "tagline": "Turn a premise or a photo into a comic, then edit it panel by panel.",
+      "description": "ComicCraft.ing turns a premise, a joke or a reference image into a comic, then gives you a workbench to shape it panel by panel. Edit captions and fonts by hand, reorder and duplicate panels, and share single panels or whole strips. Your comics are stored on your device.",
+      "features": [
+        "Edit captions and fonts by hand",
+        "Duplicate, reorder and remove panels",
+        "Swipe through earlier versions of artwork and captions",
+        "Recover autosaved drafts and deleted panels",
+        "Share panels and strips, or export editable backups"
+      ],
+      "pro": "Pro adds comic generation, visual transformations, related panels and caption rewrites. Saved comics and manual editing are free.",
+      "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/comiccrafting.png",
+      "releasedAt": "2026-09-10",
+      "updatesHistory": "## 1.1.1 · 2026-09-10\n- Tap an image or a caption to edit it, and swipe to browse versions\n- Download menus for panels and whole comics\n- A more compact header\n\n## 1.1.0 · 2026-09-09\n- Windows and Linux versions\n- Start from an idea, with text-based styles\n- Draft autosave, Trash and recovery of deleted work\n- Library search, sorting and session names\n\n## 1.0.0 · 2026-09-07\n- First Android release"
     },
     {
       "packageName": "com.rykersoft.yoink",
@@ -300,14 +512,32 @@
       "latestVersionName": "0.1.30",
       "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/yoink-v0.1.30/yoink-0.1.30-windows-x64.exe",
       "icon": "desktop",
-      "changelog": "Import from device adds video or audio already on your phone or computer to the Library | Imported files play, open in Studio and follow the Proxy setting | Imported items are labeled This device and hide link-only actions | Hold the plus button to auto-download the clipboard video",
-      "screenshots": [],
+      "changelog": "Import video or audio already on your phone or computer into the Library | Imported files play and open in Studio just like downloads | Hold the plus button to download the video link on your clipboard",
+      "screenshots": [
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/yoink/01-library.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/yoink/02-studio.jpg"
+      ],
       "isGame": false,
       "exeSha256": "e49f36ee296bf84a17b78085b35ca6c0c837d21f78b1b76b48147029090d1f18",
       "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/yoink-v0.1.30/yoink-0.1.30-linux-x86_64.AppImage",
       "linuxSha256": "b176268c336917c379ea16b920181cc02e37697fa0528858dc84816b2b48a6be",
       "linuxDebUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/yoink-v0.1.30/yoink-0.1.30-linux-amd64.deb",
-      "linuxDebSha256": "8aeb813164096edaf1b0c084dc605b373a16dfef31025f2447e8aa16b3a8b188"
+      "linuxDebSha256": "8aeb813164096edaf1b0c084dc605b373a16dfef31025f2447e8aa16b3a8b188",
+      "id": "yoink",
+      "tagline": "Download a video, edit it, and keep every version in one library.",
+      "description": "yoink. pairs a focused video and audio downloader with a non-destructive editing studio. Grab a video with sensible presets or full control over quality and format, then trim, split, join, swap the audio and export new versions without touching the original. Every download and edit stays together in the video's history.",
+      "features": [
+        "Download video or audio with presets or detailed format controls",
+        "Trim, split, join, normalise and replace audio without changing the original",
+        "Import media that is already on your device",
+        "A library that keeps each video's edits and exports together",
+        "Inspect streams, chapters and metadata",
+        "An optional assistant, with your own keys or Pro access"
+      ],
+      "pro": "Pro supplies the assistant and transcription without your own API keys. Downloads, editing and exports are free.",
+      "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/yoink.png",
+      "releasedAt": "2026-11-10",
+      "updatesHistory": "## 0.1.30 · 2026-11-10\n- Import video or audio already on your phone or computer into the Library\n- Imported files play and open in Studio just like downloads\n- Hold the plus button to download the video link on your clipboard\n\n## 0.1.28 · 2026-09-30\n- Auto-download: paste a link and get a balanced 1080p MP4 without choosing formats\n\n## 0.1.27 · 2026-09-28\n- One filter button for status, media type and sorting\n- Media details and clip history in each card's menu\n\n## 0.1.26 · 2026-09-28\n- Editing sessions save per video and reopen where you left off\n- Smoother editing with proxy previews\n- Combined exports and more output formats"
     },
     {
       "packageName": "app.flux.download",
@@ -317,9 +547,27 @@
       "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/yoink-v0.1.30/yoink-0.1.30-android.apk",
       "apkSha256": "5236f52a988916355cc07c9186b0abe55f2de16e5788e10f163d72c291b81990",
       "icon": "android",
-      "changelog": "Import from device adds video or audio already on your phone or computer to the Library | Imported files play, open in Studio and follow the Proxy setting | Imported items are labeled This device and hide link-only actions | Hold the plus button to auto-download the clipboard video",
-      "screenshots": [],
-      "isGame": false
+      "changelog": "Import video or audio already on your phone or computer into the Library | Imported files play and open in Studio just like downloads | Hold the plus button to download the video link on your clipboard",
+      "screenshots": [
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/yoink/01-library.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/yoink/02-studio.jpg"
+      ],
+      "isGame": false,
+      "id": "yoink",
+      "tagline": "Download a video, edit it, and keep every version in one library.",
+      "description": "yoink. pairs a focused video and audio downloader with a non-destructive editing studio. Grab a video with sensible presets or full control over quality and format, then trim, split, join, swap the audio and export new versions without touching the original. Every download and edit stays together in the video's history.",
+      "features": [
+        "Download video or audio with presets or detailed format controls",
+        "Trim, split, join, normalise and replace audio without changing the original",
+        "Import media that is already on your device",
+        "A library that keeps each video's edits and exports together",
+        "Inspect streams, chapters and metadata",
+        "An optional assistant, with your own keys or Pro access"
+      ],
+      "pro": "Pro supplies the assistant and transcription without your own API keys. Downloads, editing and exports are free.",
+      "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/yoink.png",
+      "releasedAt": "2026-11-10",
+      "updatesHistory": "## 0.1.30 · 2026-11-10\n- Import video or audio already on your phone or computer into the Library\n- Imported files play and open in Studio just like downloads\n- Hold the plus button to download the video link on your clipboard\n\n## 0.1.28 · 2026-09-30\n- Auto-download: paste a link and get a balanced 1080p MP4 without choosing formats\n\n## 0.1.27 · 2026-09-28\n- One filter button for status, media type and sorting\n- Media details and clip history in each card's menu\n\n## 0.1.26 · 2026-09-28\n- Editing sessions save per video and reopen where you left off\n- Smoother editing with proxy previews\n- Combined exports and more output formats"
     },
     {
       "packageName": "com.oddly.app.release",
@@ -329,7 +577,7 @@
       "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/umm-v0.4.3/Umm-0.4.3.apk",
       "apkSha256": "a5ce649ab9dd7372fbf39ed2e332deb70beeaac471f1e4cd4ad6010985493688",
       "icon": "android",
-      "changelog": "Sunny Meadow menu and original scenic artwork | Warm ivory and pastel styling throughout the app | Light, subtle card presets with expressive customization retained | Readable sticker defaults and improved phone layouts",
+      "changelog": "A new Meadow menu with original landscape artwork and a bright, soft palette | Lighter starter card looks and coordinated random designs | Clearer browsing arrows on phones",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft-APKs/04a331b7daa6dd7c3454df047aa5f3d08f8ce994/docs/umm/screenshots/0.4.3/meadow-menu.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft-APKs/04a331b7daa6dd7c3454df047aa5f3d08f8ce994/docs/umm/screenshots/0.4.3/desktop-meadow.png",
@@ -337,7 +585,22 @@
         "https://raw.githubusercontent.com/rykergrey/RykerSoft-APKs/04a331b7daa6dd7c3454df047aa5f3d08f8ce994/docs/umm/screenshots/0.4.3/workshop.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft-APKs/04a331b7daa6dd7c3454df047aa5f3d08f8ce994/docs/umm/screenshots/0.4.3/profile.png"
       ],
-      "isGame": true
+      "isGame": true,
+      "id": "umm",
+      "tagline": "Pick a mystery card, answer before time runs out, and see how other people think.",
+      "description": "Umm is a playful question-card game. Pick a mystery card, answer before the timer runs out, then see how everyone else answered. Nothing is scored for being right: coins reward taking part. Make quizzes of your own in a visual workshop and design the cards with palettes, textures and stickers. Playing needs a Google sign-in and a connection.",
+      "features": [
+        "A stack of mystery cards to shuffle, filter and revisit",
+        "A daily six-card edition",
+        "Multiple choice, true or false, fill in the blank and open questions",
+        "Create quizzes of up to 20 questions and share them by code",
+        "Design cards with palettes, textures, motion and stickers",
+        "Response boards, votes and optional anonymous answers"
+      ],
+      "pro": "",
+      "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/umm.png",
+      "releasedAt": "2026-10-07",
+      "updatesHistory": "## 0.4.3 · 2026-10-07\n- A new Meadow menu with original landscape artwork and a bright, soft palette\n- Lighter starter card looks and coordinated random designs\n- Clearer browsing arrows on phones\n\n## 0.4.2 · 2026-10-07\n- A compact You screen with coins, answers, questions and stickers up front\n- Your quizzes sit above your activity, with a Create button\n\n## 0.4.1 · 2026-10-06\n- A mystery stack you can shuffle and filter, with New and Answered views\n- Cards lift into a floating player\n- A thumbs-up from a question's creator earns a bonus coin"
     },
     {
       "packageName": "com.rykersoft.fieldrecorder",
@@ -347,13 +610,27 @@
       "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/fieldrecorder-v1.1.0/Field-Recorder-1.1.0.apk",
       "apkSha256": "ea60b705f400dd4d97ff0802ec0f99827f9cae86cea0a1b86839761e93dd5604",
       "icon": "android",
-      "changelog": "Google sign-in and RykerSoft Pro transcription without a personal key; optional personal-key override; retains built-in microphone routing improvements.",
+      "changelog": "Sign in with Google to use Pro transcription without your own key",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/fieldrecorder/lobby-1.0.0.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/fieldrecorder/pro-access-1.1.0.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/fieldrecorder/rules-1.0.0.png"
       ],
-      "isGame": true
+      "isGame": true,
+      "id": "field-recorder",
+      "tagline": "A pass-the-phone word game you answer out loud.",
+      "description": "Field Recorder is a category word game for 2 to 8 players on one device. Read the letter and the category, hold the microphone button and say your answer, then release and pass it on. Answers are transcribed in the background, and after the match you can replay the recordings and settle the scores.",
+      "features": [
+        "Timed or round-based matches for 2 to 8 players",
+        "Push-to-talk answers, with audio replay after the game",
+        "Editable transcripts and scores",
+        "Saved player rosters, custom decks and match history",
+        "A retro console look"
+      ],
+      "pro": "Transcription needs Pro access or your own Groq key. Recording, play, decks and review are free.",
+      "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/field-recorder.png",
+      "releasedAt": "2026-10-10",
+      "updatesHistory": "## 1.1.0 · 2026-10-10\n- Sign in with Google to use Pro transcription without your own key\n\n## 1.0.0 · 2026-10-10\n- First release: push-to-talk rounds, custom category packs, saved rosters and post-game review"
     },
     {
       "packageName": "com.rykersoft.somethingsoff",
@@ -363,13 +640,28 @@
       "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/the-guile-family-v3.3.0/the-guile-family-3.3.0.apk",
       "apkSha256": "f927e0ceffdc164390f4da753ee51b138a9283b474b0c49fa75edc167322bd38",
       "icon": "android",
-      "changelog": "The Guile Family name | Three complete offline party games | Content Workshop and pack exchange | RykerSoft Pro Access for every explicit AI action",
+      "changelog": "The game is now called The Guile Family | Sign in with Google in Settings to use Pro access",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/the-guile-family/3.3.0/home.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/the-guile-family/3.3.0/games.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/the-guile-family/3.3.0/workshop.png"
       ],
-      "isGame": true
+      "isGame": true,
+      "id": "guile-family",
+      "tagline": "Three painted party games for one shared phone.",
+      "description": "The Guile Family is a party game for one shared Android phone, starring Ryker, Nemo and Ender. Spot the Bluffer, act out mysterious Party Guests, or race through the same twelve cards in Same Again. Pass the phone for private hold-to-peek cards, then watch a finale that reflects what actually happened. It all works offline.",
+      "features": [
+        "Three games: Bluffer, Party Guests and Same Again",
+        "Private hold-to-peek cards when you pass the phone",
+        "Character finales based on how the round went",
+        "Write your own packs in the Content Workshop",
+        "Share packs as files or text",
+        "Fully playable offline"
+      ],
+      "pro": "Pro adds AI pack drafts and remixes, and hint coaching for Party Guests. All three games and the workshop are free.",
+      "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/guile-family.png",
+      "releasedAt": "2026-10-10",
+      "updatesHistory": "## 3.3.0 · 2026-10-10\n- The game is now called The Guile Family\n- Sign in with Google in Settings to use Pro access\n\n## 3.2.0\n- A Content Workshop for all three games, with saved packs and sharing"
     },
     {
       "packageName": "com.rykersoft.pocketdm",
@@ -380,8 +672,25 @@
       "apkSha256": "85486638cfe2a940d7cb06aa01e481a903da3ec18ea6f25439799fe7c5d72442",
       "icon": "android",
       "isGame": true,
-      "changelog": "First public release: responsive Android reveals, an empty player-created roster, and detailed TF2-inspired painterly portraits. New production signer; earlier debug builds must be removed before installation.",
-      "screenshots": []
+      "changelog": "First public release | Characters start from your own ideas, with no default roster | Detailed painterly portraits | Smoother reveals on phones",
+      "screenshots": [
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/pocket-dm/01-home-v0.2.7.jpg",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/pocket-dm/02-private-start-v0.2.7.jpg"
+      ],
+      "id": "pocket-dm",
+      "tagline": "Invent a character, pass the phone, and get a narrated comic.",
+      "description": "Pocket DM is a two-player storytelling game on one Android phone. Each player invents an improbable character, then takes turns describing what they try next. The game turns each move into a narrated comic and keeps the consequences fair. It is an early prototype: practice mode works offline, and live storytelling uses your own OpenAI key.",
+      "features": [
+        "Describe a character's identity, personality and looks",
+        "Speak or type your move, then read the comic",
+        "Private secrets and handoffs on a shared phone",
+        "Spoken commentary with an offline voice or your own provider",
+        "Resume saved encounters and reuse character art"
+      ],
+      "pro": "",
+      "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/pocket-dm.png",
+      "releasedAt": "2026-10-12",
+      "updatesHistory": "## 0.2.7 · 2026-10-12\n- First public release\n- Characters start from your own ideas, with no default roster\n- Detailed painterly portraits\n- Smoother reveals on phones"
     },
     {
       "packageName": "com.rykersoft.closecall",
@@ -390,13 +699,26 @@
       "latestVersionName": "0.4.3",
       "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/closecall-v0.4.3/Close-Call-0.4.3.apk",
       "icon": "android",
-      "changelog": "Sign in once with your RykerSoft Pro account to connect Android YouTube search and Pro judging. No manual API-key entry. Service credentials stay native and access is verified before each search. Updates the production 0.4.2 build in place.",
+      "changelog": "One RykerSoft sign-in connects YouTube search and Pro answer judging, with no API keys to enter",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/closecall/v0.4.2/01-home.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/closecall/v0.4.2/03-song-results.png"
       ],
       "isGame": true,
-      "apkSha256": "e170ccf184c78abd30d46375c8d8ddae90e5027e51eec3db63b9d6739e84cff7"
+      "apkSha256": "e170ccf184c78abd30d46375c8d8ddae90e5027e51eec3db63b9d6739e84cff7",
+      "id": "close-call",
+      "tagline": "A family guessing game with picture, video and song clues.",
+      "description": "Close Call is a guessing game for two or three players on one phone, made for Ryker, Nemo and Ender. Take turns setting clues, then race to recognise them: pictures zoom out from a close-up, videos play muted with sealed guesses, and songs use hold-to-speak buzzers.",
+      "features": [
+        "Picture clues that reveal along a timed zoom",
+        "Muted video clues with private, sealed guesses",
+        "Song rounds with buzzers and bonus points for artist and album",
+        "Free answer matching with no account"
+      ],
+      "pro": "Pro adds YouTube search for clues and AI judging of uncertain answers.",
+      "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/close-call.png",
+      "releasedAt": "2026-10-30",
+      "updatesHistory": "## 0.4.3 · 2026-10-30\n- One RykerSoft sign-in connects YouTube search and Pro answer judging, with no API keys to enter\n\n## 0.4.2 · 2026-10-30\n- First release: picture, video and song clues in one match\n- Private song previews play through the earpiece"
     },
     {
       "packageName": "com.rykersoft.memegod",
@@ -406,13 +728,28 @@
       "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/memegod-v1.0.31/MechaMeme-1.0.31.apk",
       "apkSha256": "5728f7758b8476b441fd62bae8824403294a0a486949b087877b1c15459287f0",
       "icon": "android",
-      "changelog": "Fullscreen Library and integrated caption editing | Direct Home edit shortcut | Faster complete-image transitions and swipe previews | Steadier feed cards and brighter stack indicators",
+      "changelog": "The Library opens fullscreen, with caption editing in the image workspace | A shortcut on Home for editing your library images | Faster swipes between images",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/mechameme/1.0.29/home.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/mechameme/1.0.30/picture.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/mechameme/1.0.30/reactions.png"
       ],
-      "isGame": false
+      "isGame": false,
+      "id": "mechameme",
+      "tagline": "Turn your photos into memes, then remix what the community makes.",
+      "description": "MechaMeme turns your photos into editable memes. Import a photo, generate and revise captions for free, and adjust the text and placement yourself. Keep a private library on your device, browse the Community feed, upvote what you like and remix any post into your own take.",
+      "features": [
+        "Free caption generation with styles and directions",
+        "Crop photos and edit caption text and placement",
+        "A Community feed with upvotes and emoji reactions",
+        "Remix any Community image without signing in",
+        "A private library with versions you can swipe through",
+        "Export PNGs or .meme files that stay editable"
+      ],
+      "pro": "Pro adds Recreate me, which generates a new scene from your photo. Captions, editing and Community are free.",
+      "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/mechameme.png",
+      "releasedAt": "2026-11-03",
+      "updatesHistory": "## 1.0.31 · 2026-11-03\n- The Library opens fullscreen, with caption editing in the image workspace\n- A shortcut on Home for editing your library images\n- Faster swipes between images\n\n## 1.0.30 · 2026-11-02\n- Community posts carry their template, so Add to library keeps it for reuse\n- Export editable PNGs or .meme files\n- Compact, centred picture popups\n\n## 1.0.29 · 2026-11-01\n- Publishing starts a post with your own thumbs-up; posts with no votes leave the feed\n- Close the picture view with Back or a tap outside\n\n## 1.0.28 · 2026-11-01\n- Upvote Community posts\n- Add to library straight from the feed"
     },
     {
       "packageName": "com.rykersoft.earbound",
@@ -422,13 +759,28 @@
       "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/earbound-v0.7.0/earbound-v0.7.0-android.apk",
       "apkSha256": "bbf96d57ecb813785aadc8c68c53bbc2ba494b02ed376165f2e591d2c168ebe2",
       "icon": "android",
-      "changelog": "First RykerSoft release | New-player placement with an I don't know option | 129 dated achievements | Practice unlocks through the campaign | Redesigned Records | Complete backup and restore",
+      "changelog": "First RykerSoft release | Placement matches put new players in the right sector | More than 100 achievements | A redesigned Records screen | Backup and restore covers your progress, achievements and settings",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/earbound/v0.7.0/phone-01-home-placement.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/earbound/v0.7.0/phone-02-question.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/earbound/v0.7.0/phone-03-achievements.png"
       ],
-      "isGame": true
+      "isGame": true,
+      "id": "earbound",
+      "tagline": "An ear-training game across a sky campaign: notes, intervals, chords and more.",
+      "description": "Earbound teaches your ear to recognise notes, intervals, chords, inversions, scales, modes and progressions. Play a 480-match campaign across eight sectors of the sky, practise in a studio you can customise, or play with friends. Everything runs on your phone: no account, no subscription, and no connection needed for solo play.",
+      "features": [
+        "A 480-match campaign across eight sectors",
+        "Placement matches, so experienced listeners skip ahead",
+        "A practice studio with 17 exercises and ten difficulty levels",
+        "Answer by tapping, on a piano keyboard or by voice",
+        "More than 100 achievements and detailed records",
+        "Party play for 2 to 8 on the same Wi-Fi, or pass and play"
+      ],
+      "pro": "",
+      "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/earbound.png",
+      "releasedAt": "2026-11-07",
+      "updatesHistory": "## 0.7.0 · 2026-11-07\n- First RykerSoft release\n- Placement matches put new players in the right sector\n- More than 100 achievements\n- A redesigned Records screen\n- Backup and restore covers your progress, achievements and settings"
     }
   ]
 }

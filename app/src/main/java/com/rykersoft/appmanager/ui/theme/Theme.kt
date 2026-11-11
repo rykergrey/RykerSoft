@@ -1,61 +1,64 @@
 package com.rykersoft.appmanager.ui.theme
 
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Shapes
+import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 
-// Enforce sharp 90-degree corners across Neo-Brutalist elements
-val SharpShapes = Shapes(
-  extraSmall = RoundedCornerShape(2.dp),
-  small = RoundedCornerShape(4.dp),
-  medium = RoundedCornerShape(6.dp),
-  large = RoundedCornerShape(8.dp),
-  extraLarge = RoundedCornerShape(12.dp)
+// Material 3 stays the interaction language (ripple, focus, text fields, menus, switches).
+// The world comes from Hub: a static dark scheme, the bundled type and shallow shapes.
+private val HubScheme = darkColorScheme(
+    primary = Hub.C.action,
+    onPrimary = Hub.C.actionInk,
+    primaryContainer = Hub.C.raised,
+    onPrimaryContainer = Hub.C.text,
+    secondary = Hub.C.link,
+    onSecondary = Hub.C.actionInk,
+    secondaryContainer = Hub.C.raised,
+    onSecondaryContainer = Hub.C.text,
+    tertiary = Hub.C.brand,
+    onTertiary = Hub.C.text,
+    error = Hub.C.danger,
+    onError = Hub.C.text,
+    background = Hub.C.bg,
+    onBackground = Hub.C.text,
+    surface = Hub.C.surface,
+    onSurface = Hub.C.text,
+    surfaceVariant = Hub.C.raised,
+    onSurfaceVariant = Hub.C.dim,
+    surfaceContainer = Hub.C.surface,
+    surfaceContainerHigh = Hub.C.raised,
+    surfaceContainerHighest = Hub.C.raised,
+    outline = Hub.C.border,
+    outlineVariant = Hub.C.borderSoft,
+    scrim = Hub.C.scrim
 )
 
-// Semantic mapping: primary = CTA yellow, secondary = interactive cyan,
-// tertiary = brand magenta, error = alert red.
-private val DarkNeoColorScheme = darkColorScheme(
-  primary = NeoYellow,
-  onPrimary = Color.Black,
-  primaryContainer = NeoYellowDim,
-  onPrimaryContainer = NeoYellow,
-  secondary = NeoCyan,
-  onSecondary = Color.Black,
-  secondaryContainer = NeoCyanDim,
-  onSecondaryContainer = NeoCyan,
-  tertiary = NeoMagenta,
-  onTertiary = Color.White,
-  tertiaryContainer = NeoPurpleDim,
-  onTertiaryContainer = NeoText,
-  error = NeoRed,
-  onError = Color.White,
-  errorContainer = NeoRedDim,
-  onErrorContainer = NeoRed,
-  background = NeoBg,
-  onBackground = NeoText,
-  surface = NeoSurface,
-  onSurface = NeoText,
-  surfaceVariant = NeoMutedBg,
-  onSurfaceVariant = NeoSubtext,
-  outline = NeoBorder
+private val HubShapes = Shapes(
+    extraSmall = Hub.S.control,
+    small = Hub.S.control,
+    medium = Hub.S.tile,
+    large = Hub.S.tile,
+    extraLarge = Hub.S.tile
 )
 
-@Composable
-fun MyApplicationTheme(
-  darkTheme: Boolean = true,
-  dynamicColor: Boolean = false,
-  content: @Composable () -> Unit,
-) {
-  MaterialTheme(
-    colorScheme = DarkNeoColorScheme,
-    typography = Typography,
-    shapes = SharpShapes,
-    content = content
-  )
+private val HubTypography = Typography().run {
+    copy(
+        headlineSmall = Hub.T.display,
+        titleLarge = Hub.T.display,
+        titleMedium = Hub.T.title,
+        titleSmall = Hub.T.title,
+        bodyLarge = Hub.T.body,
+        bodyMedium = Hub.T.body,
+        bodySmall = Hub.T.bodySm,
+        labelLarge = Hub.T.button,
+        labelMedium = Hub.T.label,
+        labelSmall = Hub.T.data
+    )
 }
 
+@Composable
+fun MyApplicationTheme(content: @Composable () -> Unit) {
+    MaterialTheme(colorScheme = HubScheme, typography = HubTypography, shapes = HubShapes, content = content)
+}

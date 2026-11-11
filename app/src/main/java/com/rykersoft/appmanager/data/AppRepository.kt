@@ -47,7 +47,7 @@ class AppRepository(
     }
 
     /**
-     * Dynamically fetches description, updates history, specs, and user guide markdown files
+     * Dynamically fetches description, updates history and specs markdown files
      * from the distribution repo referenced by apkUrl or exeUrl if missing in registry.json.
      * Looks in docs/<slug>/ first (shared RykerSoft-APKs distribution repo layout),
      * then falls back to repo-root docs/ and README/CHANGELOG (per-app repo layout).
@@ -81,18 +81,11 @@ class AppRepository(
                 ?: ""
         }
 
-        val userGuide = app.userGuide.ifBlank {
-            fetcher.fetchTextUrl("$baseUrl/docs/$slug/user_guide.md")
-                ?: fetcher.fetchTextUrl("$baseUrl/docs/user_guide.md")
-                ?: ""
-        }
-
-        if (desc != app.description || updates != app.updatesHistory || specs != app.specs || userGuide != app.userGuide) {
+        if (desc != app.description || updates != app.updatesHistory || specs != app.specs) {
             val enriched = app.copy(
                 description = desc,
                 updatesHistory = updates,
-                specs = specs,
-                userGuide = userGuide
+                specs = specs
             )
             dao.insertApp(enriched)
             enriched

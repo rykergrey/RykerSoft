@@ -22,5 +22,18 @@ data class ManagedApp(
     val userGuide: String = "",
     val updatesHistory: String = "",
     val specs: String = "",
+    /** Catalog id. Entries that share one are the same product on different platforms. */
+    @ColumnInfo(defaultValue = "") val productId: String = "",
+    /** One sentence, shown in lists. */
+    @ColumnInfo(defaultValue = "") val tagline: String = "",
+    /** Newline-separated feature list. */
+    @ColumnInfo(defaultValue = "") val features: String = "",
+    /** What Pro adds. Blank means the whole app is free. */
+    @ColumnInfo(defaultValue = "") val pro: String = "",
+    @ColumnInfo(defaultValue = "") val iconUrl: String = "",
+    /** ISO date of the latest release, yyyy-MM-dd. */
+    @ColumnInfo(defaultValue = "") val releasedAt: String = "",
+    @ColumnInfo(defaultValue = "") val linuxDebUrl: String = "",
+    @ColumnInfo(defaultValue = "") val linuxPacmanUrl: String = "",
     val lastChecked: Long = System.currentTimeMillis()
 )

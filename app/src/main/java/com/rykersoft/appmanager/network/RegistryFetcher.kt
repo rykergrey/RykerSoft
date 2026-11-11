@@ -103,7 +103,9 @@ class RegistryFetcher(
             val apk = item.optString("apkUrl", "").trim()
             val exe = item.optString("exeUrl", "").trim()
             val linux = item.optString("linuxUrl", "").trim()
-            if (apk.isBlank() && exe.isBlank() && linux.isBlank()) continue
+            val linuxDeb = item.optString("linuxDebUrl", "").trim()
+            val linuxPacman = item.optString("linuxPacmanUrl", "").trim()
+            if (apk.isBlank() && exe.isBlank() && linux.isBlank() && linuxDeb.isBlank() && linuxPacman.isBlank()) continue
             val windowsAvailable = exe.isNotBlank() ||
                 pkg == "com.rykersoft.superthinking"
             val icon = item.optString("icon", "android")
@@ -131,7 +133,9 @@ class RegistryFetcher(
                 pkg.contains("game", ignoreCase = true)
             )
 
-            val userGuide = item.optString("userGuide", "")
+            val features = item.optJSONArray("features")?.let { array ->
+                (0 until array.length()).map { array.optString(it, "").trim() }.filter { it.isNotEmpty() }.joinToString("\n")
+            } ?: ""
             val updatesHistory = item.optString("updatesHistory", "")
             val specs = item.optString("specs", "")
 
@@ -150,9 +154,16 @@ class RegistryFetcher(
                     changelog = changelog,
                     screenshots = screenshotsVal,
                     isGame = inferredIsGame,
-                    userGuide = userGuide,
                     updatesHistory = updatesHistory,
                     specs = specs,
+                    productId = item.optString("id", "").trim(),
+                    tagline = item.optString("tagline", "").trim(),
+                    features = features,
+                    pro = item.optString("pro", "").trim(),
+                    iconUrl = item.optString("iconUrl", "").trim(),
+                    releasedAt = item.optString("releasedAt", "").trim(),
+                    linuxDebUrl = linuxDeb,
+                    linuxPacmanUrl = linuxPacman,
                     lastChecked = System.currentTimeMillis()
                 )
             )

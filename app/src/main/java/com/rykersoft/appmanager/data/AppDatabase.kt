@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [ManagedApp::class], version = 8, exportSchema = false)
+@Database(entities = [ManagedApp::class], version = 9, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun managedAppDao(): ManagedAppDao
 
@@ -22,11 +22,20 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "app_manager_database"
                 )
-                .addMigrations(MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8)
+                .addMigrations(MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9)
                 .fallbackToDestructiveMigration()
                 .build()
                 INSTANCE = instance
                 instance
+            }
+        }
+
+        /** Catalog content fields: id, tagline, features, Pro note, icon, release date, extra Linux packages. */
+        val MIGRATION_8_9 = object : Migration(8, 9) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                listOf("productId", "tagline", "features", "pro", "iconUrl", "releasedAt", "linuxDebUrl", "linuxPacmanUrl").forEach {
+                    db.execSQL("ALTER TABLE managed_apps ADD COLUMN $it TEXT NOT NULL DEFAULT ''")
+                }
             }
         }
 

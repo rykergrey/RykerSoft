@@ -34,14 +34,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.rykersoft.appmanager.ui.theme.BodyFontFamily
-import com.rykersoft.appmanager.ui.theme.NeoBlack
-import com.rykersoft.appmanager.ui.theme.NeoCyan
-import com.rykersoft.appmanager.ui.theme.NeoMagenta
-import com.rykersoft.appmanager.ui.theme.NeoMutedBg
-import com.rykersoft.appmanager.ui.theme.NeoSubtext
-import com.rykersoft.appmanager.ui.theme.NeoText
-import com.rykersoft.appmanager.ui.theme.NeoYellow
+import com.rykersoft.appmanager.ui.theme.Hub
 
 private val BOLD_REGEX = Regex("""\*\*(.+?)\*\*""")
 private val CODE_REGEX = Regex("""`(.+?)`""")
@@ -51,7 +44,7 @@ private val INLINE_MARKDOWN_REGEX = Regex("""(\*\*(.+?)\*\*|`(.+?)`|\[(.+?)\]\((
 private val HEADING_REGEX = Regex("""^(#{1,3})\s+(.*)$""")
 private val BULLET_REGEX = Regex("""^([-*\u2022])\s+""")
 /** Magenta asterisk marker for entitlement-gated PRO features in hub docs. */
-private val NeoProAsterisk = NeoMagenta
+private val NeoProAsterisk = Hub.C.brand
 private val NUMBER_REGEX = Regex("""^\d+\.\s+""")
 
 data class TocEntry(
@@ -122,7 +115,7 @@ private fun inlineMarkdown(
 ): AnnotatedString = buildAnnotatedString {
     var last = 0
     val linkStyle = SpanStyle(
-        color = NeoCyan,
+        color = Hub.C.link,
         fontWeight = FontWeight.SemiBold,
         textDecoration = TextDecoration.Underline
     )
@@ -140,9 +133,9 @@ private fun inlineMarkdown(
         } else if (code != null) {
             withStyle(
                 SpanStyle(
-                    fontFamily = FontFamily.Monospace,
-                    color = NeoText,
-                    background = NeoMutedBg
+                    fontFamily = Hub.T.Mono,
+                    color = Hub.C.text,
+                    background = Hub.C.raised
                 )
             ) {
                 append(code)
@@ -173,10 +166,10 @@ private fun inlineMarkdown(
 fun ClickableMarkdownText(
     markdownText: String,
     modifier: Modifier = Modifier,
-    color: Color = NeoText,
-    fontSize: TextUnit = 12.5.sp,
-    fontFamily: FontFamily = BodyFontFamily,
-    lineHeight: TextUnit = 18.sp,
+    color: Color = Hub.C.text,
+    fontSize: TextUnit = Hub.T.body.fontSize,
+    fontFamily: FontFamily = Hub.T.Sans,
+    lineHeight: TextUnit = Hub.T.body.lineHeight,
     onUrlClick: ((String) -> Unit)? = null
 ) {
     val latestOnUrlClick = rememberUpdatedState(onUrlClick)
@@ -212,13 +205,13 @@ private fun HeadingText(
     // Restrained hierarchy: headings stay high-contrast text; the neon accent is
     // confined to a short underline bar so section colors never fight the CTAs.
     val size = when (level) {
-        1 -> 16.sp
-        2 -> 13.5.sp
-        else -> 12.sp
+        1 -> Hub.T.title.fontSize
+        2 -> Hub.T.heading.fontSize
+        else -> Hub.T.data.fontSize
     }
     val defaultColor = when (level) {
         1, 2 -> headingColor
-        else -> NeoSubtext
+        else -> Hub.C.dim
     }
     val anchor = remember(text) {
         text.lowercase().replace(Regex("[^a-z0-9\\s-]"), "").replace(Regex("\\s+"), "-")
@@ -245,7 +238,7 @@ private fun HeadingText(
     // highlightNonce re-triggers the flash when the same TOC link is tapped again
     LaunchedEffect(highlightAnchor, highlightNonce, isHighlighted) {
         if (isHighlighted) {
-            animColor.snapTo(NeoYellow)
+            animColor.snapTo(Hub.C.action)
             animColor.animateTo(
                 targetValue = Color.Transparent,
                 animationSpec = tween(
@@ -260,7 +253,7 @@ private fun HeadingText(
 
     val currentBg = animColor.value
     val isYellowBg = currentBg.alpha > 0.2f
-    val textColor = if (isYellowBg) NeoBlack else defaultColor
+    val textColor = if (isYellowBg) Hub.C.actionInk else defaultColor
 
     Column(
         modifier = Modifier
@@ -271,7 +264,7 @@ private fun HeadingText(
                 val y = coordinates.positionInWindow().y
                 onHeaderPositioned?.invoke(text, anchor, y)
             }
-            .background(currentBg, shape = RoundedCornerShape(3.dp))
+            .background(currentBg, shape = Hub.S.control)
             .padding(horizontal = 6.dp, vertical = 4.dp)
     ) {
         Text(
@@ -279,7 +272,7 @@ private fun HeadingText(
             color = textColor,
             fontSize = size,
             fontWeight = FontWeight.Black,
-            fontFamily = FontFamily.Monospace,
+            fontFamily = Hub.T.Mono,
             lineHeight = (size.value + 4).sp
         )
         // Short neon accent bar under major headings (color-restrained flair)
@@ -289,7 +282,7 @@ private fun HeadingText(
                     .padding(top = 3.dp)
                     .width(if (level == 1) 34.dp else 22.dp)
                     .height(3.dp)
-                    .background(if (isYellowBg) NeoBlack else accentColor)
+                    .background(if (isYellowBg) Hub.C.actionInk else accentColor)
             )
         }
     }
@@ -299,12 +292,12 @@ private fun HeadingText(
 fun MarkdownBody(
     markdown: String,
     modifier: Modifier = Modifier,
-    textColor: Color = NeoText,
-    mutedColor: Color = NeoSubtext,
-    headingColor: Color = NeoText,
-    accentColor: Color = NeoMagenta,
-    bodySize: TextUnit = 12.5.sp,
-    lineHeight: TextUnit = 18.sp,
+    textColor: Color = Hub.C.text,
+    mutedColor: Color = Hub.C.dim,
+    headingColor: Color = Hub.C.text,
+    accentColor: Color = Hub.C.brand,
+    bodySize: TextUnit = Hub.T.body.fontSize,
+    lineHeight: TextUnit = Hub.T.body.lineHeight,
     highlightAnchor: String? = null,
     highlightNonce: Int = 0,
     onHeaderPositioned: ((title: String, anchor: String, yPx: Float) -> Unit)? = null,
@@ -347,7 +340,7 @@ fun MarkdownBody(
                                     color = if (item.isPro) NeoProAsterisk else accentColor,
                                     fontSize = bodySize,
                                     fontWeight = if (item.isPro) FontWeight.Black else FontWeight.Normal,
-                                    fontFamily = FontFamily.Monospace,
+                                    fontFamily = Hub.T.Mono,
                                     modifier = Modifier
                                         .width(14.dp)
                                         .padding(top = 0.dp)
@@ -372,7 +365,7 @@ fun MarkdownBody(
                                     text = "${index + 1}.",
                                     color = accentColor,
                                     fontSize = bodySize,
-                                    fontFamily = FontFamily.Monospace,
+                                    fontFamily = Hub.T.Mono,
                                     modifier = Modifier.width(22.dp)
                                 )
                                 ClickableMarkdownText(
@@ -407,9 +400,9 @@ fun MarkdownSummaryText(
     markdown: String,
     modifier: Modifier = Modifier,
     maxLines: Int = 2,
-    color: Color = NeoText,
-    fontSize: TextUnit = 12.sp,
-    lineHeight: TextUnit = 17.sp
+    color: Color = Hub.C.text,
+    fontSize: TextUnit = Hub.T.bodySm.fontSize,
+    lineHeight: TextUnit = Hub.T.bodySm.lineHeight
 ) {
     val summaryText = remember(markdown) { markdownSummary(markdown) }
     Text(
@@ -417,7 +410,7 @@ fun MarkdownSummaryText(
         modifier = modifier,
         color = color,
         fontSize = fontSize,
-        fontFamily = BodyFontFamily,
+        fontFamily = Hub.T.Sans,
         maxLines = maxLines,
         overflow = TextOverflow.Ellipsis,
         lineHeight = lineHeight
