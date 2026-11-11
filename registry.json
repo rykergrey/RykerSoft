@@ -754,33 +754,36 @@
     {
       "packageName": "com.rykersoft.earbound",
       "name": "Earbound",
-      "latestVersionCode": 13,
-      "latestVersionName": "0.7.0",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/earbound-v0.7.0/earbound-v0.7.0-android.apk",
-      "apkSha256": "bbf96d57ecb813785aadc8c68c53bbc2ba494b02ed376165f2e591d2c168ebe2",
+      "latestVersionCode": 14,
+      "latestVersionName": "0.8.0",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/earbound-v0.8.0/earbound-v0.8.0-android.apk",
+      "apkSha256": "72da729451eab32db5664132350cb08d66fffdf6eb35f5add1a0abe0f665f88f",
       "icon": "android",
-      "changelog": "First RykerSoft release | Placement matches put new players in the right sector | More than 100 achievements | A redesigned Records screen | Backup and restore covers your progress, achievements and settings",
+      "changelog": "28 hands-on lessons, each ending with three practice matches | Lesson suggestions drawn from your own mix-ups | Hold anything on screen for a short explanation | A Lessons section in Records | Pass the phone rebuilt for 2 to 8 players, with house rules and a final reveal",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/earbound/v0.7.0/phone-01-home-placement.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/earbound/v0.8.0/phone-02-lessons.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/earbound/v0.8.0/phone-03-lesson-step.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/earbound/v0.7.0/phone-02-question.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/earbound/v0.7.0/phone-03-achievements.png"
       ],
       "isGame": true,
       "id": "earbound",
       "tagline": "An ear-training game across a sky campaign: notes, intervals, chords and more.",
-      "description": "Earbound teaches your ear to recognise notes, intervals, chords, inversions, scales, modes and progressions. Play a 480-match campaign across eight sectors of the sky, practise in a studio you can customise, or play with friends. Everything runs on your phone: no account, no subscription, and no connection needed for solo play.",
+      "description": "Earbound teaches your ear to recognise notes, intervals, chords, inversions, scales, modes and progressions. Play a 480-match campaign across eight sectors of the sky, learn with short hands-on lessons, practise in a studio you can customise, or play with friends. Everything runs on your phone: no account, no subscription, and no connection needed for solo play.",
       "features": [
         "A 480-match campaign across eight sectors",
+        "28 hands-on lessons, suggested from your own mix-ups",
         "Placement matches, so experienced listeners skip ahead",
         "A practice studio with 17 exercises and ten difficulty levels",
         "Answer by tapping, on a piano keyboard or by voice",
         "More than 100 achievements and detailed records",
-        "Party play for 2 to 8 on the same Wi-Fi, or pass and play"
+        "Party play for 2 to 8 on the same Wi-Fi, or pass the phone"
       ],
       "pro": "",
       "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/earbound.png",
-      "releasedAt": "2026-11-07",
-      "updatesHistory": "## 0.7.0 · 2026-11-07\n- First RykerSoft release\n- Placement matches put new players in the right sector\n- More than 100 achievements\n- A redesigned Records screen\n- Backup and restore covers your progress, achievements and settings"
+      "releasedAt": "2026-11-11",
+      "updatesHistory": "## 0.8.0 · 2026-11-11\n- 28 hands-on lessons, each ending with three practice matches\n- Lesson suggestions drawn from your own mix-ups\n- Hold anything on screen for a short explanation\n- A Lessons section in Records\n- Pass the phone rebuilt for 2 to 8 players, with house rules and a final reveal\n\n## 0.7.0 · 2026-11-07\n- First RykerSoft release\n- Placement matches put new players in the right sector\n- More than 100 achievements\n- A redesigned Records screen\n- Backup and restore covers your progress, achievements and settings"
     }
   ]
 }
