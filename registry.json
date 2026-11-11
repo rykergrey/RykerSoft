@@ -223,14 +223,14 @@
       "latestVersionCode": 140,
       "latestVersionName": "2.3.3",
       "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/superthinking-v2.3.3/superthinking-v2.3.3-android.apk",
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/superthinking-v2.2.11/SuperThink.ing-2.2.11-portable.exe",
-      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/superthinking-v2.2.11/SuperThink.ing-2.2.11-x86_64.AppImage",
-      "linuxPacmanUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/superthinking-v2.2.11/superthinking-bin-2.2.11-x64.pkg.tar.zst",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/superthinking-v2.3.3/SuperThink.ing-2.3.3-portable.exe",
+      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/superthinking-v2.3.3/SuperThink.ing-2.3.3-x86_64.AppImage",
+      "linuxPacmanUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/superthinking-v2.3.3/superthinking-bin-2.3.3-x64.pkg.tar.zst",
       "apkSha256": "aeef3fd765013fb55d9d5fff80b59f112a2306beaf42959503548ee64f14a292",
-      "exeSha256": "261406d82f4cb1a037e9a4030ff89840532fd087862ecbb4ef7369bcd745ee31",
-      "linuxSha256": "d1735eddb1faa2598b69a6e38621f4a378aac07d395f9e7791ccca1edaeb6345",
+      "exeSha256": "8ae08a2f456410da33ead8c306f3e6ca8e84c69b78565d14eeb1a0320e1030a3",
+      "linuxSha256": "c8cbcadd282d1848343cbe4a67de6ac957deab601d1a0abc3d32a2a5fe40a2c8",
       "icon": "android",
-      "changelog": "Android: maximised cards use the whole screen. The header, title and tabs tuck away in stages as you scroll down and return when you scroll up",
+      "changelog": "The Windows and Linux versions are up to date, with every change since 2.2.11 | Android: maximised cards use the whole screen. The header, title and tabs tuck away in stages as you scroll down and return when you scroll up",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/superthinking/01-categories.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/superthinking/02-category-cards.jpg",
@@ -259,8 +259,9 @@
       ],
       "pro": "Pro adds AI actions, AI chat, and tools such as OCR, transcription and image generation.",
       "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/superthinking.png",
-      "releasedAt": "2026-11-06",
-      "updatesHistory": "## 2.3.3 · 2026-11-05\n- Android: maximised cards use the whole screen. The header, title and tabs tuck away in stages as you scroll down and return when you scroll up\n\n## 2.3.2 · 2026-11-05\n- Android: toolbars hide while you read or write and return when you scroll up\n- Choose what a chat can see, and review context edits before they apply\n- Shared speech settings and playback controls, with optional offline voices\n\n## 2.2.11 · 2026-09-10\n- Back on Android closes the open card, then its category, then returns to All Categories"
+      "releasedAt": "2026-11-11",
+      "updatesHistory": "## 2.3.3 · 2026-11-05\n- The Windows and Linux versions are up to date, with every change since 2.2.11\n- Android: maximised cards use the whole screen. The header, title and tabs tuck away in stages as you scroll down and return when you scroll up\n\n## 2.3.2 · 2026-11-05\n- Android: toolbars hide while you read or write and return when you scroll up\n- Choose what a chat can see, and review context edits before they apply\n- Shared speech settings and playback controls, with optional offline voices\n\n## 2.2.11 · 2026-09-10\n- Back on Android closes the open card, then its category, then returns to All Categories",
+      "linuxPacmanSha256": "88626e339f963d2b35ff1d9ba52c279092268b654057ef3e39248665c6280568"
     },
     {
       "packageName": "com.rykersoft.bettertracking",
@@ -355,9 +356,9 @@
       "latestVersionCode": 5,
       "latestVersionName": "1.0.3",
       "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/photocrafting-v1.0.3/app-release.apk",
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/photocrafting-v1.0.2/Photocraft.ing-1.0.2-portable.exe",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/photocrafting-v1.0.3/Photocraft.ing-1.0.3-windows-x64.exe",
       "icon": "android",
-      "changelog": "Sign in with Google from Settings to use Pro access",
+      "changelog": "Now on Linux, and the Windows version is up to date. Sign in with Google on a computer opens your web browser | Sign in with Google from Settings to use Pro access",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/photocrafting/01-home.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/photocrafting/02-workspace.jpg",
@@ -377,8 +378,11 @@
       ],
       "pro": "Generating images needs Pro access or your own Gemini or OpenAI key. Organising, paint, crop, download and share are free.",
       "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/photocrafting.png",
-      "releasedAt": "2026-08-31",
-      "updatesHistory": "## 1.0.3 · 2026-08-31\n- Sign in with Google from Settings to use Pro access\n\n## 1.0.0 · 2026-07-24\n- First release: craft catalog, transformation chat, Action Builder, paint and crop, and multi-image references"
+      "releasedAt": "2026-11-11",
+      "updatesHistory": "## 1.0.3 · 2026-08-31\n- Now on Linux, and the Windows version is up to date. Sign in with Google on a computer opens your web browser\n- Sign in with Google from Settings to use Pro access\n\n## 1.0.0 · 2026-07-24\n- First release: craft catalog, transformation chat, Action Builder, paint and crop, and multi-image references",
+      "exeSha256": "dc9c3bc39c4eb4de3451f2b027f55765fb2c1e93739555585ae0b221b6c8004e",
+      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/photocrafting-v1.0.3/Photocraft.ing-1.0.3-linux-x86_64.AppImage",
+      "linuxSha256": "b5254a6980675c95ae49d3ea4094125e7f4b09394f5e528d3962d325eb9016c4"
     },
     {
       "packageName": "com.rykersoft.freeballing",
@@ -388,7 +392,7 @@
       "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.30/freeballing-v1.0.30-android.apk",
       "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.30/freeballing-v1.0.30-windows-x86_64.exe",
       "icon": "android",
-      "changelog": "Android has separate Home, Community, More and Profile screens | Real board thumbnails while you browse | A paper arcade look: square controls, raised shadows and each board's rail colour | High-score entry is three initials, with smoother letter scrolling",
+      "changelog": "The Linux version is up to date | Android has separate Home, Community, More and Profile screens | Real board thumbnails while you browse | A paper arcade look: square controls, raised shadows and each board's rail colour | High-score entry is three initials, with smoother letter scrolling",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/v1.0.30/play-01-galaxy.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/v1.0.30/play-02-honeycomb.png",
@@ -401,7 +405,7 @@
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/freeballing/v1.0.30/desktop-02-editor.png"
       ],
       "isGame": true,
-      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.29/freeballing-v1.0.29-linux-x86_64.AppImage",
+      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/freeballing-v1.0.30/freeballing-v1.0.30-linux-x86_64.AppImage",
       "apkSha256": "0091c03bb88d410f1302d09f4aa31643b0d965727d2b3745d524acb831b69cab",
       "exeSha256": "eb41d6be43a9ecf992427e3281847d1292c133615d908b7c09f47e686ff00ec3",
       "id": "freeballing",
@@ -417,8 +421,9 @@
       ],
       "pro": "",
       "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/freeballing.png",
-      "releasedAt": "2026-10-16",
-      "updatesHistory": "## 1.0.30 · 2026-10-16\n- Android has separate Home, Community, More and Profile screens\n- Real board thumbnails while you browse\n- A paper arcade look: square controls, raised shadows and each board's rail colour\n- High-score entry is three initials, with smoother letter scrolling\n\n## 1.0.29 · 2026-09-09\n- Pause freezes the board and keeps your shot\n- Untimed practice and keyboard aiming\n- Favourites, recent boards, search and sorting\n- Sound, motion and text-size settings shared between Home and Pause\n- Linux builds"
+      "releasedAt": "2026-11-11",
+      "updatesHistory": "## 1.0.30 · 2026-10-16\n- The Linux version is up to date\n- Android has separate Home, Community, More and Profile screens\n- Real board thumbnails while you browse\n- A paper arcade look: square controls, raised shadows and each board's rail colour\n- High-score entry is three initials, with smoother letter scrolling\n\n## 1.0.29 · 2026-09-09\n- Pause freezes the board and keeps your shot\n- Untimed practice and keyboard aiming\n- Favourites, recent boards, search and sorting\n- Sound, motion and text-size settings shared between Home and Pause\n- Linux builds",
+      "linuxSha256": "77bba594fa6a50c8fbd0977887fa70adae0fa0f43f921bad5164518122eba97a"
     },
     {
       "packageName": "com.superstorycraft.ing",
@@ -426,9 +431,9 @@
       "latestVersionCode": 11,
       "latestVersionName": "1.5.3",
       "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/storytime-v1.5.3/app-release.apk",
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/storytime-v1.3.0/Storytime.1.3.0.exe",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/storytime-v1.5.3/Storytime-1.5.3-windows-x64.exe",
       "icon": "android",
-      "changelog": "Every online room has its own link: copy it, or tap Invite to send it through any messaging app | Tapping a link opens Storytime straight to the room",
+      "changelog": "Now on Linux, and the Windows version is up to date | Every online room has its own link: copy it, or tap Invite to send it through any messaging app | Tapping a link opens Storytime straight to the room",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/storytime/v1.3.0/01-home.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/storytime/v1.3.0/02-scene-board.png",
@@ -436,7 +441,7 @@
       ],
       "isGame": true,
       "apkSha256": "6df8f4f006463c7b38fe6e95b53295d40fb1a0a1148719eefaf9da4f25284f5e",
-      "exeSha256": "d26e1369f9119b7806ea77cebc5eaf61da0405796f806006575a7ba63a426c9b",
+      "exeSha256": "e51351b6379e11965caf3644b8a98972ea865d561c5d1fa00183d77f5f1894b7",
       "id": "storytime",
       "tagline": "A writing studio and a storytelling party game in one.",
       "description": "Storytime is a local-first writing studio and a social storytelling game. Plan stories on a board of scene cards, keep a library of characters, locations and items, and listen to your manuscript read aloud. Then play: write together in Anonymous Author or Pass the Pen, or put one phone on the table and let everyone steer a narrated story from their own.",
@@ -451,8 +456,10 @@
       ],
       "pro": "Pro covers what needs an AI service: story generation, Bedtime stories, hosting a Story Table or Story Party, the writing assistant and generated artwork. Writing, editing, the pass-and-play games and joining a hosted game are free.",
       "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/storytime.png",
-      "releasedAt": "2026-11-10",
-      "updatesHistory": "## 1.5.3 · 2026-11-09\n- Every online room has its own link: copy it, or tap Invite to send it through any messaging app\n- Tapping a link opens Storytime straight to the room\n\n## 1.5.2 · 2026-11-08\n- A redesigned Story Table reading screen, with a speaker orb and a passage card that highlights the sentence being read\n\n## 1.5.0 · 2026-11-08\n- Story Table: one phone reads the story aloud while everyone steers each part from their own phone\n- Bedtime stories: a narrated audiobook that keeps unfolding and plays in the background\n- A voice mixer with a voice for each character\n\n## 1.4.0 · 2026-09-30\n- Home separates Solo and Multiplayer\n- A notification bell and Android alerts when it is your turn\n- Pick up your online rooms on another device"
+      "releasedAt": "2026-11-11",
+      "updatesHistory": "## 1.5.3 · 2026-11-09\n- Now on Linux, and the Windows version is up to date\n- Every online room has its own link: copy it, or tap Invite to send it through any messaging app\n- Tapping a link opens Storytime straight to the room\n\n## 1.5.2 · 2026-11-08\n- A redesigned Story Table reading screen, with a speaker orb and a passage card that highlights the sentence being read\n\n## 1.5.0 · 2026-11-08\n- Story Table: one phone reads the story aloud while everyone steers each part from their own phone\n- Bedtime stories: a narrated audiobook that keeps unfolding and plays in the background\n- A voice mixer with a voice for each character\n\n## 1.4.0 · 2026-09-30\n- Home separates Solo and Multiplayer\n- A notification bell and Android alerts when it is your turn\n- Pick up your online rooms on another device",
+      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/storytime-v1.5.3/Storytime-1.5.3-linux-x86_64.AppImage",
+      "linuxSha256": "46cd347d0d29e5285e7657f306c1d5b5e19a4c13f52672a7bc9303cb2762ff35"
     },
     {
       "packageName": "com.rykersoft.comiccrafting",
@@ -618,7 +625,7 @@
       "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/the-guile-family-v3.3.0/the-guile-family-3.3.0.apk",
       "apkSha256": "f927e0ceffdc164390f4da753ee51b138a9283b474b0c49fa75edc167322bd38",
       "icon": "android",
-      "changelog": "The game is now called The Guile Family | Sign in with Google in Settings to use Pro access",
+      "changelog": "Now on Windows and Linux for the offline games, writing and packs. AI features stay on Android | The game is now called The Guile Family | Sign in with Google in Settings to use Pro access",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/the-guile-family/3.3.0/home.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/the-guile-family/3.3.0/games.png",
@@ -638,8 +645,12 @@
       ],
       "pro": "Pro adds AI pack drafts and remixes, and hint coaching for Party Guests. All three games and the workshop are free.",
       "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/guile-family.png",
-      "releasedAt": "2026-10-10",
-      "updatesHistory": "## 3.3.0 · 2026-10-10\n- The game is now called The Guile Family\n- Sign in with Google in Settings to use Pro access\n\n## 3.2.0\n- A Content Workshop for all three games, with saved packs and sharing"
+      "releasedAt": "2026-11-11",
+      "updatesHistory": "## 3.3.0 · 2026-10-10\n- Now on Windows and Linux for the offline games, writing and packs. AI features stay on Android\n- The game is now called The Guile Family\n- Sign in with Google in Settings to use Pro access\n\n## 3.2.0\n- A Content Workshop for all three games, with saved packs and sharing",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/the-guile-family-v3.3.0/the-guile-family-3.3.0-windows-x64.exe",
+      "exeSha256": "13cd2c3224b7ca262c222bdad65251ca0018e8a07148b2b23aa0f90e19119daf",
+      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/the-guile-family-v3.3.0/the-guile-family-3.3.0-linux-x86_64.AppImage",
+      "linuxSha256": "2f01af63826b7a3fa2151de1325658e65c53245cf74d694092be3839835c9da3"
     },
     {
       "packageName": "com.rykersoft.closecall",
@@ -677,7 +688,7 @@
       "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/memegod-v1.0.31/MechaMeme-1.0.31.apk",
       "apkSha256": "5728f7758b8476b441fd62bae8824403294a0a486949b087877b1c15459287f0",
       "icon": "android",
-      "changelog": "The Library opens fullscreen, with caption editing in the image workspace | A shortcut on Home for editing your library images | Faster swipes between images",
+      "changelog": "Now on Windows and Linux. Sign in with Google on a computer opens your web browser | The Library opens fullscreen, with caption editing in the image workspace | A shortcut on Home for editing your library images | Faster swipes between images",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/mechameme/1.0.29/home.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/mechameme/1.0.30/picture.png",
@@ -697,8 +708,12 @@
       ],
       "pro": "Pro adds Recreate me, which generates a new scene from your photo. Captions, editing and Community are free.",
       "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/mechameme.png",
-      "releasedAt": "2026-11-03",
-      "updatesHistory": "## 1.0.31 · 2026-11-03\n- The Library opens fullscreen, with caption editing in the image workspace\n- A shortcut on Home for editing your library images\n- Faster swipes between images\n\n## 1.0.30 · 2026-11-02\n- Community posts carry their template, so Add to library keeps it for reuse\n- Export editable PNGs or .meme files\n- Compact, centred picture popups\n\n## 1.0.29 · 2026-11-01\n- Publishing starts a post with your own thumbs-up; posts with no votes leave the feed\n- Close the picture view with Back or a tap outside\n\n## 1.0.28 · 2026-11-01\n- Upvote Community posts\n- Add to library straight from the feed"
+      "releasedAt": "2026-11-11",
+      "updatesHistory": "## 1.0.31 · 2026-11-03\n- Now on Windows and Linux. Sign in with Google on a computer opens your web browser\n- The Library opens fullscreen, with caption editing in the image workspace\n- A shortcut on Home for editing your library images\n- Faster swipes between images\n\n## 1.0.30 · 2026-11-02\n- Community posts carry their template, so Add to library keeps it for reuse\n- Export editable PNGs or .meme files\n- Compact, centred picture popups\n\n## 1.0.29 · 2026-11-01\n- Publishing starts a post with your own thumbs-up; posts with no votes leave the feed\n- Close the picture view with Back or a tap outside\n\n## 1.0.28 · 2026-11-01\n- Upvote Community posts\n- Add to library straight from the feed",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/memegod-v1.0.31/MechaMeme-1.0.31-windows-x64.exe",
+      "exeSha256": "a62c29b168fdd9d8421b3fe0a1cee2e90246ef1a91d1815a303bf261cc265ec4",
+      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/memegod-v1.0.31/MechaMeme-1.0.31-linux-x86_64.AppImage",
+      "linuxSha256": "8edcb4f38862d92bca6cc0478807260c0910e857748da019ca7d3940032066d3"
     },
     {
       "packageName": "com.rykersoft.earbound",
@@ -708,7 +723,7 @@
       "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/earbound-v0.8.0/earbound-v0.8.0-android.apk",
       "apkSha256": "72da729451eab32db5664132350cb08d66fffdf6eb35f5add1a0abe0f665f88f",
       "icon": "android",
-      "changelog": "28 hands-on lessons, each ending with three practice matches | Lesson suggestions drawn from your own mix-ups | Hold anything on screen for a short explanation | A Lessons section in Records | Pass the phone rebuilt for 2 to 8 players, with house rules and a final reveal",
+      "changelog": "Now on Windows and Linux. A computer can host a party for phones on the same Wi-Fi | 28 hands-on lessons, each ending with three practice matches | Lesson suggestions drawn from your own mix-ups | Hold anything on screen for a short explanation | A Lessons section in Records | Pass the phone rebuilt for 2 to 8 players, with house rules and a final reveal",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/earbound/v0.7.0/phone-01-home-placement.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/earbound/v0.8.0/phone-02-lessons.png",
@@ -719,7 +734,7 @@
       "isGame": true,
       "id": "earbound",
       "tagline": "An ear-training game across a sky campaign: notes, intervals, chords and more.",
-      "description": "Earbound teaches your ear to recognise notes, intervals, chords, inversions, scales, modes and progressions. Play a 480-match campaign across eight sectors of the sky, learn with short hands-on lessons, practise in a studio you can customise, or play with friends. Everything runs on your phone: no account, no subscription, and no connection needed for solo play.",
+      "description": "Earbound teaches your ear to recognise notes, intervals, chords, inversions, scales, modes and progressions. Play a 480-match campaign across eight sectors of the sky, learn with short hands-on lessons, practise in a studio you can customise, or play with friends. Play on your phone or your computer: no account, no subscription, and no connection needed for solo play.",
       "features": [
         "A 480-match campaign across eight sectors",
         "28 hands-on lessons, suggested from your own mix-ups",
@@ -732,7 +747,11 @@
       "pro": "",
       "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/earbound.png",
       "releasedAt": "2026-11-11",
-      "updatesHistory": "## 0.8.0 · 2026-11-11\n- 28 hands-on lessons, each ending with three practice matches\n- Lesson suggestions drawn from your own mix-ups\n- Hold anything on screen for a short explanation\n- A Lessons section in Records\n- Pass the phone rebuilt for 2 to 8 players, with house rules and a final reveal\n\n## 0.7.0 · 2026-11-07\n- First RykerSoft release\n- Placement matches put new players in the right sector\n- More than 100 achievements\n- A redesigned Records screen\n- Backup and restore covers your progress, achievements and settings"
+      "updatesHistory": "## 0.8.0 · 2026-11-11\n- Now on Windows and Linux. A computer can host a party for phones on the same Wi-Fi\n- 28 hands-on lessons, each ending with three practice matches\n- Lesson suggestions drawn from your own mix-ups\n- Hold anything on screen for a short explanation\n- A Lessons section in Records\n- Pass the phone rebuilt for 2 to 8 players, with house rules and a final reveal\n\n## 0.7.0 · 2026-11-07\n- First RykerSoft release\n- Placement matches put new players in the right sector\n- More than 100 achievements\n- A redesigned Records screen\n- Backup and restore covers your progress, achievements and settings",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/earbound-v0.8.0/earbound-v0.8.0-windows-x64.exe",
+      "exeSha256": "6fee7c76169b75ebbc82bd1d2f5bd392349e0dc2516cd0ab1e39da7176f72880",
+      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/earbound-v0.8.0/earbound-v0.8.0-linux-x86_64.AppImage",
+      "linuxSha256": "3415f798b09de125dd9e95a3db331c57081d79b2a94becaad4d68ce671ceaca6"
     }
   ]
 }
