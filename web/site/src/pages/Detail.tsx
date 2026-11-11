@@ -113,7 +113,7 @@ export function Detail({ app, mine }: { app: App; mine: OS | null }) {
           </Section>
           {app.pro && (
             <Section title="Free and Pro">
-              <p className="m-0 max-w-prose text-dim">{app.pro} Anything that does not need an API key is free. Pro is switched on per account: sign in with Google inside the app and ask Ryker to enable it for you.</p>
+              <p className="m-0 max-w-prose text-dim">{app.pro} Pro covers only what costs money to run. It is switched on per account: sign in with Google inside the app and ask Ryker to enable it for you.</p>
             </Section>
           )}
           <Section title="Details">

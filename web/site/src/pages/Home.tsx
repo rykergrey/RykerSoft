@@ -28,7 +28,7 @@ export function Home({ apps, filters, update, reset, mine }: { apps: App[]; filt
           </h1>
           <p className="m-0 max-w-prose text-dim">
             RykerSoft is one hobbyist's workshop: capture tools, music toys, trackers and party games for Android, Windows and Linux.
-            Every feature that does not need an API key is free. The ones that do are Pro, switched on per person.
+            Features that cost nothing to run are free. The ones that cost money to run are Pro, switched on per person.
           </p>
         </div>
         <dl aria-label="Catalog size" className="grid grid-cols-4 m-0 border-2 border-border bg-surface shadow-hard">
@@ -86,8 +86,8 @@ export function Home({ apps, filters, update, reset, mine }: { apps: App[]; filt
           </Panel>
           <Panel title="Free and Pro">
             <div className="p-3 text-sm text-dim">
-              <p className="m-0 mb-2"><strong className="font-semibold text-text">Free</strong> means every feature that does not need an API key. That is most of every app.</p>
-              <p className="m-0"><strong className="font-semibold text-text">Pro</strong> covers the features that do need one, such as AI tools. Sign in with Google inside the app and Ryker can switch Pro on for your account, one app at a time. Many apps also accept your own key.</p>
+              <p className="m-0 mb-2"><strong className="font-semibold text-text">Free</strong> covers every feature that costs nothing to run. That is most of every app.</p>
+              <p className="m-0"><strong className="font-semibold text-text">Pro</strong> covers the features that cost money to run when many people use them, such as AI tools and cloud sync. Sign in with Google inside the app and Ryker can switch Pro on for your account, one app at a time. Many apps also accept your own API key.</p>
             </div>
           </Panel>
           <Panel title="On your phone">

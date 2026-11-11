@@ -71,8 +71,10 @@ Nothing the user must read is under 12 sp on Android or 11 px on the web.
 - **The Applied Now Rule.** Settings is a page of row groups. Each change applies when it is made. There is no Save
   and no Cancel.
 - **The Red Last Rule.** Resetting the catalog is the last group on the settings page, in red, and asks first.
-- **The Free Rule.** Any feature that does not rely on an API key is free. Pro covers only the features that do. Every
-  Pro note, tag and explanation in both surfaces follows this definition (Ryker, 2026-11-10).
+- **The Free Rule.** A feature is Pro when it could cost Ryker a lot of money if many people used it: anything on a
+  paid API key (AI, transcription, paid lookups) and anything that stores user data on his cloud account (Hyperscribe
+  Sync). Everything else is free. Every Pro note, tag and explanation in both surfaces follows this definition (Ryker,
+  2026-11-10).
 - **No guides for now.** User guides are not shown in either surface until they have been rewritten. The files under
   `app_docs/` and the distribution repository's `docs/` are kept for that rewrite.
 

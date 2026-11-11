@@ -17,8 +17,8 @@ gets them.
 
 ## What it is not
 
-- Not a store. Nothing is sold. Any feature that does not rely on an API key is free; Pro covers the features that
-  do, and is granted by hand, per account, per app.
+- Not a store. Nothing is sold. A feature is Pro only when it could cost a lot to run if many people used it (paid
+  API keys, cloud storage such as Hyperscribe Sync). Everything else is free. Pro is granted by hand, per account, per app.
 - Not a documentation site. User guides are out until they have been rewritten.
 
 ## One source of truth

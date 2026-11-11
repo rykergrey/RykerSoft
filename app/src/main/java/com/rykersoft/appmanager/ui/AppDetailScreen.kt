@@ -167,7 +167,7 @@ fun AppDetailScreen(
                 Group {
                     GroupRow(
                         title = if (app.aiUnlocked) "Pro is on for your account" else "Free, with optional Pro features",
-                        subtitle = app.proNote.ifBlank { "Features that need an API key use Pro access. Everything else is free." },
+                        subtitle = app.proNote.ifBlank { "Features that cost money to run, such as AI tools and cloud sync, use Pro access. Everything else is free." },
                         onClick = if (app.supportsAiUnlock) ({ showPro = true }) else null,
                         testTag = "pro_access_row"
                     ) { if (app.aiUnlocked) Tag("On", Tone.Ok) }
@@ -297,6 +297,6 @@ fun ProAccessDialog(appName: String, accountEmail: String?, unlocked: Boolean = 
             Text("SIGNED-IN ACCOUNT", style = Hub.T.label, color = Hub.C.faint)
             Text(accountEmail ?: "Not signed in. Sign in from Settings.", style = Hub.T.data, color = Hub.C.text)
         }
-        Text("Every feature that does not need an API key is free and keeps working without Pro.", style = Hub.T.bodySm, color = Hub.C.dim)
+        Text("Everything that costs nothing to run is free and keeps working without Pro.", style = Hub.T.bodySm, color = Hub.C.dim)
     }
 }

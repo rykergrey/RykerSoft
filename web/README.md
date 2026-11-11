@@ -41,3 +41,22 @@ node scripts/build-catalog.mjs
 
 With `REGISTRY_URL` set, the script reads the published registry; icons and this repo's screenshots are copied from
 the checkout it runs in, so pull the repo first when those change.
+
+## Live deployment (set up 2026-11-10)
+
+Address: `rykersoft.rykergrey.com`, on the Hostinger VPS.
+
+| Piece | Where |
+| --- | --- |
+| Site files | `/var/www/rykersoft` (owner `rykersoft:www-data`) |
+| Web server entry | `/etc/nginx/sites-available/rykersoft` |
+| Repo checkout used for the catalog | `/opt/rykersoft/repo` (public clone, pulled by the timer) |
+| Catalog refresh | `rykersoft-catalog.timer`, every 15 minutes: `git pull`, then `build-catalog.mjs` into `/var/www/rykersoft` |
+
+A catalog change pushed to `main` reaches the site within about 15 minutes with no deploy. A change to the site's
+own code needs a new build uploaded:
+
+```bash
+cd web/site && pnpm build
+rsync -az --delete --exclude catalog.json --exclude icons --exclude shots dist/ root@<vps>:/var/www/rykersoft/
+```
