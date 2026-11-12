@@ -752,6 +752,40 @@
       "exeSha256": "6fee7c76169b75ebbc82bd1d2f5bd392349e0dc2516cd0ab1e39da7176f72880",
       "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/earbound-v0.8.0/earbound-v0.8.0-linux-x86_64.AppImage",
       "linuxSha256": "3415f798b09de125dd9e95a3db331c57081d79b2a94becaad4d68ce671ceaca6"
+    },
+    {
+      "packageName": "com.rykersoft.rykerfm1",
+      "name": "RykerFM1",
+      "latestVersionCode": 3,
+      "latestVersionName": "0.3.0",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/rykerfm1-v0.3.0/rykerfm1-v0.3.0-android.apk",
+      "apkSha256": "64011ace8bafda1e159beddd09e3d94e1d7e50e05bf74e7846431f87135ef71f",
+      "icon": "android",
+      "changelog": "First RykerSoft release | A library of every firmware on The Firmware Hub, as pictures or a dense index | Install a firmware on the FM-1 over USB from the phone | A watch list that tells you when a firmware has a new version | Favourites, pins, ratings, lists and notes that stay on the phone",
+      "screenshots": [
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rykerfm1/v0.3.0/phone-01-library-shelf.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rykerfm1/v0.3.0/phone-02-library-index.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rykerfm1/v0.3.0/phone-03-firmware-page.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rykerfm1/v0.3.0/phone-04-filters.png",
+        "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rykerfm1/v0.3.0/phone-05-bench.png"
+      ],
+      "isGame": false,
+      "id": "rykerfm1",
+      "tagline": "Browse the community firmware for the M-Vave FM-1 and install it over USB from your phone.",
+      "description": "RykerFM1 is for owners of the M-Vave FM-1 who run community firmware on it. The Library shows every firmware on The Firmware Hub with its maker's picture and words: browse, search and filter it, and open a page for any firmware with its release notes and links. The Bench installs a firmware on the FM-1 over a USB-C data cable, checks the package first, and keeps a history so you can put back what you had. Favourites, ratings, lists and notes stay on your phone: no account, and nothing is uploaded.",
+      "features": [
+        "Every firmware on The Firmware Hub, as pictures or a dense index",
+        "Search, filters by type, style and sound engine, and the hub's orders",
+        "Install over USB from the phone, with the package checked first",
+        "A watch list and a daily check for new versions",
+        "An install history, and one tap to put back the firmware you had",
+        "Favourites, pins, ratings, lists and notes that stay on the phone",
+        "Keep a package on the phone to install without a connection"
+      ],
+      "pro": "",
+      "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/rykerfm1.png",
+      "releasedAt": "2026-11-12",
+      "updatesHistory": "## 0.3.0 · 2026-11-12\n- First RykerSoft release\n- A library of every firmware on The Firmware Hub, as pictures or a dense index\n- Install a firmware on the FM-1 over USB from the phone\n- A watch list that tells you when a firmware has a new version\n- Favourites, pins, ratings, lists and notes that stay on the phone"
     }
   ]
 }
