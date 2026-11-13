@@ -428,20 +428,20 @@
     {
       "packageName": "com.superstorycraft.ing",
       "name": "Storytime",
-      "latestVersionCode": 11,
-      "latestVersionName": "1.5.3",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/storytime-v1.5.3/app-release.apk",
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/storytime-v1.5.3/Storytime-1.5.3-windows-x64.exe",
+      "latestVersionCode": 12,
+      "latestVersionName": "1.6.0",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/storytime-v1.6.0/app-release.apk",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/storytime-v1.6.0/Storytime-1.6.0-windows-x64.exe",
       "icon": "android",
-      "changelog": "Now on Linux, and the Windows version is up to date | Every online room has its own link: copy it, or tap Invite to send it through any messaging app | Tapping a link opens Storytime straight to the room",
+      "changelog": "Settings, the World library and Home are redesigned: denser, clearer, and built for desktop as well as phones | Bedtime stories become an audiobook editor: edit paragraphs, give one its own voice, and export a chaptered MP3 | Voicehouse joins the narration providers",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/storytime/v1.3.0/01-home.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/storytime/v1.3.0/02-scene-board.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/storytime/v1.3.0/03-writing-assistant.png"
       ],
       "isGame": true,
-      "apkSha256": "6df8f4f006463c7b38fe6e95b53295d40fb1a0a1148719eefaf9da4f25284f5e",
-      "exeSha256": "e51351b6379e11965caf3644b8a98972ea865d561c5d1fa00183d77f5f1894b7",
+      "apkSha256": "3da465e8847f98c31fe8f84bd7a6adda16ba9a53d98b78b07d7c925195a8537d",
+      "exeSha256": "1e7a399606ec8baa286239144c0c578934042b30e0d61a2cc9b9ca6905ad60c6",
       "id": "storytime",
       "tagline": "A writing studio and a storytelling party game in one.",
       "description": "Storytime is a local-first writing studio and a social storytelling game. Plan stories on a board of scene cards, keep a library of characters, locations and items, and listen to your manuscript read aloud. Then play: write together in Anonymous Author or Pass the Pen, or put one phone on the table and let everyone steer a narrated story from their own.",
@@ -456,10 +456,10 @@
       ],
       "pro": "Pro covers what needs an AI service: story generation, Bedtime stories, hosting a Story Table or Story Party, the writing assistant and generated artwork. Writing, editing, the pass-and-play games and joining a hosted game are free.",
       "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/storytime.png",
-      "releasedAt": "2026-11-11",
-      "updatesHistory": "## 1.5.3 · 2026-11-09\n- Now on Linux, and the Windows version is up to date\n- Every online room has its own link: copy it, or tap Invite to send it through any messaging app\n- Tapping a link opens Storytime straight to the room\n\n## 1.5.2 · 2026-11-08\n- A redesigned Story Table reading screen, with a speaker orb and a passage card that highlights the sentence being read\n\n## 1.5.0 · 2026-11-08\n- Story Table: one phone reads the story aloud while everyone steers each part from their own phone\n- Bedtime stories: a narrated audiobook that keeps unfolding and plays in the background\n- A voice mixer with a voice for each character\n\n## 1.4.0 · 2026-09-30\n- Home separates Solo and Multiplayer\n- A notification bell and Android alerts when it is your turn\n- Pick up your online rooms on another device",
-      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/storytime-v1.5.3/Storytime-1.5.3-linux-x86_64.AppImage",
-      "linuxSha256": "46cd347d0d29e5285e7657f306c1d5b5e19a4c13f52672a7bc9303cb2762ff35"
+      "releasedAt": "2026-11-12",
+      "updatesHistory": "## 1.6.0 · 2026-11-12\n- Settings, the World library and Home are redesigned: denser, clearer, and built for desktop as well as phones\n- Bedtime stories become an audiobook editor: edit paragraphs, give one its own voice, and export a chaptered MP3\n- Voicehouse joins the narration providers\n\n## 1.5.3 · 2026-11-09\n- Now on Linux, and the Windows version is up to date\n- Every online room has its own link: copy it, or tap Invite to send it through any messaging app\n- Tapping a link opens Storytime straight to the room\n\n## 1.5.2 · 2026-11-08\n- A redesigned Story Table reading screen, with a speaker orb and a passage card that highlights the sentence being read\n\n## 1.5.0 · 2026-11-08\n- Story Table: one phone reads the story aloud while everyone steers each part from their own phone\n- Bedtime stories: a narrated audiobook that keeps unfolding and plays in the background\n- A voice mixer with a voice for each character\n\n## 1.4.0 · 2026-09-30\n- Home separates Solo and Multiplayer\n- A notification bell and Android alerts when it is your turn\n- Pick up your online rooms on another device",
+      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/storytime-v1.6.0/Storytime-1.6.0-linux-x86_64.AppImage",
+      "linuxSha256": "0192441a1c566eaa49a729d1729d17430e5afc43401d4ea251535cea5a74576e"
     },
     {
       "packageName": "com.rykersoft.comiccrafting",
