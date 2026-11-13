@@ -756,12 +756,12 @@
     {
       "packageName": "com.rykersoft.rykerfm1",
       "name": "RykerFM1",
-      "latestVersionCode": 3,
-      "latestVersionName": "0.3.0",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/rykerfm1-v0.3.0/rykerfm1-v0.3.0-android.apk",
-      "apkSha256": "64011ace8bafda1e159beddd09e3d94e1d7e50e05bf74e7846431f87135ef71f",
+      "latestVersionCode": 4,
+      "latestVersionName": "0.3.1",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/rykerfm1-v0.3.1/rykerfm1-v0.3.1-android.apk",
+      "apkSha256": "a3df20e15edd89e25865f8c9592796c95c6db05e51c0ca5f7fe2050ee8cd990b",
       "icon": "android",
-      "changelog": "First RykerSoft release | A library of every firmware on The Firmware Hub, as pictures or a dense index | Install a firmware on the FM-1 over USB from the phone | A watch list that tells you when a firmware has a new version | Favourites, pins, ratings, lists and notes that stay on the phone",
+      "changelog": "Opens correctly with an FM-1 already connected over USB, including firmware with long build numbers",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rykerfm1/v0.3.0/phone-01-library-shelf.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rykerfm1/v0.3.0/phone-02-library-index.png",
@@ -785,7 +785,7 @@
       "pro": "",
       "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/rykerfm1.png",
       "releasedAt": "2026-11-12",
-      "updatesHistory": "## 0.3.0 · 2026-11-12\n- First RykerSoft release\n- A library of every firmware on The Firmware Hub, as pictures or a dense index\n- Install a firmware on the FM-1 over USB from the phone\n- A watch list that tells you when a firmware has a new version\n- Favourites, pins, ratings, lists and notes that stay on the phone"
+      "updatesHistory": "## 0.3.1 · 2026-11-12\n- Opens correctly with an FM-1 already connected over USB, including firmware with long build numbers\n\n## 0.3.0 · 2026-11-12\n- First RykerSoft release\n- A library of every firmware on The Firmware Hub, as pictures or a dense index\n- Install a firmware on the FM-1 over USB from the phone\n- A watch list that tells you when a firmware has a new version\n- Favourites, pins, ratings, lists and notes that stay on the phone"
     }
   ]
 }
