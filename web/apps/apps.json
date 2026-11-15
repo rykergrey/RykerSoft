@@ -95,6 +95,10 @@
       "source": "Earbound",
       "ref": "v0.8.2",
       "dir": "game",
+      "env": {
+        "VITE_HOSTED": "1"
+      },
+      "envNote": "Words the party screen for a public address: guests join with the link or code, with no shared Wi-Fi.",
       "service": {
         "entry": "server/index.ts",
         "external": [
@@ -119,8 +123,8 @@
       "id": "close-call",
       "packageName": "com.rykersoft.closecall",
       "source": "Close-Call",
-      "ref": "5904841",
-      "refNote": "Branch web-online (online rooms, pasted YouTube links), based on main after 0.4.3. Not merged to main yet.",
+      "ref": "a767267",
+      "refNote": "main at 0.4.11 with online rooms and pasted YouTube links merged in; the release has no tag.",
       "build": "npm run build:web",
       "env": {
         "VITE_SELF_HOSTED": "1"

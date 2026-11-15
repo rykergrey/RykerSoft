@@ -128,8 +128,8 @@ and needs no cross-site permission.
 | MechaMeme | yes | Patched the same way as SuperThink.ing (`patches/mechameme`) |
 | The Guile Family | yes | The offline games. Its sign-in and AI drafts exist only in the Android app |
 | Field Recorder | yes | Patched (`patches/field-recorder`): with no key and no Pro it uses the browser's own speech recognition (Chrome, Edge, Safari), and any microphone the browser offers |
-| Earbound | yes | Its party-room server runs on the VPS (`patches/earbound`). The party game plays its sounds on the host's device, so it is still meant for one room |
-| Close Call | yes | Built from its `web-online` branch: online rooms on the VPS, pasted YouTube links in place of search, no campaign database |
+| Earbound | yes | Its party-room server runs on the VPS (`patches/earbound`), so guests join with the link or code on any connection. The host's device plays the sounds, as in the app: it is a same-room party game. Pass the phone works offline |
+| Close Call | yes | Built from `main`: one-device play as in the app, plus online rooms on the VPS. Pasted YouTube links in place of search, no campaign database. Name That Song takes typed answers where the browser has no speech recognition or microphone |
 | INFORMANT | not yet | Needs its Node server per user, and the 1.4.13 source is not committed |
 | FreeBall.ing | not yet | Godot game; needs a web export preset, the web export template and a sign-in bridge |
 | Umm, Rush | not assessed | Source not found on this machine |
