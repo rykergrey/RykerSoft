@@ -686,7 +686,8 @@
       "pro": "Pro adds YouTube search for clues and AI judging of uncertain answers.",
       "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/close-call.png",
       "releasedAt": "2026-10-30",
-      "updatesHistory": "## 0.4.3 · 2026-10-30\n- One RykerSoft sign-in connects YouTube search and Pro answer judging, with no API keys to enter\n\n## 0.4.2 · 2026-10-30\n- First release: picture, video and song clues in one match\n- Private song previews play through the earpiece"
+      "updatesHistory": "## 0.4.3 · 2026-10-30\n- One RykerSoft sign-in connects YouTube search and Pro answer judging, with no API keys to enter\n\n## 0.4.2 · 2026-10-30\n- First release: picture, video and song clues in one match\n- Private song previews play through the earpiece",
+      "webUrl": "https://close-call.rykersoft.rykergrey.com"
     },
     {
       "packageName": "com.rykersoft.memegod",
