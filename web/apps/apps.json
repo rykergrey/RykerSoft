@@ -41,8 +41,8 @@
       "id": "storytime",
       "packageName": "com.superstorycraft.ing",
       "source": "StoryTime",
-      "ref": "e199781",
-      "refNote": "Release Storytime 1.6.0; the release has no tag."
+      "ref": "0908863",
+      "refNote": "Release Storytime 1.7.0. The v1.7.0 tag lacks package.json scripts; 0908863 restores them."
     },
     {
       "id": "comiccrafting",
