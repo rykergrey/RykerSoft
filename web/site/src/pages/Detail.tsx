@@ -2,7 +2,7 @@ import { ChevronLeft, Copy, Download, ExternalLink, Globe } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
-import { type App, type Build, type OS, OS_LIST, OS_NAME, fileSize, hasOS, isBehind } from '../lib/catalog';
+import { type App, type Build, type OS, OS_LIST, OS_NAME, fileSize, hasOS, isBehind, webEdition } from '../lib/catalog';
 import { AppIcon, Button, DashList, LinkButton, PlatformIcon, PriceTags, Section, Tag, cx } from '../components/kit';
 
 async function copy(text: string, what: string) {
@@ -50,17 +50,24 @@ function BuildRow({ app, build, mine, primary, showQr }: { app: App; build: Buil
   );
 }
 
-function WebRow({ url }: { url: string }) {
+function WebRow({ app, url, primary }: { app: App; url: string; primary: boolean }) {
+  const behind = !!app.webVersion && app.webVersion !== app.version;
   return (
-    <div className="px-3.5 pt-3 pb-3.5 border-t-2 border-border-soft border-l-4 border-l-transparent">
+    <div className="px-3.5 pt-3 pb-3.5 border-t-2 border-border-soft first:border-t-0 border-l-4 border-l-transparent">
       <div className="flex items-center gap-2 [&>svg]:size-4.5">
         <Globe />
         <b className="font-display text-body font-bold tracking-display">Web</b>
         <span className="font-mono text-label text-dim">Browser</span>
+        {webEdition(app) && <span className="ml-auto font-mono text-label text-dim">nothing to install</span>}
       </div>
-      <div className="mt-2 mb-2.5 font-mono text-label text-dim break-all">{url.replace(/^https?:\/\//, '')}</div>
+      <div className="flex flex-wrap gap-x-3.5 mt-2 mb-2.5 font-mono text-label text-dim tabular-nums">
+        {app.webVersion && <span>v{app.webVersion}</span>}
+        {app.webDate && <span>{app.webDate}</span>}
+        {behind && <span className="text-warn">behind v{app.version}</span>}
+        <span className="break-all">{url.replace(/^https?:\/\//, '')}</span>
+      </div>
       <div className="flex gap-2">
-        <LinkButton href={url} target="_blank" rel="noreferrer" className="flex-1"><ExternalLink />Open in browser</LinkButton>
+        <LinkButton variant={primary ? 'primary' : 'plain'} href={url} target="_blank" rel="noreferrer" className="flex-1"><ExternalLink />Open in browser</LinkButton>
         <Button icon aria-label="Copy web address" title="Copy web address" onClick={() => copy(url, 'Address')}><Copy /></Button>
       </div>
     </div>
@@ -73,6 +80,9 @@ export function Detail({ app, mine }: { app: App; mine: OS | null }) {
   const apk = app.builds.find((b) => b.os === 'android');
   const [latest, ...earlier] = app.releases;
   const systems = OS_LIST.filter((os) => hasOS(app, os));
+  // When no file fits the visitor's system, the browser edition leads and takes the one yellow button.
+  const webLeads = !!webEdition(app) && !app.builds.some((b) => b.os === mine);
+  const webRow = app.web ? <WebRow app={app} url={app.web} primary={webLeads} /> : null;
 
   return (
     <>
@@ -87,6 +97,7 @@ export function Detail({ app, mine }: { app: App; mine: OS | null }) {
           <div className="flex flex-wrap items-center gap-1.5 mt-2 mb-2.5">
             <PriceTags app={app} />
             {systems.map((os) => <Tag key={os}><PlatformIcon os={os} />{OS_NAME[os]}</Tag>)}
+            {webEdition(app) && <Tag><Globe />Web</Tag>}
           </div>
           <p className="m-0 max-w-prose text-dim">{app.tagline}</p>
         </div>
@@ -148,10 +159,11 @@ export function Detail({ app, mine }: { app: App; mine: OS | null }) {
         <aside className="border-2 border-border bg-surface shadow-hard xl:sticky xl:top-20 max-xl:row-start-1">
           <h2 className="flex items-center justify-between m-0 px-3.5 py-2.5 border-b-2 border-border-soft">
             <span className="label-mono rail-mark">Get {app.name}</span>
-            <span className="font-mono text-label text-dim tabular-nums">{builds.length} file{builds.length > 1 && 's'}</span>
+            <span className="font-mono text-label text-dim tabular-nums">{builds.length} file{builds.length > 1 && 's'}{webEdition(app) && ' + web'}</span>
           </h2>
-          {builds.map((b, i) => <BuildRow key={b.url} app={app} build={b} mine={mine} primary={i === 0} showQr={b === apk && mine !== 'android'} />)}
-          {app.web && <WebRow url={app.web} />}
+          {webLeads && webRow}
+          {builds.map((b, i) => <BuildRow key={b.url} app={app} build={b} mine={mine} primary={i === 0 && !webLeads} showQr={b === apk && mine !== 'android'} />)}
+          {!webLeads && webRow}
           <p className="m-0 px-3.5 py-2.5 border-t-2 border-border-soft text-sm text-dim">
             {apk && mine !== 'android' && 'Android will ask you to allow installs from your browser the first time. '}
             {app.id !== 'rykersoft' && apk && <>The <a href="#/app/rykersoft">RykerSoft Hub</a> app installs and updates this for you.</>}

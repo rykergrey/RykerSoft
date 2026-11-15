@@ -1,0 +1,17 @@
+--- a/services/appGoogleAuth.ts	2026-11-14 16:16:46.043761357 -0800
++++ b/services/appGoogleAuth.ts	2026-11-14 16:16:46.044556007 -0800
+@@ -4,6 +4,7 @@
+   GoogleAuthProvider,
+   signInWithCredential,
+   signInWithPopup,
++  browserPopupRedirectResolver,
+ } from 'firebase/auth';
+ import { auth, firebaseConfig } from './firebase';
+ import { getDesktopGoogleCredential, usesDesktopGoogleAuth } from './desktopGoogleAuth';
+@@ -30,5 +31,5 @@
+     );
+     return;
+   }
+-  await signInWithPopup(auth, new GoogleAuthProvider());
++  await signInWithPopup(auth, new GoogleAuthProvider(), browserPopupRedirectResolver);
+ }

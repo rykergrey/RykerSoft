@@ -14,6 +14,9 @@ gets them.
   hands it to Android's installer, and holds the RykerSoft account that carries Pro access into the other apps.
 - **Website**: the same catalog for desktop. It offers the Windows and Linux files directly and a QR code for
   getting an APK onto a phone. It has no accounts and no tracking.
+- **Web editions**: apps built from web code also run in the browser, each at its own address under
+  `rykersoft.rykergrey.com`, so nobody has to install anything. They sign in the same way as the Android apps and
+  carry the same Free and Pro split. See `web/apps/README.md`.
 
 ## What it is not
 

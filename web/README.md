@@ -22,10 +22,16 @@ system filter set.
 
 - each file's size and release date, from the GitHub release list of `rykergrey/RykerSoft-APKs`;
 - each file's version, from the release tag in its URL;
+- each web edition's version, from `web-edition.json` at its `webUrl` (see `apps/README.md`);
 - entries that share an `id` merged into one product.
 
 If GitHub cannot be reached, sizes and dates carry over from the previous `catalog.json`. Set `GITHUB_TOKEN` to lift
 the anonymous rate limit.
+
+## Web editions
+
+Apps built from web code also run in the browser at `https://<id>.rykersoft.rykergrey.com`. Building and deploying
+them is separate from this site: see `apps/README.md`. The site only links to them, through `webUrl` in the registry.
 
 ## Hosting on a VPS
 
@@ -52,6 +58,7 @@ Address: `rykersoft.rykergrey.com`, on the Hostinger VPS.
 | Web server entry | `/etc/nginx/sites-available/rykersoft` |
 | Repo checkout used for the catalog | `/opt/rykersoft/repo` (public clone, pulled by the timer) |
 | Catalog refresh | `rykersoft-catalog.timer`, every 15 minutes: `git pull`, then `build-catalog.mjs` into `/var/www/rykersoft` |
+| Web editions | `/var/www/rykersoft-apps/<id>` behind `/etc/nginx/sites-available/rykersoft-apps` (see `apps/README.md`) |
 
 A catalog change pushed to `main` reaches the site within about 15 minutes with no deploy. A change to the site's
 own code needs a new build uploaded:

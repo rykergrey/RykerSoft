@@ -1,0 +1,20 @@
+--- a/src/rykersoft.mjs	2026-11-14 16:16:46.062210759 -0800
++++ b/src/rykersoft.mjs	2026-11-14 16:16:46.062949568 -0800
+@@ -1,7 +1,7 @@
+ import {readAccess} from '../shared/hub-access.mjs';
+ import {Capacitor,registerPlugin} from '@capacitor/core';
+ import {getApps,initializeApp} from 'firebase/app';
+-import {getAuth,initializeAuth,indexedDBLocalPersistence,onAuthStateChanged,GoogleAuthProvider,signInWithCredential,signInWithPopup,signOut} from 'firebase/auth';
++import {getAuth,initializeAuth,indexedDBLocalPersistence,onAuthStateChanged,GoogleAuthProvider,signInWithCredential,signInWithPopup,browserPopupRedirectResolver,signOut} from 'firebase/auth';
+ import {getFirestore,doc,getDocFromServer} from 'firebase/firestore';
+ export const PACKAGE_ID='com.rykersoft.memegod';
+ const NativeAuth=registerPlugin('RykerSoftAuth');
+@@ -15,7 +15,7 @@
+   const {idToken}=await NativeAuth.signInWithGoogle({serverClientId:'809926103320-1821aoe9t55qj5n3vgokb1i2gbeqtr2a.apps.googleusercontent.com'});
+   if(!idToken)throw Error('Google sign-in did not finish. Try again.');
+   await signInWithCredential(auth,GoogleAuthProvider.credential(idToken));
+- }else{const provider=new GoogleAuthProvider();provider.setCustomParameters({prompt:'select_account'});await signInWithPopup(auth,provider);}
++ }else{const provider=new GoogleAuthProvider();provider.setCustomParameters({prompt:'select_account'});await signInWithPopup(auth,provider,browserPopupRedirectResolver);}
+ 
+ }
+ export async function signOutAccount(){await signOut(auth);if(Capacitor.isNativePlatform())await NativeAuth.signOut().catch(()=>{});}

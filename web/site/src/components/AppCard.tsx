@@ -1,5 +1,6 @@
+import { Globe } from 'lucide-react';
 import { useState } from 'react';
-import { type App, type OS, OS_LIST, OS_NAME, fileSize, isBehind, shortDate } from '../lib/catalog';
+import { type App, type OS, OS_LIST, OS_NAME, fileSize, isBehind, shortDate, webEdition } from '../lib/catalog';
 import { AppIcon, LinkButton, PlatformIcon, PriceTags, cx } from './kit';
 
 function Shots({ app }: { app: App }) {
@@ -18,6 +19,7 @@ function Shots({ app }: { app: App }) {
 
 export function AppCard({ app, target, mine }: { app: App; target: OS | null; mine: OS | null }) {
   const build = target ? app.builds.find((b) => b.os === target) : undefined;
+  const web = webEdition(app);
   return (
     <article className="group relative flex flex-col border-2 border-border rounded-sm bg-surface shadow-hard transition-press hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-hard-lg hover:border-dim">
       <header className="flex gap-3 px-3.5 pt-3.5">
@@ -39,8 +41,8 @@ export function AppCard({ app, target, mine }: { app: App; target: OS | null; mi
           {app.features.slice(0, 4).map((f) => <li key={f} className="dash-item py-1.5 truncate">{f}</li>)}
         </ul>
       )}
-      <footer className="relative flex items-center gap-2 mt-auto px-3.5 pt-3 pb-3.5">
-        <div className="flex gap-1 mr-auto">
+      <footer className="relative flex flex-wrap items-center justify-end gap-2 mt-auto px-3.5 pt-3 pb-3.5">
+        <div className="flex items-center gap-1 mr-auto">
           {OS_LIST.map((os) => {
             const b = app.builds.find((x) => x.os === os);
             const behind = b && isBehind(app, b);
@@ -53,6 +55,19 @@ export function AppCard({ app, target, mine }: { app: App; target: OS | null; mi
               </span>
             );
           })}
+          {/* The fourth mark is the browser edition. It is the one mark that opens something, so it is a link.
+              On touch screens its hit area reaches 46 px without the mark itself growing. */}
+          {web ? (
+            <a href={web} target="_blank" rel="noreferrer" title="Open in your browser, nothing to install" aria-label={`Open ${app.name} in your browser`}
+              className="relative grid place-items-center size-7.5 border-2 rounded-sm border-link/60 bg-raised text-link transition-press hover:border-link active:translate-x-px active:translate-y-px [&_svg]:size-4 pointer-coarse:after:absolute pointer-coarse:after:-inset-2">
+              <Globe aria-hidden="true" />
+            </a>
+          ) : (
+            <span title="No browser version" className="relative grid place-items-center size-7.5 border-2 border-dashed border-border-soft rounded-sm text-border [&_svg]:size-4">
+              <Globe aria-hidden="true" />
+              <span className="sr-only">No browser version</span>
+            </span>
+          )}
         </div>
         {build ? (
           <LinkButton variant="primary" href={build.url} title={build.file} className="relative">
@@ -60,6 +75,9 @@ export function AppCard({ app, target, mine }: { app: App; target: OS | null; mi
             {build.os === 'android' && mine && mine !== 'android' ? 'Get APK' : 'Download'}
             <span className="font-medium opacity-75 tabular-nums">{fileSize(build.size)}</span>
           </LinkButton>
+        ) : web ? (
+          // No file for this system: the browser edition is the one to offer.
+          <LinkButton variant="primary" href={web} target="_blank" rel="noreferrer" className="relative"><Globe />Open in browser</LinkButton>
         ) : target ? (
           <span className="font-mono text-label text-faint">Not on {OS_NAME[target]}</span>
         ) : (

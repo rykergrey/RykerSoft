@@ -69,10 +69,30 @@ const registry = await loadRegistry();
 const entries = Array.isArray(registry) ? registry : registry.apps;
 
 let previous = new Map();
+const previousWeb = new Map();
 try {
   const old = JSON.parse(await readFile(path.join(out, 'catalog.json'), 'utf8'));
-  for (const a of old.apps) for (const b of a.builds) previous.set(b.url, b);
+  for (const a of old.apps) {
+    for (const b of a.builds) previous.set(b.url, b);
+    if (a.web) previousWeb.set(a.web, { webVersion: a.webVersion || '', webDate: a.webDate || '' });
+  }
 } catch { /* first run */ }
+
+// A web edition says what it is at <address>/web-edition.json (written by web/apps/build.mjs).
+// An address without that file, such as this site's own, simply has no version to show.
+async function webEdition(url) {
+  if (!url) return { webVersion: '', webDate: '' };
+  try {
+    const r = await fetch(new URL('web-edition.json', url.endsWith('/') ? url : `${url}/`), { signal: AbortSignal.timeout(6000), headers: { 'Cache-Control': 'no-cache' } });
+    if (r.status === 404) return { webVersion: '', webDate: '' };
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    const e = await r.json();
+    return { webVersion: String(e.version || ''), webDate: String(e.builtAt || '').slice(0, 10) };
+  } catch (e) {
+    console.warn(`! web edition ${url}: ${e.message}. Keeping its previous version.`);
+    return previousWeb.get(url) || { webVersion: '', webDate: '' };
+  }
+}
 
 let releases = null;
 try {
@@ -164,8 +184,9 @@ for (const a of list) {
   a.builds.sort((x, y) => order[x.os] - order[y.os]);
   if (!a.date) a.date = a.builds.map((b) => b.date).sort().at(-1) || '';
 }
+await Promise.all(list.map(async (a) => Object.assign(a, await webEdition(a.web))));
 
 await writeFile(path.join(out, 'catalog.json'), JSON.stringify({ generatedAt: new Date().toISOString(), apps: list }));
 const n = (os) => list.filter((a) => a.builds.some((b) => b.os === os)).length;
 const unsized = list.flatMap((a) => a.builds).filter((b) => b.size == null).length;
-console.log(`catalog.json: ${list.length} apps (${n('android')} Android, ${n('windows')} Windows, ${n('linux')} Linux), ${icons.size} icons` + (unsized ? `, ${unsized} files without a size` : ''));
+console.log(`catalog.json: ${list.length} apps (${n('android')} Android, ${n('windows')} Windows, ${n('linux')} Linux, ${list.filter((a) => a.webVersion).length} web), ${icons.size} icons` + (unsized ? `, ${unsized} files without a size` : ''));

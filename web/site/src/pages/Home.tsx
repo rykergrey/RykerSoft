@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
-import { type App, type OS, OS_LIST, OS_NAME, countOS, hasOS, shortDate } from '../lib/catalog';
+import { Globe } from 'lucide-react';
+import { type App, type OS, OS_LIST, OS_NAME, countOS, countWeb, hasOS, shortDate } from '../lib/catalog';
 import type { Filters } from '../lib/state';
 import { AppCard } from '../components/AppCard';
 import { Button, Panel, PlatformIcon, cx } from '../components/kit';
@@ -27,21 +28,25 @@ export function Home({ apps, filters, update, reset, mine }: { apps: App[]; filt
             Apps I build for myself. <span className="bg-linear-to-b from-transparent from-62% via-brand/80 via-62% to-brand/80">Free</span> for you to use.
           </h1>
           <p className="m-0 max-w-prose text-dim">
-            RykerSoft is one hobbyist's workshop: capture tools, music toys, trackers and party games for Android, Windows and Linux.
+            RykerSoft is one hobbyist's workshop: capture tools, music toys, trackers and party games for Android, Windows, Linux and the browser.
             Features that cost nothing to run are free. The ones that cost money to run are Pro, switched on per person.
           </p>
         </div>
-        <dl aria-label="Catalog size" className="grid grid-cols-4 m-0 border-2 border-border bg-surface shadow-hard">
-          <div className="px-3 md:px-4 py-2.5">
+        <dl aria-label="Catalog size" className="grid grid-cols-5 m-0 border-2 border-border bg-surface shadow-hard max-md:[&_dt_svg]:hidden max-md:[&_dt]:tracking-label">
+          <div className="px-2 md:px-4 py-2.5">
             <dd className="m-0 font-mono text-stat font-bold tabular-nums">{apps.length}</dd>
             <dt className="label-mono mt-1.5">Apps</dt>
           </div>
           {OS_LIST.map((os) => (
-            <div key={os} className="px-3 md:px-4 py-2.5 border-l-2 border-border-soft">
+            <div key={os} className="px-2 md:px-4 py-2.5 border-l-2 border-border-soft">
               <dd className="m-0 font-mono text-stat font-bold tabular-nums">{countOS(apps, os)}</dd>
               <dt className="label-mono mt-1.5 flex items-center gap-1 [&_svg]:size-3"><PlatformIcon os={os} />{OS_NAME[os]}</dt>
             </div>
           ))}
+          <div className="px-2 md:px-4 py-2.5 border-l-2 border-border-soft">
+            <dd className="m-0 font-mono text-stat font-bold tabular-nums">{countWeb(apps)}</dd>
+            <dt className="label-mono mt-1.5 flex items-center gap-1 [&_svg]:size-3"><Globe aria-hidden="true" />Web</dt>
+          </div>
         </dl>
       </section>
 
@@ -89,6 +94,9 @@ export function Home({ apps, filters, update, reset, mine }: { apps: App[]; filt
               <p className="m-0 mb-2"><strong className="font-semibold text-text">Free</strong> covers every feature that costs nothing to run. That is most of every app.</p>
               <p className="m-0"><strong className="font-semibold text-text">Pro</strong> covers the features that cost money to run when many people use them, such as AI tools and cloud sync. Sign in with Google inside the app and Ryker can switch Pro on for your account, one app at a time. Many apps also accept your own API key.</p>
             </div>
+          </Panel>
+          <Panel title="In your browser">
+            <p className="m-0 p-3 text-sm text-dim">Apps with a lit globe mark also run in the browser, each at its own address, with nothing to install. Sign in inside the app the same way as on Android. What you save stays in that browser unless the app syncs it.</p>
           </Panel>
           <Panel title="On your phone">
             <p className="m-0 p-3 text-sm text-dim">The <a href="#/app/rykersoft">RykerSoft Hub</a> app for Android installs these and keeps them updated.</p>

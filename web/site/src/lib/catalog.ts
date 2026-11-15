@@ -28,6 +28,9 @@ export interface App {
   packages: string[];
   /** Address of a version that runs in the browser, or ''. */
   web?: string;
+  /** The web edition's own version and build date, from its web-edition.json. '' when it publishes none. */
+  webVersion?: string;
+  webDate?: string;
   builds: Build[];
   releases: Release[];
 }
@@ -40,6 +43,15 @@ export async function loadCatalog(): Promise<Catalog> {
 }
 
 export const hasOS = (a: App, os: OS) => a.builds.some((b) => b.os === os);
+/** Where the app runs in this browser, or ''. The hub's own web address is this site, which is not an app to open. */
+export function webEdition(a: App): string {
+  try {
+    return a.web && new URL(a.web).origin !== location.origin ? a.web : '';
+  } catch {
+    return '';
+  }
+}
+export const countWeb = (apps: App[]) => apps.filter(webEdition).length;
 export const countOS = (apps: App[], os: OS) => apps.filter((a) => hasOS(a, os)).length;
 /** A build is behind when its own version is not the app's current version. */
 export const isBehind = (a: App, b: Build) => !!b.version && b.version !== a.version;

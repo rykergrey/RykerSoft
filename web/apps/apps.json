@@ -1,0 +1,96 @@
+{
+  "domain": "rykersoft.rykergrey.com",
+  "envNote": "Public RykerSoft hub sign-in settings, given to every build. Builds never read an app's local .env files, so nothing private can reach a public bundle; a setting an app needs on the web belongs here or in that app's own \"env\".",
+  "env": {
+    "VITE_RYKERSOFT_FIREBASE_API_KEY": "AIzaSyCfDdisPZnz1qwIy_oQCOvTyk23AQdTLJA",
+    "VITE_RYKERSOFT_FIREBASE_AUTH_DOMAIN": "rykersoft-abe84.firebaseapp.com",
+    "VITE_RYKERSOFT_FIREBASE_PROJECT_ID": "rykersoft-abe84",
+    "VITE_RYKERSOFT_FIREBASE_STORAGE_BUCKET": "rykersoft-abe84.firebasestorage.app",
+    "VITE_RYKERSOFT_FIREBASE_MESSAGING_SENDER_ID": "809926103320",
+    "VITE_RYKERSOFT_FIREBASE_APP_ID": "1:809926103320:web:60700e2e0c0fcf2e924e6d",
+    "VITE_RYKERSOFT_GOOGLE_WEB_CLIENT_ID": "809926103320-1821aoe9t55qj5n3vgokb1i2gbeqtr2a.apps.googleusercontent.com"
+  },
+  "apps": [
+    {
+      "id": "superthinking",
+      "packageName": "com.rykersoft.superthinking",
+      "source": "SuperThinking",
+      "ref": "v2.3.3"
+    },
+    {
+      "id": "bettertracking",
+      "packageName": "com.rykersoft.bettertracking",
+      "source": "bettertracking",
+      "ref": "8983bf6",
+      "refNote": "Release 1.15.0 (origin/codex/release-bettertracking-1.15.0); the release has no tag."
+    },
+    {
+      "id": "wordplay",
+      "packageName": "com.rykersoft.wordplaying",
+      "source": "WordPlaying",
+      "ref": "v1.3.58"
+    },
+    {
+      "id": "photocrafting",
+      "packageName": "com.rykersoft.photocrafting",
+      "source": "Photocrafting",
+      "ref": "51bd123",
+      "refNote": "1.0.3 on main; the release has no tag."
+    },
+    {
+      "id": "storytime",
+      "packageName": "com.superstorycraft.ing",
+      "source": "StoryTime",
+      "ref": "e199781",
+      "refNote": "Release Storytime 1.6.0; the release has no tag."
+    },
+    {
+      "id": "comiccrafting",
+      "packageName": "com.rykersoft.comiccrafting",
+      "source": "comiccrafting",
+      "ref": null,
+      "refNote": "The source folder is not a git repository, so the build copies the folder as it stands."
+    },
+    {
+      "id": "mechameme",
+      "packageName": "com.rykersoft.memegod",
+      "source": "MemeGod",
+      "ref": "v1.0.31",
+      "env": {
+        "VITE_COMMUNITY_API_URL": "https://mechameme.rykersoft.rykergrey.com"
+      },
+      "proxy": [
+        {
+          "path": "/api/",
+          "upstream": "http://127.0.0.1:4186/api/",
+          "maxBody": "13m",
+          "readTimeout": "200s"
+        }
+      ],
+      "proxyNote": "The existing mechameme.service (Community, free captions). Same origin, so the browser needs no CORS."
+    },
+    {
+      "id": "guile-family",
+      "packageName": "com.rykersoft.somethingsoff",
+      "source": "SomethingsOff",
+      "ref": "v3.3.0",
+      "version": "3.3.0",
+      "install": false,
+      "build": null,
+      "buildNote": "dist/ is committed and needs no build step."
+    },
+    {
+      "id": "field-recorder",
+      "packageName": "com.rykersoft.fieldrecorder",
+      "source": "field recorder",
+      "ref": "v1.1.0"
+    },
+    {
+      "id": "earbound",
+      "packageName": "com.rykersoft.earbound",
+      "source": "Earbound",
+      "ref": "v0.8.2",
+      "dir": "game"
+    }
+  ]
+}

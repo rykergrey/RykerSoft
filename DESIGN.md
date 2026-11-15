@@ -64,6 +64,10 @@ Nothing the user must read is under 12 sp on Android or 11 px on the web.
   version is marked in `warn` wherever it is offered.
 - **The System Rule.** The system filter has four choices: All (the default), Android, Windows, Linux. The website
   detects the visitor's system and offers that file first, but never hides the others.
+- **The Web Mark Rule.** A browser edition is the fourth mark after Android, Windows and Linux: a globe. It is the
+  only mark that opens something, so it is a link in the `link` colour; the three system marks stay plain. When the
+  visitor's system has no file, **Open in browser** takes the yellow button. Web is not a choice in the system
+  filter. A web edition knows its own version and is marked in `warn` when it is behind, like any file.
 - **The One Yellow Rule.** In a row or bar there is at most one `action` button. On the Android catalog only Update
   is yellow; Install and Open are plain, so yellow always means "this needs you".
 - **The Thumb Rule (Android).** State reads at the top (logo, status line, kind filter). Verbs sit in a dock at the
@@ -85,6 +89,7 @@ flat colour field, a bold geometric mark and the hard offset shadow. Apps that s
 
 ## Verified
 
-- Website: built and captured in headless Chromium at 1440 px and 400 px wide (2026-11-10).
+- Website: built and captured in headless Chromium at 1440 px and 400 px wide (2026-11-10). Web marks, the
+  five-part count strip and the web row captured at 1440 px and 390 px (2026-11-14).
 - Android: 32 JVM tests pass; the three screens were rendered with Robolectric at Pixel 8 size, including font scale
   1.3. Not yet checked on a physical phone.
