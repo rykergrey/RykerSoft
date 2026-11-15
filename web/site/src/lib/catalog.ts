@@ -53,6 +53,13 @@ export function webEdition(a: App): string {
 }
 export const countWeb = (apps: App[]) => apps.filter(webEdition).length;
 export const countOS = (apps: App[], os: OS) => apps.filter((a) => hasOS(a, os)).length;
+/** True when dotted version `a` is lower than `b` ("0.4.8" is not older than "0.4.3"). */
+export function isOlderVersion(a: string, b: string): boolean {
+  const parts = (v: string) => v.split(/[.\-+]/).map((n) => Number.parseInt(n, 10) || 0);
+  const x = parts(a), y = parts(b);
+  for (let i = 0; i < Math.max(x.length, y.length); i++) if ((x[i] ?? 0) !== (y[i] ?? 0)) return (x[i] ?? 0) < (y[i] ?? 0);
+  return false;
+}
 /** A build is behind when its own version is not the app's current version. */
 export const isBehind = (a: App, b: Build) => !!b.version && b.version !== a.version;
 

@@ -114,6 +114,36 @@
         }
       ],
       "serviceNote": "Party rooms over a WebSocket. Rooms live in memory and end on their own; nothing is stored."
+    },
+    {
+      "id": "close-call",
+      "packageName": "com.rykersoft.closecall",
+      "source": "Close-Call",
+      "ref": "5904841",
+      "refNote": "Branch web-online (online rooms, pasted YouTube links), based on main after 0.4.3. Not merged to main yet.",
+      "build": "npm run build:web",
+      "env": {
+        "VITE_SELF_HOSTED": "1"
+      },
+      "service": {
+        "entry": "server/host.ts",
+        "port": 4312,
+        "env": {
+          "HUB_FIREBASE_API_KEY": "AIzaSyCfDdisPZnz1qwIy_oQCOvTyk23AQdTLJA"
+        }
+      },
+      "serviceNote": "Online rooms over a WebSocket, song lookup, YouTube link details and Pro judging. No database and no YouTube key; rooms live in memory.",
+      "proxy": [
+        {
+          "path": "/rooms",
+          "upstream": "http://127.0.0.1:4312/rooms",
+          "websocket": true
+        },
+        {
+          "path": "/api/",
+          "upstream": "http://127.0.0.1:4312/api/"
+        }
+      ]
     }
   ]
 }

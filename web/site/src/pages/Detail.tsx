@@ -2,7 +2,7 @@ import { ChevronLeft, Copy, Download, ExternalLink, Globe } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
-import { type App, type Build, type OS, OS_LIST, OS_NAME, fileSize, hasOS, isBehind, webEdition } from '../lib/catalog';
+import { type App, type Build, type OS, OS_LIST, OS_NAME, fileSize, hasOS, isBehind, isOlderVersion, webEdition } from '../lib/catalog';
 import { AppIcon, Button, DashList, LinkButton, PlatformIcon, PriceTags, Section, Tag, cx } from '../components/kit';
 
 async function copy(text: string, what: string) {
@@ -51,7 +51,8 @@ function BuildRow({ app, build, mine, primary, showQr }: { app: App; build: Buil
 }
 
 function WebRow({ app, url, primary }: { app: App; url: string; primary: boolean }) {
-  const behind = !!app.webVersion && app.webVersion !== app.version;
+  // A web edition can run ahead of the Android release; only an older one is behind.
+  const behind = !!app.webVersion && isOlderVersion(app.webVersion, app.version);
   return (
     <div className="px-3.5 pt-3 pb-3.5 border-t-2 border-border-soft first:border-t-0 border-l-4 border-l-transparent">
       <div className="flex items-center gap-2 [&>svg]:size-4.5">
