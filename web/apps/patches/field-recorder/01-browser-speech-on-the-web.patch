@@ -1,0 +1,327 @@
+--- a/src/App.tsx
++++ b/src/App.tsx
+@@ -5,6 +5,7 @@
+ import { PushToTalkControls } from './hooks/usePushToTalk';
+ import { partyRecorder } from './utils/audioRecorder';
+ import { apiFetch, transcribeAnswer } from './utils/api';
++import { HOSTED_WEB } from './utils/browserSpeech';
+ import { appendSavedTurn, updatePendingTurn, updateSavedTurn, withMatchWinner, TurnUpdate } from './utils/matchHistory';
+ import { getEnabledPlayers, loadPlayerRoster, savePlayerRoster } from './utils/playerRoster';
+ import { ConsoleShell } from './components/ConsoleShell';
+@@ -361,8 +362,14 @@
+     return true;
+   };
+ 
++  // The hosted web edition has no server: answers without a key or Pro use the browser's speech recognition.
++  useEffect(() => {
++    partyRecorder.browserSpeech = HOSTED_WEB && !config.customGroqApiKey?.trim();
++  }, [config.customGroqApiKey]);
++
+   // Fetch server status on mount
+   useEffect(() => {
++    if (HOSTED_WEB) { setServerStatus({ hasGroqEnv: false, hasGeminiEnv: false, preferredEngine: 'browser-speech' }); return; }
+     apiFetch('/api/status')
+       .then((res) => res.json())
+       .then((data) => setServerStatus(data))
+--- a/src/components/SettingsModal.tsx
++++ b/src/components/SettingsModal.tsx
+@@ -2,6 +2,7 @@
+ import { GameConfig } from '../types/game';
+ import { sounds } from '../utils/soundEffects';
+ import { testGroqKey } from '../utils/api';
++import { HOSTED_WEB, browserSpeechSupported } from '../utils/browserSpeech';
+ import { ControllerSignal } from './LobbySetup';
+ import { proAccess, subscribeProAccess, signInToRykerSoft, signOutOfRykerSoft } from '../utils/rykersoftHub';
+ import {
+@@ -201,6 +202,9 @@
+                   )}
+                 </div>
+                 <p className="text-xs leading-relaxed mt-2">Your saved key takes priority. Leave this empty and save to use Pro transcription.</p>
++                {HOSTED_WEB && <p className="text-xs leading-relaxed mt-1">{browserSpeechSupported()
++                  ? 'With no key and no Pro access, answers are heard by this browser\u2019s built-in speech recognition. It checks the first letter; the category is yours to judge.'
++                  : 'This browser has no built-in speech recognition. Without a key or Pro access, clips are saved for you to score by hand.'}</p>}
+ 
+                 <div className="flex gap-1.5 mt-1.5">
+                   <input
+--- a/src/utils/api.ts
++++ b/src/utils/api.ts
+@@ -2,11 +2,21 @@
+ import { testGroqConnection, transcribeWithGroq } from './groq';
+ import { cleanPromptText, validateTranscript } from './transcript';
+ import { selectTranscriptionKey } from './proAccess';
++import { HOSTED_WEB, browserSpeechSupported } from './browserSpeech';
+ 
+ const getProKey = async () => (await import('./rykersoftHub')).proAccess.getGroqKey();
+ 
+ const configuredApiBaseUrl = (import.meta.env?.VITE_API_BASE_URL || '').replace(/\/+$/, '');
+ 
++/** What the browser's speech recognition heard during the hold, or why there is nothing to judge. */
++function heardByBrowser(options: TranscriptionOptions): string {
++  const heard = options.clientSpeechFallback?.trim() || '';
++  if (heard) return heard;
++  throw new Error(browserSpeechSupported()
++    ? 'The browser did not catch that. Play the clip back and score it by hand.'
++    : 'This browser has no built-in speech recognition. Play the clip back and score it by hand, or use Chrome, Edge or Safari.');
++}
++
+ export async function apiFetch(path: string, options?: RequestInit): Promise<Response> {
+   const base = configuredApiBaseUrl || (Capacitor.isNativePlatform() ? 'http://localhost:3000' : '');
+   try {
+@@ -50,9 +60,10 @@
+ export function createTranscriptionApi(getProKey: () => Promise<string | null>) {
+   async function testGroqKey(customGroqKey: string, preferredModel?: string) {
+     const credential = await selectTranscriptionKey(customGroqKey, getProKey);
+-    if (credential && (Capacitor.isNativePlatform() || credential.source === 'pro')) {
++    if (credential && (Capacitor.isNativePlatform() || credential.source === 'pro' || HOSTED_WEB)) {
+       return testGroqConnection(credential.key, preferredModel);
+     }
++    if (HOSTED_WEB) throw new Error('Sign in for Pro access or enter your own Groq key. Without either, this browser\'s speech recognition is used.');
+     return apiJson<{ engineUsed: string }>('/api/test-groq', { customGroqKey, preferredModel });
+   }
+ 
+@@ -72,19 +83,21 @@
+ 
+   async function transcribeAnswer(options: TranscriptionOptions & { letter: string; category: string }): Promise<AnswerResult> {
+     const credential = await selectTranscriptionKey(options.customGroqKey, getProKey);
+-    if (credential && (Capacitor.isNativePlatform() || credential.source === 'pro')) {
++    if (credential && (Capacitor.isNativePlatform() || credential.source === 'pro' || HOSTED_WEB)) {
+       const result = await transcribeOnDevice(options, credential.key);
+       return { ...validateTranscript(result.text, options.letter, options.category), engineUsed: result.engineUsed };
+     }
++    if (HOSTED_WEB) return { ...validateTranscript(heardByBrowser(options), options.letter, options.category), engineUsed: 'browser-speech' };
+     return apiJson<AnswerResult>('/api/transcribe', options);
+   }
+ 
+   async function transcribePrompt(options: TranscriptionOptions) {
+     const credential = await selectTranscriptionKey(options.customGroqKey, getProKey);
+-    if (credential && (Capacitor.isNativePlatform() || credential.source === 'pro')) {
++    if (credential && (Capacitor.isNativePlatform() || credential.source === 'pro' || HOSTED_WEB)) {
+       const result = await transcribeOnDevice(options, credential.key);
+       return { prompt: cleanPromptText(result.text), raw: result.text, engineUsed: result.engineUsed };
+     }
++    if (HOSTED_WEB) { const heard = heardByBrowser(options); return { prompt: cleanPromptText(heard), raw: heard, engineUsed: 'browser-speech' }; }
+     return apiJson<{ prompt: string; raw?: string; engineUsed: string }>('/api/transcribe-prompt', options);
+   }
+ 
+--- a/src/utils/audioRecorder.ts
++++ b/src/utils/audioRecorder.ts
+@@ -1,5 +1,6 @@
+ import { deviceMicrophone, openBuiltInWebMicrophone, builtInMicError, type BuiltInMicrophonePlugin } from './builtInMicrophone';
+ import type { PluginListenerHandle } from '@capacitor/core';
++import { HoldSpeech } from './browserSpeech';
+ 
+ export interface AudioCaptureResult {
+   blob: Blob;
+@@ -30,6 +31,8 @@
+   cancelReady?: () => void;
+   nativeBase64?: string;
+   transcript: string;
++  speech?: HoldSpeech;
++  speechDone?: Promise<string>;
+   responseTimeMs: number;
+ }
+ 
+@@ -50,6 +53,8 @@
+   private nativeListener: PluginListenerHandle | null = null;
+   private micError = 'Microphone permission required. Allow access and hold the button again.';
+   private webInputCleanup: (() => void) | null = null;
++  /** When set, each web hold is also heard by the browser's built-in speech recognition. */
++  public browserSpeech = false;
+ 
+   constructor(private readonly nativeMic: BuiltInMicrophonePlugin | null = deviceMicrophone()) {}
+ 
+@@ -241,6 +246,7 @@
+     if (this.audioContext?.state === 'suspended') await this.audioContext.resume();
+     if (session.released) return false;
+     this.stream!.getAudioTracks().forEach((track) => { track.enabled = true; });
++    if (this.browserSpeech) session.speech = new HoldSpeech();
+     session.startedAt = session.startAudioTime >= 0 ? session.pressedAt : Date.now();
+     if (session.startAudioTime < 0) session.startAudioTime = this.audioContext?.currentTime || 0;
+ 
+@@ -303,6 +309,8 @@
+       session.cancelReady?.();
+       // stop() / the worklet flush happens now, never after a release cushion.
+       session.stopResult = session.stopCapture?.();
++      // The wait for the recognizer's last words starts at release, alongside saving the clip.
++      session.speechDone = session.speech?.finish();
+       if (!this.micWarm) this.stream?.getAudioTracks().forEach((track) => { track.enabled = false; });
+       // Attach handlers immediately; the first-sample promise can still be pending.
+       session.stopPromise = Promise.all([session.startPromise, session.stopResult]).then(() => this.finishRecording(session));
+@@ -317,10 +325,12 @@
+ 
+   private async finishRecording(session: CaptureSession): Promise<AudioCaptureResult | null> {
+     if (session.cancelled || !session.startedAt) {
++      session.speech?.cancel();
+       session.chunks = [];
+       session.mediaChunks = [];
+       return null;
+     }
++    if (session.speechDone) session.transcript = await session.speechDone;
+     let blob: Blob;
+     if (session.nativeBase64) {
+       const bytes = Uint8Array.from(atob(session.nativeBase64), (character) => character.charCodeAt(0));
+--- a/src/utils/browserSpeech.test.ts
++++ b/src/utils/browserSpeech.test.ts
+@@ -0,0 +1,43 @@
++import assert from 'node:assert/strict';
++import test from 'node:test';
++import { HoldSpeech, browserSpeechSupported } from './browserSpeech';
++
++type Handler = ((event: any) => void) | null;
++class FakeRecognition {
++  static last: FakeRecognition;
++  onresult: Handler = null; onerror: Handler = null; onend: Handler = null;
++  lang = ''; continuous = false; interimResults = false; maxAlternatives = 0;
++  started = false; stopped = false;
++  constructor() { FakeRecognition.last = this; }
++  start() { this.started = true; }
++  stop() { this.stopped = true; }
++  abort() { this.onend?.({}); }
++  say(...parts: [string, boolean][]) { this.onresult?.({ results: parts.map(([transcript, isFinal]) => ({ isFinal, 0: { transcript } })) }); }
++}
++
++test('reports no support where the browser has no recognizer', () => {
++  delete (globalThis as any).window;
++  assert.equal(browserSpeechSupported(), false);
++  const speech = new HoldSpeech();
++  assert.equal(speech.error, 'unsupported');
++});
++
++test('returns the words heard, including ones that land just after release', async () => {
++  (globalThis as any).window = { webkitSpeechRecognition: FakeRecognition };
++  const speech = new HoldSpeech();
++  const recognition = FakeRecognition.last;
++  assert.equal(recognition.started, true);
++  recognition.say(['sat', false]);
++  const done = speech.finish(500);
++  assert.equal(recognition.stopped, true);
++  recognition.say(['Saturn', true]);
++  recognition.onend?.({});
++  assert.equal(await done, 'Saturn');
++});
++
++test('gives up waiting after the limit and keeps what it has', async () => {
++  (globalThis as any).window = { webkitSpeechRecognition: FakeRecognition };
++  const speech = new HoldSpeech();
++  FakeRecognition.last.say(['solar', true], ['flare', false]);
++  assert.equal(await speech.finish(20), 'solar flare');
++});
+--- a/src/utils/browserSpeech.ts
++++ b/src/utils/browserSpeech.ts
+@@ -0,0 +1,80 @@
++import { Capacitor } from '@capacitor/core';
++
++/**
++ * True in the hosted web edition, which has no transcription server behind it. There, an answer
++ * without a Groq key or Pro access is heard by the browser's own speech recognition.
++ */
++export const HOSTED_WEB = import.meta.env?.VITE_NO_SERVER === '1' && !Capacitor.isNativePlatform();
++
++interface RecognitionResult { isFinal: boolean; 0?: { transcript: string } }
++interface Recognition {
++  lang: string;
++  continuous: boolean;
++  interimResults: boolean;
++  maxAlternatives: number;
++  onresult: ((event: { results: ArrayLike<RecognitionResult> }) => void) | null;
++  onerror: ((event: { error: string }) => void) | null;
++  onend: (() => void) | null;
++  start(): void;
++  stop(): void;
++  abort(): void;
++}
++
++function recognitionClass(): (new () => Recognition) | null {
++  if (typeof window === 'undefined') return null;
++  const scope = window as unknown as { SpeechRecognition?: new () => Recognition; webkitSpeechRecognition?: new () => Recognition };
++  return scope.SpeechRecognition || scope.webkitSpeechRecognition || null;
++}
++
++export const browserSpeechSupported = (): boolean => recognitionClass() !== null;
++
++/** One hold of the talk button, heard by the browser's built-in speech recognition. */
++export class HoldSpeech {
++  private recognition: Recognition | null = null;
++  private heard = '';
++  private ended = false;
++  private onEnded: (() => void) | null = null;
++  /** The browser's error code, such as "not-allowed" or "network"; empty when listening worked. */
++  public error = '';
++
++  constructor() {
++    const Recognizer = recognitionClass();
++    if (!Recognizer) { this.ended = true; this.error = 'unsupported'; return; }
++    try {
++      const recognition = new Recognizer();
++      recognition.lang = 'en-US';
++      recognition.continuous = true;
++      recognition.interimResults = true;
++      recognition.maxAlternatives = 1;
++      recognition.onresult = ({ results }) => {
++        const parts: string[] = [];
++        for (let i = 0; i < results.length; i++) parts.push(results[i][0]?.transcript?.trim() || '');
++        this.heard = parts.filter(Boolean).join(' ');
++      };
++      recognition.onerror = ({ error }) => { if (error !== 'aborted' && error !== 'no-speech') this.error = error; };
++      recognition.onend = () => { this.ended = true; this.onEnded?.(); };
++      recognition.start();
++      this.recognition = recognition;
++    } catch {
++      this.ended = true;
++      this.error = 'unavailable';
++    }
++  }
++
++  /** Stop listening and return what was heard. The last words can arrive a moment after release. */
++  public async finish(waitMs = 1200): Promise<string> {
++    if (!this.ended) {
++      await new Promise<void>((resolve) => {
++        const timeout = setTimeout(resolve, waitMs);
++        this.onEnded = () => { clearTimeout(timeout); resolve(); };
++        try { this.recognition?.stop(); } catch { clearTimeout(timeout); resolve(); }
++      });
++    }
++    return this.heard;
++  }
++
++  public cancel(): void {
++    this.ended = true;
++    try { this.recognition?.abort(); } catch { /* already stopped */ }
++  }
++}
+--- a/src/utils/builtInMicrophone.ts
++++ b/src/utils/builtInMicrophone.ts
+@@ -1,4 +1,5 @@
+ import { Capacitor, registerPlugin, type PluginListenerHandle } from '@capacitor/core';
++import { HOSTED_WEB } from './browserSpeech';
+ 
+ export interface BuiltInMicrophonePlugin {
+   prepare(): Promise<void>;
+@@ -24,7 +25,27 @@
+     && !/bluetooth|headset|headphone|airpods|usb|external|monitor|loopback|stereo mix|virtual/i.test(device.label);
+ }
+ 
++/**
++ * A browser hides microphone names until the page has permission, and most computers do not name
++ * their microphone "built-in". The hosted web edition therefore asks for permission first, prefers
++ * a microphone it can identify as built-in, and otherwise uses the browser's default one.
++ */
++async function openHostedWebMicrophone(): Promise<MediaStream> {
++  const audio = { sampleRate: { ideal: 48000 }, channelCount: 1, echoCancellation: false, noiseSuppression: false, autoGainControl: false };
++  const first = await navigator.mediaDevices.getUserMedia({ audio });
++  const input = (await navigator.mediaDevices.enumerateDevices()).find(isBuiltInInput);
++  if (!input || first.getAudioTracks()[0]?.getSettings().deviceId === input.deviceId) return first;
++  try {
++    const builtIn = await navigator.mediaDevices.getUserMedia({ audio: { ...audio, deviceId: { exact: input.deviceId } } });
++    first.getTracks().forEach((track) => track.stop());
++    return builtIn;
++  } catch {
++    return first;
++  }
++}
++
+ export async function openBuiltInWebMicrophone(): Promise<MediaStream> {
++  if (HOSTED_WEB) return openHostedWebMicrophone();
+   const devices = await navigator.mediaDevices.enumerateDevices();
+   const input = devices.find(isBuiltInInput);
+   if (!input) throw new Error(builtInMicError);

@@ -1,0 +1,79 @@
+--- a/services/googleDriveAuth.ts
++++ b/services/googleDriveAuth.ts
+@@ -85,8 +85,53 @@
+   return googleScriptPromise;
+ };
+ 
++/**
++ * A web build without its own OAuth client asks Google through Storytime's Firebase project, the
++ * same Google project the Android app authorizes with. Drive's "files this app created" access is
++ * per project, so backups made on a phone are visible here and the other way round.
++ *
++ * It uses a second, memory-only Firebase app: asking for Drive never changes who is signed in to
++ * online rooms or RykerSoft Pro, and nothing about the Drive grant is stored in the browser.
++ */
++const authorizeBrowserThroughFirebase = async (): Promise<DriveAccessToken> => {
++  if (browserToken?.expiresAt && browserToken.expiresAt > Date.now() + 60_000) return browserToken;
++  const [{ getApps, initializeApp }, firebaseAuth, { default: firebaseConfig }] = await Promise.all([
++    import('firebase/app'),
++    import('firebase/auth'),
++    import('../firebase-applet-config.json'),
++  ]);
++  const app = getApps().find((candidate) => candidate.name === 'storytime-drive') || initializeApp(firebaseConfig, 'storytime-drive');
++  let driveAuth: import('firebase/auth').Auth;
++  try {
++    driveAuth = firebaseAuth.initializeAuth(app, {
++      persistence: firebaseAuth.inMemoryPersistence,
++      popupRedirectResolver: firebaseAuth.browserPopupRedirectResolver,
++    });
++  } catch {
++    driveAuth = firebaseAuth.getAuth(app);
++  }
++  const provider = new firebaseAuth.GoogleAuthProvider();
++  provider.addScope(DRIVE_SCOPE);
++  let result: import('firebase/auth').UserCredential;
++  try {
++    result = await firebaseAuth.signInWithPopup(driveAuth, provider);
++  } catch (error) {
++    const code = (error as { code?: string })?.code || '';
++    if (code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request') throw new Error('Google Drive connection was cancelled.');
++    if (code === 'auth/popup-blocked') throw new Error('The browser blocked the Google window. Allow pop-ups for this site, then try again.');
++    throw new Error('Google Drive authorization failed.');
++  }
++  const accessToken = firebaseAuth.GoogleAuthProvider.credentialFromResult(result)?.accessToken;
++  const email = result.user.email || undefined;
++  await firebaseAuth.signOut(driveAuth).catch(() => {});
++  if (!accessToken) throw new Error('Google did not grant Drive access. Connect again and allow Storytime to manage its own backup files.');
++  // Google access tokens last an hour; ask again a little before that.
++  browserToken = { accessToken, expiresAt: Date.now() + 55 * 60_000, email };
++  return browserToken;
++};
++
+ const authorizeBrowser = async (): Promise<DriveAccessToken> => {
+-  if (!webClientId) throw new Error('This web build is missing its Google Drive OAuth client ID.');
++  if (!webClientId) return authorizeBrowserThroughFirebase();
+   if (browserToken?.expiresAt && browserToken.expiresAt > Date.now() + 60_000) return browserToken;
+   await loadGoogleIdentityScript();
+   const oauth = window.google?.accounts?.oauth2;
+@@ -135,14 +180,19 @@
+   }
+   const token = browserToken?.accessToken;
+   browserToken = null;
+-  if (!token || !window.google?.accounts?.oauth2) return;
++  if (!token) return;
++  if (!window.google?.accounts?.oauth2) {
++    // The Firebase route never loaded Google's script; revoke the grant directly.
++    await fetch(`https://oauth2.googleapis.com/revoke?token=${encodeURIComponent(token)}`, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).catch(() => {});
++    return;
++  }
+   await new Promise<void>((resolve) => window.google?.accounts?.oauth2?.revoke(token, resolve));
+ };
+ 
+ export const hasConfiguredDriveAuth = (): boolean => {
+   if (Capacitor.isNativePlatform()) return true;
+   if (window.superStoryDriveAuth) return Boolean(desktopClientId);
+-  return Boolean(webClientId);
++  return true;
+ };
+ 
+ export const hasProtectedDriveSession = async (): Promise<boolean> => {

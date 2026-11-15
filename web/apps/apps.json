@@ -83,14 +83,37 @@
       "id": "field-recorder",
       "packageName": "com.rykersoft.fieldrecorder",
       "source": "field recorder",
-      "ref": "v1.1.0"
+      "ref": "v1.1.0",
+      "env": {
+        "VITE_NO_SERVER": "1"
+      },
+      "envNote": "No transcription server is hosted. With VITE_NO_SERVER the app uses a Groq key or Pro directly, and otherwise the browser's built-in speech recognition."
     },
     {
       "id": "earbound",
       "packageName": "com.rykersoft.earbound",
       "source": "Earbound",
       "ref": "v0.8.2",
-      "dir": "game"
+      "dir": "game",
+      "service": {
+        "entry": "server/index.ts",
+        "external": [
+          "vite"
+        ],
+        "port": 4311
+      },
+      "proxy": [
+        {
+          "path": "/party",
+          "upstream": "http://127.0.0.1:4311/party",
+          "websocket": true
+        },
+        {
+          "path": "/api/",
+          "upstream": "http://127.0.0.1:4311/api/"
+        }
+      ],
+      "serviceNote": "Party rooms over a WebSocket. Rooms live in memory and end on their own; nothing is stored."
     }
   ]
 }

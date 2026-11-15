@@ -5,7 +5,8 @@
 //   node web/apps/build.mjs wordplay rush   only these ids
 //
 // Source is exported from the pinned commit into a scratch folder, so uncommitted work in the
-// app's checkout never reaches the public build. Output: web/apps/out/<id>/.
+// app's checkout never reaches the public build. Output: web/apps/out/<id>/, and for an app
+// with a "service", its server bundled into one file at web/apps/out-services/<id>/server.mjs.
 import { execFileSync, spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
@@ -17,6 +18,7 @@ const manifest = JSON.parse(fs.readFileSync(path.join(here, 'apps.json'), 'utf8'
 const WORK = process.env.RYKERSOFT_WORK || path.resolve(here, '../../..');
 const CACHE = process.env.RYKERSOFT_WEB_CACHE || path.join(os.homedir(), '.cache/rykersoft-web');
 const OUT = path.join(here, 'out');
+const OUT_SERVICES = path.join(here, 'out-services');
 const COPY_EXCLUDES = ['node_modules', 'dist', 'android', 'release', 'build', 'desktop', 'electron', '.git', '.env', '.env.*'];
 
 const wanted = process.argv.slice(2);
@@ -79,15 +81,27 @@ function build(app) {
   // What is deployed, readable at https://<id>.<domain>/web-edition.json.
   fs.writeFileSync(path.join(dest, 'web-edition.json'), `${JSON.stringify({ id: app.id, version, commit, patches, builtAt: new Date().toISOString() }, null, 2)}\n`);
   const size = run('du', ['-sh', dest]).split('\t')[0];
-  return { version, commit, size, patches };
+
+  // The app's own server, bundled with its dependencies so the VPS needs only Node.
+  if (app.service) {
+    const out = path.join(OUT_SERVICES, app.id);
+    fs.rmSync(out, { recursive: true, force: true });
+    fs.mkdirSync(out, { recursive: true });
+    run('npx', ['esbuild', app.service.entry, '--bundle', '--platform=node', '--format=esm', '--target=node22', '--log-level=warning',
+      `--outfile=${path.join(out, 'server.mjs')}`, ...(app.service.external || []).map((m) => `--external:${m}`),
+      // Bundled CommonJS dependencies still call require().
+      "--banner:js=import { createRequire as __createRequire } from 'node:module'; const require = __createRequire(import.meta.url);"], { cwd: dir, env });
+    fs.writeFileSync(path.join(out, 'service.json'), `${JSON.stringify({ id: app.id, version, commit, patches, builtAt: new Date().toISOString() }, null, 2)}\n`);
+  }
+  return { version, commit, size, patches, service: !!app.service };
 }
 
 let failed = 0;
 for (const app of apps) {
   process.stdout.write(`${app.id.padEnd(16)} `);
   try {
-    const { version, commit, size, patches } = build(app);
-    console.log(`${version.padEnd(9)} ${(commit || 'folder copy').slice(0, 9).padEnd(11)} ${size.padEnd(6)}${patches.length ? ` ${patches.length} patch${patches.length > 1 ? 'es' : ''}` : ''}`);
+    const { version, commit, size, patches, service } = build(app);
+    console.log(`${version.padEnd(9)} ${(commit || 'folder copy').slice(0, 9).padEnd(11)} ${size.padEnd(6)}${patches.length ? ` ${patches.length} patch${patches.length > 1 ? 'es' : ''}` : ''}${service ? ' + service' : ''}`);
   } catch (error) {
     failed += 1;
     console.log('FAILED');
