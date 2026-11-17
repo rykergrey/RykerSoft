@@ -1,0 +1,4 @@
+interface:
+  display_name: "Deploy to RykerSoft"
+  short_description: "Publish apps and updates to the RykerSoft hub"
+  default_prompt: "Use $rykersoft-deploy to deploy this application to the RykerSoft hub."

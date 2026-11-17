@@ -4,6 +4,8 @@ Current release: **v1.4.6** (`versionCode` 27), package `com.rykersoft.appmanage
 
 Personal Android app hub and application manager for RykerSoft applications. Easily check for updates, view changelogs, download, and install latest versions of RykerSoft apps — including self-updating RykerSoft itself!
 
+For continued development, see [AGENTS.md](AGENTS.md). For publishing another application or releasing this hub, use the [RykerSoft deployment skill](skills/rykersoft-deploy/SKILL.md) and its [distribution procedure](skills/rykersoft-deploy/references/deployment.md).
+
 ## Features
 - **App Hub & Registry**: Synchronizes with `registry.json` for live update tracking.
 - **In-App Self-Updating**: Automatically alerts when a new version of RykerSoft is available with one-click in-app update.

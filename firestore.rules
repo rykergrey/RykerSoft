@@ -9,8 +9,13 @@ service cloud.firestore {
       return signedIn() && request.auth.uid == uid;
     }
 
+    function isGoogleSession() {
+      return signedIn()
+        && request.auth.token.firebase.sign_in_provider == "google.com";
+    }
+
     function isAdminEmail() {
-      return request.auth != null
+      return isGoogleSession()
         && request.auth.token.email == "heavensounds@gmail.com"
         && request.auth.token.email_verified == true;
     }
@@ -25,13 +30,34 @@ service cloud.firestore {
         && get(entitlementsPath(request.auth.uid)).data.get(packageId, false) == true;
     }
 
+    function hasAnyRykerSoftPro() {
+      return signedIn()
+        && exists(entitlementsPath(request.auth.uid))
+        && get(entitlementsPath(request.auth.uid)).data.values().hasAny([true]);
+    }
+
+    function hasProCapability(packageId) {
+      let capability = /databases/$(database)/documents/appCapabilities/$(packageId);
+      return exists(capability)
+        && get(capability).data.proEnabled == true;
+    }
+
     match /users/{uid} {
       allow read: if isOwner(uid) || isAdminEmail();
       allow create: if isOwner(uid)
         && request.resource.data.keys().hasOnly(['email', 'displayName', 'createdAt', 'updatedAt'])
         && request.resource.data.email == request.auth.token.email;
       allow update: if isOwner(uid)
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['email', 'displayName', 'updatedAt'])
+        && (
+          request.resource.data.diff(resource.data).affectedKeys()
+            .hasOnly(['email', 'displayName', 'updatedAt'])
+          || (
+            !resource.data.keys().hasAny(['createdAt'])
+            && request.resource.data.diff(resource.data).affectedKeys()
+              .hasOnly(['email', 'displayName', 'createdAt', 'updatedAt'])
+            && request.resource.data.createdAt == request.time
+          )
+        )
         && request.resource.data.email == request.auth.token.email;
       allow delete: if false;
 
@@ -53,11 +79,13 @@ service cloud.firestore {
       allow create, update: if isAdminEmail()
         && request.resource.data.keys().hasOnly([
           'packageName', 'displayName', 'proEnabled', 'providerModel',
-          'credentialFields', 'updatedAt'
+          'credentialFields', 'providerKeysPackage', 'updatedAt'
         ])
         && request.resource.data.packageName == packageId
         && request.resource.data.proEnabled is bool
-        && request.resource.data.credentialFields is list;
+        && request.resource.data.credentialFields is list
+        // Optional: the providerKeys document an edition shares (Hyperscribe Desktop uses Mobile's).
+        && request.resource.data.get('providerKeysPackage', packageId) is string;
       allow delete: if false;
     }
 
@@ -68,7 +96,12 @@ service cloud.firestore {
 
     // Per-app AI provider keys (document ID = Android package name)
     match /providerKeys/{packageId} {
-      allow read: if isAdminEmail() || hasPackageUnlock(packageId);
+      // Provider credentials are available only to a current Google-authenticated
+      // session. A password session may inspect its entitlement while migrating,
+      // but cannot use that legacy sign-in as a permanent Pro credential path.
+      allow get: if isAdminEmail()
+        || (isGoogleSession() && (hasPackageUnlock(packageId) || (packageId == "com.rykersoft.memegod" && hasAnyRykerSoftPro())) && hasProCapability(packageId));
+      allow list: if isAdminEmail();
       allow create, update: if isAdminEmail()
         && exists(/databases/$(database)/documents/appCapabilities/$(packageId))
         && get(/databases/$(database)/documents/appCapabilities/$(packageId)).data.proEnabled == true;

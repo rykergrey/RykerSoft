@@ -15,6 +15,9 @@ const CODE_HASH = "a".repeat(64);
 const INFORMANT = "com.rykersoft.informant";
 const SUPERTHINKING = "com.rykersoft.superthinking";
 const ADMIN_EMAIL = "heavensounds@gmail.com";
+const HYPERSCRIBE_MOBILE = "com.rykersoft.hyperscribemobile";
+const HYPERSCRIBE_DESKTOP = "com.rykersoft.hyperscribedesktop";
+const GOOGLE = { firebase: { sign_in_provider: "google.com" } };
 
 let testEnvironment;
 
@@ -51,10 +54,17 @@ test("only the verified administrator can manage catalog, keys, and grants", asy
   const adminDb = testEnvironment.authenticatedContext("admin", {
     email: ADMIN_EMAIL,
     email_verified: true,
+    ...GOOGLE,
   }).firestore();
   const spoofedDb = testEnvironment.authenticatedContext("spoofed", {
     email: ADMIN_EMAIL,
     email_verified: false,
+    ...GOOGLE,
+  }).firestore();
+  const passwordAdminDb = testEnvironment.authenticatedContext("password-admin", {
+    email: ADMIN_EMAIL,
+    email_verified: true,
+    firebase: { sign_in_provider: "password" },
   }).firestore();
   await testEnvironment.withSecurityRulesDisabled(async (context) => {
     await setDoc(doc(context.firestore(), "users", USER_ID), { email: "user@example.com" });
@@ -68,6 +78,41 @@ test("only the verified administrator can manage catalog, keys, and grants", asy
   }, { merge: true }));
   await assertFails(setDoc(doc(spoofedDb, "providerKeys", INFORMANT), {
     gemini: "spoofed-key",
+  }, { merge: true }));
+  await assertFails(setDoc(doc(passwordAdminDb, "providerKeys", INFORMANT), {
+    gemini: "password-session-key",
+  }, { merge: true }));
+});
+
+test("the hub's Hyperscribe capability seed, including providerKeysPackage, is accepted", async () => {
+  const adminDb = testEnvironment.authenticatedContext("admin", {
+    email: ADMIN_EMAIL,
+    email_verified: true,
+    ...GOOGLE,
+  }).firestore();
+  const credentialFields = ["gemini", "openai", "groq", "elevenlabs"].map((field) => ({
+    field, label: field, provider: field, required: false,
+  }));
+  for (const packageId of [HYPERSCRIBE_MOBILE, HYPERSCRIBE_DESKTOP]) {
+    // Mirrors EntitlementRepository.ensureHyperscribeCapabilityManifests (create, then merge-update).
+    const seed = {
+      packageName: packageId,
+      displayName: packageId,
+      proEnabled: true,
+      providerModel: "trusted-family",
+      providerKeysPackage: HYPERSCRIBE_MOBILE,
+      credentialFields,
+    };
+    await assertSucceeds(setDoc(doc(adminDb, "appCapabilities", packageId), seed, { merge: true }));
+    await assertSucceeds(setDoc(doc(adminDb, "appCapabilities", packageId), {
+      ...seed, displayName: `${packageId} renamed`,
+    }, { merge: true }));
+  }
+  await assertFails(setDoc(doc(adminDb, "appCapabilities", HYPERSCRIBE_DESKTOP), {
+    providerKeysPackage: 42,
+  }, { merge: true }));
+  await assertFails(setDoc(doc(adminDb, "appCapabilities", HYPERSCRIBE_DESKTOP), {
+    unexpectedField: true,
   }, { merge: true }));
 });
 
@@ -96,8 +141,11 @@ test("clients cannot use the retired unlock-request path", async () => {
 });
 
 test("entitlements and provider keys stay user- and package-scoped", async () => {
-  const ownerDb = testEnvironment.authenticatedContext(USER_ID).firestore();
-  const otherDb = testEnvironment.authenticatedContext(OTHER_USER_ID).firestore();
+  const ownerDb = testEnvironment.authenticatedContext(USER_ID, GOOGLE).firestore();
+  const passwordOwnerDb = testEnvironment.authenticatedContext(USER_ID, {
+    firebase: { sign_in_provider: "password" },
+  }).firestore();
+  const otherDb = testEnvironment.authenticatedContext(OTHER_USER_ID, GOOGLE).firestore();
   const anonymousDb = testEnvironment.unauthenticatedContext().firestore();
   await testEnvironment.withSecurityRulesDisabled(async (context) => {
     await setDoc(doc(context.firestore(), "users", USER_ID, "entitlements", "apps"), {
@@ -118,4 +166,7 @@ test("entitlements and provider keys stay user- and package-scoped", async () =>
   await assertSucceeds(getDoc(doc(ownerDb, "providerKeys", INFORMANT)));
   await assertFails(getDoc(doc(ownerDb, "providerKeys", SUPERTHINKING)));
   await assertFails(getDoc(doc(anonymousDb, "providerKeys", INFORMANT)));
+  // A legacy password session can still read its grant, but not provider keys.
+  await assertSucceeds(getDoc(doc(passwordOwnerDb, "users", USER_ID, "entitlements", "apps")));
+  await assertFails(getDoc(doc(passwordOwnerDb, "providerKeys", INFORMANT)));
 });

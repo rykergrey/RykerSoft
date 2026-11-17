@@ -1,8 +1,8 @@
 # Meme God access rule, 2026-10-31
 
-`memegod.firestore.rules` snapshots the actual live Firestore rules and adds only the Meme God provider-read exception for any literal Boolean true RykerSoft Pro grant. Other package access, Google-session requirements, administrator protections and user-write restrictions are preserved. No grants were modified by this rule deployment.
+The Meme God release deployed a snapshot (`memegod.firestore.rules`) of the actual live Firestore rules and adds only the Meme God provider-read exception for any literal Boolean true RykerSoft Pro grant. Other package access, Google-session requirements, administrator protections and user-write restrictions are preserved. No grants were modified by this rule deployment.
 
-This snapshot intentionally starts from deployed rules, which differ from the older root `firestore.rules`. Do not deploy the older file over these protections.
+That snapshot started from deployed rules, which differed from the older root `firestore.rules`. On 2026-11-17 the snapshot became the root `firestore.rules` (plus the optional `providerKeysPackage` capability field) and the separate file was removed, so the root file is again the single source of the deployed rules.
 
 Deployed ruleset: `projects/rykersoft-abe84/rulesets/98027678-ba50-4969-9885-fbbf09d7fb2e`.
 
