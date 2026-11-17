@@ -3,12 +3,12 @@
     {
       "packageName": "com.rykersoft.appmanager",
       "name": "RykerSoft Hub",
-      "latestVersionCode": 27,
-      "latestVersionName": "1.4.6",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/rykersoft-v1.4.6/app-release.apk",
+      "latestVersionCode": 28,
+      "latestVersionName": "1.5.0",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/rykersoft-v1.5.0/app-release.apk",
       "webUrl": "https://rykersoft.rykergrey.com",
       "icon": "android",
-      "changelog": "Hyperscribe Desktop and Hyperscribe Mobile now share one Pro setup",
+      "changelog": "A redesigned hub, and admin lists that open one account or app at a time",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rykersoft/01-dashboard.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/rykersoft/02-documentation.png",
@@ -29,8 +29,8 @@
       ],
       "pro": "",
       "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/rykersoft.png",
-      "releasedAt": "2026-09-10",
-      "updatesHistory": "## 1.4.6 · 2026-09-10\n- Hyperscribe Desktop and Hyperscribe Mobile now share one Pro setup\n\n## 1.4.5 · 2026-09-10\n- Choose a Windows or Linux download for desktop apps, or copy its link\n\n## 1.4.4 · 2026-09-07\n- ComicCraft.ing joins the apps that support Pro access"
+      "releasedAt": "2026-11-17",
+      "updatesHistory": "## 1.5.0 · 2026-11-17\n- A redesigned hub: catalog, app page and settings, matching the catalog at rykersoft.rykergrey.com\n- \"Latest release\" sorts by release date, and the system filter starts on All\n- Administration: each account opens to its Pro switches, and each app opens to its provider keys\n\n## 1.4.6 · 2026-09-10\n- Hyperscribe Desktop and Hyperscribe Mobile now share one Pro setup\n\n## 1.4.5 · 2026-09-10\n- Choose a Windows or Linux download for desktop apps, or copy its link\n\n## 1.4.4 · 2026-09-07\n- ComicCraft.ing joins the apps that support Pro access"
     },
     {
       "packageName": "com.rykersoft.hyperscribemobile",
