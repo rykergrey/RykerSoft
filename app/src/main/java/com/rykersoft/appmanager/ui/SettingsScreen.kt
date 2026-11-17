@@ -31,12 +31,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.rykersoft.appmanager.BuildConfig
 import com.rykersoft.appmanager.entitlements.AdminManagedApp
 import com.rykersoft.appmanager.entitlements.AiUnlockPackages
 import com.rykersoft.appmanager.ui.kit.ButtonKind
+import com.rykersoft.appmanager.ui.kit.DisclosureRow
 import com.rykersoft.appmanager.ui.kit.Group
 import com.rykersoft.appmanager.ui.kit.GroupDivider
 import com.rykersoft.appmanager.ui.kit.GroupRow
@@ -237,7 +239,10 @@ private fun AdminSections(
     onSetKeys: (packageId: String, values: Map<String, String>) -> Unit
 ) {
     var search by rememberSaveable { mutableStateOf("") }
+    // One account and one app open at a time, so the page never turns into a wall of switches.
     var openUser by rememberSaveable { mutableStateOf<String?>(null) }
+    var openApp by rememberSaveable { mutableStateOf<String?>(null) }
+    // Drafts outlive closing an app's panel; only saving clears them.
     var keyDrafts by remember { mutableStateOf<Map<String, String>>(emptyMap()) }
     val proApps = state.hubAdminApps.ifEmpty { AiUnlockPackages.ORDERED.map { AdminManagedApp(it, AiUnlockPackages.displayName(it)) } }
     val q = search.trim().lowercase()
@@ -258,38 +263,57 @@ private fun AdminSections(
                 else -> "No account matches"
             })
         }
-        Column(modifier = Modifier.heightIn(max = Hub.D.listMax * 2).verticalScroll(rememberScrollState())) {
-            users.forEachIndexed { index, user ->
-                if (index > 0) GroupDivider()
-                val granted = proApps.count { user.entitlements[it.packageId] == true }
-                val open = openUser == user.uid
-                GroupRow(
-                    title = user.email.ifBlank { user.uid },
-                    subtitle = "UID ${user.uid}",
-                    onClick = { openUser = if (open) null else user.uid }
-                ) { Tag(if (granted == 0) "No Pro" else "$granted Pro", if (granted == 0) Tone.Plain else Tone.Ok) }
-                if (open) {
-                    proApps.forEach { app ->
-                        val enabled = user.entitlements[app.packageId] == true
-                        GroupRow(title = app.displayName, modifier = Modifier.padding(start = Hub.D.gapLg)) {
-                            HubSwitch(checked = enabled, enabled = !state.hubAdminBusy, onCheckedChange = { onSetPro(user.uid, app.packageId, it) })
-                        }
+        users.forEachIndexed { index, user ->
+            if (index > 0) GroupDivider()
+            val granted = proApps.count { user.entitlements[it.packageId] == true }
+            val open = openUser == user.uid
+            DisclosureRow(
+                title = user.email.ifBlank { user.uid },
+                subtitle = "UID ${user.uid}",
+                expanded = open,
+                onToggle = { openUser = if (open) null else user.uid },
+                testTag = "admin_user_${user.uid}",
+                trailing = { Tag(if (granted == 0) "No Pro" else "$granted/${proApps.size} Pro", if (granted == 0) Tone.Plain else Tone.Ok) }
+            ) {
+                proApps.forEachIndexed { appIndex, app ->
+                    if (appIndex > 0) GroupDivider()
+                    val enabled = user.entitlements[app.packageId] == true
+                    GroupRow(
+                        title = app.displayName,
+                        subtitle = app.packageId,
+                        onClick = if (state.hubAdminBusy) null else ({ onSetPro(user.uid, app.packageId, !enabled) }),
+                        modifier = Modifier.padding(start = Hub.D.gap).semantics { stateDescription = if (enabled) "Pro on" else "Pro off" }
+                    ) {
+                        HubSwitch(checked = enabled, enabled = !state.hubAdminBusy, onCheckedChange = { onSetPro(user.uid, app.packageId, it) })
                     }
                 }
             }
         }
     }
 
-    SectionLabel("Admin: provider keys", modifier = Modifier.padding(top = Hub.D.gap))
+    SectionLabel("Admin: provider keys", count = state.hubAdminApps.size, modifier = Modifier.padding(top = Hub.D.gap))
     Text("Fields come from each app's capability record. A blank field leaves the saved key as it is.", style = Hub.T.bodySm, color = Hub.C.dim)
-    state.hubAdminApps.forEach { app ->
-        Group {
-            GroupRow(title = app.displayName, subtitle = app.packageId) {
-                if (app.credentialFields.isEmpty()) Tag("No keys needed", Tone.Ok)
+    Group {
+        state.hubAdminApps.forEachIndexed { index, app ->
+            if (index > 0) GroupDivider()
+            val fields = app.credentialFields
+            if (fields.isEmpty()) {
+                GroupRow(title = app.displayName, subtitle = app.packageId) { Tag("No keys needed", Tone.Ok) }
+                return@forEachIndexed
             }
-            if (app.credentialFields.isNotEmpty()) {
-                Column(modifier = Modifier.padding(horizontal = Hub.D.gap + Hub.D.gapSm).padding(bottom = Hub.D.gap + Hub.D.gapSm), verticalArrangement = Arrangement.spacedBy(Hub.D.gap)) {
-                    app.credentialFields.forEach { credential ->
+            val saved = fields.count { it.field in app.configuredFields }
+            val open = openApp == app.packageId
+            val drafted = keyDrafts.any { (k, v) -> k.startsWith("${app.packageId}:") && v.isNotEmpty() }
+            DisclosureRow(
+                title = app.displayName,
+                subtitle = if (drafted && !open) "${app.packageId} · unsaved edits" else app.packageId,
+                expanded = open,
+                onToggle = { openApp = if (open) null else app.packageId },
+                testTag = "admin_app_${app.packageId}",
+                trailing = { Tag("$saved/${fields.size} saved", if (saved == fields.size) Tone.Ok else Tone.Warn) }
+            ) {
+                Column(modifier = Modifier.padding(Hub.D.gap + Hub.D.gapSm), verticalArrangement = Arrangement.spacedBy(Hub.D.gap)) {
+                    fields.forEach { credential ->
                         val key = "${app.packageId}:${credential.field}"
                         HubTextField(
                             value = keyDrafts[key].orEmpty(),
@@ -301,10 +325,10 @@ private fun AdminSections(
                     HubButton(
                         "Save keys",
                         {
-                            onSetKeys(app.packageId, app.credentialFields.associate { it.field to keyDrafts["${app.packageId}:${it.field}"].orEmpty() })
+                            onSetKeys(app.packageId, fields.associate { it.field to keyDrafts["${app.packageId}:${it.field}"].orEmpty() })
                             keyDrafts = keyDrafts.filterKeys { !it.startsWith("${app.packageId}:") }
                         },
-                        enabled = !state.hubAdminBusy
+                        enabled = !state.hubAdminBusy && drafted
                     )
                 }
             }

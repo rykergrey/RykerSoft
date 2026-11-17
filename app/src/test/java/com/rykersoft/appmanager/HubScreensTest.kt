@@ -163,7 +163,26 @@ class HubScreensTest {
     @Test
     fun adminKeyFieldsCanBeShownAndHidden() {
         rule.setContent { Frame { Settings(adminState()) } }
+        // Collapsed until the app is opened.
+        assertTrue(rule.onAllNodesWithContentDescription("Show Gemini API key (missing)").fetchSemanticsNodes().isEmpty())
+        rule.onNodeWithTag("admin_app_com.rykersoft.superthinking").performScrollTo().performClick()
         assertFalse(rule.onAllNodesWithContentDescription("Show Gemini API key (missing)").fetchSemanticsNodes().isEmpty())
+    }
+
+    @Test
+    fun adminAccountOpensToItsProSwitches() {
+        val changes = mutableListOf<Triple<String, String, Boolean>>()
+        rule.setContent { Frame { Settings(adminState(), onSetPro = { u, p, e -> changes += Triple(u, p, e) }) } }
+        // Every account starts closed: the only SuperThink.ing row is the provider-keys one.
+        assertEquals(1, rule.onAllNodesWithText("SuperThink.ing", useUnmergedTree = true).fetchSemanticsNodes().size)
+        rule.onNodeWithTag("admin_user_uid-1").performScrollTo().performClick()
+        rule.waitForIdle()
+        rule.onAllNodesWithText("SuperThink.ing", useUnmergedTree = true)[0].performClick()
+        assertEquals(listOf(Triple("uid-1", "com.rykersoft.superthinking", false)), changes)
+        // Opening another account closes the first: one switch row (uid-2's) plus the keys row.
+        rule.onNodeWithTag("admin_user_uid-2").performScrollTo().performClick()
+        rule.waitForIdle()
+        assertEquals(2, rule.onAllNodesWithText("SuperThink.ing", useUnmergedTree = true).fetchSemanticsNodes().size)
     }
 
     @Test
@@ -212,18 +231,36 @@ class HubScreensTest {
         rule.onRoot().captureRoboImage(File(gallery, "05-settings.png").path)
     }
 
+    @Test
+    @Config(qualifiers = "w411dp-h1800dp-xxhdpi", sdk = [36])
+    fun captureSettingsAdminOpen() {
+        rule.setContent { Frame { Settings(adminState()) } }
+        rule.onNodeWithTag("admin_user_uid-1").performScrollTo().performClick()
+        rule.onNodeWithTag("admin_app_com.rykersoft.superthinking").performScrollTo().performClick()
+        rule.onNodeWithTag("admin_user_uid-1").performScrollTo()
+        rule.onRoot().captureRoboImage(File(gallery, "06-settings-admin-open.png").path)
+    }
+
     private fun adminState() = MainUiState(
         apps = sampleApps, registryUrl = "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/registry.json",
         hubFirebaseConfigured = true, hubGoogleConfigured = true, hubSignedIn = true, hubAccountEmail = "person@example.com", hubHasGoogleProvider = true, hubAdmin = true,
-        hubAdminUsers = listOf(AdminManagedUser("uid-1", "friend@example.com", entitlements = mapOf("com.rykersoft.superthinking" to true))),
-        hubAdminApps = listOf(AdminManagedApp("com.rykersoft.superthinking", "SuperThink.ing", listOf(AdminCredentialField("geminiApiKey", "Gemini API key", "gemini"))))
+        hubAdminUsers = listOf(
+            AdminManagedUser("uid-1", "friend@example.com", entitlements = mapOf("com.rykersoft.superthinking" to true)),
+            AdminManagedUser("uid-2", "tester@example.com"),
+            AdminManagedUser("uid-3", "someone.with.a.long.address@example.com", entitlements = mapOf("com.rykersoft.superthinking" to true, "com.rykersoft.hyperscribe" to true))
+        ),
+        hubAdminApps = listOf(
+            AdminManagedApp("com.rykersoft.superthinking", "SuperThink.ing", listOf(AdminCredentialField("geminiApiKey", "Gemini API key", "gemini"))),
+            AdminManagedApp("com.rykersoft.hyperscribe", "Hyperscribe", listOf(AdminCredentialField("openaiApiKey", "OpenAI API key", "openai"), AdminCredentialField("deepgramApiKey", "Deepgram API key", "deepgram")), configuredFields = setOf("openaiApiKey")),
+            AdminManagedApp("com.rykersoft.closecall", "Close Call")
+        )
     )
 
     @Composable
-    private fun Settings(state: MainUiState, onNotifications: (Boolean) -> Unit = {}, onReset: () -> Unit = {}) {
+    private fun Settings(state: MainUiState, onNotifications: (Boolean) -> Unit = {}, onReset: () -> Unit = {}, onSetPro: (String, String, Boolean) -> Unit = { _, _, _ -> }) {
         SettingsScreen(
             state = state, onBack = {}, onRegistryUrl = {}, onNotifications = onNotifications, onCheckNow = {}, onAddApp = { _, _, _, _, _, _ -> }, onResetCatalog = onReset,
-            onGoogleSignIn = {}, onLinkGoogle = {}, onLegacySignIn = { _, _ -> }, onPasswordReset = {}, onSignOut = {}, onAdminRefresh = {}, onAdminSetPro = { _, _, _ -> }, onAdminSetKeys = { _, _ -> }
+            onGoogleSignIn = {}, onLinkGoogle = {}, onLegacySignIn = { _, _ -> }, onPasswordReset = {}, onSignOut = {}, onAdminRefresh = {}, onAdminSetPro = onSetPro, onAdminSetKeys = { _, _ -> }
         )
     }
 }

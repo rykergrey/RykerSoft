@@ -1,5 +1,9 @@
 package com.rykersoft.appmanager.ui.kit
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -27,6 +31,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Android
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Devices
+import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.filled.Terminal
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -49,6 +54,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -289,6 +295,50 @@ fun GroupRow(
             if (!subtitle.isNullOrBlank()) Text(subtitle, style = Hub.T.bodySm, color = subtitleColor)
         }
         if (trailing != null) trailing()
+    }
+}
+
+/**
+ * A row in a [Group] that opens and closes a panel under it. The chevron turns to show the state,
+ * and the panel sits on the raised fill so it reads as belonging to the row above it.
+ */
+@Composable
+fun DisclosureRow(
+    title: String,
+    expanded: Boolean,
+    onToggle: () -> Unit,
+    modifier: Modifier = Modifier,
+    subtitle: String? = null,
+    testTag: String? = null,
+    trailing: (@Composable RowScope.() -> Unit)? = null,
+    content: @Composable ColumnScope.() -> Unit
+) {
+    val turn by animateFloatAsState(if (expanded) 180f else 0f, label = "chevron")
+    Column(modifier = modifier.fillMaxWidth()) {
+        GroupRow(
+            title = title,
+            subtitle = subtitle,
+            onClick = onToggle,
+            testTag = testTag,
+            modifier = Modifier.semantics { stateDescription = if (expanded) "Expanded" else "Collapsed" }
+        ) {
+            if (trailing != null) trailing()
+            Icon(
+                Icons.Default.ExpandMore,
+                contentDescription = null,
+                tint = if (expanded) Hub.C.text else Hub.C.dim,
+                modifier = Modifier.size(Hub.D.icon).rotate(turn)
+            )
+        }
+        AnimatedVisibility(visible = expanded, enter = expandVertically(), exit = shrinkVertically()) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Hub.C.raised)
+                    .drawBehind { drawRect(Hub.C.borderSoft, size = size.copy(height = Hub.D.hair.toPx())) },
+                content = content
+            )
+        }
     }
 }
 
