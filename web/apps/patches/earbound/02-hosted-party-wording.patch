@@ -1,6 +1,8 @@
---- a/game/src/components/Party.tsx
-+++ b/game/src/components/Party.tsx
-@@ -17,6 +17,8 @@
+diff --git i/game/src/components/Party.tsx w/game/src/components/Party.tsx
+index 6f3b128..2983425 100644
+--- i/game/src/components/Party.tsx
++++ w/game/src/components/Party.tsx
+@@ -17,6 +17,8 @@ let nativeInvite = '';
  let nativeHosting = false;
  onLocalHostStopped(()=>{if(nativeEndpoint){try{sessionStorage.removeItem(`earbound.party.v1:${nativeEndpoint}`);}catch{}}nativeEndpoint='';nativeInvite='';nativeHosting=false;});
  import { Button, MODE_INFO, ModeIcon, MusicalEmblem, SoundButton, Modal } from './ui';
@@ -9,7 +11,7 @@
  import { Wheel } from '../drift/Wheel';
  import { CircleObject } from './QuestionStage';
  import { SCENARIOS } from '../core/practice';
-@@ -59,7 +61,7 @@
+@@ -59,7 +61,7 @@ export function Party({onLocal,instrument,onSettings}:{onLocal:()=>void;instrume
   const performing=!!state&&!['lobby','finished'].includes(state.phase);
   return <section className={`party-page ${performing?'performance-session':'view-enter'} ${state?.phase==='reveal'?'phase-feedback':''}`}>
   {performing&&state&&<EnsembleAtmosphere onSettings={onSettings} config={state.config} correctCount={(me?.score||0)/100}/>}
@@ -18,14 +20,16 @@
   <>{performing?<header className="match-hud ensemble-hud"><button className="icon-button" aria-label="Leave party" onClick={()=>setLeaving(true)}><X size={20}/></button><div className="match-position"><span className="match-count" aria-label={`Sound ${state.roundIndex+1} of ${state.totalRounds}`}>{state.roundIndex+1} / {state.totalRounds}</span><span className="ensemble-status" role="status">{!client.current?.connected?'Reconnecting':state.phase==='answering'?`${remaining}s`:state.phase==='reveal'?'Reveal':state.roundStarted?'Listening':'Ready'}</span></div></header>:<div className="party-room-header"><div><span className="room-label"><Radio size={16}/>{client.current?.connected?'Party room':'Reconnecting'}</span><h1>{state.phase==='finished'?'What a good listening crowd.':state.phase==='lobby'?'The band’s getting together.':challengeTitle(state.config,true)}</h1></div><button className="button secondary small" onClick={()=>setLeaving(true)}><DoorOpen size={17}/>Leave</button></div>
  }
   {state.phase==='lobby'?<div className="lobby-layout"><div className="invite-panel"><h2>Your invitation to listen</h2><p>Scan this with a friend’s phone, or enter the code.</p><div className="room-code">{state.roomCode}</div>{qr&&<img src={qr} className="room-qr" alt={`Scan to join room ${state.roomCode}`}/>}<button className="text-action" onClick={()=>void copyInvite()}><Copy size={16}/>Copy invitation</button><a href={invite} className="invite-url" target="_blank" rel="noreferrer">{invite}</a><p className="small muted" role="status">{notice}</p></div><div className="lobby-players"><div className="section-heading"><h2>Who’s listening?</h2><span>{state.players.length} / 8</span></div><div className="player-list">{state.players.map((p,i)=><div className="player-row" key={p.id}><span className={`player-avatar avatar-${i%4}`}>{p.name.slice(0,1).toUpperCase()}</span><div><strong>{p.name}{p.id===state.playerId&&<small> (you)</small>}</strong><span>{p.id===state.hostId?'Our host':!p.connected?'Reconnecting…':p.ready?'Ready to listen':'Getting comfortable'}</span></div>{p.id===state.hostId?<Award size={20}/>:p.ready?<Check size={20}/>:<span className="waiting-dot"/>}</div>)}</div><div className="lobby-config"><ModeIcon mode={state.config.mode}/><span>{challengeTitle(state.config)} · {state.config.difficulty}<small>{state.totalRounds} sounds · 100 points per correct answer</small></span></div>{state.localIsHost?<><Button onClick={()=>void action(c=>c.start())} disabled={busy||state.players.length<2||state.players.some(p=>!p.connected||!p.ready)}>Start the party<ArrowRight size={18}/></Button><p className="field-help">{state.players.length<2?'Invite at least one friend to start.':state.players.some(p=>!p.ready)?'Waiting for everyone to tap Ready.':'Everyone is here. Your speaker will play for the room.'}</p></>:<Button onClick={()=>void action(c=>c.ready(!me?.ready))} disabled={busy}>{me?.ready?<><Check size={18}/>Ready! Tap to unready</>:<>I’m ready to listen<Headphones size={18}/></>}</Button>}</div></div>:
---- a/game/src/core/training.ts
-+++ b/game/src/core/training.ts
-@@ -1169,7 +1169,7 @@
+diff --git i/game/src/core/training.ts w/game/src/core/training.ts
+index 52b8554..d963083 100644
+--- i/game/src/core/training.ts
++++ w/game/src/core/training.ts
+@@ -1169,7 +1169,7 @@ export const HELP: Record<string, HelpTopic> = {
    'level': { title: 'Level', lines: ['Experience comes from every answer: more for a correct first answer, a little for trying.', 'A level is 100 experience. It measures practice put in, not skill.'] },
    'streak': { title: 'Day streak', lines: ['Counts days in a row with at least one finished set.', 'Missing a day resets the count and costs nothing else.'] },
    'practice-open': { title: 'Practice', lines: ['Any exercise, at any difficulty from 1 to 10, with settings you can change.', 'Exercises open here once you finish their first campaign match.'] },
 -  'party': { title: 'Party', lines: ['Play with friends: pass one phone around, or host a room on your Wi-Fi.', 'Party scores stay in the room. They never change your solo records.'] },
 +  'party': { title: 'Party', lines: [import.meta.env?.VITE_HOSTED === '1' ? 'Play with friends in one room: pass one phone around, or host a room that everyone joins from their own phone.' : 'Play with friends: pass one phone around, or host a room on your Wi-Fi.', 'Party scores stay in the room. They never change your solo records.'] },
+   'friends': { title: 'Friends', lines: ['Share your stats with friends or a teacher, and see theirs when they share back.', 'Needs a Google sign-in and a username. Your email and name are never shown.'] },
    'records': { title: 'Records', lines: ['Your first-answer accuracy, the sounds you mix up, achievements and lesson history.'] },
    'customize': { title: 'Customize', lines: ['Sky effects, colors and instrument sounds you have earned by playing.', 'None of them make answers easier.'] },
-   'glossary': { title: 'Glossary', lines: ['Every interval, chord, scale and progression in the game, with a keyboard to hear each one.'] },
