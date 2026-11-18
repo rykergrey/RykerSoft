@@ -93,7 +93,7 @@
       "id": "earbound",
       "packageName": "com.rykersoft.earbound",
       "source": "Earbound",
-      "ref": "v0.9.0",
+      "ref": "v0.10.0",
       "dir": "game",
       "env": {
         "VITE_HOSTED": "1"
