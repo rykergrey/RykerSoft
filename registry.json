@@ -315,12 +315,12 @@
     {
       "packageName": "com.rykersoft.wordplaying",
       "name": "WordPlay",
-      "latestVersionCode": 66,
-      "latestVersionName": "1.4.1",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.4.1/wordplaying-v1.4.1-android.apk",
-      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.4.1/wordplaying-v1.4.1-windows-x64.exe",
+      "latestVersionCode": 67,
+      "latestVersionName": "1.5.0",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.5.0/wordplaying-v1.5.0-android.apk",
+      "exeUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.5.0/wordplaying-v1.5.0-windows-x64.exe",
       "icon": "android",
-      "changelog": "Tangle's ring draws your chain as it grows and gets livelier as it gets more intricate | Puzzle tiles and keys sink on touch and spring back; numbers roll and finished points count up | Each puzzle has its own moment: Whittle flips, Axle spins, Muddle merges, Noodle draws | Your Appearance motion style now applies in all seven games",
+      "changelog": "Daily boards stop repeating: Muddle categories rest ten days or more, Noodle themes two weeks, Tangle letters two months | Muddle has nearly twice as many categories, with more synonym groups and wordplay, and every daily board has a red herring | Tap ? in any game, or on Home, for How to play: a practice board and what every number and button means | Equal points on a daily board go to the faster time, shown beside every score | Tangle: tap the newest letter to take it back; Noodle: tap a selected letter to unselect it",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/09-game-carousel-v1.4.0.jpg",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/10-whittle-v1.4.0.jpg",
@@ -334,10 +334,10 @@
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/wordplaying/08-daily-challenges-v1.3.58.jpg"
       ],
       "isGame": true,
-      "apkSha256": "c8fb40608e0a9a217313c21be8d9a2fd6bbbba1684c8569088c767f284dc4fa1",
-      "exeSha256": "42855c6448dfce1e528190ca17324c301cc03936e3026a05c334353fdf7a6f47",
-      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.4.1/wordplaying-v1.4.1-linux-x86_64.AppImage",
-      "linuxSha256": "521c0523a926575b2c68d2a6dfcc01511ecb75211bf25048683ba3a041d15376",
+      "apkSha256": "8ad7abf179bc777e018e729404b85cda5f9004926c08bf7baf3e5171874d6ad6",
+      "exeSha256": "c807a740b1542738520807616eb26276e11b1d1ca3297291d5173325e096f3ca",
+      "linuxUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/wordplaying-v1.5.0/wordplaying-v1.5.0-linux-x86_64.AppImage",
+      "linuxSha256": "a955c8ce1e9e131b6a5045e1625c834be0f9e4040ad657338349d6cac318ff13",
       "id": "wordplay",
       "tagline": "Seven word games: Boggle-style Bungle, Scrabble-style Scramble and five daily puzzles, with modifiers, online play and leaderboards.",
       "description": "WordPlay is seven word games in one. Bungle is the Boggle side: swipe adjacent letters on a dice grid before the clock runs out. Scramble is the Scrabble side: place tiles to build crossing words on a board with premium squares. Five puzzle games join them: Whittle (find a hidden word as the possible answers narrow), Axle (spell words around one required letter), Muddle (sort sixteen words into four hidden groups), Tangle (chain words around a ring) and Noodle (trace themed words that fill a grid). Swipe between games at the top of Home. More than 40 modifiers change the rules, from Gravity and Turf War to Twin, Glitch and Blind. Every game has daily boards that everyone plays on the same day, with scores posted automatically and alerts when someone beats you; play solo, pass the device around, or go online.",
@@ -352,8 +352,8 @@
       ],
       "pro": "",
       "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/wordplay.png",
-      "releasedAt": "2026-11-18",
-      "updatesHistory": "## 1.4.0 · 2026-11-18\n- Five new word puzzles: Whittle, Axle, Muddle, Tangle and Noodle\n- Swipe the game carousel on Home; every tab follows the game you pick\n- Five daily boards per puzzle game: two Classic, three with modifiers\n- Daily boards in every game are played on their own day and post your score automatically\n- Alerts when someone beats your daily score, ties it, or you stay in the lead\n\n## 1.3.58 · 2026-10-25\n- Five daily Scramble formats: One Perfect Word, Word Rush, Stack Attack, Tile Tactics and Free Rein\n- Fuller starting boards, with the same letters and draw order for everyone\n- Scramble results show rival scores, ranks, word breakdowns and a board review\n- Win, loss and tie alerts when someone challenges your score\n\n## 1.3.57 · 2026-10-24\n- Daily Scramble: a pre-filled board, seven letters and two minutes for one move\n- Daily boards stay open to everyone until the end of the week\n\n## 1.3.56 · 2026-10-21\n- Solo and Vs Raid Scramble matches save automatically; choose Continue on Home\n\n## 1.3.55 · 2026-10-15\n- After a Bungle match, compare accuracy, words per minute, longest word and best combo with another player\n- Sort every word found by length, popularity or points",
+      "releasedAt": "2026-11-19",
+      "updatesHistory": "## 1.5.0 · 2026-11-19\n- Daily boards stop repeating: Muddle categories rest ten days or more, Noodle themes two weeks, Tangle letters two months\n- Muddle has nearly twice as many categories, with more synonym groups and wordplay, and every daily board has a red herring\n- Tap ? in any game, or on Home, for How to play: a practice board and what every number and button means\n- Equal points on a daily board go to the faster time, shown beside every score\n- Tangle: tap the newest letter to take it back; Noodle: tap a selected letter to unselect it\n\n## 1.4.1 · 2026-11-19\n- Tangle's ring draws your chain as it grows and gets livelier as it gets more intricate\n- Puzzle tiles and keys sink on touch and spring back; numbers roll and finished points count up\n- Each puzzle has its own moment: Whittle flips, Axle spins, Muddle merges, Noodle draws\n- Your Appearance motion style now applies in all seven games\n\n## 1.4.0 · 2026-11-18\n- Five new word puzzles: Whittle, Axle, Muddle, Tangle and Noodle\n- Swipe the game carousel on Home; every tab follows the game you pick\n- Five daily boards per puzzle game: two Classic, three with modifiers\n- Daily boards in every game are played on their own day and post your score automatically\n- Alerts when someone beats your daily score, ties it, or you stay in the lead\n\n## 1.3.58 · 2026-10-25\n- Five daily Scramble formats: One Perfect Word, Word Rush, Stack Attack, Tile Tactics and Free Rein\n- Fuller starting boards, with the same letters and draw order for everyone\n- Scramble results show rival scores, ranks, word breakdowns and a board review\n- Win, loss and tie alerts when someone challenges your score\n\n## 1.3.57 · 2026-10-24\n- Daily Scramble: a pre-filled board, seven letters and two minutes for one move\n- Daily boards stay open to everyone until the end of the week\n\n## 1.3.56 · 2026-10-21\n- Solo and Vs Raid Scramble matches save automatically; choose Continue on Home\n\n## 1.3.55 · 2026-10-15\n- After a Bungle match, compare accuracy, words per minute, longest word and best combo with another player\n- Sort every word found by length, popularity or points",
       "webUrl": "https://wordplay.rykersoft.rykergrey.com"
     },
     {
