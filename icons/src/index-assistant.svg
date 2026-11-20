@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 48 48">
+  <!-- From Index Assistant's launcher icon, app/src/main/res/drawable/ic_index.xml -->
+  <rect width="48" height="48" fill="#263640"/>
+  <circle cx="24" cy="24" r="15" fill="none" stroke="#F4C76B" stroke-width="3"/>
+  <path d="M24,16v16M18,21v6M30,21v6" stroke="#F1F1E9" stroke-width="3" stroke-linecap="round" fill="none"/>
+</svg>
