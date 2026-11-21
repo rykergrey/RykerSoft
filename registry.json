@@ -35,11 +35,11 @@
     {
       "packageName": "com.rykersoft.hyperscribemobile",
       "name": "Hyperscribe Mobile",
-      "latestVersionCode": 94,
-      "latestVersionName": "2.19.0",
-      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.19.0/app-release.apk",
+      "latestVersionCode": 98,
+      "latestVersionName": "2.20.0",
+      "apkUrl": "https://github.com/rykergrey/RykerSoft-APKs/releases/download/hyperscribe-mobile-v2.20.0/app-release.apk",
       "icon": "android",
-      "changelog": "Pull down at the top of the Inbox to sync and refresh, including an empty Inbox | A compact Graphite Console workspace with bottom Inbox tools, live filters and reorganised Settings | Explore Inbox items with viewer tabs for text, audio, tags, history and related content | Edit reusable actions in a reorganised Action Editor | Choose which items and tags sync between devices, with clearer server-confirmed sync status | Index 01 now lives in the separate Index Assistant app",
+      "changelog": "Story Engine, your own speech server, is the new default voice: paste its connection code in Settings → API keys & Pro, then choose a voice, a delivery and voice settings in any TTS action | When Story Engine is off, unreachable or busy, your previous default voice stands in, and the player says so | Pause tags such as [p] and [p 1.5] time Story Engine's speech; other voices never read them aloud | The default voice is always a TTS action: old speech settings and presets became actions, and the action editor shows the current default | Actions results drop down from the top with rich text, a player and Undo | The floating button comes in Small and Large sizes and shows an amber ring while a transcript processes | Viewer tables wrap long cells at word breaks, and a sync pass no longer fails on a record missing on both sides",
       "screenshots": [
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/29c23bee375465cbc4d843a0e4b1d6730bc7b4a2/screenshots/hyperscribe-mobile/01-inbox.png",
         "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/screenshots/hyperscribe-mobile/02-actions.png",
@@ -50,7 +50,7 @@
         "https://raw.githubusercontent.com/rykergrey/RykerSoft-APKs/f1a27410b9029bc7edcfa39c3a8511a38ce7698c/docs/hyperscribe-mobile/screenshots/2.18.0/chat-saved-markdown-preview.png"
       ],
       "isGame": false,
-      "apkSha256": "5d5db3f789b05136324dddfcbe31580f6ebfc300faccbf07ffc4afd551b48b6d",
+      "apkSha256": "05a433912ca633b3185c61ea5b65d4f7ee5fd777837d11577847ae784bf4eba9",
       "id": "hyperscribe-mobile",
       "tagline": "Capture voice and text, then ask your own notes anything.",
       "description": "Hyperscribe Mobile is a capture workspace for Android. Record a thought, paste text, or import audio and images, and it all lands in your Inbox as searchable text. Chat can then answer from what you have saved, show the sources it used, and propose edits for you to approve. Reusable actions, reminders and read-aloud speech work on the same material.",
@@ -64,8 +64,8 @@
       ],
       "pro": "AI features use your own provider keys or Pro access. Pro also turns on Sync between your Hyperscribe devices.",
       "iconUrl": "https://raw.githubusercontent.com/rykergrey/RykerSoft/main/icons/hyperscribe-mobile.png",
-      "releasedAt": "2026-11-14",
-      "updatesHistory": "## 2.19.0 · 2026-11-14\n- Pull down at the top of the Inbox to sync and refresh, including an empty Inbox\n- A compact Graphite Console workspace with bottom Inbox tools, live filters and reorganised Settings\n- Explore Inbox items with viewer tabs for text, audio, tags, history and related content\n- Edit reusable actions in a reorganised Action Editor\n- Choose which items and tags sync between devices, with clearer server-confirmed sync status\n- Index 01 now lives in the separate Index Assistant app\n\n## 2.18.0 · 2026-10-08\n- Save a whole Chat thread to your Inbox as one item, from the Chat menu\n- Saved threads keep lists, tables and code, with speakers and timestamps\n- Your automatic Inbox actions, tags and tag workflows apply to saved threads\n- Chat messages no longer pile up in the Inbox one at a time\n\n## 2.17.1 · 2026-10-07\n- Open the floating menu straight from the edge button, then slide through your tabs\n- Build your own menu: add, rename, reorder and hide Capture, Actions, Inbox and Listen tabs\n- Speech is now an action, so an article can be summarised first and then read aloud\n\n## 2.16.1 · 2026-10-07\n- Ask Chat to take notes and add to lists in plain language\n- Your Inbox text is available to Chat by default, or only tagged items if you prefer"
+      "releasedAt": "2026-11-21",
+      "updatesHistory": "## 2.20.0 · 2026-11-21\n- Story Engine, your own speech server, is the new default voice: paste its connection code in Settings → API keys & Pro, then choose a voice, a delivery and voice settings in any TTS action\n- When Story Engine is off, unreachable or busy, your previous default voice stands in, and the player says so\n- Pause tags such as [p] and [p 1.5] time Story Engine's speech; other voices never read them aloud\n- The default voice is always a TTS action: old speech settings and presets became actions, and the action editor shows the current default\n- Actions results drop down from the top with rich text, a player and Undo\n- The floating button comes in Small and Large sizes and shows an amber ring while a transcript processes\n- Viewer tables wrap long cells at word breaks, and a sync pass no longer fails on a record missing on both sides\n\n## 2.19.0 · 2026-11-14\n- Pull down at the top of the Inbox to sync and refresh, including an empty Inbox\n- A compact Graphite Console workspace with bottom Inbox tools, live filters and reorganised Settings\n- Explore Inbox items with viewer tabs for text, audio, tags, history and related content\n- Edit reusable actions in a reorganised Action Editor\n- Choose which items and tags sync between devices, with clearer server-confirmed sync status\n- Index 01 now lives in the separate Index Assistant app\n\n## 2.18.0 · 2026-10-08\n- Save a whole Chat thread to your Inbox as one item, from the Chat menu\n- Saved threads keep lists, tables and code, with speakers and timestamps\n- Your automatic Inbox actions, tags and tag workflows apply to saved threads\n- Chat messages no longer pile up in the Inbox one at a time\n\n## 2.17.1 · 2026-10-07\n- Open the floating menu straight from the edge button, then slide through your tabs\n- Build your own menu: add, rename, reorder and hide Capture, Actions, Inbox and Listen tabs\n- Speech is now an action, so an article can be summarised first and then read aloud\n\n## 2.16.1 · 2026-10-07\n- Ask Chat to take notes and add to lists in plain language\n- Your Inbox text is available to Chat by default, or only tagged items if you prefer"
     },
     {
       "packageName": "com.rykersoft.hyperscribedesktop",
